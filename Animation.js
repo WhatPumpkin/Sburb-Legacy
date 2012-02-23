@@ -1,10 +1,40 @@
 //no dependencies
-function Animation(frameInterval){
+function Animation(sheet,colSize,rowSize,startPos,length,frameInterval){
+	this.sheet = sheet;
+	this.rowSize = rowSize;
+	this.colSize = colSize;
+	this.startPos = startPos;
+	this.length = length;
+	this.frameInterval = frameInterval;
+	this.curInterval = 0;
 	this.curFrame = 0;
-	this.frameInterval;
-	this.frames = new Array();
+	this.numRows = sheet.height/rowSize;
+	this.numCols = sheet.width/colSize;
 	
-	this.update(gameTime){
+	this.update = function(elapsedTime){
+		//alert(this.numRows+" "+this.numCols);
+		this.curInterval += elapsedTime;
+		while(this.curInterval>this.frameInterval){
+			this.curInterval-=this.frameInterval;
+			this.curFrame = (this.curFrame+1)%this.length;
+		}
+	}
+	
+	
+	this.draw = function(x,y){
+		var colNum = (this.startPos+this.curFrame)%this.numCols;
+		var rowNum = Math.floor((this.startPos+this.curFrame-colNum)/this.numRows);
+		var frameX = colNum*this.colSize;
+		var frameY = rowNum*this.rowSize;
 		
+		stage.drawImage(this.sheet,frameX,frameY,this.colSize,this.rowSize,x,y,this.colSize,this.rowSize);
+
+		//sourcerect = frameX,frameY,colSize,rowSize
+		//destrect = x,y,colSize,rowSize
+	}
+	
+	this.reset = function(){
+		curFrame = 0;
+		curInterval = 0;
 	}
 }
