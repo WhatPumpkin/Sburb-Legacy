@@ -7,6 +7,17 @@ function Room(width,height,walkable){
 	this.addSprite = function(sprite){
 		this.sprites.push(sprite);
 	}
+	this.removeSprite = function(sprite){
+		var i;
+		for(i=0;i<this.sprites.length;i++){
+			if(this.sprites[i]==sprite){
+				this.sprites.splice(i,1);
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	this.update = function(gameTime){
 		var i;
 		for(i=0;i<this.sprites.length;i++){
