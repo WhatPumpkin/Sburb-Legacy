@@ -68,6 +68,7 @@ function draw(gameTime){
 	stage.translate(-Stage.x,-Stage.y);
 	
 	curRoom.draw();
+	
 	stage.restore();
 }
 
@@ -81,13 +82,13 @@ function drawLoader(){
 
 function handleInputs(){
 	if(pressed[keyDown]){
-		char.moveDown(curRoom.sprites);
+		char.moveDown(curRoom.sprites,curRoom.walkable);
 	}else if(pressed[keyUp]){
-		char.moveUp(curRoom.sprites);
+		char.moveUp(curRoom.sprites,curRoom.walkable);
 	}else if(pressed[keyLeft]){
-		char.moveLeft(curRoom.sprites);
+		char.moveLeft(curRoom.sprites,curRoom.walkable);
 	}else if(pressed[keyRight]){
-		char.moveRight(curRoom.sprites);
+		char.moveRight(curRoom.sprites,curRoom.walkable);
 	}else{
 		char.idle();
 	}
@@ -98,6 +99,7 @@ function loadAssets(){
 	imageLoadStack = new Array();
 	loadAsset("cgSheet","resources/CGsheetBig.png");
 	loadAsset("compLabBG","resources/comlab-background.gif");
+	loadAsset("compLabWalkable","resources/comlab-walkable.png");
 	drawLoader();
 }
 
@@ -124,7 +126,7 @@ function buildSprites(){
 }
 
 function buildRooms(){
-	rooms.baseRoom = new Room(sprites.compLabBG.width,sprites.compLabBG.height);
+	rooms.baseRoom = new Room(sprites.compLabBG.width,sprites.compLabBG.height,assets.compLabWalkable);
 	rooms.baseRoom.addSprite(sprites.karkat);
 	rooms.baseRoom.addSprite(sprites.karclone);
 	rooms.baseRoom.addSprite(sprites.compLabBG);

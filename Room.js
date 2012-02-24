@@ -1,8 +1,8 @@
-function Room(width,height){
+function Room(width,height,walkable){
 	this.width = width;
 	this.height = height;
 	this.sprites = new Array();
-	this.walkable = null;
+	this.walkable = walkable;
 	
 	this.addSprite = function(sprite){
 		this.sprites.push(sprite);
