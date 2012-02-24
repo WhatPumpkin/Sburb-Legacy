@@ -34,7 +34,7 @@ function Animation(sheet,colSize,rowSize,startPos,length,frameInterval){
 	}
 	
 	this.reset = function(){
-		curFrame = 0;
-		curInterval = 0;
+		this.curFrame = 0;
+		this.curInterval = 0;
 	}
 }
