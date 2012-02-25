@@ -21,25 +21,25 @@ function Character(name,x,y,width,height,sx,sy,sWidth,sHeight,sheet){
 
 	this.startAnimation("walkFront");
 
-	this.moveUp = function(sprites){
+	this.moveUp = function(room){
 		this.facing = "Back";
 		this.walk();
-		this.tryToMove(0,-this.speed,sprites);
+		this.tryToMove(0,-this.speed,room);
 	}
-	this.moveDown = function(sprites){
+	this.moveDown = function(room){
 		this.facing = "Front";
 		this.walk();
-		this.tryToMove(0,this.speed,sprites);
+		this.tryToMove(0,this.speed,room);
 	}
-	this.moveLeft = function(sprites){
+	this.moveLeft = function(room){
 		this.facing = "Left";
 		this.walk();
-		this.tryToMove(-this.speed,0,sprites);
+		this.tryToMove(-this.speed,0,room);
 	}
-	this.moveRight = function(sprites){
+	this.moveRight = function(room){
 		this.facing = "Right";
 		this.walk();
-		this.tryToMove(this.speed,0,sprites);
+		this.tryToMove(this.speed,0,room);
 	}
 
 	this.walk = function(){

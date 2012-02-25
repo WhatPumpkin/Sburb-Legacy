@@ -1,5 +1,5 @@
-function Action(name,sprite,command,info){
-	this.sprite = sprite;
+function Action(name,command,info,sprite){
+	this.sprite = sprite?sprite:null;
 	this.name = name;
 	this.command = command
 	this.info = info;

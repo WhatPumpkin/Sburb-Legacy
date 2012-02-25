@@ -17,6 +17,7 @@ var focus;
 var dialogText;
 var chooser;
 var talking;
+var commands;
 
 
 function initialize(){
@@ -33,6 +34,7 @@ function initialize(){
 	assets = {};
 	rooms = {};
 	sprites = {};
+	commands = {};
 	pressed = new Array();
 	
 	loadAssets();
@@ -43,6 +45,7 @@ function finishInit(){
 	buildRooms();
 	buildFonts();
 	buildActions();
+	buildCommands();
 	
 	focus = char = sprites.karkat;
 	curRoom = rooms.baseRoom;
@@ -115,10 +118,7 @@ onkeydown = function(e){
 			}
 		}
 	}
-	if(e.keyCode==Keys.escape && !pressed[Keys.escape]){
-		//loadSerial();
-	}
-		pressed[e.keyCode] = true;
+	pressed[e.keyCode] = true;
 }
 
 onkeyup = function(e){
@@ -136,21 +136,17 @@ function drawLoader(){
 function handleInputs(){
 	if(!chooser.choosing){
 		if(pressed[Keys.down]){
-			char.moveDown(curRoom.sprites,curRoom.walkable);
+			char.moveDown(curRoom);
 		}else if(pressed[Keys.up]){
-			char.moveUp(curRoom.sprites,curRoom.walkable);
+			char.moveUp(curRoom);
 		}else if(pressed[Keys.left]){
-			char.moveLeft(curRoom.sprites,curRoom.walkable);
+			char.moveLeft(curRoom);
 		}else if(pressed[Keys.right]){
-			char.moveRight(curRoom.sprites,curRoom.walkable);
+			char.moveRight(curRoom);
 		}else{
 			char.idle();
 		}
-	}else{
-		
 	}
-	
-	
 }
 
 function loadAssets(){
@@ -159,6 +155,8 @@ function loadAssets(){
 	loadAsset("cgSheet","resources/CGsheetBig.png");
 	loadAsset("compLabBG","resources/comlab-background.gif");
 	loadAsset("compLabWalkable","resources/comlab-walkable.png");
+	assets.compLabWalkable = [{x:70,y:270},{x:800,y:270},{x:800,y:820},{x:70,y:820}];
+	assets.compLabWalkable.name = "compLabWalkable";
 	drawLoader();
 }
 
@@ -187,7 +185,8 @@ function buildSprites(){
 }
 
 function buildRooms(){
-	rooms.baseRoom = new Room("baseRoom",sprites.compLabBG.width,sprites.compLabBG.height,assets.compLabWalkable);
+	rooms.baseRoom = new Room("baseRoom",sprites.compLabBG.width,sprites.compLabBG.height,
+								assets.compLabWalkable);
 	rooms.baseRoom.addSprite(sprites.karkat);
 	rooms.baseRoom.addSprite(sprites.karclone);
 	rooms.baseRoom.addSprite(sprites.compLabBG);
@@ -205,8 +204,25 @@ function buildFonts(){
 }
 
 function buildActions(){
-	sprites.karclone.addAction(new Action("talk",null,"talk","blahblahblah"));
-	sprites.karclone.addAction(new Action("fight",sprites.karkat,"fight"));
+	sprites.karkat.addAction(new Action("swap","changeChar","karkat"));
+
+	sprites.karclone.addAction(new Action("talk","talk","blahblahblah"));
+	sprites.karclone.addAction(new Action("change room","changeRoom","cloneRoom,300,300"));
+	sprites.karclone.addAction(new Action("swap","changeChar","karclone"));
+	
+	sprites.karclone2.addAction(new Action("talk","talk","blahblahblah2"));
+	sprites.karclone2.addAction(new Action("change room","changeRoom","baseRoom,300,300"));
+	sprites.karclone2.addAction(new Action("swap","changeChar","karclone2"));
+}
+
+function buildCommands(){
+	commands.talk = talkCommand;
+	commands.changeRoom = changeRoomCommand;
+	commands.changeChar = changeCharCommand;
+}
+
+function performAction(action){
+	commands[action.command](action.info);
 }
 
 function focusCamera(){
@@ -262,9 +278,7 @@ function moveSprite(sprite,oldRoom,newRoom){
 	oldRoom.removeSprite(sprite);
 	newRoom.addSprite(sprite);
 }
-function performAction(action){
-	alert(action.info);
-}
+
 function beginChoosing(){
 	char.idle();
 	chooser.choosing = true;
@@ -297,137 +311,13 @@ function drawChoices(){
 	stage.restore();
 }
 
-function serialize(){
-	var out = document.getElementById("serialText");
-	var output = "<SBURB curRoom='"+curRoom.name+"' char='"+char.name+"'>";
-	for(var room in rooms){
-		output = rooms[room].serialize(output);
+function setCurRoomOf(sprite){
+	if(!curRoom.contains(sprite)){
+		for(var room in rooms){
+			if(rooms[room].contains(sprite)){
+				changeRoom(rooms[room],char.x,char.y);
+				return;
+			}
+		}
 	}
-	output = output.concat("</SBURB>");
-	out.value = output;
-	return output;
-}
-
-function loadSerial(){
-	clearTimeout(updateLoop);
-	var inText = document.getElementById("serialText");
-	delete rooms;
-	delete sprites;
-	rooms = {};
-	sprites = {};
-	pressed = new Array();
-	curRoom = null;
-	
-	var parser=new DOMParser();
-  	var input=parser.parseFromString(inText.value,"text/xml");
-  	
-  	input = input.documentElement;
-  	var newSprites = input.getElementsByTagName("Sprite");
-  	for(var i=0;i<newSprites.length;i++){
-  		var curSprite = newSprites[i];
-  		var attributes = curSprite.attributes;
-  		var newSprite = new Sprite(attributes.getNamedItem("name").value,
-  									parseInt(attributes.getNamedItem("x").value),
-  									parseInt(attributes.getNamedItem("y").value),
-  									parseInt(attributes.getNamedItem("width").value),
-  									parseInt(attributes.getNamedItem("height").value),
-  									parseInt(attributes.getNamedItem("sx").value),
-  									parseInt(attributes.getNamedItem("sy").value),
-  									parseInt(attributes.getNamedItem("dx").value),
-  									parseInt(attributes.getNamedItem("dy").value),
-  									parseInt(attributes.getNamedItem("depthing").value),
-  									attributes.getNamedItem("collidable").value=="true");
-  		sprites[newSprite.name] = newSprite;
-  		var state = attributes.getNamedItem("state").value;
-  		var anims = curSprite.getElementsByTagName("Animation");
-  		for(var j=0;j<anims.length;j++){
-  			var curAnim = anims[j];
-  			var attributes = curAnim.attributes;
-  			var newAnim = new Animation(attributes.getNamedItem("name").value,
-  										assets[attributes.getNamedItem("sheet").value],
-  										parseInt(attributes.getNamedItem("colSize").value),
-  										parseInt(attributes.getNamedItem("rowSize").value),
-  										parseInt(attributes.getNamedItem("startPos").value),
-  										parseInt(attributes.getNamedItem("length").value),
-  										parseInt(attributes.getNamedItem("frameInterval").value));
-  			newSprite.addAnimation(newAnim);
-  		}
-  		newSprite.startAnimation(state);
-  	}
-  	var newChars = input.getElementsByTagName("Character");
-  	for(var i=0;i<newChars.length;i++){
-  		var curChar = newChars[i];
-  		var attributes = curChar.attributes;
-  		var newChar = new Character(attributes.getNamedItem("name").value,
-  									parseInt(attributes.getNamedItem("x").value),
-  									parseInt(attributes.getNamedItem("y").value),
-  									parseInt(attributes.getNamedItem("width").value),
-  									parseInt(attributes.getNamedItem("height").value),
-  									parseInt(attributes.getNamedItem("sx").value),
-  									parseInt(attributes.getNamedItem("sy").value),
-  									parseInt(attributes.getNamedItem("sWidth").value),
-  									parseInt(attributes.getNamedItem("sHeight").value),
-  									assets[attributes.getNamedItem("sheet").value]);
-  		sprites[newChar.name] = newChar;
-  		newChar.startAnimation(attributes.getNamedItem("state").value);
-  		newChar.facing = attributes.getNamedItem("facing").value;
-  	}
-  	var newRooms = input.getElementsByTagName("Room");
-  	for(var i=0;i<newRooms.length;i++){
-  		var currRoom = newRooms[i];
-  		var attributes = currRoom.attributes;
-  		var newRoom = new Room(attributes.getNamedItem("name").value,
-  								parseInt(attributes.getNamedItem("width").value),
-  								parseInt(attributes.getNamedItem("height").value));
-  		rooms[newRoom.name] = newRoom;
-  		var roomSprites = currRoom.getElementsByTagName("Sprite");
-  		for(var j=0;j<roomSprites.length;j++){
-  			var curSprite = roomSprites[j];
-  			var actualSprite = sprites[curSprite.attributes.getNamedItem("name").value];
-  			newRoom.addSprite(actualSprite);
-  			var newActions = curSprite.getElementsByTagName("Action");
-  			for(var k=0;k<newActions.length;k++){
-  				var curAction = newActions[k];
-  				var attributes = curAction.attributes;
-  				var targSprite;
-  				if(attributes.getNamedItem("sprite").value=="null"){
-  					targSprite = null;
-  				}else{
-  					targSprite = sprites[attributes.getNamedItem("sprite").value];
-  				}
-  				var newAction = new Action(attributes.getNamedItem("name").value,
-  											targSprite,
-  											attributes.getNamedItem("command").value,
-  											attributes.getNamedItem("info").value);
-  				actualSprite.addAction(newAction);
-  			}
-  		}
-  		var roomSprites = currRoom.getElementsByTagName("Character");
-  		for(var j=0;j<roomSprites.length;j++){
-  			var curSprite = roomSprites[j];
-  			var actualSprite = sprites[curSprite.attributes.getNamedItem("name").value];
-  			newRoom.addSprite(actualSprite);
-  			var newActions = curSprite.getElementsByTagName("Action");
-  			for(var k=0;k<newActions.length;k++){
-  				var curAction = newActions[k];
-  				var attributes = curAction.attributes;
-  				var targSprite;
-  				if(attributes.getNamedItem("sprite").value=="null"){
-  					targSprite = null;
-  				}else{
-  					targSprite = sprites[attributes.getNamedItem("sprite").value];
-  				}
-  				var newAction = new Action(attributes.getNamedItem("name").value,
-  											targSprite,
-  											attributes.getNamedItem("command").value,
-  											attributes.getNamedItem("info").value);
-  				actualSprite.addAction(newAction);
-  			}
-  		}
-  	}
-  	var rootInfo = input.attributes;
-  	focus = char = sprites[rootInfo.getNamedItem("char").value];
-  	char.becomePlayer();
-  	curRoom = rooms[rootInfo.getNamedItem("curRoom").value];
-  	update(0);
 }

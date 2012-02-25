@@ -76,19 +76,24 @@ function Sprite(name,x,y,width,height,sx,sy,dx,dy,depthing,collidable){
 		return false;
 	}
 	
-	this.tryToMove = function(vx,vy,sprites){
+	this.tryToMove = function(vx,vy,room){
 		var i;
 		this.x += vx;
 		this.y += vy;
 		if(this.collidable){
-			for(i=0;i<sprites.length;i++){
-				if(sprites[i]!=this){
-					if(this.collides(sprites[i])){
+			for(i=0;i<room.sprites.length;i++){
+				if(room.sprites[i]!=this){
+					if(this.collides(room.sprites[i])){
 						this.x -=vx;
 						this.y -=vy;
 						return false;
 					}
 				}
+			}
+			if(!room.isInBounds(this)){
+				this.x -=vx;
+				this.y -=vy;
+				return false;
 			}
 		}
 		return true;

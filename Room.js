@@ -19,6 +19,15 @@ function Room(name,width,height,walkable){
 		return false;
 	}
 	
+	this.contains = function(sprite){
+		for(var i=0;i<this.sprites.length;i++){
+			if(this.sprites[i]==sprite){
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	this.update = function(gameTime){
 		var i;
 		for(i=0;i<this.sprites.length;i++){
@@ -57,13 +66,28 @@ function Room(name,width,height,walkable){
 		}
 		return validActions;
 	}
-	
+	this.isInBounds = function(sprite){
+		stage.save();
+		stage.beginPath();
+		stage.moveTo(this.walkable[0].x,this.walkable[0].y);
+		for(var i=1;i<this.walkable.length;i++){
+			stage.lineTo(this.walkable[i].x,this.walkable[i].y);
+		}
+		var result = stage.isPointInPath(sprite.x+sprite.width/2,sprite.y+sprite.height/2)
+				&& stage.isPointInPath(sprite.x-sprite.width/2,sprite.y+sprite.height/2)
+				&& stage.isPointInPath(sprite.x-sprite.width/2,sprite.y-sprite.height/2)
+				&& stage.isPointInPath(sprite.x+sprite.width/2,sprite.y-sprite.height/2);
+		stage.restore();
+		return result;
+	}
 	this.serialize = function(output){
-		output = output.concat("<Room name='"+this.name+"' width='"+this.width+"' height='"+this.height+"'>");
+		output = output.concat("<Room name='"+this.name+"' width='"+this.width+"' height='"+this.height+"' walkable='"+this.walkable.name+"'>");
 		for(var sprite in this.sprites){
 			output = this.sprites[sprite].serialize(output);
 		}
 		output = output.concat("</Room>");
 		return output;
 	}
+	
+	
 }
