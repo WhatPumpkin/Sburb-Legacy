@@ -46,4 +46,14 @@ function Room(width,height,walkable){
 			this.sprites[j] = temp;
 		}
 	}
+	
+	this.queryActions = function(query,x,y){
+		var validActions = new Array();
+		for(var i=0;i<this.sprites.length;i++){
+			if(this.sprites[i].hitsPoint(x,y)){
+				validActions = validActions.concat(this.sprites[i].getActions(query));
+			}
+		}
+		return validActions;
+	}
 }

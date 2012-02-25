@@ -19,6 +19,7 @@ function Sprite(x,y,sx,sy,dx,dy,depthing,collidable){
 	this.animation = null;
 	this.state = null;
 	this.lastTime = 0;
+	this.actions = new Array();
 	
 	this.addAnimation = function(anim, name){
 		this.animations[name] = anim;
@@ -50,12 +51,24 @@ function Sprite(x,y,sx,sy,dx,dy,depthing,collidable){
 	
 	this.collides = function(other){
 		if(other.collidable){
-			if(this.x-this.width/2< other.x+other.width/2){
+			if(this.x-this.width/2<other.x+other.width/2){
 				if(this.x+this.width/2>other.x-other.width/2){
 					if(this.y-this.height/2<other.y+other.height/2){
 						if(this.y+this.height/2>other.y-other.height/2){
 							return true;
 						}
+					}
+				}
+			}
+		}
+		return false;
+	}
+	this.hitsPoint = function(x,y){
+		if(this.x-this.width/2 <=x){
+			if(this.x+this.width/2 >=x){
+				if(this.y-this.height/2 <=y){
+					if(this.y+this.height/2 >=y){
+						return true;
 					}
 				}
 			}
@@ -79,6 +92,20 @@ function Sprite(x,y,sx,sy,dx,dy,depthing,collidable){
 			}
 		}
 		return true;
+	}
+	
+	this.addAction = function(action,sprite){
+		this.actions.push({sprite:sprite,action:action});
+	}
+	
+	this.getActions = function(sprite){
+		var validActions = new Array();
+		for(var i=0;i<this.actions.length;i++){
+			if(!this.actions[i].sprite || this.actions[i].sprite==sprite){
+				validActions.push(this.actions[i].action);
+			}
+		}
+		return validActions;
 	}
 	
 }

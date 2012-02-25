@@ -15,6 +15,8 @@ var curRoom,destRoom;
 var destX,destY;
 var focus;
 var dialogText;
+var chooser;
+var talking;
 
 
 function initialize(){
@@ -27,6 +29,7 @@ function initialize(){
 	
 	stage = Stage.getContext("2d");
 	
+	chooser = {choosing:false,choices:new Array(),choice:0,dialogs:new Array()};
 	assets = {};
 	rooms = {};
 	sprites = {};
@@ -39,6 +42,7 @@ function finishInit(){
 	buildSprites();
 	buildRooms();
 	buildFonts();
+	buildActions();
 	
 	focus = char = sprites.karkat;
 	curRoom = rooms.baseRoom;
@@ -56,11 +60,7 @@ function update(gameTime){
 	
 	focusCamera();
 	handleRoomChange();
-	dialogText.showSubText(null,dialogText.end+1);
-	if(dialogText.isShowingAll()){
-		dialogText.nextBatch();
-		dialogText.showSubText(0,0);
-	}
+	handleTextUpdates();
 	
 	//must be last
 	updateLoop=setTimeout("update("+(gameTime+1)+")",1000/Stage.fps);
@@ -76,9 +76,10 @@ function draw(gameTime){
 	stage.translate(-Stage.x,-Stage.y);
 	
 	curRoom.draw();
-	stage.fillStyle = "#ffffff";
-	stage.fillRect(dialogText.x,dialogText.y,dialogText.width,dialogText.height);
-	dialogText.draw();
+	drawChoices();
+	//stage.fillStyle = "#ffffff";
+	//stage.fillRect(dialogText.x,dialogText.y,dialogText.width,dialogText.height);
+	//dialogText.draw();
 	
 	stage.restore();
 	stage.fillStyle = "rgba(0,0,0,"+Stage.fade+")";
@@ -86,14 +87,35 @@ function draw(gameTime){
 }
 
 onkeydown = function(e){
-	pressed[e.keyCode] = true;
-	if(e.keyCode == Keys.space){
-		if(curRoom==rooms.baseRoom){
-			changeRoom(rooms.cloneRoom,300,300);
-		}else{
-			changeRoom(rooms.baseRoom,600,399);
+	if(chooser.choosing){
+		if(e.keyCode == Keys.down){
+			chooser.choice = (chooser.choice+1)%chooser.choices.length;
+		}
+		if(e.keyCode == Keys.up){
+			chooser.choice = (chooser.choice-1+chooser.choices.length)%chooser.choices.length;
+		}
+		if(e.keyCode == Keys.space && !pressed[Keys.space]){
+			performAction(chooser.choices[chooser.choice]);
+			chooser.choosing = false;
+		}
+	}else{
+		if(e.keyCode == Keys.space && !pressed[Keys.space]){
+			chooser.choices = new Array();
+			if(char.facing=="Front"){
+				chooser.choices = curRoom.queryActions(char,char.x,char.y+char.height/2+15);
+			}else if(char.facing=="Back"){
+				chooser.choices = curRoom.queryActions(char,char.x,char.y-char.height/2-15);
+			}else if(char.facing=="Right"){
+				chooser.choices = curRoom.queryActions(char,char.x+char.width/2+15,char.y);
+			}else if(char.facing=="Left"){
+				chooser.choices = curRoom.queryActions(char,char.x-char.width/2-15,char.y);
+			}
+			if(chooser.choices.length>0){
+				beginChoosing();
+			}
 		}
 	}
+		pressed[e.keyCode] = true;
 }
 
 onkeyup = function(e){
@@ -109,16 +131,20 @@ function drawLoader(){
 }
 
 function handleInputs(){
-	if(pressed[Keys.down]){
-		char.moveDown(curRoom.sprites,curRoom.walkable);
-	}else if(pressed[Keys.up]){
-		char.moveUp(curRoom.sprites,curRoom.walkable);
-	}else if(pressed[Keys.left]){
-		char.moveLeft(curRoom.sprites,curRoom.walkable);
-	}else if(pressed[Keys.right]){
-		char.moveRight(curRoom.sprites,curRoom.walkable);
+	if(!chooser.choosing){
+		if(pressed[Keys.down]){
+			char.moveDown(curRoom.sprites,curRoom.walkable);
+		}else if(pressed[Keys.up]){
+			char.moveUp(curRoom.sprites,curRoom.walkable);
+		}else if(pressed[Keys.left]){
+			char.moveLeft(curRoom.sprites,curRoom.walkable);
+		}else if(pressed[Keys.right]){
+			char.moveRight(curRoom.sprites,curRoom.walkable);
+		}else{
+			char.idle();
+		}
 	}else{
-		char.idle();
+		
 	}
 	
 	
@@ -143,16 +169,16 @@ function loadAsset(name,path){
 
 function popLoad(){
 	assetLoadStack.pop();
+	drawLoader();
 	if(assetLoadStack.length==0){
 		finishInit();
 	}
-	drawLoader();
 }
 
 function buildSprites(){
-	sprites.karkat = new Character(300,501,39,21,-36,-87,66,96,assets.cgSheet);
-	sprites.karclone = new Character(201,399,39,21,-36,-87,66,96,assets.cgSheet);
-	sprites.karclone2 = new Character(501,399,39,21,-36,-87,66,96,assets.cgSheet);
+	sprites.karkat = new Character(300,501,45,21,-36,-87,66,96,assets.cgSheet);
+	sprites.karclone = new Character(201,399,45,21,-36,-87,66,96,assets.cgSheet);
+	sprites.karclone2 = new Character(501,399,45,21,-36,-87,66,96,assets.cgSheet);
 	sprites.compLabBG = new StaticSprite(0,0,null,null,null,null,assets.compLabBG);
 }
 
@@ -169,9 +195,14 @@ function buildRooms(){
 
 function buildFonts(){
 	dialogText = new FontEngine();
-	dialogText.setDimensions(300,300,200,50);
-	dialogText.setText("This is a test of the FontEngine system which is super baller \namirite? \n \n-Gankro!!!!");
-	dialogText.showSubText(0,0);
+	//dialogText.setDimensions(300,300,200,50);
+	//dialogText.setText("This is a test of the FontEngine system which is super baller \namirite? \n \n-Gankro!!!!");
+	//dialogText.showSubText(0,0);
+}
+
+function buildActions(){
+	sprites.karclone.addAction(new Action("talk","talking"),null);
+	sprites.karclone.addAction(new Action("fight","fighting"),sprites.karkat);
 }
 
 function focusCamera(){
@@ -198,10 +229,66 @@ function handleRoomChange(){
 		}
 	}else if(Stage.fade>0.01){
 		Stage.fade=Math.max(0.01,Stage.fade-Stage.fadeRate);
+		//apparently alpha 0 is buggy?
+	}
+}
+
+function handleTextUpdates(){
+	if(talking){
+		dialogText.showSubText(null,dialogText.end+1);
+		if(dialogText.isShowingAll()){
+			dialogText.nextBatch();
+			dialogText.showSubText(0,0);
+		}
+	}
+	if(chooser.choosing){
+		for(var i=0;i<chooser.dialogs.length;i++){
+			var curDialog = chooser.dialogs[i];
+			curDialog.showSubText(null,curDialog.end+1);
+			if(i==chooser.choice){
+				curDialog.color = "#aaaaaa";	
+			}else{
+				curDialog.color = "#000000";
+			}
+		}
 	}
 }
 
 function moveSprite(sprite,oldRoom,newRoom){
 	oldRoom.removeSprite(sprite);
 	newRoom.addSprite(sprite);
+}
+function performAction(action){
+	alert(action.info);
+}
+function beginChoosing(){
+	char.idle();
+	chooser.choosing = true;
+	chooser.choice = 0;
+	chooser.dialogs = new Array();
+	for(var i=0;i<chooser.choices.length;i++){
+		var curEngine = new FontEngine("> "+chooser.choices[i].name);
+		curEngine.showSubText(0,1);
+		curEngine.setDimensions(char.x,char.y+i*curEngine.lineHeight);
+		chooser.dialogs.push(curEngine);
+	}
+}
+
+function drawChoices(){
+	stage.save();
+	if(chooser.choosing){
+		var x,y,width=0,height=0,i;
+		x = chooser.dialogs[0].x;
+		y = chooser.dialogs[0].y;
+		for(i=0;i<chooser.dialogs.length;i++){
+			width = Math.max(width,chooser.dialogs[i].lines[0].length*chooser.dialogs[i].charWidth);
+		}
+		height = chooser.dialogs[0].lineHeight*chooser.dialogs.length;
+		stage.fillStyle = "#ffffff";
+		stage.fillRect(x,y,width,height);
+		for(i=0;i<chooser.dialogs.length;i++){
+			chooser.dialogs[i].draw();
+		}
+	}
+	stage.restore();
 }

@@ -1,8 +1,8 @@
-function FontEngine(){
+function FontEngine(text){
 	//This is intended for monospace fonts
 	this.font = "11px Courier";
 	this.color = "#000000";
-	this.text = "";
+	this.text = typeof text == "string"?text:"";
 	this.x=0;
 	this.y=0;
 	this.width=999999;
