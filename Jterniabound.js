@@ -48,7 +48,7 @@ function finishInit(){
 	curRoom = rooms.baseRoom;
 	
 	char.becomePlayer();
-	
+	serialize();
 	update(0);
 }
 
@@ -115,6 +115,9 @@ onkeydown = function(e){
 			}
 		}
 	}
+	if(e.keyCode==Keys.escape && !pressed[Keys.escape]){
+		//loadSerial();
+	}
 		pressed[e.keyCode] = true;
 }
 
@@ -163,6 +166,7 @@ function loadAsset(name,path){
 	assets[name] = new Image();
 	assets[name].src = path;
 	assets[name].onload = popLoad;
+	assets[name].name = name;
 	assetLoadStack.totalAssets++;
 	assetLoadStack.push(assets[name]);
 }
@@ -176,19 +180,19 @@ function popLoad(){
 }
 
 function buildSprites(){
-	sprites.karkat = new Character(300,501,45,21,-36,-87,66,96,assets.cgSheet);
-	sprites.karclone = new Character(201,399,45,21,-36,-87,66,96,assets.cgSheet);
-	sprites.karclone2 = new Character(501,399,45,21,-36,-87,66,96,assets.cgSheet);
-	sprites.compLabBG = new StaticSprite(0,0,null,null,null,null,assets.compLabBG);
+	sprites.karkat = new Character("karkat",300,501,45,21,-36,-87,66,96,assets.cgSheet);
+	sprites.karclone = new Character("karclone",201,399,45,21,-36,-87,66,96,assets.cgSheet);
+	sprites.karclone2 = new Character("karclone2",501,399,45,21,-36,-87,66,96,assets.cgSheet);
+	sprites.compLabBG = new StaticSprite("compLabBG",0,0,null,null,null,null,assets.compLabBG);
 }
 
 function buildRooms(){
-	rooms.baseRoom = new Room(sprites.compLabBG.width,sprites.compLabBG.height,assets.compLabWalkable);
+	rooms.baseRoom = new Room("baseRoom",sprites.compLabBG.width,sprites.compLabBG.height,assets.compLabWalkable);
 	rooms.baseRoom.addSprite(sprites.karkat);
 	rooms.baseRoom.addSprite(sprites.karclone);
 	rooms.baseRoom.addSprite(sprites.compLabBG);
 	
-	rooms.cloneRoom = new Room(sprites.compLabBG.width,sprites.compLabBG.height,assets.compLabWalkable);
+	rooms.cloneRoom = new Room("cloneRoom",sprites.compLabBG.width,sprites.compLabBG.height,assets.compLabWalkable);
 	rooms.cloneRoom.addSprite(sprites.karclone2);
 	rooms.cloneRoom.addSprite(sprites.compLabBG);
 }
@@ -201,8 +205,8 @@ function buildFonts(){
 }
 
 function buildActions(){
-	sprites.karclone.addAction(new Action("talk","talking"),null);
-	sprites.karclone.addAction(new Action("fight","fighting"),sprites.karkat);
+	sprites.karclone.addAction(new Action("talk",null,"talk","blahblahblah"));
+	sprites.karclone.addAction(new Action("fight",sprites.karkat,"fight"));
 }
 
 function focusCamera(){
@@ -291,4 +295,139 @@ function drawChoices(){
 		}
 	}
 	stage.restore();
+}
+
+function serialize(){
+	var out = document.getElementById("serialText");
+	var output = "<SBURB curRoom='"+curRoom.name+"' char='"+char.name+"'>";
+	for(var room in rooms){
+		output = rooms[room].serialize(output);
+	}
+	output = output.concat("</SBURB>");
+	out.value = output;
+	return output;
+}
+
+function loadSerial(){
+	clearTimeout(updateLoop);
+	var inText = document.getElementById("serialText");
+	delete rooms;
+	delete sprites;
+	rooms = {};
+	sprites = {};
+	pressed = new Array();
+	curRoom = null;
+	
+	var parser=new DOMParser();
+  	var input=parser.parseFromString(inText.value,"text/xml");
+  	
+  	input = input.documentElement;
+  	var newSprites = input.getElementsByTagName("Sprite");
+  	for(var i=0;i<newSprites.length;i++){
+  		var curSprite = newSprites[i];
+  		var attributes = curSprite.attributes;
+  		var newSprite = new Sprite(attributes.getNamedItem("name").value,
+  									parseInt(attributes.getNamedItem("x").value),
+  									parseInt(attributes.getNamedItem("y").value),
+  									parseInt(attributes.getNamedItem("width").value),
+  									parseInt(attributes.getNamedItem("height").value),
+  									parseInt(attributes.getNamedItem("sx").value),
+  									parseInt(attributes.getNamedItem("sy").value),
+  									parseInt(attributes.getNamedItem("dx").value),
+  									parseInt(attributes.getNamedItem("dy").value),
+  									parseInt(attributes.getNamedItem("depthing").value),
+  									attributes.getNamedItem("collidable").value=="true");
+  		sprites[newSprite.name] = newSprite;
+  		var state = attributes.getNamedItem("state").value;
+  		var anims = curSprite.getElementsByTagName("Animation");
+  		for(var j=0;j<anims.length;j++){
+  			var curAnim = anims[j];
+  			var attributes = curAnim.attributes;
+  			var newAnim = new Animation(attributes.getNamedItem("name").value,
+  										assets[attributes.getNamedItem("sheet").value],
+  										parseInt(attributes.getNamedItem("colSize").value),
+  										parseInt(attributes.getNamedItem("rowSize").value),
+  										parseInt(attributes.getNamedItem("startPos").value),
+  										parseInt(attributes.getNamedItem("length").value),
+  										parseInt(attributes.getNamedItem("frameInterval").value));
+  			newSprite.addAnimation(newAnim);
+  		}
+  		newSprite.startAnimation(state);
+  	}
+  	var newChars = input.getElementsByTagName("Character");
+  	for(var i=0;i<newChars.length;i++){
+  		var curChar = newChars[i];
+  		var attributes = curChar.attributes;
+  		var newChar = new Character(attributes.getNamedItem("name").value,
+  									parseInt(attributes.getNamedItem("x").value),
+  									parseInt(attributes.getNamedItem("y").value),
+  									parseInt(attributes.getNamedItem("width").value),
+  									parseInt(attributes.getNamedItem("height").value),
+  									parseInt(attributes.getNamedItem("sx").value),
+  									parseInt(attributes.getNamedItem("sy").value),
+  									parseInt(attributes.getNamedItem("sWidth").value),
+  									parseInt(attributes.getNamedItem("sHeight").value),
+  									assets[attributes.getNamedItem("sheet").value]);
+  		sprites[newChar.name] = newChar;
+  		newChar.startAnimation(attributes.getNamedItem("state").value);
+  		newChar.facing = attributes.getNamedItem("facing").value;
+  	}
+  	var newRooms = input.getElementsByTagName("Room");
+  	for(var i=0;i<newRooms.length;i++){
+  		var currRoom = newRooms[i];
+  		var attributes = currRoom.attributes;
+  		var newRoom = new Room(attributes.getNamedItem("name").value,
+  								parseInt(attributes.getNamedItem("width").value),
+  								parseInt(attributes.getNamedItem("height").value));
+  		rooms[newRoom.name] = newRoom;
+  		var roomSprites = currRoom.getElementsByTagName("Sprite");
+  		for(var j=0;j<roomSprites.length;j++){
+  			var curSprite = roomSprites[j];
+  			var actualSprite = sprites[curSprite.attributes.getNamedItem("name").value];
+  			newRoom.addSprite(actualSprite);
+  			var newActions = curSprite.getElementsByTagName("Action");
+  			for(var k=0;k<newActions.length;k++){
+  				var curAction = newActions[k];
+  				var attributes = curAction.attributes;
+  				var targSprite;
+  				if(attributes.getNamedItem("sprite").value=="null"){
+  					targSprite = null;
+  				}else{
+  					targSprite = sprites[attributes.getNamedItem("sprite").value];
+  				}
+  				var newAction = new Action(attributes.getNamedItem("name").value,
+  											targSprite,
+  											attributes.getNamedItem("command").value,
+  											attributes.getNamedItem("info").value);
+  				actualSprite.addAction(newAction);
+  			}
+  		}
+  		var roomSprites = currRoom.getElementsByTagName("Character");
+  		for(var j=0;j<roomSprites.length;j++){
+  			var curSprite = roomSprites[j];
+  			var actualSprite = sprites[curSprite.attributes.getNamedItem("name").value];
+  			newRoom.addSprite(actualSprite);
+  			var newActions = curSprite.getElementsByTagName("Action");
+  			for(var k=0;k<newActions.length;k++){
+  				var curAction = newActions[k];
+  				var attributes = curAction.attributes;
+  				var targSprite;
+  				if(attributes.getNamedItem("sprite").value=="null"){
+  					targSprite = null;
+  				}else{
+  					targSprite = sprites[attributes.getNamedItem("sprite").value];
+  				}
+  				var newAction = new Action(attributes.getNamedItem("name").value,
+  											targSprite,
+  											attributes.getNamedItem("command").value,
+  											attributes.getNamedItem("info").value);
+  				actualSprite.addAction(newAction);
+  			}
+  		}
+  	}
+  	var rootInfo = input.attributes;
+  	focus = char = sprites[rootInfo.getNamedItem("char").value];
+  	char.becomePlayer();
+  	curRoom = rooms[rootInfo.getNamedItem("curRoom").value];
+  	update(0);
 }

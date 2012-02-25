@@ -1,5 +1,5 @@
 //no dependencies
-function Animation(sheet,colSize,rowSize,startPos,length,frameInterval){
+function Animation(name,sheet,colSize,rowSize,startPos,length,frameInterval){
 	this.sheet = sheet;
 	this.rowSize = rowSize;
 	this.colSize = colSize;
@@ -10,6 +10,7 @@ function Animation(sheet,colSize,rowSize,startPos,length,frameInterval){
 	this.curFrame = 0;
 	this.numRows = sheet.height/rowSize;
 	this.numCols = sheet.width/colSize;
+	this.name = name;
 	
 	this.update = function(elapsedTime){
 		//alert(this.numRows+" "+this.numCols);
@@ -36,5 +37,12 @@ function Animation(sheet,colSize,rowSize,startPos,length,frameInterval){
 	this.reset = function(){
 		this.curFrame = 0;
 		this.curInterval = 0;
+	}
+	
+	this.serialize = function(output){
+		output = output.concat("<Animation name='"+this.name+"' sheet='"+this.sheet.name+
+								"' rowSize='"+this.rowSize+"' colSize='"+this.colSize+"' startPos='"+this.startPos+
+								"' length='"+this.length+"' frameInterval='"+this.frameInterval+"' />");
+		return output;
 	}
 }

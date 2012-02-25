@@ -13,6 +13,14 @@
 		<script type="text/javascript" src="Action.js"></script>
 	</head>
 	<body onload="initialize()">
-		<canvas id="Stage" width="650" height="500"/>
+		<div>
+			<canvas id="Stage" width="650" height="500"/>
+		</div>	
+		</br>
+		<div width="1000">
+			<textarea id="serialText" rows="8" cols="80"></textarea>
+			<button id="saveState" onclick="serialize()">save state</button>
+			<button id="loadState" onclick="loadSerial()">load state</button>
+		</div>
 	</body>
 </html>
