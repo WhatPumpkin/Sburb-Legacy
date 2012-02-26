@@ -1,6 +1,6 @@
 //requires Character.js
 //650x450 screen
-var Keys = {backspace:8,tab:9,enter:13,shift:16,ctrl:17,alt:18,escape:27,space:32,left:37,up:38,right:39,down:40};
+var Keys = {backspace:8,tab:9,enter:13,shift:16,ctrl:17,alt:18,escape:27,space:32,left:37,up:38,right:39,down:40,w:87,a:65,s:83,d:68};
 
 var Stage; //the canvas, we're gonna load it up with a bunch of flash-like game data like fps and scale factors
 var stage; //its context
@@ -86,10 +86,10 @@ function draw(gameTime){
 
 onkeydown = function(e){
 	if(chooser.choosing){
-		if(e.keyCode == Keys.down){
+		if(e.keyCode == Keys.down || e.keyCode==Keys.s){
 			chooser.nextChoice();
 		}
-		if(e.keyCode == Keys.up){
+		if(e.keyCode == Keys.up || e.keyCode==Keys.w){
 			chooser.prevChoice();
 		}
 		if(e.keyCode == Keys.space && !pressed[Keys.space]){
@@ -135,13 +135,13 @@ function drawLoader(){
 
 function handleInputs(){
 	if(!chooser.choosing){
-		if(pressed[Keys.down]){
+		if(pressed[Keys.down] || pressed[Keys.s]){
 			char.moveDown(curRoom);
-		}else if(pressed[Keys.up]){
+		}else if(pressed[Keys.up] || pressed[Keys.w]){
 			char.moveUp(curRoom);
-		}else if(pressed[Keys.left]){
+		}else if(pressed[Keys.left] || pressed[Keys.a]){
 			char.moveLeft(curRoom);
-		}else if(pressed[Keys.right]){
+		}else if(pressed[Keys.right] || pressed[Keys.d]){
 			char.moveRight(curRoom);
 		}else{
 			char.idle();
@@ -184,7 +184,7 @@ function buildSprites(){
 	sprites.karclone2 = new Character("karclone2",501,399,45,21,-36,-87,66,96,assets.cgSheet);
 	sprites.compLabBG = new StaticSprite("compLabBG",0,0,null,null,null,null,assets.compLabBG);
 	sprites.dialogBox = new StaticSprite("dialogBox",Stage.width+1,1000,null,null,null,null,assets.dialogBox,FG_DEPTHING);
-	dialoger.box = sprites.dialogBox;
+	dialoger.setBox(sprites.dialogBox);
 }
 
 function buildRooms(){
