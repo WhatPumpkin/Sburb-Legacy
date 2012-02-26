@@ -99,7 +99,7 @@ function loadSerial(){
   				}
   				var newAction = new Action(attributes.getNamedItem("name").value,
   											attributes.getNamedItem("command").value,
-  											attributes.getNamedItem("info").value,
+  											curAction.firstChild.nodeValue,
   											targSprite);
   				actualSprite.addAction(newAction);
   			}
@@ -121,7 +121,7 @@ function loadSerial(){
   				}
   				var newAction = new Action(attributes.getNamedItem("name").value,
   											attributes.getNamedItem("command").value,
-  											attributes.getNamedItem("info").value,
+  											curAction.firstChild.nodeValue,
   											targSprite);
   				actualSprite.addAction(newAction);
   			}

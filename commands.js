@@ -1,11 +1,5 @@
 talkCommand = function(info){
-	dialoger.queue = info.split("@");
-	dialoger.queue.reverse();
-	dialoger.queue.pop();
-	var nextDialog = dialoger.queue.pop();
-	dialoger.dialog.setText(nextDialog.substring(nextDialog.indexOf(" ")+1,nextDialog.length));
-	dialoger.dialog.showSubText(0,0);
-	dialoger.talking = true;
+	dialoger.startDialog(info);
 }
 
 changeRoomCommand = function(info){
@@ -19,4 +13,8 @@ changeCharCommand = function(info){
 	focus = char = sprites[info];
 	char.becomePlayer();
 	setCurRoomOf(char);
+}
+
+cancelCommand = function(){
+	//do nothing
 }

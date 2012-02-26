@@ -1,6 +1,6 @@
 function FontEngine(text){
 	//This is intended for monospace fonts
-	this.font = "11px Courier";
+	this.font = "bold 14px Courier New";
 	this.color = "#000000";
 	this.text = typeof text == "string"?text:"";
 	this.x=0;
@@ -10,7 +10,7 @@ function FontEngine(text){
 	this.start=0;
 	this.end=999999;
 	this.lines = new Array();
-	this.lineHeight = 11;
+	this.lineHeight = 17;
 	this.charWidth = 8;
 	
 	this.setStyle = function(font,color,lineHeight,charWidth){
