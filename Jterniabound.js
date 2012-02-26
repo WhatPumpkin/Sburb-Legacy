@@ -165,9 +165,7 @@ function loadAssets(){
 	loadGraphicAsset("compLabWalkable","resources/comlab-walkable.png");
 	loadGraphicAsset("dialogBox","resources/dialogBoxBig.png");
     loadAudioAsset("karkatBGM",6.7, "resources/karkat.ogg", "resources/karkat.mp3");
-
     loadAudioAsset("tereziBGM",1.9, "resources/terezi.ogg", "resources/terezi.mp3");
-    assets.tereziBGM.setLoopPoints(1.9);
 	loadPathAsset("compLabWalkable",[{x:70,y:270},{x:800,y:270},{x:800,y:820},{x:70,y:820}]);
 	drawLoader();
 }
@@ -189,7 +187,7 @@ function loadAudioAsset(name,loopPoint) {
     assets[name].name = name
     assets[name].type = "audio";
     assets[name].preload = true;
-    for (a=1; a < arguments.length; a++) {
+    for (a=2; a < arguments.length; a++) {
 	var tmp = document.createElement("source")
 	tmp.src = arguments[a];
 	assets[name].appendChild(tmp);
