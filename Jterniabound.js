@@ -241,10 +241,10 @@ function buildRooms(){
 function buildActions(){
 	sprites.karkat.addAction(new Action("swap","changeChar","karkat"));
 
-	sprites.karclone.addAction(new Action("talk","talk","@CGAngry Lorem ipsum\n\ndolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit\n\nin voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt \n\nmollit anim id\n\nest \n\nlaborum. @CGSpecial hehehe @GGMad whaaaat"));
+	sprites.karclone.addAction(new Action("talk","talk","@CGAngry Lorem ipsum\n\ndolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit\n\nin voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt \n\nmollit anim id\n\nest \n\nlaborum. @CGAngry hehehe @CGAngry whaaaat"));
 	sprites.karclone.addAction(new Action("change room","changeRoom","cloneRoom,300,300"));
 	sprites.karclone.addAction(new Action("swap","changeChar","karclone"));
-//    sprites.karclone.addAction(new Action("T3R3Z1 TH3M3", "newSong", "karclone"));
+	sprites.karclone.addAction(new Action("T3R3Z1 TH3M3", "playSong", "tereziBGM"));
 	
 	sprites.karclone2.addAction(new Action("talk","talk","@! blahblahblah"));
 	sprites.karclone2.addAction(new Action("change room","changeRoom","baseRoom,300,300"));
@@ -255,6 +255,7 @@ function buildCommands(){
 	commands.talk = talkCommand;
 	commands.changeRoom = changeRoomCommand;
 	commands.changeChar = changeCharCommand;
+	commands.playSong = playSongCommand;
 	commands.cancel = cancelCommand;
 }
 
