@@ -121,3 +121,17 @@ function FontEngine(text){
 		this.end = this.batchLength();
 	}
 }
+
+/* Talking text markup
+@ denotes a new dialogue box, the string following it indicates character animation, 
+the first two characters indicating character specific formatting.
+Alternatively, you can use an underscore to override the two character identifier
+limit.
+
+EX:
+
+@CGIdle wordwordswords
+@TTAngry Blahblahblah
+@CGBored snoooooze
+@Karkat_Stupid blarhagahl
+*/

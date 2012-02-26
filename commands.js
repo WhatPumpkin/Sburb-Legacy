@@ -1,5 +1,11 @@
 talkCommand = function(info){
-	alert(info);
+	dialoger.queue = info.split("@");
+	dialoger.queue.reverse();
+	dialoger.queue.pop();
+	var nextDialog = dialoger.queue.pop();
+	dialoger.dialog.setText(nextDialog.substring(nextDialog.indexOf(" ")+1,nextDialog.length));
+	dialoger.dialog.showSubText(0,0);
+	dialoger.talking = true;
 }
 
 changeRoomCommand = function(info){

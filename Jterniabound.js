@@ -14,11 +14,7 @@ var char;
 var curRoom,destRoom;
 var destX,destY;
 var focus;
-var dialogText;
 var chooser;
-var talking;
-var commands;
-
 
 function initialize(){
 	Stage = document.getElementById("Stage");	
@@ -31,6 +27,7 @@ function initialize(){
 	stage = Stage.getContext("2d");
 	
 	chooser = {choosing:false,choices:new Array(),choice:0,dialogs:new Array()};
+	dialoger = {talking: false,queue:new Array(),dialog:new FontEngine()};
 	assets = {};
 	rooms = {};
 	sprites = {};
@@ -80,11 +77,10 @@ function draw(gameTime){
 	
 	curRoom.draw();
 	drawChoices();
-	//stage.fillStyle = "#ffffff";
-	//stage.fillRect(dialogText.x,dialogText.y,dialogText.width,dialogText.height);
-	//dialogText.draw();
 	
 	stage.restore();
+	drawDialog();
+	
 	stage.fillStyle = "rgba(0,0,0,"+Stage.fade+")";
 	stage.fillRect(0,0,Stage.width,Stage.height);
 }
@@ -100,6 +96,27 @@ onkeydown = function(e){
 		if(e.keyCode == Keys.space && !pressed[Keys.space]){
 			performAction(chooser.choices[chooser.choice]);
 			chooser.choosing = false;
+		}
+	}else if(dialoger.talking){
+		if(e.keyCode == Keys.space && !pressed[Keys.space]){
+			if(dialoger.dialog.isShowingAll()){
+				//alert("cccc!");
+				if(dialoger.dialog.nextBatch()){
+					//alert("aaa!");
+					dialoger.dialog.showSubText(0,0);
+				}else{
+					//alert("bbb!");
+					if(dialoger.queue.length>0){
+						var nextDialog = dialoger.queue.pop();
+						dialoger.dialog.setText(nextDialog.substring(nextDialog.indexOf(" ")+1,nextDialog.length));
+						dialoger.dialog.showSubText(0,0);
+					}else{
+						dialoger.talking = false;
+					}
+				}
+			}else{
+				dialoger.dialog.showAll();
+			}
 		}
 	}else{
 		if(e.keyCode == Keys.space && !pressed[Keys.space]){
@@ -197,7 +214,7 @@ function buildRooms(){
 }
 
 function buildFonts(){
-	dialogText = new FontEngine();
+	dialoger.dialog.setDimensions(100,200,400,250);
 	//dialogText.setDimensions(300,300,200,50);
 	//dialogText.setText("This is a test of the FontEngine system which is super baller \namirite? \n \n-Gankro!!!!");
 	//dialogText.showSubText(0,0);
@@ -206,7 +223,7 @@ function buildFonts(){
 function buildActions(){
 	sprites.karkat.addAction(new Action("swap","changeChar","karkat"));
 
-	sprites.karclone.addAction(new Action("talk","talk","blahblahblah"));
+	sprites.karclone.addAction(new Action("talk","talk","@CGAngry blahblahblah @CGSpecial hehehe @GGMad whaaaat"));
 	sprites.karclone.addAction(new Action("change room","changeRoom","cloneRoom,300,300"));
 	sprites.karclone.addAction(new Action("swap","changeChar","karclone"));
 	
@@ -254,14 +271,9 @@ function handleRoomChange(){
 }
 
 function handleTextUpdates(){
-	if(talking){
-		dialogText.showSubText(null,dialogText.end+1);
-		if(dialogText.isShowingAll()){
-			dialogText.nextBatch();
-			dialogText.showSubText(0,0);
-		}
-	}
-	if(chooser.choosing){
+	if(dialoger.talking){
+		dialoger.dialog.showSubText(null,dialoger.dialog.end+1);
+	}else if(chooser.choosing){
 		for(var i=0;i<chooser.dialogs.length;i++){
 			var curDialog = chooser.dialogs[i];
 			curDialog.showSubText(null,curDialog.end+1);
@@ -309,6 +321,14 @@ function drawChoices(){
 		}
 	}
 	stage.restore();
+}
+
+function drawDialog(){
+	if(dialoger.talking){
+		stage.fillStyle = "#ffffff";
+		stage.fillRect(dialoger.dialog.x,dialoger.dialog.y,dialoger.dialog.width,dialoger.dialog.height);
+		dialoger.dialog.draw();
+	}
 }
 
 function setCurRoomOf(sprite){
