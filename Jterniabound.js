@@ -164,8 +164,8 @@ function loadAssets(){
 	loadGraphicAsset("compLabBG","resources/comlab-background.gif");
 	loadGraphicAsset("compLabWalkable","resources/comlab-walkable.png");
 	loadGraphicAsset("dialogBox","resources/dialogBoxBig.png");
-    loadAudioAsset("karkatBGM", "resources/karkat.ogg", "resources/karkat.mp3");
-    loadAudioAsset("tereziBGM", "resources/terezi.ogg", "resources/terezi.mp3");
+    loadAudioAsset("karkatBGM",6.7, "resources/karkat.ogg", "resources/karkat.mp3");
+    loadAudioAsset("tereziBGM",1.9, "resources/terezi.ogg", "resources/terezi.mp3");
     assets.tereziBGM.setLoopPoints(1.9);
 	loadPathAsset("compLabWalkable",[{x:70,y:270},{x:800,y:270},{x:800,y:820},{x:70,y:820}]);
 	drawLoader();
@@ -181,7 +181,7 @@ function loadGraphicAsset(name,path){
 	assetLoadStack.push(assets[name]);
 }
 
-function loadAudioAsset(name) {
+function loadAudioAsset(name,loopPoint) {
     assets[name] = new Audio();
     // no builtin onload function for audio
     assets[name].addEventListener('canplaythrough', popLoad);
@@ -193,6 +193,20 @@ function loadAudioAsset(name) {
 	tmp.src = arguments[a];
 	assets[name].appendChild(tmp);
     }
+    var tmpPointer = assets[name];
+    assets[name].setLoopPoints = function(start, end) {
+		tmpPointer.startLoop = start;
+		tmpPointer.endLoop = end;
+		tmpPointer.addEventListener('ended', function() {
+			tmpPointer.currentTime = start;
+		}
+						, false);
+		// do we need to have an end point? does that even make sense
+    };
+    if(!loopPoint){
+    	loopPoint = 0;
+    }
+    assets[name].setLoopPoints(loopPoint);
     assetLoadStack.totalAssets++;
     assetLoadStack.push(assets[name])
 }
