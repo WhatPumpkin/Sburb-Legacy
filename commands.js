@@ -15,6 +15,10 @@ changeCharCommand = function(info){
 	setCurRoomOf(char);
 }
 
+playSongCommand = function(info){
+	changeBGM(assets[info]);
+}
+
 cancelCommand = function(){
 	//do nothing
 }

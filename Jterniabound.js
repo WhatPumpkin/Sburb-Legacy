@@ -1,6 +1,6 @@
 //requires Character.js
 //650x450 screen
-var Keys = {backspace:8,tab:9,enter:13,shift:16,ctrl:17,alt:18,escape:27,space:32,left:37,up:38,right:39,down:40};
+var Keys = {backspace:8,tab:9,enter:13,shift:16,ctrl:17,alt:18,escape:27,space:32,left:37,up:38,right:39,down:40,w:87,a:65,s:83,d:68};
 
 var Stage; //the canvas, we're gonna load it up with a bunch of flash-like game data like fps and scale factors
 var stage; //its context
@@ -93,10 +93,10 @@ function draw(gameTime){
 
 onkeydown = function(e){
 	if(chooser.choosing){
-		if(e.keyCode == Keys.down){
+		if(e.keyCode == Keys.down || e.keyCode==Keys.s){
 			chooser.nextChoice();
 		}
-		if(e.keyCode == Keys.up){
+		if(e.keyCode == Keys.up || e.keyCode==Keys.w){
 			chooser.prevChoice();
 		}
 		if(e.keyCode == Keys.space && !pressed[Keys.space]){
@@ -143,13 +143,13 @@ function drawLoader(){
 
 function handleInputs(){
 	if(!chooser.choosing){
-		if(pressed[Keys.down]){
+		if(pressed[Keys.down] || pressed[Keys.s]){
 			char.moveDown(curRoom);
-		}else if(pressed[Keys.up]){
+		}else if(pressed[Keys.up] || pressed[Keys.w]){
 			char.moveUp(curRoom);
-		}else if(pressed[Keys.left]){
+		}else if(pressed[Keys.left] || pressed[Keys.a]){
 			char.moveLeft(curRoom);
-		}else if(pressed[Keys.right]){
+		}else if(pressed[Keys.right] || pressed[Keys.d]){
 			char.moveRight(curRoom);
 		}else{
 			char.idle();
@@ -160,21 +160,22 @@ function handleInputs(){
 function loadAssets(){
 	assetLoadStack = new Array();
 	assetLoadStack.totalAssets = 0;
-	loadAsset("cgSheet","resources/CGsheetBig.png");
-	loadAsset("compLabBG","resources/comlab-background.gif");
-	loadAsset("compLabWalkable","resources/comlab-walkable.png");
-	loadAsset("dialogBox","resources/dialogBoxBig.png");
+	loadGraphicAsset("cgSheet","resources/CGsheetBig.png");
+	loadGraphicAsset("compLabBG","resources/comlab-background.gif");
+	loadGraphicAsset("compLabWalkable","resources/comlab-walkable.png");
+	loadGraphicAsset("dialogBox","resources/dialogBoxBig.png");
     loadAudioAsset("karkatBGM", "resources/karkat.ogg", "resources/karkat.mp3");
     loadAudioAsset("tereziBGM", "resources/terezi.ogg", "resources/terezi.mp3");
-	assets.compLabWalkable = [{x:70,y:270},{x:800,y:270},{x:800,y:820},{x:70,y:820}];
-	assets.compLabWalkable.name = "compLabWalkable";
+    assets.tereziBGM.setLoopPoints(1.9);
+	loadPathAsset("compLabWalkable",[{x:70,y:270},{x:800,y:270},{x:800,y:820},{x:70,y:820}]);
 	drawLoader();
 }
 
-function loadAsset(name,path){
+function loadGraphicAsset(name,path){
 	assets[name] = new Image();
 	assets[name].src = path;
 	assets[name].onload = popLoad;
+	assets[name].type = "graphic";
 	assets[name].name = name;
 	assetLoadStack.totalAssets++;
 	assetLoadStack.push(assets[name]);
@@ -185,6 +186,7 @@ function loadAudioAsset(name) {
     // no builtin onload function for audio
     assets[name].addEventListener('canplaythrough', popLoad);
     assets[name].name = name
+    assets[name].type = "audio";
     assets[name].preload = true;
     for (a=1; a < arguments.length; a++) {
 	var tmp = document.createElement("source")
@@ -193,6 +195,12 @@ function loadAudioAsset(name) {
     }
     assetLoadStack.totalAssets++;
     assetLoadStack.push(assets[name])
+}
+
+function loadPathAsset(name,path){
+	assets[name] = path;
+	assets[name].name = name;
+	assets[name].type = "path";
 }
 
 function popLoad(){
@@ -209,7 +217,7 @@ function buildSprites(){
 	sprites.karclone2 = new Character("karclone2",501,399,45,21,-36,-87,66,96,assets.cgSheet);
 	sprites.compLabBG = new StaticSprite("compLabBG",0,0,null,null,null,null,assets.compLabBG);
 	sprites.dialogBox = new StaticSprite("dialogBox",Stage.width+1,1000,null,null,null,null,assets.dialogBox,FG_DEPTHING);
-	dialoger.box = sprites.dialogBox;
+	dialoger.setBox(sprites.dialogBox);
 }
 
 function buildRooms(){
@@ -229,11 +237,12 @@ function buildRooms(){
 function buildActions(){
 	sprites.karkat.addAction(new Action("swap","changeChar","karkat"));
 
-	sprites.karclone.addAction(new Action("talk","talk","@CGAngry Lorem ipsum\n\ndolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit\n\nin voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt \n\nmollit anim id\n\nest \n\nlaborum. @CGSpecial hehehe @GGMad whaaaat"));
+	sprites.karclone.addAction(new Action("talk","talk","@CGAngry Lorem ipsum\n\ndolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit\n\nin voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt \n\nmollit anim id\n\nest \n\nlaborum. @CGAngry hehehe @CGAngry whaaaat"));
 	sprites.karclone.addAction(new Action("change room","changeRoom","cloneRoom,300,300"));
 	sprites.karclone.addAction(new Action("swap","changeChar","karclone"));
     sprites.karclone.setBGM(new BGM(assets.karkatBGM, 1.9, 1))
-	
+	sprites.karclone.addAction(new Action("T3R3Z1 TH3M3", "playSong", new BGM(assets.tereziBGM, 1.9, 2)));
+ 	
 	sprites.karclone2.addAction(new Action("talk","talk","@! blahblahblah"));
 	sprites.karclone2.addAction(new Action("change room","changeRoom","baseRoom,300,300"));
 	sprites.karclone2.addAction(new Action("swap","changeChar","karclone2"));
@@ -244,6 +253,7 @@ function buildCommands(){
 	commands.talk = talkCommand;
 	commands.changeRoom = changeRoomCommand;
 	commands.changeChar = changeCharCommand;
+	commands.playSong = playSongCommand;
 	commands.cancel = cancelCommand;
 }
 

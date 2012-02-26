@@ -4,6 +4,7 @@ function Room(name,width,height,walkable){
 	this.sprites = new Array();
 	this.walkable = walkable;
 	this.name = name;
+	this.bgm = null;
 	
 	this.addSprite = function(sprite){
 		this.sprites.push(sprite);
@@ -88,7 +89,8 @@ function Room(name,width,height,walkable){
 		return result;
 	}
 	this.serialize = function(output){
-		output = output.concat("<Room name='"+this.name+"' width='"+this.width+"' height='"+this.height+"' walkable='"+this.walkable.name+"'>");
+		output = output.concat("<Room name='"+this.name+"' width='"+this.width+"' height='"+this.height+"' walkable='"+this.walkable.name+
+								"' bgm='"+this.bgm.name+"'>");
 		for(var sprite in this.sprites){
 			output = this.sprites[sprite].serialize(output);
 		}

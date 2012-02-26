@@ -25,17 +25,27 @@
 				margin-right: auto;
 				display: block;
 			}
+			textarea {
+				padding-left: 0;
+				padding-right: 0;
+				margin-left: auto;
+				margin-right: auto;
+				display: block;
+			}
 		</style>
 	</head>
 	<body onload="initialize()">
-		<div>
-			<canvas id="Stage" width="650" height="450" display="block" tabindex="1"/>
+		
+		<div align="right">
+			<canvas id="Stage" width="650" height="450" tabindex="0"/>
+		</div>
+		<div align="left">
+			<textarea id="serialText" rows="4" cols="10"></textarea>
+			<button id="saveState" onclick="serialize()">save state</button>
+			<button id="loadAssetState" onclick="loadSerialWithAssets()">load assets+state</button>
+			<button id="loadState" onclick="loadSerialWithoutAssets()">load state</button>
 		</div>	
 		</br>
-		<div width="1000">
-			<textarea id="serialText" rows="8" cols="80"></textarea>
-			<button id="saveState" onclick="serialize()">save state</button>
-			<button id="loadState" onclick="loadSerial()">load state</button>
-		</div>
+		
 	</body>
 </html>
