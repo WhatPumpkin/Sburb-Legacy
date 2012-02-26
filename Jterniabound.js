@@ -15,6 +15,9 @@ var curRoom,destRoom;
 var destX,destY;
 var focus;
 var chooser;
+var bgm;
+
+var initFinished;
 
 function initialize(){
 	Stage = document.getElementById("Stage");	
@@ -38,6 +41,10 @@ function initialize(){
 }
 
 function finishInit(){
+    if(initFinished) {
+	return;
+    }
+    initFinished = true;
 	buildSprites();
 	buildRooms();
 	buildActions();
@@ -45,7 +52,7 @@ function finishInit(){
 	
 	focus = char = sprites.karkat;
 	curRoom = rooms.baseRoom;
-	
+    curRoom.initialize();
 	char.becomePlayer();
 	serialize();
 	update(0);
@@ -119,6 +126,7 @@ onkeydown = function(e){
 		}
 	}
 	pressed[e.keyCode] = true;
+    return false;
 }
 
 onkeyup = function(e){
@@ -156,6 +164,10 @@ function loadAssets(){
 	loadAsset("compLabBG","resources/comlab-background.gif");
 	loadAsset("compLabWalkable","resources/comlab-walkable.png");
 	loadAsset("dialogBox","resources/dialogBoxBig.png");
+    loadAudioAsset("karkatBGM", "resources/karkat.ogg", "resources/karkat.mp3");
+    assets.karkatBGM.setLoopPoints(6.7);
+    loadAudioAsset("tereziBGM", "resources/terezi.ogg", "resources/terezi.mp3");
+    assets.tereziBGM.setLoopPoints(1.9);
 	assets.compLabWalkable = [{x:70,y:270},{x:800,y:270},{x:800,y:820},{x:70,y:820}];
 	assets.compLabWalkable.name = "compLabWalkable";
 	drawLoader();
@@ -168,6 +180,31 @@ function loadAsset(name,path){
 	assets[name].name = name;
 	assetLoadStack.totalAssets++;
 	assetLoadStack.push(assets[name]);
+}
+
+function loadAudioAsset(name) {
+    assets[name] = new Audio();
+    // no builtin onload function for audio
+    assets[name].addEventListener('canplaythrough', popLoad);
+    assets[name].name = name
+    assets[name].preload = true;
+    for (a=1; a < arguments.length; a++) {
+	var tmp = document.createElement("source")
+	tmp.src = arguments[a];
+	assets[name].appendChild(tmp);
+    }
+    var tmpPointer = assets[name];
+    assets[name].setLoopPoints = function(start, end) {
+	tmpPointer.startLoop = start;
+	tmpPointer.endLoop = end;
+	tmpPointer.addEventListener('ended', function() {
+	    tmpPointer.currentTime = start;
+	}
+				   );
+	// do we need to have an end point? does that even make sense
+    };
+    assetLoadStack.totalAssets++;
+    assetLoadStack.push(assets[name])
 }
 
 function popLoad(){
@@ -193,10 +230,12 @@ function buildRooms(){
 	rooms.baseRoom.addSprite(sprites.karkat);
 	rooms.baseRoom.addSprite(sprites.karclone);
 	rooms.baseRoom.addSprite(sprites.compLabBG);
+    rooms.baseRoom.setBGM(assets.karkatBGM);
 	
 	rooms.cloneRoom = new Room("cloneRoom",sprites.compLabBG.width,sprites.compLabBG.height,assets.compLabWalkable);
 	rooms.cloneRoom.addSprite(sprites.karclone2);
 	rooms.cloneRoom.addSprite(sprites.compLabBG);
+    rooms.cloneRoom.setBGM(assets.tereziBGM);
 }
 
 function buildActions(){
@@ -205,6 +244,7 @@ function buildActions(){
 	sprites.karclone.addAction(new Action("talk","talk","@CGAngry Lorem ipsum\n\ndolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit\n\nin voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt \n\nmollit anim id\n\nest \n\nlaborum. @CGSpecial hehehe @GGMad whaaaat"));
 	sprites.karclone.addAction(new Action("change room","changeRoom","cloneRoom,300,300"));
 	sprites.karclone.addAction(new Action("swap","changeChar","karclone"));
+//    sprites.karclone.addAction(new Action("T3R3Z1 TH3M3", "newSong", "karclone"));
 	
 	sprites.karclone2.addAction(new Action("talk","talk","@! blahblahblah"));
 	sprites.karclone2.addAction(new Action("change room","changeRoom","baseRoom,300,300"));
@@ -242,6 +282,7 @@ function handleRoomChange(){
 			char.y = destY;
 			moveSprite(char,curRoom,destRoom);
 			curRoom = destRoom;
+		    curRoom.initialize();
 			destRoom = null;
 		}
 	}else if(Stage.fade>0.01){
@@ -269,4 +310,13 @@ function setCurRoomOf(sprite){
 			}
 		}
 	}
+}
+
+function changeBGM(newSong) {
+    if(bgm) {
+	bgm.pause();
+	bgm.currentTime = 0;
+    }
+    bgm = newSong;
+    bgm.play();
 }
