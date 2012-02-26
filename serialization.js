@@ -25,7 +25,7 @@ function serializeAssets(output){
 			var sources = curAsset.innerHTML.split('"');
 			var s1 = sources[1];
 			var s2 = sources[3];
-			output = output.concat(s1+";"+s2);
+			output = output.concat(curAsset.start+";"+s1+";"+s2);
 
 		}else if(curAsset.type=="path"){
 			for(var i=0;i<curAsset.length;i++){
@@ -82,7 +82,7 @@ function loadSerialAssets(){
   		}else if(type=="audio"){
   			var sources = value.split(";");
   			
-  			loadAudioAsset(name,sources[0],sources[1]);
+  			loadAudioAsset(name,sources[0],sources[1],sources[2]);
   		}else if(type=="path"){
   			var pts = value.split(";");
   			var path = new Array();
