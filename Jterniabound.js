@@ -165,9 +165,7 @@ function loadAssets(){
 	loadAsset("compLabWalkable","resources/comlab-walkable.png");
 	loadAsset("dialogBox","resources/dialogBoxBig.png");
     loadAudioAsset("karkatBGM", "resources/karkat.ogg", "resources/karkat.mp3");
-    assets.karkatBGM.setLoopPoints(6.7);
     loadAudioAsset("tereziBGM", "resources/terezi.ogg", "resources/terezi.mp3");
-    assets.tereziBGM.setLoopPoints(1.9);
 	assets.compLabWalkable = [{x:70,y:270},{x:800,y:270},{x:800,y:820},{x:70,y:820}];
 	assets.compLabWalkable.name = "compLabWalkable";
 	drawLoader();
@@ -193,16 +191,6 @@ function loadAudioAsset(name) {
 	tmp.src = arguments[a];
 	assets[name].appendChild(tmp);
     }
-    var tmpPointer = assets[name];
-    assets[name].setLoopPoints = function(start, end) {
-	tmpPointer.startLoop = start;
-	tmpPointer.endLoop = end;
-	tmpPointer.addEventListener('ended', function() {
-	    tmpPointer.currentTime = start;
-	}
-				    , false);
-	// do we need to have an end point? does that even make sense
-    };
     assetLoadStack.totalAssets++;
     assetLoadStack.push(assets[name])
 }
@@ -230,12 +218,12 @@ function buildRooms(){
 	rooms.baseRoom.addSprite(sprites.karkat);
 	rooms.baseRoom.addSprite(sprites.karclone);
 	rooms.baseRoom.addSprite(sprites.compLabBG);
-    rooms.baseRoom.setBGM(assets.karkatBGM);
+    rooms.baseRoom.setBGM(new BGM(assets.karkatBGM, 6.7));
 	
 	rooms.cloneRoom = new Room("cloneRoom",sprites.compLabBG.width,sprites.compLabBG.height,assets.compLabWalkable);
 	rooms.cloneRoom.addSprite(sprites.karclone2);
 	rooms.cloneRoom.addSprite(sprites.compLabBG);
-    rooms.cloneRoom.setBGM(assets.tereziBGM);
+    rooms.cloneRoom.setBGM(new BGM(assets.tereziBGM, 1.9, 1));
 }
 
 function buildActions(){
@@ -244,11 +232,12 @@ function buildActions(){
 	sprites.karclone.addAction(new Action("talk","talk","@CGAngry Lorem ipsum\n\ndolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit\n\nin voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt \n\nmollit anim id\n\nest \n\nlaborum. @CGSpecial hehehe @GGMad whaaaat"));
 	sprites.karclone.addAction(new Action("change room","changeRoom","cloneRoom,300,300"));
 	sprites.karclone.addAction(new Action("swap","changeChar","karclone"));
-//    sprites.karclone.addAction(new Action("T3R3Z1 TH3M3", "newSong", "karclone"));
+    sprites.karclone.setBGM(new BGM(assets.karkatBGM, 1.9, 1))
 	
 	sprites.karclone2.addAction(new Action("talk","talk","@! blahblahblah"));
 	sprites.karclone2.addAction(new Action("change room","changeRoom","baseRoom,300,300"));
 	sprites.karclone2.addAction(new Action("swap","changeChar","karclone2"));
+    sprites.karclone2.setBGM(new BGM(assets.karkatBGM, 6.7, 1))
 }
 
 function buildCommands(){
@@ -314,8 +303,14 @@ function setCurRoomOf(sprite){
 
 function changeBGM(newSong) {
     if(bgm) {
-	bgm.pause();
-	bgm.currentTime = 0;
+	if (bgm.priority > newSong.priority) {
+	    return;
+	}
+	if (bgm == newSong) {
+	    // maybe check for some kind of restart value
+	    return;
+	}
+	bgm.stop();
     }
     bgm = newSong;
     bgm.play();
@@ -325,9 +320,8 @@ function changeBGM(newSong) {
 function checkBGMLoop() {
     // this is just until we can figure out if Chrome loops things
     // or is just broken?
-    if(bgm.ended) {
-	bgm.currentTime = bgm.startLoop;
-	bgm.play();
+    if(bgm.ended()) {
+	bgm.loop();
     }
     setTimeout("checkBGMLoop()", 100);
 }
