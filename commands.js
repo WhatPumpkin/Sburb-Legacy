@@ -15,7 +15,7 @@ changeCharCommand = function(info){
 	setCurRoomOf(char);
 }
 
-changeSongCommand = function(info){
+playSongCommand = function(info){
 	changeBGM(assets[info]);
 }
 

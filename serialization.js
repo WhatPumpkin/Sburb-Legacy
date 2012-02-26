@@ -1,6 +1,7 @@
 function serialize(){
 	var out = document.getElementById("serialText");
 	var output = "<SBURB curRoom='"+curRoom.name+"' char='"+char.name+"'>";
+	output = serializeAssets(output);
 	for(var room in rooms){
 		output = rooms[room].serialize(output);
 	}
@@ -9,16 +10,93 @@ function serialize(){
 	return output;
 }
 
-function loadSerial(){
+function serializeAssets(output){
+	for(var asset in assets){
+		var curAsset = assets[asset];
+		output = output.concat("<Asset name='"+curAsset.name+"' type='"+curAsset.type+"'>");
+		if(curAsset.type=="graphic"){
+			
+			output = output.concat(curAsset.src.substring(curAsset.src.indexOf("resources/"),curAsset.src.length));
+		}else if(curAsset.type=="audio"){
+			for(thing in curAsset){
+				//output = output.concat(thing+":"+curAsset[thing]);
+			}
+			console.log(curAsset.innerHTML);
+			var sources = curAsset.innerHTML.split('"');
+			var s1 = sources[1];
+			var s2 = sources[3];
+			output = output.concat(s1+";"+s2);
+
+		}else if(curAsset.type=="path"){
+			for(var i=0;i<curAsset.length;i++){
+				output = output.concat(curAsset[i].x+","+curAsset[i].y);
+				if(i!=curAsset.length-1){
+					output = output.concat(";");
+				}
+			}
+		}
+		output = output.concat("</Asset>");
+	}
+	return output;
+}
+
+function purgeState(){
 	clearTimeout(updateLoop);
-	var inText = document.getElementById("serialText");
 	delete rooms;
 	delete sprites;
 	rooms = {};
+	bgm.pause();
 	sprites = {};
 	pressed = new Array();
 	curRoom = null;
-	
+	assetLoadStack = new Array();
+	assetLoadStack.totalAssets = 0;
+}
+function loadSerialWithAssets(){
+	purgeState();
+	loadSerialAssets();
+	loadSerialState();
+}
+function loadSerialWithoutAssets(){
+	purgeState();
+	loadSerialState();
+}
+
+function loadSerialAssets(){
+	var inText = document.getElementById("serialText");
+	var parser=new DOMParser();
+  	var input=parser.parseFromString(inText.value,"text/xml");
+  	
+  	input = input.documentElement;
+  	var newAssets = input.getElementsByTagName("Asset");
+  	for(var i=0;i<newAssets.length;i++){
+  		var curAsset = newAssets[i];
+  		var attributes = curAsset.attributes;
+  		var name = attributes.getNamedItem("name").value;
+  		var type = attributes.getNamedItem("type").value;
+  		var value = curAsset.firstChild.nodeValue;
+  		if(type=="graphic"){
+  			//console.log(name);
+  			//console.log(value);
+  			loadGraphicAsset(name,value);
+  		}else if(type=="audio"){
+  			var sources = value.split(";");
+  			
+  			loadAudioAsset(name,sources[0],sources[1]);
+  		}else if(type=="path"){
+  			var pts = value.split(";");
+  			var path = new Array();
+  			for(var j=0;j<pts.length;j++){
+  				var point = pts[j].split(",");
+  				path.push({x:parseInt(point[0]),y:parseInt(point[1])});
+  			}
+  			loadPathAsset(name,path);
+  		}
+  	}
+}
+
+function loadSerialState(){
+	var inText = document.getElementById("serialText");
 	var parser=new DOMParser();
   	var input=parser.parseFromString(inText.value,"text/xml");
   	
@@ -69,6 +147,7 @@ function loadSerial(){
   									parseInt(attributes.getNamedItem("sWidth").value),
   									parseInt(attributes.getNamedItem("sHeight").value),
   									assets[attributes.getNamedItem("sheet").value]);
+  		console.log(newChar.name);
   		sprites[newChar.name] = newChar;
   		newChar.startAnimation(attributes.getNamedItem("state").value);
   		newChar.facing = attributes.getNamedItem("facing").value;
@@ -82,6 +161,10 @@ function loadSerial(){
   								parseInt(attributes.getNamedItem("height").value),
   								assets[attributes.getNamedItem("walkable").value]);
   		rooms[newRoom.name] = newRoom;
+  		var bgm = attributes.getNamedItem("bgm").value;
+  		if(bgm!="null"){
+  			newRoom.setBGM(assets[bgm]);
+  		}
   		var roomSprites = currRoom.getElementsByTagName("Sprite");
   		for(var j=0;j<roomSprites.length;j++){
   			var curSprite = roomSprites[j];
@@ -131,5 +214,6 @@ function loadSerial(){
   	focus = char = sprites[rootInfo.getNamedItem("char").value];
   	char.becomePlayer();
   	curRoom = rooms[rootInfo.getNamedItem("curRoom").value];
+  	curRoom.initialize();
   	update(0);
 }

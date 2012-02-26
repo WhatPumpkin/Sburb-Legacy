@@ -160,23 +160,23 @@ function handleInputs(){
 function loadAssets(){
 	assetLoadStack = new Array();
 	assetLoadStack.totalAssets = 0;
-	loadAsset("cgSheet","resources/CGsheetBig.png");
-	loadAsset("compLabBG","resources/comlab-background.gif");
-	loadAsset("compLabWalkable","resources/comlab-walkable.png");
-	loadAsset("dialogBox","resources/dialogBoxBig.png");
+	loadGraphicAsset("cgSheet","resources/CGsheetBig.png");
+	loadGraphicAsset("compLabBG","resources/comlab-background.gif");
+	loadGraphicAsset("compLabWalkable","resources/comlab-walkable.png");
+	loadGraphicAsset("dialogBox","resources/dialogBoxBig.png");
     loadAudioAsset("karkatBGM", "resources/karkat.ogg", "resources/karkat.mp3");
     assets.karkatBGM.setLoopPoints(6.7);
     loadAudioAsset("tereziBGM", "resources/terezi.ogg", "resources/terezi.mp3");
     assets.tereziBGM.setLoopPoints(1.9);
-	assets.compLabWalkable = [{x:70,y:270},{x:800,y:270},{x:800,y:820},{x:70,y:820}];
-	assets.compLabWalkable.name = "compLabWalkable";
+	loadPathAsset("compLabWalkable",[{x:70,y:270},{x:800,y:270},{x:800,y:820},{x:70,y:820}]);
 	drawLoader();
 }
 
-function loadAsset(name,path){
+function loadGraphicAsset(name,path){
 	assets[name] = new Image();
 	assets[name].src = path;
 	assets[name].onload = popLoad;
+	assets[name].type = "graphic";
 	assets[name].name = name;
 	assetLoadStack.totalAssets++;
 	assetLoadStack.push(assets[name]);
@@ -187,6 +187,7 @@ function loadAudioAsset(name) {
     // no builtin onload function for audio
     assets[name].addEventListener('canplaythrough', popLoad);
     assets[name].name = name
+    assets[name].type = "audio";
     assets[name].preload = true;
     for (a=1; a < arguments.length; a++) {
 	var tmp = document.createElement("source")
@@ -205,6 +206,12 @@ function loadAudioAsset(name) {
     };
     assetLoadStack.totalAssets++;
     assetLoadStack.push(assets[name])
+}
+
+function loadPathAsset(name,path){
+	assets[name] = path;
+	assets[name].name = name;
+	assets[name].type = "path";
 }
 
 function popLoad(){
@@ -315,8 +322,8 @@ function setCurRoomOf(sprite){
 
 function changeBGM(newSong) {
     if(bgm) {
-	bgm.pause();
-	bgm.currentTime = 0;
+		bgm.pause();
+		bgm.currentTime = 0;
     }
     bgm = newSong;
     bgm.play();
