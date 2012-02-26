@@ -9,7 +9,9 @@ function Action(name,command,info,sprite){
 		if(sprite){
 			spriteName = this.sprite.name;
 		}
-		output = output.concat("<Action sprite='"+spriteName+"' name='"+this.name+"' command='"+this.command+"' info='"+this.info+"' />");
+		output = output.concat("<Action sprite='"+spriteName+"' name='"+this.name+"' command='"+this.command+"'>");
+		output = output.concat(info);
+		output = output.concat("</Action>");
 		return output;
 	}
 }
