@@ -200,7 +200,7 @@ function loadAudioAsset(name) {
 	tmpPointer.addEventListener('ended', function() {
 	    tmpPointer.currentTime = start;
 	}
-				   );
+				    , false);
 	// do we need to have an end point? does that even make sense
     };
     assetLoadStack.totalAssets++;
@@ -319,4 +319,16 @@ function changeBGM(newSong) {
     }
     bgm = newSong;
     bgm.play();
+    setTimeout("checkBGMLoop()", 100);
 }
+
+function checkBGMLoop() {
+    // this is just until we can figure out if Chrome loops things
+    // or is just broken?
+    if(bgm.ended) {
+	bgm.currentTime = bgm.startLoop;
+	bgm.play();
+    }
+    setTimeout("checkBGMLoop()", 100);
+}
+    
