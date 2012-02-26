@@ -25,7 +25,9 @@ function serializeAssets(output){
 			var sources = curAsset.innerHTML.split('"');
 			var s1 = sources[1];
 			var s2 = sources[3];
-			output = output.concat(curAsset.start+";"+s1+";"+s2);
+			console.log(sources);
+			console.log(curAsset.startLoop);
+			output = output.concat(curAsset.startLoop+";"+s1+";"+s2);
 
 		}else if(curAsset.type=="path"){
 			for(var i=0;i<curAsset.length;i++){
