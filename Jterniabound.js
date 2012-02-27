@@ -254,7 +254,7 @@ function buildActions(){
 	sprites.karclone.addAction(new Action("change room","changeRoom","cloneRoom,300,300"));
 	sprites.karclone.addAction(new Action("swap","changeChar","karclone"));
     sprites.karclone.setBGM(new BGM(assets.karkatBGM, 1.9, 1))
-	sprites.karclone.addAction(new Action("T3R3Z1 TH3M3", "playSong", new BGM(assets.tereziBGM, 1.9, 2)));
+	sprites.karclone.addAction(new Action("T3R3Z1 TH3M3 4LL D4Y", "playSong", new BGM(assets.tereziBGM, 1.9, 2)));
  	
 	sprites.karclone2.addAction(new Action("talk","talk","@! blahblahblah"));
 	sprites.karclone2.addAction(new Action("change room","changeRoom","baseRoom,300,300"));
