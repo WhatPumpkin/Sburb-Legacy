@@ -16,7 +16,7 @@ changeCharCommand = function(info){
 }
 
 playSongCommand = function(info){
-	changeBGM(assets[info]);
+	changeBGM(info);
 }
 
 cancelCommand = function(){

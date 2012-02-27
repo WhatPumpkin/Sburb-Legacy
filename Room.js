@@ -19,16 +19,13 @@ function Room(name,width,height,walkable){
 		}
 		return false;
 	}
-    this.setBGM = function(audioAsset) {
-		this.bgm = audioAsset;
+    this.setBGM = function(audioObj) {
+	this.bgm = audioObj;
     }
     this.initialize = function() {
-		// turn on BGM if any
-		if(this.bgm){
-			changeBGM(this.bgm);
-			console.log(this.bgm);
-		}
-		// do any script actions there might be
+	// turn on BGM if any
+	changeBGM(this.bgm);
+	// do any script actions there might be
     }
 	this.contains = function(sprite){
 		for(var i=0;i<this.sprites.length;i++){
