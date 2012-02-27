@@ -15,6 +15,7 @@ var curRoom,destRoom;
 var destX,destY;
 var focus;
 var chooser;
+var curAction;
 var bgm;
 
 var initFinished;
@@ -42,7 +43,7 @@ function initialize(){
 
 function finishInit(){
     if(initFinished) {
-	return;
+		return;
     }
     initFinished = true;
 	buildSprites();
@@ -68,6 +69,7 @@ function update(gameTime){
 	handleRoomChange();
 	chooser.update(gameTime);
 	dialoger.update(gameTime);
+	chainAction();
 	//must be last
 	updateLoop=setTimeout("update("+(gameTime+1)+")",1000/Stage.fps);
 	draw(gameTime);
@@ -100,7 +102,8 @@ onkeydown = function(e){
 			chooser.prevChoice();
 		}
 		if(e.keyCode == Keys.space && !pressed[Keys.space]){
-			performAction(chooser.choices[chooser.choice]);
+			curAction = chooser.choices[chooser.choice];
+			performAction(curAction);
 			chooser.choosing = false;
 		}
 	}else if(dialoger.talking){
@@ -250,7 +253,7 @@ function buildActions(){
 	sprites.karclone.addAction(new Action("change room","changeRoom","cloneRoom,300,300"));
 	sprites.karclone.addAction(new Action("swap","changeChar","karclone"));
     sprites.karclone.setBGM(new BGM(assets.karkatBGM, 1.9, 1))
-	sprites.karclone.addAction(new Action("T3R3Z1 TH3M3 4LL D4Y", "playSong", new BGM(assets.tereziBGM, 1.9, 2)));
+	sprites.karclone.addAction(new Action("T3R3Z1 TH3M3 4LL D4Y", "playSong", "tereziBGM, 1.9, 2",null,new Action("talk","talk","@! Nice choice!")));
  	
 	sprites.karclone2.addAction(new Action("talk","talk","@! blahblahblah"));
 	sprites.karclone2.addAction(new Action("change room","changeRoom","baseRoom,300,300"));
@@ -322,14 +325,14 @@ function setCurRoomOf(sprite){
 
 function changeBGM(newSong) {
     if(bgm) {
-	if (bgm.priority > newSong.priority) {
-	    return;
-	}
-	if (bgm == newSong) {
-	    // maybe check for some kind of restart value
-	    return;
-	}
-	bgm.stop();
+		if (bgm.priority > newSong.priority) {
+			return;
+		}
+		if (bgm == newSong) {
+			// maybe check for some kind of restart value
+			return;
+		}
+		bgm.stop();
     }
     bgm = newSong;
     bgm.play();
@@ -340,8 +343,17 @@ function checkBGMLoop() {
     // this is just until we can figure out if Chrome loops things
     // or is just broken?
     if(bgm.ended()) {
-	bgm.loop();
+		bgm.loop();
     }
     setTimeout("checkBGMLoop()", 100);
 }
+    
+function chainAction(){
+	if(!dialoger.talking && !chooser.choosing){
+		if(curAction && curAction.followUp){
+			curAction = curAction.followUp;
+			performAction(curAction);
+		}
+	}
+}    
     

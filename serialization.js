@@ -41,7 +41,8 @@ function purgeState(){
 	delete rooms;
 	delete sprites;
 	rooms = {};
-	bgm.pause();
+	bgm.stop();
+	bgm = null;
 	sprites = {};
 	pressed = new Array();
 	curRoom = null;
@@ -141,7 +142,6 @@ function loadSerialState(){
   									parseInt(attributes.getNamedItem("sWidth").value),
   									parseInt(attributes.getNamedItem("sHeight").value),
   									assets[attributes.getNamedItem("sheet").value]);
-  		console.log(newChar.name);
   		sprites[newChar.name] = newChar;
   		newChar.startAnimation(attributes.getNamedItem("state").value);
   		newChar.facing = attributes.getNamedItem("facing").value;
@@ -156,56 +156,13 @@ function loadSerialState(){
   								assets[attributes.getNamedItem("walkable").value]);
   		rooms[newRoom.name] = newRoom;
   		var bgm = attributes.getNamedItem("bgm").value;
-  		console.log(bgm);
   		if(bgm!="null"){
   			var start = parseFloat(attributes.getNamedItem("bgStart").value);
   			var priority = parseFloat(attributes.getNamedItem("bgPriority").value);
   			newRoom.setBGM(new BGM(assets[bgm],start,priority));
   		}
-  		var roomSprites = currRoom.getElementsByTagName("Sprite");
-  		for(var j=0;j<roomSprites.length;j++){
-  			var curSprite = roomSprites[j];
-  			var actualSprite = sprites[curSprite.attributes.getNamedItem("name").value];
-  			newRoom.addSprite(actualSprite);
-  			var newActions = curSprite.getElementsByTagName("Action");
-  			for(var k=0;k<newActions.length;k++){
-  				var curAction = newActions[k];
-  				var attributes = curAction.attributes;
-  				var targSprite;
-  				if(attributes.getNamedItem("sprite").value=="null"){
-  					targSprite = null;
-  				}else{
-  					targSprite = sprites[attributes.getNamedItem("sprite").value];
-  				}
-  				var newAction = new Action(attributes.getNamedItem("name").value,
-  											attributes.getNamedItem("command").value,
-  											curAction.firstChild.nodeValue,
-  											targSprite);
-  				actualSprite.addAction(newAction);
-  			}
-  		}
-  		var roomSprites = currRoom.getElementsByTagName("Character");
-  		for(var j=0;j<roomSprites.length;j++){
-  			var curSprite = roomSprites[j];
-  			var actualSprite = sprites[curSprite.attributes.getNamedItem("name").value];
-  			newRoom.addSprite(actualSprite);
-  			var newActions = curSprite.getElementsByTagName("Action");
-  			for(var k=0;k<newActions.length;k++){
-  				var curAction = newActions[k];
-  				var attributes = curAction.attributes;
-  				var targSprite;
-  				if(attributes.getNamedItem("sprite").value=="null"){
-  					targSprite = null;
-  				}else{
-  					targSprite = sprites[attributes.getNamedItem("sprite").value];
-  				}
-  				var newAction = new Action(attributes.getNamedItem("name").value,
-  											attributes.getNamedItem("command").value,
-  											curAction.firstChild.nodeValue,
-  											targSprite);
-  				actualSprite.addAction(newAction);
-  			}
-  		}
+  		serialLoadRoomSprites(newRoom,currRoom.getElementsByTagName("Sprite"));
+  		serialLoadRoomSprites(newRoom,currRoom.getElementsByTagName("Character"));	
   	}
   	var rootInfo = input.attributes;
   	focus = char = sprites[rootInfo.getNamedItem("char").value];
@@ -213,4 +170,48 @@ function loadSerialState(){
   	curRoom = rooms[rootInfo.getNamedItem("curRoom").value];
   	curRoom.initialize();
   	update(0);
+}
+
+function serialLoadRoomSprites(newRoom,roomSprites){
+	for(var j=0;j<roomSprites.length;j++){
+		var curSprite = roomSprites[j];
+		var actualSprite = sprites[curSprite.attributes.getNamedItem("name").value];
+		newRoom.addSprite(actualSprite);
+		var newActions = curSprite.childNodes;
+		for(var k=0;k<newActions.length;k++){
+			if(newActions[k].attributes.getNamedItem("command")){
+				var curAction = newActions[k];
+				var attributes = curAction.attributes;
+				var targSprite;
+				if(attributes.getNamedItem("sprite").value=="null"){
+					targSprite = null;
+				}else{
+					targSprite = sprites[attributes.getNamedItem("sprite").value];
+				}
+				var newAction = new Action(attributes.getNamedItem("name").value,
+											attributes.getNamedItem("command").value,
+											curAction.firstChild.nodeValue,
+											targSprite);
+				actualSprite.addAction(newAction);
+			
+				while(curAction.getElementsByTagName("Action").length>0){
+					var oldAction = newAction;
+					var subAction = curAction.getElementsByTagName("Action")[0];
+					var attributes = subAction.attributes;
+					var targSprite;
+					if(attributes.getNamedItem("sprite").value=="null"){
+						targSprite = null;
+					}else{
+						targSprite = sprites[attributes.getNamedItem("sprite").value];
+					}
+					var newAction = new Action(attributes.getNamedItem("name").value,
+												attributes.getNamedItem("command").value,
+												subAction.firstChild.nodeValue,
+												targSprite);
+					oldAction.followUp = newAction;
+					curAction = subAction;
+				}
+			}
+		}
+	}
 }

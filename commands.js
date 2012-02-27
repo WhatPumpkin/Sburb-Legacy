@@ -16,7 +16,8 @@ changeCharCommand = function(info){
 }
 
 playSongCommand = function(info){
-	changeBGM(info);
+	var params = info.split(",");
+	changeBGM(new BGM(assets[params[0]],parseFloat(params[1]),parseFloat(params[2])));
 }
 
 cancelCommand = function(){
