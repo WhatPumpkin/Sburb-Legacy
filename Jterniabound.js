@@ -19,6 +19,7 @@ var curAction;
 var bgm;
 
 var initFinished;
+var initFunction;
 
 function initialize(){
 	Stage = document.getElementById("Stage");	
@@ -39,9 +40,8 @@ function initialize(){
 	pressed = new Array();
 	buildCommands();
 	
-	initFinished = true; //comment this line out 
-	loadSerialWithAssets(StateArchive.baseState);
-	//loadAssets(); and uncomment this one, to do a standard hardcode load
+    loadSerialWithAssets(StateArchive.baseState);
+    //loadAssets(); // uncomment this line, to do a standard hardcode load
 }
 
 function finishInit(){
@@ -75,6 +75,7 @@ function update(gameTime){
 	dialoger.update(gameTime);
 	chainAction();
 	//must be last
+    
 	updateLoop=setTimeout("update("+(gameTime+1)+")",1000/Stage.fps);
 	draw(gameTime);
 }
@@ -133,6 +134,7 @@ onkeydown = function(e){
 		}
 	}
 	pressed[e.keyCode] = true;
+    // return true if we want to pass keys along to the browser, i.e. Ctrl-N for a new window
     return false;
 }
 
@@ -198,16 +200,6 @@ function loadAudioAsset(name) {
 	tmp.src = arguments[a];
 	assets[name].appendChild(tmp);
     }
-    var tmpPointer = assets[name];
-    assets[name].setLoopPoints = function(start, end) {
-		tmpPointer.startLoop = start;
-		tmpPointer.endLoop = end;
-		tmpPointer.addEventListener('ended', function() {
-			tmpPointer.currentTime = start;
-		}
-						, false);
-		// do we need to have an end point? does that even make sense
-    };
     assetLoadStack.totalAssets++;
     assetLoadStack.push(assets[name])
 }
@@ -221,8 +213,14 @@ function loadPathAsset(name,path){
 function popLoad(){
 	assetLoadStack.pop();
 	drawLoader();
-	if(assetLoadStack.length==0){
+	if(assetLoadStack.length==0 && !initFinished){
+	    if(initFunction) {
+		initFunction();
+	    } else {
+		// only really here to work for old hard-loading
 		finishInit();
+	    }
+	    initFinished = true;
 	}
 }
 

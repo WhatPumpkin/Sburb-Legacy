@@ -59,8 +59,10 @@ function purgeState(){
 }
 function loadSerialWithAssets(serialText){
 	purgeState();
-	loadSerialAssets(serialText);
+    initFunction = function () {
 	loadSerialState(serialText);
+    };
+	loadSerialAssets(serialText);
 }
 function loadSerialWithoutAssets(serialText){
 	purgeState();
