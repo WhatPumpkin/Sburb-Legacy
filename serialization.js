@@ -101,6 +101,10 @@ function loadSerialAssets(serialText){
 }
 
 function loadSerialState(serialText){
+	if(assetLoadStack.length!=0){
+		updateLoop=setTimeout('loadSerialState("'+serialText+'")',500);
+		return;
+	}
 	var inText = serialText; //document.getElementById("serialText");
 	var parser=new DOMParser();
   	var input=parser.parseFromString(inText,"text/xml");
