@@ -37,32 +37,40 @@ function serializeAssets(output){
 }
 
 function purgeState(){
-	clearTimeout(updateLoop);
-	delete rooms;
-	delete sprites;
+	if(updateLoop){
+		clearTimeout(updateLoop);
+	}
+	if(rooms){
+		delete rooms;
+	}
+	if(sprites){
+		delete sprites;
+	}
 	rooms = {};
-	bgm.stop();
-	bgm = null;
+	if(bgm){
+		bgm.stop();
+		bgm = null;
+	}
 	sprites = {};
 	pressed = new Array();
 	curRoom = null;
 	assetLoadStack = new Array();
 	assetLoadStack.totalAssets = 0;
 }
-function loadSerialWithAssets(){
+function loadSerialWithAssets(serialText){
 	purgeState();
-	loadSerialAssets();
-	loadSerialState();
+	loadSerialAssets(serialText);
+	loadSerialState(serialText);
 }
-function loadSerialWithoutAssets(){
+function loadSerialWithoutAssets(serialText){
 	purgeState();
-	loadSerialState();
+	loadSerialState(serialText);
 }
 
-function loadSerialAssets(){
-	var inText = document.getElementById("serialText");
+function loadSerialAssets(serialText){
+	var inText = serialText; //document.getElementById("serialText");
 	var parser=new DOMParser();
-  	var input=parser.parseFromString(inText.value,"text/xml");
+  	var input=parser.parseFromString(inText,"text/xml");
   	
   	input = input.documentElement;
   	var newAssets = input.getElementsByTagName("Asset");
@@ -90,10 +98,10 @@ function loadSerialAssets(){
   	}
 }
 
-function loadSerialState(){
-	var inText = document.getElementById("serialText");
+function loadSerialState(serialText){
+	var inText = serialText; //document.getElementById("serialText");
 	var parser=new DOMParser();
-  	var input=parser.parseFromString(inText.value,"text/xml");
+  	var input=parser.parseFromString(inText,"text/xml");
   	
   	input = input.documentElement;
   	var newSprites = input.getElementsByTagName("Sprite");
@@ -169,6 +177,8 @@ function loadSerialState(){
   	char.becomePlayer();
   	curRoom = rooms[rootInfo.getNamedItem("curRoom").value];
   	curRoom.initialize();
+  	sprites.dialogBox = new StaticSprite("dialogBox",Stage.width+1,1000,null,null,null,null,assets.dialogBox,FG_DEPTHING);
+  	dialoger.setBox(sprites.dialogBox);
   	update(0);
 }
 

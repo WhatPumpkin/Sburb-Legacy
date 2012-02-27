@@ -16,6 +16,7 @@
 		<script type="text/javascript" src="Dialoger.js"></script>
 		<script type="text/javascript" src="Chooser.js"></script>
 		<script type="text/javascript" src="Audio.js"></script>
+		<script type="text/javascript" src="savedStates.js"></script>
 		
 		<style type="text/css">
 			canvas {
@@ -42,8 +43,8 @@
 		<div align="left">
 			<textarea id="serialText" rows="4" cols="10"></textarea>
 			<button id="saveState" onclick="serialize()">save state</button>
-			<button id="loadAssetState" onclick="loadSerialWithAssets()">load assets+state</button>
-			<button id="loadState" onclick="loadSerialWithoutAssets()">load state</button>
+			<button id="loadAssetState" onclick="loadSerialWithAssets(document.getElementById('serialText').value)">load assets+state</button>
+			<button id="loadState" onclick="loadSerialWithoutAssets(document.getElementById('serialText').value)">load state</button>
 		</div>	
 		</br>
 		

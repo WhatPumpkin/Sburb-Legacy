@@ -37,8 +37,11 @@ function initialize(){
 	sprites = {};
 	commands = {};
 	pressed = new Array();
+	buildCommands();
 	
-	loadAssets();
+	initFinished = true; //comment this line out 
+	loadSerialWithAssets(StateArchive.baseState);
+	//loadAssets(); and uncomment this one, to do a standard hardcode load
 }
 
 function finishInit(){
@@ -49,7 +52,8 @@ function finishInit(){
 	buildSprites();
 	buildRooms();
 	buildActions();
-	buildCommands();
+	sprites.dialogBox = new StaticSprite("dialogBox",Stage.width+1,1000,null,null,null,null,assets.dialogBox,FG_DEPTHING);
+	dialoger.setBox(sprites.dialogBox);
 	
 	focus = char = sprites.karkat;
 	curRoom = rooms.baseRoom;
@@ -165,7 +169,6 @@ function loadAssets(){
 	assetLoadStack.totalAssets = 0;
 	loadGraphicAsset("cgSheet","resources/CGsheetBig.png");
 	loadGraphicAsset("compLabBG","resources/comlab-background.gif");
-	loadGraphicAsset("compLabWalkable","resources/comlab-walkable.png");
 	loadGraphicAsset("dialogBox","resources/dialogBoxBig.png");
     loadAudioAsset("karkatBGM", "resources/karkat.ogg", "resources/karkat.mp3");
     loadAudioAsset("tereziBGM", "resources/terezi.ogg", "resources/terezi.mp3");
@@ -228,8 +231,6 @@ function buildSprites(){
 	sprites.karclone = new Character("karclone",201,399,45,21,-36,-87,66,96,assets.cgSheet);
 	sprites.karclone2 = new Character("karclone2",501,399,45,21,-36,-87,66,96,assets.cgSheet);
 	sprites.compLabBG = new StaticSprite("compLabBG",0,0,null,null,null,null,assets.compLabBG);
-	sprites.dialogBox = new StaticSprite("dialogBox",Stage.width+1,1000,null,null,null,null,assets.dialogBox,FG_DEPTHING);
-	dialoger.setBox(sprites.dialogBox);
 }
 
 function buildRooms(){
