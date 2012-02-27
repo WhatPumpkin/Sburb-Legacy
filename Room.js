@@ -20,12 +20,12 @@ function Room(name,width,height,walkable){
 		return false;
 	}
     this.setBGM = function(audioObj) {
-	this.bgm = audioObj;
+		this.bgm = audioObj;
     }
     this.initialize = function() {
-	// turn on BGM if any
-	changeBGM(this.bgm);
-	// do any script actions there might be
+		// turn on BGM if any
+		changeBGM(this.bgm);
+		// do any script actions there might be
     }
 	this.contains = function(sprite){
 		for(var i=0;i<this.sprites.length;i++){
@@ -90,7 +90,7 @@ function Room(name,width,height,walkable){
 	}
 	this.serialize = function(output){
 		output = output.concat("<Room name='"+this.name+"' width='"+this.width+"' height='"+this.height+"' walkable='"+this.walkable.name+
-								"' bgm='"+this.bgm.name+"'>");
+								"' bgm='"+this.bgm.asset.name+"' bgStart='"+this.bgm.asset.startLoop+"' bgPriority='"+this.bgm.priority+"'>");
 		for(var sprite in this.sprites){
 			output = this.sprites[sprite].serialize(output);
 		}

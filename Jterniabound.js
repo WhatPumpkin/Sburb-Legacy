@@ -164,8 +164,8 @@ function loadAssets(){
 	loadGraphicAsset("compLabBG","resources/comlab-background.gif");
 	loadGraphicAsset("compLabWalkable","resources/comlab-walkable.png");
 	loadGraphicAsset("dialogBox","resources/dialogBoxBig.png");
-    loadAudioAsset("karkatBGM",6.7, "resources/karkat.ogg", "resources/karkat.mp3");
-    loadAudioAsset("tereziBGM",1.9, "resources/terezi.ogg", "resources/terezi.mp3");
+    loadAudioAsset("karkatBGM", "resources/karkat.ogg", "resources/karkat.mp3");
+    loadAudioAsset("tereziBGM", "resources/terezi.ogg", "resources/terezi.mp3");
 	loadPathAsset("compLabWalkable",[{x:70,y:270},{x:800,y:270},{x:800,y:820},{x:70,y:820}]);
 	drawLoader();
 }
@@ -180,14 +180,14 @@ function loadGraphicAsset(name,path){
 	assetLoadStack.push(assets[name]);
 }
 
-function loadAudioAsset(name,loopPoint) {
+function loadAudioAsset(name) {
     assets[name] = new Audio();
     // no builtin onload function for audio
     assets[name].addEventListener('canplaythrough', popLoad);
     assets[name].name = name
     assets[name].type = "audio";
     assets[name].preload = true;
-    for (a=2; a < arguments.length; a++) {
+    for (a=1; a < arguments.length; a++) {
 	var tmp = document.createElement("source")
 	tmp.src = arguments[a];
 	assets[name].appendChild(tmp);
@@ -202,10 +202,6 @@ function loadAudioAsset(name,loopPoint) {
 						, false);
 		// do we need to have an end point? does that even make sense
     };
-    if(!loopPoint){
-    	loopPoint = 0;
-    }
-    assets[name].setLoopPoints(loopPoint);
     assetLoadStack.totalAssets++;
     assetLoadStack.push(assets[name])
 }

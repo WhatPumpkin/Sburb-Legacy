@@ -18,16 +18,10 @@ function serializeAssets(output){
 			
 			output = output.concat(curAsset.src.substring(curAsset.src.indexOf("resources/"),curAsset.src.length));
 		}else if(curAsset.type=="audio"){
-			for(thing in curAsset){
-				//output = output.concat(thing+":"+curAsset[thing]);
-			}
-			console.log(curAsset.innerHTML);
 			var sources = curAsset.innerHTML.split('"');
 			var s1 = sources[1];
 			var s2 = sources[3];
-			console.log(sources);
-			console.log(curAsset.startLoop);
-			output = output.concat(curAsset.startLoop+";"+s1+";"+s2);
+			output = output.concat(s1+";"+s2);
 
 		}else if(curAsset.type=="path"){
 			for(var i=0;i<curAsset.length;i++){
@@ -78,13 +72,11 @@ function loadSerialAssets(){
   		var type = attributes.getNamedItem("type").value;
   		var value = curAsset.firstChild.nodeValue;
   		if(type=="graphic"){
-  			//console.log(name);
-  			//console.log(value);
   			loadGraphicAsset(name,value);
   		}else if(type=="audio"){
   			var sources = value.split(";");
   			
-  			loadAudioAsset(name,sources[0],sources[1],sources[2]);
+  			loadAudioAsset(name,sources[0],sources[1]);
   		}else if(type=="path"){
   			var pts = value.split(";");
   			var path = new Array();
@@ -164,8 +156,11 @@ function loadSerialState(){
   								assets[attributes.getNamedItem("walkable").value]);
   		rooms[newRoom.name] = newRoom;
   		var bgm = attributes.getNamedItem("bgm").value;
+  		console.log(bgm);
   		if(bgm!="null"){
-  			newRoom.setBGM(assets[bgm]);
+  			var start = parseFloat(attributes.getNamedItem("bgStart").value);
+  			var priority = parseFloat(attributes.getNamedItem("bgPriority").value);
+  			newRoom.setBGM(new BGM(assets[bgm],start,priority));
   		}
   		var roomSprites = currRoom.getElementsByTagName("Sprite");
   		for(var j=0;j<roomSprites.length;j++){
