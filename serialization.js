@@ -210,7 +210,8 @@ function loadSerialState(input) {
   			newRoom.setBGM(new BGM(assets[bgm],start,priority));
   		}
   		serialLoadRoomSprites(newRoom,currRoom.getElementsByTagName("Sprite"));
-  		serialLoadRoomSprites(newRoom,currRoom.getElementsByTagName("Character"));	
+  		serialLoadRoomSprites(newRoom,currRoom.getElementsByTagName("Character"));
+	    serialLoadRoomMotion(newRoom, currRoom.getElementsByTagName("MotionPath"));
   	}
   	var rootInfo = input.attributes;
   	focus = char = sprites[rootInfo.getNamedItem("char").value];
@@ -267,4 +268,33 @@ function serialLoadRoomSprites(newRoom,roomSprites){
 			}
 		}
 	}
+}
+
+function serialLoadRoomMotion(newRoom, motionPaths) {
+    function parseMotion(attr) {
+	if(attr) {
+	    return parseInt(attr.value);
+	}
+	return 0;
+    }
+    for(var j=0;j<motionPaths.length;j++) {
+	node = motionPaths[j];
+	var path = assets[node.attributes.getNamedItem("path").value];
+	var left = node.getElementsByTagName("Left")[0];
+	var up = node.getElementsByTagName("Up")[0];
+	var ldx, ldy, udx, udy;
+	if(left) {
+	    ldx = parseMotion(left.attributes.getNamedItem("dx"));
+	    ldy = parseMotion(left.attributes.getNamedItem("dy"));
+	} else {
+	    ldx = ldy = 0;
+	}
+	if(up) {
+	    udx = parseMotion(up.attributes.getNamedItem("dx"));
+	    udy = parseMotion(up.attributes.getNamedItem("dy"));
+	} else {
+	    udx = udy = 0;
+	}
+	newRoom.addMotionPath(path, ldx, ldy, udx, udy);
+    }
 }

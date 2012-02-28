@@ -137,6 +137,10 @@ onkeydown = function(e){
 	}
 	pressed[e.keyCode] = true;
     // return true if we want to pass keys along to the browser, i.e. Ctrl-N for a new window
+    if(e.altKey || e.ctrlKey || e.metaKey) {
+	// don't muck with system stuff
+	return true;
+    }
     return false;
 }
 
