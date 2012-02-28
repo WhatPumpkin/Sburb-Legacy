@@ -36,6 +36,9 @@ function serializeAssets(output){
 	return output;
 }
 
+function purgeAssets() {
+    assetManager.purge();
+}
 function purgeState(){
 	if(updateLoop){
 		clearTimeout(updateLoop);
@@ -54,62 +57,93 @@ function purgeState(){
 	sprites = {};
 	pressed = new Array();
 	curRoom = null;
-	assetLoadStack = new Array();
-	assetLoadStack.totalAssets = 0;
 }
-function loadSerialWithAssets(serialText){
-	purgeState();
-    initFunction = function () {
-	loadSerialState(serialText);
-    };
-	loadSerialAssets(serialText);
+function loadSerialFromXML(file, savedStateID) {
+    if(window.ActiveXObject) {
+	var request = new ActiveXObject("MSXML2.XMLHTTP");
+    } else {
+	var request = new XMLHttpRequest();
+    }
+    request.open('GET', "levels/test1.xml", false);
+    try {
+	request.send(null);
+    } catch(err) {
+	console.log("If you are running Google Chrome, you need to run it with the -allow-file-access-from-files switch to load this.");
+	fi = document.getElementById("levelFile");
+	return;
+    }
+    if (request.status === 200 || request.status == 0) {  
+	loadSerial(request.responseText, savedStateID);
+    }
 }
-function loadSerialWithoutAssets(serialText){
-	purgeState();
-	loadSerialState(serialText);
+function loadLevelFile(node) {
+    if (!window.FileReader) {
+	alert("This browser doesn't support reading files");
+    }
+    oFReader = new FileReader();
+    if (node.files.length === 0) { return; }  
+    var oFile = node.files[0];
+    oFReader.onload = function() { loadSerial(this.result); };
+    oFReader.onerror = function(e) {console.log(e); }; // this should pop up an alert if googlechrome
+    oFReader.readAsText(oFile);
 }
 
-function loadSerialAssets(serialText){
-	var inText = serialText; //document.getElementById("serialText");
-	var parser=new DOMParser();
-  	var input=parser.parseFromString(inText,"text/xml");
-  	
+function loadSerial(serialText, sburbID) {
+    var inText = serialText; //document.getElementById("serialText");
+    var parser=new DOMParser();
+    var input=parser.parseFromString(inText,"text/xml");
+
+    if(sburbID) {
+	input = input.getElementById(sburbID);
+    } else {
   	input = input.documentElement;
-  	var newAssets = input.getElementsByTagName("Asset");
-  	for(var i=0;i<newAssets.length;i++){
-  		var curAsset = newAssets[i];
-  		var attributes = curAsset.attributes;
-  		var name = attributes.getNamedItem("name").value;
-  		var type = attributes.getNamedItem("type").value;
-  		var value = curAsset.firstChild.nodeValue;
-  		if(type=="graphic"){
-  			loadGraphicAsset(name,value);
-  		}else if(type=="audio"){
-  			var sources = value.split(";");
-  			
-  			loadAudioAsset(name,sources[0],sources[1]);
-  		}else if(type=="path"){
-  			var pts = value.split(";");
-  			var path = new Array();
-  			for(var j=0;j<pts.length;j++){
-  				var point = pts[j].split(",");
-  				path.push({x:parseInt(point[0]),y:parseInt(point[1])});
-  			}
-  			loadPathAsset(name,path);
-  		}
-  	}
-}
+    }
 
-function loadSerialState(serialText){
-	if(assetLoadStack.length!=0){
-		updateLoop=setTimeout('loadSerialState("'+serialText+'")',500);
-		return;
+    // should we assume that all assets with the same name
+    // have the same data? if so we don't need this next line
+    // purgeAssets(); 
+
+    purgeState();
+    var newAssets = input.getElementsByTagName("Asset");
+    for(var i=0;i<newAssets.length;i++){
+	var curAsset = newAssets[i];
+  	var attributes = curAsset.attributes;
+	var name = attributes.getNamedItem("name").value;
+	if (!assetManager.isLoaded(name)) {
+	    loadSerialAsset(curAsset);
 	}
-	var inText = serialText; //document.getElementById("serialText");
-	var parser=new DOMParser();
-  	var input=parser.parseFromString(inText,"text/xml");
-  	
-  	input = input.documentElement;
+    }
+    setTimeout(function() { loadSerialState(input) }, 500);
+}
+
+function loadSerialAsset(curAsset){
+    var attributes = curAsset.attributes;
+    var name = attributes.getNamedItem("name").value;
+    var type = attributes.getNamedItem("type").value;
+    var value = curAsset.firstChild.nodeValue;
+
+    if(type=="graphic"){
+  	assetManager.loadGraphicAsset(name,value);
+    } else if(type=="audio"){
+  	var sources = value.split(";");
+  	assetManager.loadAudioAsset(name,sources[0],sources[1]);
+    } else if(type=="path"){
+  	var pts = value.split(";");
+  	var path = new Array();
+  	for(var j=0;j<pts.length;j++){
+  	    var point = pts[j].split(",");
+  	    path.push({x:parseInt(point[0]),y:parseInt(point[1])});
+  	}
+  	assetManager.loadPathAsset(name,path);
+    }
+}
+
+function loadSerialState(input) {
+    if(!assetManager.finishedLoading()) {
+	updateLoop=setTimeout(function() { loadSerialState(input); } ,500);
+	return;
+    }
+
   	var newSprites = input.getElementsByTagName("Sprite");
   	for(var i=0;i<newSprites.length;i++){
   		var curSprite = newSprites[i];
@@ -193,8 +227,11 @@ function serialLoadRoomSprites(newRoom,roomSprites){
 		var curSprite = roomSprites[j];
 		var actualSprite = sprites[curSprite.attributes.getNamedItem("name").value];
 		newRoom.addSprite(actualSprite);
-		var newActions = curSprite.childNodes;
+	    var newActions = curSprite.childNodes;
 		for(var k=0;k<newActions.length;k++){
+		    if(newActions[k].nodeName == "#text") {
+			continue;
+		    }
 			if(newActions[k].attributes.getNamedItem("command")){
 				var curAction = newActions[k];
 				var attributes = curAction.attributes;

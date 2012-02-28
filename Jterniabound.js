@@ -6,7 +6,7 @@ var Stage; //the canvas, we're gonna load it up with a bunch of flash-like game 
 var stage; //its context
 var updateLoop;
 var pressed;
-var assetLoadStack;
+var assetManager;
 var assets;
 var sprites;
 var rooms;
@@ -19,7 +19,7 @@ var curAction;
 var bgm;
 
 var initFinished;
-var initFunction;
+var _hardcode_load;
 
 function initialize(){
 	Stage = document.getElementById("Stage");	
@@ -33,15 +33,17 @@ function initialize(){
 	
 	chooser = new Chooser();
 	dialoger = new Dialoger();
-	assets = {};
+    assetManager = new AssetManager();
+	assets = assetManager.assets; // shortcut for raw asset access
 	rooms = {};
 	sprites = {};
 	commands = {};
 	pressed = new Array();
 	buildCommands();
 	
-    loadSerialWithAssets(StateArchive.baseState);
-    //loadAssets(); // uncomment this line, to do a standard hardcode load
+    loadSerialFromXML("levels/test1.xml"); // comment out this line and
+    //loadAssets();                        // uncomment these two lines, to do a standard hardcode load
+    //_hardcode_load = 1;
 }
 
 function finishInit(){
@@ -147,7 +149,8 @@ function drawLoader(){
 	stage.fillRect(0,0,Stage.width,Stage.height);
 	stage.fillStyle = "rgb(200,0,0)"
 	stage.font="30px Arial";
-	stage.fillText("Loading Assets: "+(assetLoadStack.totalAssets-assetLoadStack.length)+"/"+assetLoadStack.totalAssets,100,200);
+    // stage.fillText("Loading Assets: "+(assetLoadStack.totalAssets-assetLoadStack.length)+"/"+assetLoadStack.totalAssets,100,200);
+    stage.fillText("Loading Assets: "+assetManager.totalLoaded+"/"+assetManager.totalAssets,100,200);
 }
 
 function handleInputs(){
@@ -166,63 +169,18 @@ function handleInputs(){
 	}
 }
 
+// old static function; makes inital room
 function loadAssets(){
-	assetLoadStack = new Array();
-	assetLoadStack.totalAssets = 0;
-	loadGraphicAsset("cgSheet","resources/CGsheetBig.png");
-	loadGraphicAsset("compLabBG","resources/comlab-background.gif");
-	loadGraphicAsset("dialogBox","resources/dialogBoxBig.png");
-    loadAudioAsset("karkatBGM", "resources/karkat.ogg", "resources/karkat.mp3");
-    loadAudioAsset("tereziBGM", "resources/terezi.ogg", "resources/terezi.mp3");
-	loadPathAsset("compLabWalkable",[{x:70,y:270},{x:800,y:270},{x:800,y:820},{x:70,y:820}]);
+	assetManager.loadGraphicAsset("cgSheet","resources/CGsheetBig.png");
+	assetManager.loadGraphicAsset("compLabBG","resources/comlab-background.gif");
+	assetManager.loadGraphicAsset("dialogBox","resources/dialogBoxBig.png");
+    assetManager.loadAudioAsset("karkatBGM", "resources/karkat.ogg", "resources/karkat.mp3");
+    assetManager.loadAudioAsset("tereziBGM", "resources/terezi.ogg", "resources/terezi.mp3");
+	assetManager.loadPathAsset("compLabWalkable",[{x:70,y:270},{x:800,y:270},{x:800,y:820},{x:70,y:820}]);
 	drawLoader();
 }
 
-function loadGraphicAsset(name,path){
-	assets[name] = new Image();
-	assets[name].src = path;
-	assets[name].onload = popLoad;
-	assets[name].type = "graphic";
-	assets[name].name = name;
-	assetLoadStack.totalAssets++;
-	assetLoadStack.push(assets[name]);
-}
 
-function loadAudioAsset(name) {
-    assets[name] = new Audio();
-    // no builtin onload function for audio
-    assets[name].addEventListener('canplaythrough', popLoad);
-    assets[name].name = name
-    assets[name].type = "audio";
-    assets[name].preload = true;
-    for (a=1; a < arguments.length; a++) {
-	var tmp = document.createElement("source")
-	tmp.src = arguments[a];
-	assets[name].appendChild(tmp);
-    }
-    assetLoadStack.totalAssets++;
-    assetLoadStack.push(assets[name])
-}
-
-function loadPathAsset(name,path){
-	assets[name] = path;
-	assets[name].name = name;
-	assets[name].type = "path";
-}
-
-function popLoad(){
-	assetLoadStack.pop();
-	drawLoader();
-	if(assetLoadStack.length==0 && !initFinished){
-	    if(initFunction) {
-		initFunction();
-	    } else {
-		// only really here to work for old hard-loading
-		finishInit();
-	    }
-	    initFinished = true;
-	}
-}
 
 function buildSprites(){
 	sprites.karkat = new Character("karkat",300,501,45,21,-36,-87,66,96,assets.cgSheet);
@@ -341,7 +299,7 @@ function changeBGM(newSong) {
 function checkBGMLoop() {
     // this is just until we can figure out if Chrome loops things
     // or is just broken?
-    if(bgm.ended()) {
+    if(bgm && bgm.ended()) {
 		bgm.loop();
     }
     setTimeout("checkBGMLoop()", 100);
