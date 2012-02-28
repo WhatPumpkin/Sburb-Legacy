@@ -48,9 +48,6 @@ function Character(name,x,y,width,height,sx,sy,sWidth,sHeight,sheet){
 	this.idle = function(){
 		this.startAnimation("idle"+this.facing);
 	}
-    this.setBGM = function(audioObj) {
-	this.bgm = audioObj;
-    }
 
 	this.becomeNPC = function(){
 		this.animations.walkFront.frameInterval = 12;
@@ -64,9 +61,6 @@ function Character(name,x,y,width,height,sx,sy,sWidth,sHeight,sheet){
 		this.animations.walkBack.frameInterval = 4;
 		this.animations.walkLeft.frameInterval = 4;
 		this.animations.walkRight.frameInterval = 4;
-	    if(this.bgm) {
-		changeBGM(this.bgm);
-	    }
 	}
 	
 	this.serialize = function(output){

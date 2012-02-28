@@ -4,7 +4,6 @@ function Room(name,width,height,walkable){
 	this.sprites = new Array();
 	this.walkable = walkable;
 	this.name = name;
-	this.bgm = null;
     this.motionPaths = new Array();
 	
 	this.addSprite = function(sprite){
@@ -20,9 +19,6 @@ function Room(name,width,height,walkable){
 		}
 		return false;
 	}
-    this.setBGM = function(audioObj) {
-		this.bgm = audioObj;
-    }
     this.addMotionPath = function(path, ldx, ldy, udx, udy) {
 	var motionPath = new function (){
 	    this.path = path;
@@ -32,9 +28,9 @@ function Room(name,width,height,walkable){
 	this.motionPaths.push(motionPath);
     }
     this.initialize = function() {
-		// turn on BGM if any
-		changeBGM(this.bgm);
-		// do any script actions there might be
+	// do we need this method anymore?
+	// chained actions might make this obsolete
+	return;
     }
 	this.contains = function(sprite){
 		for(var i=0;i<this.sprites.length;i++){
@@ -136,7 +132,7 @@ function Room(name,width,height,walkable){
     }
 	this.serialize = function(output){
 		output = output.concat("<Room name='"+this.name+"' width='"+this.width+"' height='"+this.height+"' walkable='"+this.walkable.name+
-								"' bgm='"+this.bgm.asset.name+"' bgStart='"+this.bgm.asset.startLoop+"' bgPriority='"+this.bgm.priority+"'>");
+				       "'>");
 		for(var sprite in this.sprites){
 			output = this.sprites[sprite].serialize(output);
 		}

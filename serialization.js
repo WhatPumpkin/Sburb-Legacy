@@ -139,6 +139,7 @@ function loadSerialAsset(curAsset){
 }
 
 function loadSerialState(input) {
+    // this is more or less this init function for a game
     if(!assetManager.finishedLoading()) {
 	updateLoop=setTimeout(function() { loadSerialState(input); } ,500);
 	return;
@@ -203,12 +204,6 @@ function loadSerialState(input) {
   								parseInt(attributes.getNamedItem("height").value),
   								assets[attributes.getNamedItem("walkable").value]);
   		rooms[newRoom.name] = newRoom;
-  		var bgm = attributes.getNamedItem("bgm").value;
-  		if(bgm!="null"){
-  			var start = parseFloat(attributes.getNamedItem("bgStart").value);
-  			var priority = parseFloat(attributes.getNamedItem("bgPriority").value);
-  			newRoom.setBGM(new BGM(assets[bgm],start,priority));
-  		}
   		serialLoadRoomSprites(newRoom,currRoom.getElementsByTagName("Sprite"));
   		serialLoadRoomSprites(newRoom,currRoom.getElementsByTagName("Character"));
 	    serialLoadRoomMotion(newRoom, currRoom.getElementsByTagName("MotionPath"));
@@ -220,7 +215,21 @@ function loadSerialState(input) {
   	curRoom.initialize();
   	sprites.dialogBox = new StaticSprite("dialogBox",Stage.width+1,1000,null,null,null,null,assets.dialogBox,FG_DEPTHING);
   	dialoger.setBox(sprites.dialogBox);
-  	update(0);
+    var initAction;
+    for(var i=0; i<input.childNodes.length; i++) {
+	var tmp = input.childNodes[i];
+	if(tmp.tagName=="Action") {
+	    initAction = parseXMLAction(tmp);
+	    continue;
+	}
+    }
+    if(initAction) {
+	curAction = initAction;
+	performAction(curAction);
+	console.log(initAction);
+    }
+
+    update(0);
 }
 
 function serialLoadRoomSprites(newRoom,roomSprites){
@@ -228,44 +237,15 @@ function serialLoadRoomSprites(newRoom,roomSprites){
 		var curSprite = roomSprites[j];
 		var actualSprite = sprites[curSprite.attributes.getNamedItem("name").value];
 		newRoom.addSprite(actualSprite);
-	    var newActions = curSprite.childNodes;
+	        var newActions = curSprite.childNodes;
 		for(var k=0;k<newActions.length;k++){
 		    if(newActions[k].nodeName == "#text") {
 			continue;
 		    }
-			if(newActions[k].attributes.getNamedItem("command")){
-				var curAction = newActions[k];
-				var attributes = curAction.attributes;
-				var targSprite;
-				if(attributes.getNamedItem("sprite").value=="null"){
-					targSprite = null;
-				}else{
-					targSprite = sprites[attributes.getNamedItem("sprite").value];
-				}
-				var newAction = new Action(attributes.getNamedItem("name").value,
-											attributes.getNamedItem("command").value,
-											curAction.firstChild.nodeValue,
-											targSprite);
-				actualSprite.addAction(newAction);
-			
-				while(curAction.getElementsByTagName("Action").length>0){
-					var oldAction = newAction;
-					var subAction = curAction.getElementsByTagName("Action")[0];
-					var attributes = subAction.attributes;
-					var targSprite;
-					if(attributes.getNamedItem("sprite").value=="null"){
-						targSprite = null;
-					}else{
-						targSprite = sprites[attributes.getNamedItem("sprite").value];
-					}
-					var newAction = new Action(attributes.getNamedItem("name").value,
-												attributes.getNamedItem("command").value,
-												subAction.firstChild.nodeValue,
-												targSprite);
-					oldAction.followUp = newAction;
-					curAction = subAction;
-				}
-			}
+		    if(newActions[k].attributes.getNamedItem("command")){
+			var newAction = parseXMLAction(newActions[k]);
+			actualSprite.addAction(newAction);
+		    }
 		}
 	}
 }
