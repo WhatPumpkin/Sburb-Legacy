@@ -1,6 +1,8 @@
 //no dependencies
-function Animation(name,sheet,colSize,rowSize,startPos,length,frameInterval){
+function Animation(name,sheet,sx,sy,colSize,rowSize,startPos,length,frameInterval){
 	this.sheet = sheet;
+	this.sx = sx;
+	this.sy = sy;
 	this.rowSize = rowSize;
 	this.colSize = colSize;
 	this.startPos = startPos;
@@ -13,7 +15,6 @@ function Animation(name,sheet,colSize,rowSize,startPos,length,frameInterval){
 	this.name = name;
 	
 	this.update = function(elapsedTime){
-		//alert(this.numRows+" "+this.numCols);
 		this.curInterval += elapsedTime;
 		while(this.curInterval>this.frameInterval){
 			this.curInterval-=this.frameInterval;
@@ -23,6 +24,8 @@ function Animation(name,sheet,colSize,rowSize,startPos,length,frameInterval){
 	
 	
 	this.draw = function(x,y){
+		x+=this.sx;
+		y+=this.sy;
 		var colNum = (this.startPos+this.curFrame)%this.numCols;
 		var rowNum = Math.floor((this.startPos+this.curFrame-colNum)/this.numRows);
 		var frameX = colNum*this.colSize;

@@ -285,19 +285,21 @@ function setCurRoomOf(sprite){
 }
 
 function changeBGM(newSong) {
-    if(bgm) {
-		if (bgm.priority > newSong.priority) {
-			return;
+	if(newSong){
+		if(bgm) {
+			if (bgm.priority > newSong.priority) {
+				return;
+			}
+			if (bgm == newSong) {
+				// maybe check for some kind of restart value
+				return;
+			}
+			bgm.stop();
 		}
-		if (bgm == newSong) {
-			// maybe check for some kind of restart value
-			return;
-		}
-		bgm.stop();
+		bgm = newSong;
+		bgm.play();
+		setTimeout("checkBGMLoop()", 100);
     }
-    bgm = newSong;
-    bgm.play();
-    setTimeout("checkBGMLoop()", 100);
 }
 
 function checkBGMLoop() {

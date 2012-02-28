@@ -153,8 +153,6 @@ function loadSerialState(input) {
   									parseInt(attributes.getNamedItem("y").value),
   									parseInt(attributes.getNamedItem("width").value),
   									parseInt(attributes.getNamedItem("height").value),
-  									parseInt(attributes.getNamedItem("sx").value),
-  									parseInt(attributes.getNamedItem("sy").value),
   									parseInt(attributes.getNamedItem("dx").value),
   									parseInt(attributes.getNamedItem("dy").value),
   									parseInt(attributes.getNamedItem("depthing").value),
@@ -167,6 +165,8 @@ function loadSerialState(input) {
   			var attributes = curAnim.attributes;
   			var newAnim = new Animation(attributes.getNamedItem("name").value,
   										assets[attributes.getNamedItem("sheet").value],
+  										parseInt(attributes.getNamedItem("sx").value),
+  										parseInt(attributes.getNamedItem("sy").value),
   										parseInt(attributes.getNamedItem("colSize").value),
   										parseInt(attributes.getNamedItem("rowSize").value),
   										parseInt(attributes.getNamedItem("startPos").value),
