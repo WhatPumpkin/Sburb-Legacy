@@ -1,5 +1,17 @@
 <SBURB curRoom='baseRoom' char='karkat' id='level1'>
+  <Asset name='aaSheet' type='graphic'>resources/AAsheetBig.png</Asset>
+  <Asset name='acSheet' type='graphic'>resources/ACsheetBig.png</Asset>
+  <Asset name='agSheet' type='graphic'>resources/AGsheetBig.png</Asset>
+  <Asset name='atSheet' type='graphic'>resources/ATsheetBig.png</Asset>
+  <Asset name='caSheet' type='graphic'>resources/CAsheetBig.png</Asset>
   <Asset name='cgSheet' type='graphic'>resources/CGsheetBig.png</Asset>
+  <Asset name='ctSheet' type='graphic'>resources/CTsheetBig.png</Asset>
+  <Asset name='ccSheet' type='graphic'>resources/CCsheetBig.png</Asset>
+  <Asset name='gaSheet' type='graphic'>resources/GAsheetBig.png</Asset>
+  <Asset name='gcSheet' type='graphic'>resources/GCsheetBig.png</Asset>
+  <Asset name='taSheet' type='graphic'>resources/TAsheetBig.png</Asset>
+  <Asset name='tcSheet' type='graphic'>resources/TCsheetBig.png</Asset>
+    
   <Asset name='compLabBG' type='graphic'>resources/comlab-background.gif</Asset>
   <Asset name='dialogBox' type='graphic'>resources/dialogBoxBig.png</Asset>
   <Asset name='karkatBGM' type='audio'>resources/karkat.ogg;resources/karkat.mp3</Asset>
@@ -7,13 +19,24 @@
   <Asset name='compLabWalkable' type='path'>70,270;800,270;800,820;70,820</Asset>
   <Asset name='compLabStairs' type='path'>400,400;800,400;800,700;400,700</Asset>
   <Room name='baseRoom' width='861' height='909' walkable='compLabWalkable' bgm='karkatBGM' bgStart='6.7' bgPriority='0'>
-    <Character name='karkat' x='300' y='501' sx='-36' sy='-87' sWidth='66' sHeight='96' width='45' height='21' 
+    <Character name='karkat' x='300' y='501' sx='-36' sy='-87' sWidth='66' sHeight='96' width='48' height='21' 
 	       sheet='cgSheet' state='walkFront' facing='Front'>
       <Action sprite='null' name='swap' command='changeChar'>karkat</Action>
     </Character>
-
-    <Character name='karclone' x='201' y='399' sx='-36' sy='-87' sWidth='66' sHeight='96' width='45' height='21'
-	       sheet='cgSheet' state='walkFront' facing='Front'>
+    <Character name='tavros' x='600' y='501' sx='-51' sy='-75' sWidth='102' sHeight='84' width='55' height='21' 
+	       sheet='atSheet' state='walkFront' facing='Front'>
+      <Action sprite='null' name='swap' command='changeChar'>tavros</Action>
+    </Character>
+    <Character name='vriska' x='600' y='666' sx='-36' sy='-75' sWidth='69' sHeight='87' width='48' height='21' 
+	       sheet='agSheet' state='walkRight' facing='Right'>
+      <Action sprite='null' name='swap' command='changeChar'>vriska</Action>
+    </Character>
+    <Character name='aradia' x='300' y='666' sx='-36' sy='-75' sWidth='72' sHeight='87' width='48' height='21' 
+	       sheet='aaSheet' state='walkLeft' facing='Left'>
+      <Action sprite='null' name='swap' command='changeChar'>aradia</Action>
+    </Character>
+    <Character name='terezi' x='201' y='401' sx='-45' sy='-72' sWidth='93' sHeight='93' width='55' height='21' 
+	       sheet='gcSheet' state='walkFront' facing='Front'>
       <Action sprite='null' name='talk' command='talk'>@CGAngry Lorem ipsum
 
 dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit
@@ -27,10 +50,10 @@ est
 laborum. @CGAngry hehehe @CGAngry whaaaat
       </Action>
       <Action sprite='null' name='change room' command='changeRoom'>cloneRoom,300,300</Action>
-      <Action sprite='null' name='swap' command='changeChar'>karclone</Action>
+      <Action sprite='null' name='swap' command='changeChar'>terezi</Action>
       <Action sprite='null' name='T3R3Z1 TH3M3 4LL D4Y' command='playSong'>
-	tereziBGM, 1.9, 2
-	<Action sprite='null' name='talk' command='talk'>@! Nice choice!</Action>
+		tereziBGM, 1.9, 2
+		<Action sprite='null' name='talk' command='talk'>@! Nice choice!</Action>
       </Action>
     </Character>
     <Sprite name='compLabBG' x='0' y='0' sx='0' sy='0' dx='0' dy='0' width='861' height='909' 
@@ -39,10 +62,11 @@ laborum. @CGAngry hehehe @CGAngry whaaaat
     </Sprite>
   </Room>
   <Room name='cloneRoom' width='861' height='909' walkable='compLabWalkable' bgm='tereziBGM' bgStart='1.9' bgPriority='1'>
-    <Character name='karclone2' x='501' y='399' sx='-36' sy='-87' sWidth='66' sHeight='96' width='45' height='21' sheet='cgSheet' state='walkFront' facing='Front'>
+    <Character name='sollux' x='501' y='399' sx='-33' sy='-78' sWidth='63' sHeight='81' width='42' height='21'
+    	 sheet='taSheet' state='walkFront' facing='Front'>
       <Action sprite='null' name='talk' command='talk'>@! blahblahblah</Action>
       <Action sprite='null' name='change room' command='changeRoom'>baseRoom,300,300</Action>
-      <Action sprite='null' name='swap' command='changeChar'>karclone2</Action>
+      <Action sprite='null' name='swap' command='changeChar'>sollux</Action>
     </Character>
     <Sprite name='compLabBG' x='0' y='0' sx='0' sy='0' dx='0' dy='0' width='861' height='909' depthing='0' collidable='false' state='image'>
       <Animation name='image' sheet='compLabBG' rowSize='909' colSize='861' startPos='0' length='1' frameInterval='1' />
