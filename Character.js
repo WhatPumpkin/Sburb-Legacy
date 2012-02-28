@@ -1,7 +1,7 @@
 //requires Sprite.js, inheritance.js
 
 function Character(name,x,y,width,height,sx,sy,sWidth,sHeight,sheet){
-	inherit(this,new Sprite(name,x,y,width,height,sx,sy,null,null,MG_DEPTHING,true));
+	inherit(this,new Sprite(name,x,y,width,height,null,null,MG_DEPTHING,true));
 
 	this.speed = 9;
 	this.facing = "Front";
@@ -10,14 +10,14 @@ function Character(name,x,y,width,height,sx,sy,sWidth,sHeight,sheet){
 	sWidth = typeof sWidth == "number" ? sWidth : width;
 	sHeight = typeof sHeight == "number" ? sHeight : height;
 
-	this.addAnimation(new Animation("idleFront",sheet,sWidth,sHeight,0,1,2));
-	this.addAnimation(new Animation("idleRight",sheet,sWidth,sHeight,1,1,2));
-	this.addAnimation(new Animation("idleBack",sheet,sWidth,sHeight,2,1,2));
-	this.addAnimation(new Animation("idleLeft",sheet,sWidth,sHeight,3,1,2));
-	this.addAnimation(new Animation("walkFront",sheet,sWidth,sHeight,4,2,4));
-	this.addAnimation(new Animation("walkRight",sheet,sWidth,sHeight,6,2,4));
-	this.addAnimation(new Animation("walkBack",sheet,sWidth,sHeight,8,2,4));
-	this.addAnimation(new Animation("walkLeft",sheet,sWidth,sHeight,10,2,4));
+	this.addAnimation(new Animation("idleFront",sheet,sx,sy,sWidth,sHeight,0,1,2));
+	this.addAnimation(new Animation("idleRight",sheet,sx,sy,sWidth,sHeight,1,1,2));
+	this.addAnimation(new Animation("idleBack",sheet,sx,sy,sWidth,sHeight,2,1,2));
+	this.addAnimation(new Animation("idleLeft",sheet,sx,sy,sWidth,sHeight,3,1,2));
+	this.addAnimation(new Animation("walkFront",sheet,sx,sy,sWidth,sHeight,4,2,4));
+	this.addAnimation(new Animation("walkRight",sheet,sx,sy,sWidth,sHeight,6,2,4));
+	this.addAnimation(new Animation("walkBack",sheet,sx,sy,sWidth,sHeight,8,2,4));
+	this.addAnimation(new Animation("walkLeft",sheet,sx,sy,sWidth,sHeight,10,2,4));
 
 	this.startAnimation("walkFront");
 
@@ -64,9 +64,10 @@ function Character(name,x,y,width,height,sx,sy,sWidth,sHeight,sheet){
 	}
 	
 	this.serialize = function(output){
-		output = output.concat("<Character name='"+this.name+"' x='"+this.x+"' y='"+this.y+"' sx='"+this.sx+"' sy='"+this.sy+
-									"' sWidth='"+this.animations.walkFront.colSize+
-									"' sHeight='"+this.animations.walkFront.rowSize+"' width='"+this.width+"' height='"+this.height+
+		output = output.concat("<Character name='"+this.name+"' x='"+this.x+"' y='"+this.y+
+									"' sx='"+this.animations.walkFront.sx+"' sy='"+this.animations.walkFront.sy+
+									"' sWidth='"+this.animations.walkFront.colSize+ "' sHeight='"+this.animations.walkFront.rowSize+
+									"' width='"+this.width+"' height='"+this.height+
 									"' sheet='"+this.animations.walkFront.sheet.name+"' state='"+this.state+"' facing='"+this.facing+"'>");
 		//for(var anim in this.animations){
 		//	output = this.animations[anim].serialize(output);

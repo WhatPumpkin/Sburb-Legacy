@@ -281,18 +281,21 @@ function setCurRoomOf(sprite){
 }
 
 function changeBGM(newSong) {
-    if(bgm) {
-	// should we check to see if they have the same name
-	// instead of the same song
-		if (bgm == newSong) {
-			// maybe check for some kind of restart value
-			return;
-		}
-		bgm.stop();
+    if(newSong){
+	if(bgm) {
+	    if (bgm.priority > newSong.priority) {
+		return;
+	    }
+	    if (bgm == newSong) {
+		// maybe check for some kind of restart value
+		return;
+	    }
+	    bgm.stop();
+	}
+	bgm = newSong;
+	bgm.play();
+	setTimeout("checkBGMLoop()", 100);
     }
-    bgm = newSong;
-    bgm.play();
-    setTimeout("checkBGMLoop()", 100);
 }
 
 function checkBGMLoop() {
