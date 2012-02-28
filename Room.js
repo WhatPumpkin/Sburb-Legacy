@@ -5,6 +5,7 @@ function Room(name,width,height,walkable){
 	this.walkable = walkable;
 	this.name = name;
 	this.bgm = null;
+    this.motionPaths = new Array();
 	
 	this.addSprite = function(sprite){
 		this.sprites.push(sprite);
@@ -21,6 +22,14 @@ function Room(name,width,height,walkable){
 	}
     this.setBGM = function(audioObj) {
 		this.bgm = audioObj;
+    }
+    this.addMotionPath = function(path, ldx, ldy, udx, udy) {
+	var motionPath = new function (){
+	    this.path = path;
+	    this.ldx = ldx; this.ldy = ldy;
+	    this.udx = udx; this.udy = udy;
+	};
+	this.motionPaths.push(motionPath);
     }
     this.initialize = function() {
 		// turn on BGM if any
@@ -88,6 +97,43 @@ function Room(name,width,height,walkable){
 		stage.restore();
 		return result;
 	}
+    this.getMoveFunction = function(x, y) {
+	var result;
+	for(i=0; i<this.motionPaths.length; i++) {
+	    var motionPath = this.motionPaths[i];
+	    var path = motionPath.path;
+	    stage.save();
+	    stage.beginPath();
+	    stage.moveTo(path[0].x, path[0].y);
+	    for(var j=1;j<path.length;j++) {
+		stage.lineTo(path[j].x, path[j].y);
+	    }
+	    if(stage.isPointInPath(x, y)) {
+		result = function(ax, ay) {
+		    if(ax < 0) {
+			ax += motionPath.ldx;
+			ay += motionPath.ldy;
+		    }
+		    if(ax > 0) {
+			ax -= motionPath.ldx;
+			ay -= motionPath.ldy;
+		    }
+		    if(ay < 0) {
+			ax += motionPath.udx;
+			ay += motionPath.udy;
+		    }
+		    if(ay > 0) {
+			ax -= motionPath.udx;
+			ay -= motionPath.udy;
+		    }
+		    return [ax, ay];
+		};
+	    }
+	    stage.restore();
+	}
+	// overlapping stairs? shouldnt happen
+	return result;
+    }
 	this.serialize = function(output){
 		output = output.concat("<Room name='"+this.name+"' width='"+this.width+"' height='"+this.height+"' walkable='"+this.walkable.name+
 								"' bgm='"+this.bgm.asset.name+"' bgStart='"+this.bgm.asset.startLoop+"' bgPriority='"+this.bgm.priority+"'>");
