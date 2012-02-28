@@ -1,6 +1,5 @@
 function BGM(asset, startLoop, priority) {
     this.asset = asset;
-    this.priority = priority ? priority : 0;
     this.setLoopPoints = function(start, end) {
 	tmpAsset = this.asset
 	tmpAsset.addEventListener('ended', function() {
