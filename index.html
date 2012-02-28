@@ -16,7 +16,7 @@
 		<script type="text/javascript" src="Dialoger.js"></script>
 		<script type="text/javascript" src="Chooser.js"></script>
 		<script type="text/javascript" src="Audio.js"></script>
-		<script type="text/javascript" src="savedStates.js"></script>
+		<script type="text/javascript" src="Assets.js"></script>
 		
 		<style type="text/css">
 			canvas {
@@ -50,9 +50,10 @@
 				<div style="display:table-cell;width:33%;height:450px;min-width:0px;" >
 					<textarea id="serialText"></textarea><br/>
 					<button id="saveState" onclick="serialize()">save state</button>
-					<button id="loadAssetState" onclick="loadSerialWithAssets(document.getElementById('serialText').value)">
-					load assets+state</button>
-					<button id="loadState" onclick="loadSerialWithoutAssets(document.getElementById('serialText').value)">load state</button>
+					<button id="loadState" onclick="loadSerial(document.getElementById('serialText').value)">load state</button>
+					<br />
+					<input type="file" name="level" id="levelFile" />
+					<button id="loadLevelFile" onclick="loadLevelFile(document.getElementById('levelFile'))">load level</button>
 				</div>
 				
 				<!-- Center cell. Canvas -->
@@ -66,7 +67,5 @@
 				
 			</div>
 		</div>
-
-		
 	</body>
 </html>

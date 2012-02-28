@@ -50,40 +50,40 @@ function Sprite(name,x,y,width,height,sx,sy,dx,dy,depthing,collidable){
 	}
 	
 	this.collides = function(other){
-		if(other.collidable){
-			if(this.x-this.width/2<other.x+other.width/2){
-				if(this.x+this.width/2>other.x-other.width/2){
-					if(this.y-this.height/2<other.y+other.height/2){
-						if(this.y+this.height/2>other.y-other.height/2){
-							return true;
-						}
-					}
-				}
-			}
+	    if(other.collidable){
+		if( (this.x-this.width/2<other.x+other.width/2) &&
+		    (this.x+this.width/2>other.x-other.width/2) &&
+		    (this.y-this.height/2<other.y+other.height/2) &&
+		    (this.y+this.height/2>other.y-other.height/2) ) {
+		    return true;
 		}
-		return false;
+	    }
+	    return false;
 	}
 	this.hitsPoint = function(x,y){
-		if(this.x-this.width/2 <=x){
-			if(this.x+this.width/2 >=x){
-				if(this.y-this.height/2 <=y){
-					if(this.y+this.height/2 >=y){
-						return true;
-					}
-				}
-			}
-		}
-		return false;
+	    if( (this.x-this.width/2 <=x) &&
+		(this.x+this.width/2 >=x) &&
+		(this.y-this.height/2 <=y) &&
+		(this.y+this.height/2 >=y) ) {
+		return true;
+	    }
+	    return false;
 	}
 	
 	this.tryToMove = function(vx,vy,room){
-		var i;
+	    var i;
+	    var moveMap = room.getMoveFunction(this.x, this.y);
+	    if(moveMap) {
+		l = moveMap(vx, vy);
+		vx = l[0];
+		vy = l[1];
+	    }
 		this.x += vx;
 		this.y += vy;
 		if(this.collidable){
 			for(i=0;i<room.sprites.length;i++){
 				if(room.sprites[i]!=this){
-					if(this.collides(room.sprites[i])){
+				    if(this.collides(room.sprites[i])){
 						this.x -=vx;
 						this.y -=vy;
 						return false;
