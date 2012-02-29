@@ -18,7 +18,7 @@ changeCharCommand = function(info){
 playSongCommand = function(info){
 	var params = info.split(",");
     params = params.map(function(s) { return s.trim(); });
-	changeBGM(new BGM(assets[params[0]],parseFloat(params[1]),parseFloat(params[2])));
+    changeBGM(new BGM(assets[params[0]],parseFloat(params[1])));
 }
 
 cancelCommand = function(){
