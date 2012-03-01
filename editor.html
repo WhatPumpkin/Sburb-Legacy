@@ -1,0 +1,48 @@
+<html>
+	<head>
+		
+		<script type="text/javascript" src="editor/Editor.js"></script>
+		<script type="text/javascript" src="editor/EditAssets.js"></script>
+		<script type="text/javascript" src="editor/Display.js"></script>
+		<script type="text/javascript" src="serialization.js"></script>
+		<script type="text/javascript" src="Assets.js"></script>
+		<!--
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+		-->
+		<script type="text/javascript" src="editor/jquery.min.js"></script>
+
+		<link rel="stylesheet" type="text/css" href="editor/main.css" />
+	</head>
+	<body onload="editMode()">
+		<!-- Table! -->
+		<table id="maintable">
+			<tr id="tablerow">
+				<td id="leftside">
+				  <div id="leftmenu">
+				    
+				  </div>
+				</td>
+				<td id="mainDisplayCell">
+				  <div id="mainDisplay">
+				    
+				  </div>
+				</td>
+				
+				<!-- Right cell. basically padding... FOR NOW............ -->
+				<td id="rightside">
+				  <div id="mainmenu">
+				  </div>
+				</td>
+
+			</tr>
+		</table>
+		<div id="loadText">
+		  <textarea id="serialText"></textarea><br/>
+		  <button id="saveState" onclick="">save state</button>
+		  <button id="loadState" onclick="">load state</button>
+		  <br />
+		  <input type="file" name="level" id="levelFile" />
+		  <button id="loadLevelFile" onclick="editLevelFile(document.getElementById('levelFile'))">load level</button>
+		</div>
+	</body>
+</html>

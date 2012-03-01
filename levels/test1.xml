@@ -14,14 +14,14 @@
     
   <Asset name='compLabBG' type='graphic'>resources/comlab-background.gif</Asset>
   <Asset name='dialogBox' type='graphic'>resources/dialogBoxBig.png</Asset>
- <!-- <Asset name='karkatBGM' type='audio'>resources/karkat.ogg;resources/karkat.mp3</Asset>
-  <Asset name='tereziBGM' type='audio'>resources/terezi.ogg;resources/terezi.mp3</Asset> -->
+  <Asset name='karkatBGM' type='audio'>resources/karkat.ogg;resources/karkat.mp3</Asset>
+  <Asset name='tereziBGM' type='audio'>resources/terezi.ogg;resources/terezi.mp3</Asset>
   <Asset name='compLabWalkable' type='path'>70,270;800,270;800,820;70,820</Asset>
   <Asset name='compLabStairs' type='path'>400,400;800,400;800,700;400,700</Asset>
   <Action sprite='null' name='startGame' command='talk'>@! MEANWHILE, IN THE HALL OF JUSTICE...
-    <!-- <Action sprite='null' name='introMusic' command='playSong'>
+    <Action sprite='null' name='introMusic' command='playSong'>
       karkatBGM, 6.7 
-    </Action> -->
+    </Action>
   </Action> 
   
   <Room name='baseRoom' width='861' height='909' walkable='compLabWalkable'>
@@ -57,11 +57,9 @@ laborum. @CGAngry hehehe @CGAngry whaaaat
       </Action>
       <Action sprite='null' name='change room' command='changeRoom'>
 	cloneRoom,300,300
-<!--
 	<Action sprite='null' name='T3R3Z1 TH3M3 4LL D4Y' command='playSong'>
 	  tereziBGM, 1.9
 	</Action>
--->
       </Action>
       <Action sprite='null' name='swap' command='changeChar'>terezi</Action>
     </Character>
@@ -76,11 +74,9 @@ laborum. @CGAngry hehehe @CGAngry whaaaat
       <Action sprite='null' name='talk' command='talk'>@! blahblahblah</Action>
       <Action sprite='null' name='change room' command='changeRoom'>
 baseRoom,300,300
-<!--
 	<Action sprite='null' name='T3R3Z1 TH3M3' command='playSong'>
 	  karkatBGM, 6.7
 	</Action>
--->
       </Action>
       <Action sprite='null' name='swap' command='changeChar'>sollux</Action>
     </Character>

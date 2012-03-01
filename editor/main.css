@@ -1,0 +1,80 @@
+canvas {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    width:650px;
+    height:450px;
+}
+#maintable {
+    height:450px;
+    width:100%;
+}
+#leftside {
+    height:450px;
+    width:350px;
+    border: 1px solid black;
+}
+#mainDisplayCell {
+    width:650px;
+    height:450px;
+    border: 1px solid red;
+}
+#mainDisplay {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
+#rightside {
+    height:450px;
+    width:350px;
+}
+#mainmenu {
+    height:450px;
+    overflow: auto;
+}
+#loadText {
+    width:100%;
+}
+#serialText {
+    height: 100px;
+    width: 95%;
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    resize:none;
+}
+
+.assetTag {
+    position:relative;
+    border: solid black 1px;
+    padding: 3px;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#cccccc', endColorstr='#eeeeee'); 
+    background: -webkit-gradient(linear, left top, left bottom, from(#ccc), to(#eee));
+    background: -moz-linear-gradient(top,  #ccc,  #eee);
+}
+.assetInfo {
+
+}
+.thumbDiv {
+    float: left;
+}
+.thumbDiv img {
+    width: 50px;
+}
+.assetType {
+}
+.assetName {
+    font-weight: bold;
+    padding: 3px;
+}
+.assetLoaded {
+    position:absolute;
+    right: 30px;
+    top: 20px;
+}
+.assetSource {
+    clear: both;
+}
