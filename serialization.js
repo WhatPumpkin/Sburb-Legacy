@@ -117,16 +117,30 @@ function loadSerial(serialText, sburbID) {
 }
 
 function loadSerialAsset(curAsset){
+    var newAsset = parseSerialAsset(curAsset);
+    assetManager.loadAsset(newAsset);
+/*
+    if(newAsset.type == "graphic") {
+	assetManager.loadGraphicAsset(newAsset);
+    } else if(newAsset.type == "audio") {
+	assetManager.loadAudioAsset(newAsset);
+    } else if(newAsset.type == "path") {
+	assetManager.loadPathAsset(newAsset);
+    }
+*/
+}
+function parseSerialAsset(curAsset) {
     var attributes = curAsset.attributes;
     var name = attributes.getNamedItem("name").value;
     var type = attributes.getNamedItem("type").value;
     var value = curAsset.firstChild.nodeValue;
 
+    var newAsset;
     if(type=="graphic"){
-  	assetManager.loadGraphicAsset(name,value);
+	newAsset = createGraphicAsset(name,value);
     } else if(type=="audio"){
   	var sources = value.split(";");
-  	assetManager.loadAudioAsset(name,sources[0],sources[1]);
+	newAsset = createAudioAsset(name,sources[0],sources[1]);
     } else if(type=="path"){
   	var pts = value.split(";");
   	var path = new Array();
@@ -134,8 +148,9 @@ function loadSerialAsset(curAsset){
   	    var point = pts[j].split(",");
   	    path.push({x:parseInt(point[0]),y:parseInt(point[1])});
   	}
-  	assetManager.loadPathAsset(name,path);
+	newAsset = createPathAsset(name,path);
     }
+    return newAsset;
 }
 
 function loadSerialState(input) {
@@ -226,7 +241,6 @@ function loadSerialState(input) {
     if(initAction) {
 	curAction = initAction;
 	performAction(curAction);
-	console.log(initAction);
     }
 
     update(0);
