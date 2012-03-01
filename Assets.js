@@ -1,14 +1,30 @@
 // put these functions here so editor can use them
 function createGraphicAsset(name, path) {
-    ret = new Image();
+    var ret = new Image();
+    ret.loaded = false;
+    ret.onload = function() {
+	ret.loaded = true;
+    }
     ret.src = path;
     ret.type = "graphic";
     ret.name = name;
+    ret.assetOnLoadFunction = function(fn) {
+	if(ret.loaded) {
+	    if(fn) { fn(); }
+	    return true;
+	} else {
+	    ret.onload = function () {
+		ret.loaded = true
+		if(fn) { fn(); }
+	    }
+	    return false;
+	}
+    };
     return ret;
 }
 
 function createAudioAsset(name) {
-    ret = new Audio();
+    var ret = new Audio();
     ret.name = name
     ret.type = "audio";
     ret.preload = true;
@@ -17,13 +33,25 @@ function createAudioAsset(name) {
 	tmp.src = arguments[a];
 	ret.appendChild(tmp);
     }
+    ret.assetOnLoadFunction = function(fn) {
+	if (ret.readyState == 4) {
+	    if(fn) { fn(); }
+	    return true;
+	}
+	ret.addEventListener('canplaythrough', fn);
+    };
     return ret;
 }
 
 function createPathAsset(name, path) {
-    ret = path;
+    var ret = path;
     ret.name = name;
     ret.type = "path";
+    ret.instant = true;
+    ret.assetOnLoadFunction = function(fn) {
+	if(fn) { fn(); }
+	return;
+    }
     return ret
 }
 function AssetManager() {
@@ -41,31 +69,45 @@ function AssetManager() {
 	// turn undefined into false
 	return this.loaded[name] ? true : false;
     }
+
     this.purge = function() {
 	this.assets = {}
 	this.loaded = {}
 	this.totalLoaded = 0;
 	this.totalAssets = 0;
     }
-    this.loadGraphicAsset = function (name,path){
-	this.assets[name] = createGraphicAsset(name, path);
+    this.loadAsset = function(assetObj) {
+	var name = assetObj.name;
+	this.assets[name] = assetObj;
+	if(assetObj.instant) {
+	    return;
+	}
+	var oThis = this;
+	this.assetAdded(name);	
+	loaded = this.assets[name].assetOnLoadFunction(function() { oThis.assetLoaded(name); });
+    }
+    this.loadGraphicAsset = function(assetObj) {
+	var name = assetObj.name;
+	this.assets[name] = assetObj;
 	oThis = this;
-	this.assets[name].onload = function () {
+	this.assetAdded(name);
+	loaded = this.assets[name].assetOnLoadFunction(function () {
 	    oThis.assetLoaded(name);
-	};
-	this.assetAdded(name);
-    };
-    
-    this.loadAudioAsset = function (name) {
-	this.assets[name] = createAudioAsset.apply(this, arguments);
-	// no builtin onload function for audio
-	oThis = this;
-	this.assets[name].addEventListener('canplaythrough', function() { oThis.assetLoaded(name); });
-	this.assetAdded(name);
+	});
     };
 
-    this.loadPathAsset = function (name,path){
-	this.assets[name] = createPathAsset(name, path);
+    this.loadAudioAsset = function (assetObj) {
+	var name = assetObj.name;
+	this.assets[name] = assetObj;
+	// no builtin onload function for audio
+	oThis = this;
+	this.assetAdded(name);
+	loaded = this.assets[name].assetOnLoadFunction(function() { oThis.assetLoaded(name); });
+    };
+
+    this.loadPathAsset = function (assetObj){
+	var name = assetObj.name;
+	this.assets[name] = assetObj;
     };
     this.assetAdded = function(name) {
 	this.totalAssets++;

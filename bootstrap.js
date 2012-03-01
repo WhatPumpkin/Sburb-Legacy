@@ -19,13 +19,13 @@ function finishInit(){
 }
 
 function loadAssets(){
-	assetManager.loadGraphicAsset("cgSheet","resources/CGsheetBig.png");
-	assetManager.loadGraphicAsset("compLabBG","resources/comlab-background.gif");
-	assetManager.loadGraphicAsset("dialogBox","resources/dialogBoxBig.png");
-    assetManager.loadAudioAsset("karkatBGM", "resources/karkat.ogg", "resources/karkat.mp3");
-    assetManager.loadAudioAsset("tereziBGM", "resources/terezi.ogg", "resources/terezi.mp3");
-	assetManager.loadPathAsset("compLabWalkable",[{x:70,y:270},{x:800,y:270},{x:800,y:820},{x:70,y:820}]);
-	drawLoader();
+    assetManager.loadGraphicAsset(createGraphicAsset("cgSheet","resources/CGsheetBig.png"));
+    assetManager.loadGraphicAsset(createGraphicAsset("compLabBG","resources/comlab-background.gif"));
+    assetManager.loadGraphicAsset(createGraphicAsset("dialogBox","resources/dialogBoxBig.png"));
+    assetManager.loadAudioAsset(createAudioAsset("karkatBGM", "resources/karkat.ogg", "resources/karkat.mp3"));
+    assetManager.loadAudioAsset(createAudioAsset("tereziBGM", "resources/terezi.ogg", "resources/terezi.mp3"));
+    assetManager.loadPathAsset(createPathAsset("compLabWalkable",[{x:70,y:270},{x:800,y:270},{x:800,y:820},{x:70,y:820}]));
+    drawLoader();
 }
 
 
