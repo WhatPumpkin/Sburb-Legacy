@@ -135,6 +135,11 @@ function Room(name,width,height,walkable){
 		for(var sprite in this.sprites){
 			output = this.sprites[sprite].serialize(output);
 		}
+		for(var i=0;i<this.motionPaths.length;i++){
+			var motionPath = this.motionPaths[i];
+			 output = output.concat("<MotionPath path='"+motionPath.path.name+"' xtox='"+motionPath.xtox+"' xtoy='"+motionPath.xtoy+
+			 "' ytox='"+motionPath.ytox+"' ytoy='"+motionPath.ytoy+"' dx='"+motionPath.dx+"' dy='"+motionPath.dy+"'/>");
+		}
 		output = output.concat("</Room>");
 		return output;
 	}

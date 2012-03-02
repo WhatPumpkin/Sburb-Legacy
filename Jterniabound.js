@@ -163,7 +163,7 @@ function drawLoader(){
 }
 
 function handleInputs(){
-	if(!chooser.choosing){
+	if(hasControl()){
 		if(pressed[Keys.down] || pressed[Keys.s]){
 			char.moveDown(curRoom);
 		}else if(pressed[Keys.up] || pressed[Keys.w]){
@@ -176,6 +176,10 @@ function handleInputs(){
 			char.idle();
 		}
 	}
+}
+
+function hasControl(){
+	return !dialoger.talking && !chooser.choosing && !destRoom;
 }
 
 function buildCommands(){
@@ -268,7 +272,7 @@ function checkBGMLoop() {
 }
     
 function chainAction(){
-	if(!dialoger.talking && !chooser.choosing){
+	if(hasControl()){
 		if(curAction && curAction.followUp){
 			curAction = curAction.followUp;
 			performAction(curAction);

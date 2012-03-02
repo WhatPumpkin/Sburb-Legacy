@@ -44,6 +44,7 @@ function Animation(name,sheet,sx,sy,colSize,rowSize,startPos,length,frameInterva
 	
 	this.serialize = function(output){
 		output = output.concat("<Animation name='"+this.name+"' sheet='"+this.sheet.name+
+								"' sx='"+this.sx+"' sy='"+this.sy+
 								"' rowSize='"+this.rowSize+"' colSize='"+this.colSize+"' startPos='"+this.startPos+
 								"' length='"+this.length+"' frameInterval='"+this.frameInterval+"' />");
 		return output;

@@ -56,6 +56,8 @@ function purgeState(){
 	}
 	sprites = {};
 	pressed = new Array();
+	chooser = new Chooser();
+	dialoger = new Dialoger();
 	curRoom = null;
 }
 function loadSerialFromXML(file, savedStateID) {
