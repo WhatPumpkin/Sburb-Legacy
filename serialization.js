@@ -265,30 +265,9 @@ function serialLoadRoomSprites(newRoom,roomSprites){
 }
 
 function serialLoadRoomMotion(newRoom, motionPaths) {
-    function parseMotion(attr) {
-	if(attr) {
-	    return parseInt(attr.value);
-	}
-	return 0;
-    }
-    for(var j=0;j<motionPaths.length;j++) {
-	node = motionPaths[j];
-	var path = assets[node.attributes.getNamedItem("path").value];
-	var left = node.getElementsByTagName("Left")[0];
-	var up = node.getElementsByTagName("Up")[0];
-	var ldx, ldy, udx, udy;
-	if(left) {
-	    ldx = parseMotion(left.attributes.getNamedItem("dx"));
-	    ldy = parseMotion(left.attributes.getNamedItem("dy"));
-	} else {
-	    ldx = ldy = 0;
-	}
-	if(up) {
-	    udx = parseMotion(up.attributes.getNamedItem("dx"));
-	    udy = parseMotion(up.attributes.getNamedItem("dy"));
-	} else {
-	    udx = udy = 0;
-	}
-	newRoom.addMotionPath(path, ldx, ldy, udx, udy);
+	for(var j=0;j<motionPaths.length;j++) {
+		var node = motionPaths[j];
+		var attributes = node.attributes;
+		newRoom.addMotionPath(assets[attributes.getNamedItem("path").value], parseInt(attributes.getNamedItem("xtox").value), parseInt(attributes.getNamedItem("xtoy").value), parseInt(attributes.getNamedItem("ytox").value), parseInt(attributes.getNamedItem("ytoy").value), parseInt(attributes.getNamedItem("dx").value), parseInt(attributes.getNamedItem("dy").value));
     }
 }

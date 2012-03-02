@@ -13,11 +13,16 @@
   <Asset name='tcSheet' type='graphic'>resources/TCsheetBig.png</Asset>
     
   <Asset name='compLabBG' type='graphic'>resources/comlab-background.gif</Asset>
+  <Asset name='stairRoomBG' type='graphic'>resources/stairRoom.png</Asset>
   <Asset name='dialogBox' type='graphic'>resources/dialogBoxBig.png</Asset>
  <!-- <Asset name='karkatBGM' type='audio'>resources/karkat.ogg;resources/karkat.mp3</Asset>
   <Asset name='tereziBGM' type='audio'>resources/terezi.ogg;resources/terezi.mp3</Asset> -->
   <Asset name='compLabWalkable' type='path'>70,270;800,270;800,820;70,820</Asset>
-  <Asset name='compLabStairs' type='path'>400,400;800,400;800,700;400,700</Asset>
+  <!-- <Asset name='compLabStairs' type='path'>400,400;800,400;800,700;400,700</Asset> -->
+  <Asset name='stairRoomWalkable' type='path'> 999,368;442,369;258,560;86,556;86,608;0,609;0,940;264,942;630,1318;813,1320;813,2070;222,2070;224,1510;588,1888;402,1888;402,1904; 237,1905;236,2049;801,2054;800,1706;591,1702;228,1323;142,1323; 140,1344;0,1344;0,2258;999,2258;999,1126;624,1124;260,754;260,740;441,552;999,552</Asset>
+  <Asset name='stairRoomStairs1' type='path'>442,369;258,560;260,740;441,552</Asset>
+  <Asset name='stairRoomStairs2' type='path'>264,942;630,1318;624,1124;260,754</Asset>
+  <Asset name='stairRoomStairs3' type='path'>224,1510;588,1888;591,1702;228,1323</Asset>
   <Action sprite='null' name='startGame' command='talk'>@! MEANWHILE, IN THE HALL OF JUSTICE...
     <!-- <Action sprite='null' name='introMusic' command='playSong'>
       karkatBGM, 6.7 
@@ -56,7 +61,7 @@ est
 laborum. @CGAngry hehehe @CGAngry whaaaat
       </Action>
       <Action sprite='null' name='change room' command='changeRoom'>
-	cloneRoom,300,300
+	stairRoom,666,450
 <!--
 	<Action sprite='null' name='T3R3Z1 TH3M3 4LL D4Y' command='playSong'>
 	  tereziBGM, 1.9
@@ -65,13 +70,12 @@ laborum. @CGAngry hehehe @CGAngry whaaaat
       </Action>
       <Action sprite='null' name='swap' command='changeChar'>terezi</Action>
     </Character>
-    <Sprite name='compLabBG' x='0' y='0' dx='0' dy='0' width='861' height='909' 
-	    depthing='0' collidable='false' state='image'>
-      <Animation name='image' sheet='compLabBG' sx='0' sy='0' rowSize='909' colSize='861' startPos='0' length='1' frameInterval='1' />
+    <Sprite name='compLabBG' x='0' y='0' dx='0' dy='0' width='861' height='909' depthing='0' collidable='false' state='image'>
+      <Animation name='image' sx='0' sy='0' sheet='compLabBG' rowSize='909' colSize='861' startPos='0' length='1' frameInterval='1' />
     </Sprite>
   </Room>
-  <Room name='cloneRoom' width='861' height='909' walkable='compLabWalkable'>
-    <Character name='sollux' x='501' y='399' sx='-33' sy='-78' sWidth='63' sHeight='81' width='42' height='21'
+  <Room name='stairRoom' width='999' height='2259' walkable='stairRoomWalkable'>
+    <Character name='sollux' x='360' y='1950' sx='-33' sy='-78' sWidth='63' sHeight='81' width='42' height='21'
     	 sheet='taSheet' state='walkFront' facing='Front'>
       <Action sprite='null' name='talk' command='talk'>@! blahblahblah</Action>
       <Action sprite='null' name='change room' command='changeRoom'>
@@ -84,11 +88,13 @@ baseRoom,300,300
       </Action>
       <Action sprite='null' name='swap' command='changeChar'>sollux</Action>
     </Character>
-    <Sprite name='compLabBG' x='0' y='0' dx='0' dy='0' width='861' height='909' depthing='0' collidable='false' state='image'>
-      <Animation name='image' sx='0' sy='0' sheet='compLabBG' rowSize='909' colSize='861' startPos='0' length='1' frameInterval='1' />
+    <Sprite name='stairRoomBG' x='0' y='0' dx='0' dy='0' width='999' height='2259' depthing='0' collidable='false' state='image'>
+      <Animation name='image' sheet='stairRoomBG' sx='0' sy='0' rowSize='2259' colSize='999' startPos='0' length='1' frameInterval='1' />
     </Sprite>
-    <MotionPath path="compLabStairs">
-      <Left dy="3" />
+    
+    <MotionPath path="stairRoomStairs1" xtox = '1' xtoy = '-1' ytox='0' ytoy = '1' dx='0' dy='0'/>
+    <MotionPath path="stairRoomStairs2" xtox = '1' xtoy = '1' ytox='0' ytoy = '1' dx='0' dy='0'/>
+    <MotionPath path="stairRoomStairs3" xtox = '1' xtoy = '1' ytox='0' ytoy = '1' dx='0' dy='0'/>
     </MotionPath>
   </Room>
 </SBURB>
