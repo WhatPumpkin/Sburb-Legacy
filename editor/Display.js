@@ -2,6 +2,15 @@
 
 var menus = {};
 
+function clearViewScreen() {
+    $("#previewNode").empty(); // erase preview resources
+    mainNode.contents().detach();
+}
+
+function clearLeftMenu() {
+    $("#leftmenu").empty();
+}
+
 function displayAssets() {
     function AssetDisplay(asset) {
 	if(asset.type == "path") {
@@ -56,11 +65,19 @@ function displayAssets() {
 
 function showAssetPreview(asset) {
     var mainNode = $('#mainDisplay');
-    $("#previewNode").empty(); // erase preview resources
-    mainNode.contents().detach();
-    var previewNode = $('<div id="previewNode"></div>'); //style="width:600px; height:450px; overflow:auto;
+    clearViewScreen();
+    clearLeftMenu();
+
+    // main screen turn on
+    var previewNode = $('<div id="previewNode"></div>');
+
+    // edit info
+    var newLeftDiv = $("<div></div>").appendTo($("#leftmenu"));
+    $(sprintf("<div class='leftTitle'>Asset %s</div>", asset.name)).appendTo(newLeftDiv);
+
     if(asset.type == "graphic") {
 	$('<img src="'+asset.src+'" />').appendTo(previewNode);
+	$("<div class='srcInput'><input type='text' value='%s' name='srcInput1'");
     } else if(asset.type == "audio") {
 	var audiodiv = $('<audio controls="controls" autoplay="autoplay"></audio>').appendTo(previewNode);
 	var srcs = asset.childNodes;
@@ -70,4 +87,7 @@ function showAssetPreview(asset) {
 	}
     }
     mainNode.append(previewNode);
+
+    
+
 }
