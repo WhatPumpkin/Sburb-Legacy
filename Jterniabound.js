@@ -24,6 +24,9 @@ var initFinished;
 var _hardcode_load;
 
 function initialize(){
+	var gameDiv = document.getElementById("gameDiv");
+	gameDiv.onkeydown = _onkeydown;
+	gameDiv.onkeyup = _onkeyup;
 	Stage = document.getElementById("Stage");	
 	Stage.scaleX = Stage.scaleY = 1;
 	Stage.x = Stage.y = 0;
@@ -88,7 +91,7 @@ function draw(gameTime){
 	drawHud();
 }
 
-onkeydown = function(e){
+var _onkeydown = function(e){
 	if(chooser.choosing){
 		if(e.keyCode == Keys.down || e.keyCode==Keys.s){
 			chooser.nextChoice();
@@ -132,7 +135,7 @@ onkeydown = function(e){
     return false;
 }
 
-onkeyup = function(e){
+var _onkeyup = function(e){
 	pressed[e.keyCode] = false;
 }
 
