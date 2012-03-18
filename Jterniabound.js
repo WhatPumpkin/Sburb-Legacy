@@ -76,7 +76,7 @@ function draw(gameTime){
 	stage.fillRect(0,0,Stage.width,Stage.height);
 	
 	stage.save();
-	stage.scale(Stage.scaleX,Stage.scaleY);
+	//stage.scale(Stage.scaleX,Stage.scaleY);
 	stage.translate(-Stage.x,-Stage.y);
 	
 	curRoom.draw();
@@ -152,6 +152,7 @@ function onMouseDown(e,canvas){
 
 function onMouseUp(e,canvas){
 	Mouse.down = false;
+	dialoger.nudge();
 }
 
 function relMouseCoords(event,canvas){
@@ -197,23 +198,27 @@ function handleInputs(){
 }
 
 function handleHud(){
-	hud.volumeButton.updateMouse(Mouse.x,Mouse.y,Mouse.down);
-	hud.helpButton.updateMouse(Mouse.x,Mouse.y,Mouse.down);
-	hud.volumeButton.update(1);
-	hud.helpButton.update(1);
+	for(var content in hud){
+		if(hud[content].updateMouse){
+			hud[content].updateMouse(Mouse.x,Mouse.y,Mouse.down);
+			hud[content].update(1);
+		}
+	}
 	if(hasControl){
 		if(hud.helpButton.clicked){
 			performAction(new Action("helpAction","talk","@! HELP!"));
 		}
 		if(hud.volumeButton.clicked){
-			
+			//toggle the volume
+			//100->0->33->66->100
 		}
 	}
 }
 
 function drawHud(){
-	hud.volumeButton.draw();
-	hud.helpButton.draw();
+	for(var content in hud){
+		hud[content].draw();
+	}
 }
 
 function hasControl(){

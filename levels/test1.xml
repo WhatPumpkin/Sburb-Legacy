@@ -55,7 +55,7 @@
 	       sheet='aaSheet' state='walkLeft' facing='Left'>
       <Action sprite='null' name='swap' command='changeChar'>aradia</Action>
     </Character>
-    <Character name='terezi' x='201' y='401' sx='-45' sy='-72' sWidth='93' sHeight='93' width='55' height='21' 
+    <Character name='terezi' x='201' y='402' sx='-45' sy='-72' sWidth='93' sHeight='93' width='55' height='21' 
 	       sheet='gcSheet' state='walkFront' facing='Front'>
       <Action sprite='null' name='talk' command='talk'>@CGAngry Lorem ipsum
 
