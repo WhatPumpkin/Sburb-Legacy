@@ -6,6 +6,7 @@
 		<script type="text/javascript" src="inheritance.js"></script>
 		<script type="text/javascript" src="Character.js"></script>
 		<script type="text/javascript" src="Sprite.js"></script>
+		<script type="text/javascript" src="SpriteButton.js"></script>
 		<script type="text/javascript" src="Animation.js"></script>
 		<script type="text/javascript" src="Room.js"></script>
 		<script type="text/javascript" src="StaticSprite.js"></script>
@@ -58,7 +59,10 @@
 				
 				<!-- Center cell. Canvas -->
 				<div style="display:table-cell;width:33%;height:450px;" ">
-					<canvas id="Stage" width="650" height="450" tabindex="0" onclick = "onClick(event,this)"></canvas>
+					<canvas id="Stage" width="650" height="450" tabindex="0" 
+								onmousedown = "onMouseDown(event,this)"
+								onmousemove = "onMouseMove(event,this)"
+								onmouseup = "onMouseUp(event,this)"></canvas>
 				</div>
 				
 				<!-- Right cell. basically padding... FOR NOW............ -->

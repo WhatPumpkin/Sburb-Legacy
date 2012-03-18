@@ -16,6 +16,14 @@ function BGM(asset, startLoop, priority) {
 		this.asset.play();
     }
     
+    this.toggleVolume(){
+    	//0%
+    	//33%
+    	//66%
+    	//100%
+    	//0% ...
+    }
+    
     this.pause = function() {
 		this.asset.pause();
     }

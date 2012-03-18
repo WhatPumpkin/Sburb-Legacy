@@ -1,4 +1,7 @@
 <SBURB curRoom='baseRoom' char='karkat' id='level1'>
+  <Asset name='volumeControl' type='graphic'>resources/volumeControl.png</Asset>
+  <Asset name='helpControl' type='graphic'>resources/helpControl.png</Asset>
+
   <Asset name='aaSheet' type='graphic'>resources/AAsheetBig.png</Asset>
   <Asset name='acSheet' type='graphic'>resources/ACsheetBig.png</Asset>
   <Asset name='agSheet' type='graphic'>resources/AGsheetBig.png</Asset>
@@ -23,6 +26,12 @@
   <Asset name='stairRoomStairs1' type='path'>442,369;258,560;260,740;441,552</Asset>
   <Asset name='stairRoomStairs2' type='path'>264,942;630,1318;624,1124;260,754</Asset>
   <Asset name='stairRoomStairs3' type='path'>224,1510;588,1888;591,1702;228,1323</Asset>
+  
+  <HUD>
+  	<SpriteButton name='volumeButton' x='9' y='9' width='54' height='36' sheet='volumeControl' />
+  	<SpriteButton name='helpButton' x='591' y='9' width='54' height='63' sheet='helpControl' />
+  </HUD>
+  
   <Action sprite='null' name='startGame' command='talk'>@! MEANWHILE, IN THE HALL OF JUSTICE...
     <!-- <Action sprite='null' name='introMusic' command='playSong'>
       karkatBGM, 6.7 

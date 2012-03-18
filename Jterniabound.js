@@ -18,6 +18,7 @@ var chooser;
 var curAction;
 var bgm;
 var hud;
+var Mouse = {down:false,x:0,y:0};
 
 var initFinished;
 var _hardcode_load;
@@ -39,7 +40,7 @@ function initialize(){
 	rooms = {};
 	sprites = {};
 	commands = {};
-	hud = {soundButton:null,helpButton:null}
+	hud = {}
 	pressed = new Array();
 	buildCommands();
 	
@@ -51,6 +52,7 @@ function initialize(){
 function update(gameTime){
 	//update stuff
 	handleInputs();
+	handleHud();
 	
 	curRoom.update(gameTime);
 	
@@ -59,6 +61,7 @@ function update(gameTime){
 	chooser.update(gameTime);
 	dialoger.update(gameTime);
 	chainAction();
+	
 	//must be last
     
 	updateLoop=setTimeout("update("+(gameTime+1)+")",1000/Stage.fps);
@@ -81,6 +84,8 @@ function draw(gameTime){
 	
 	stage.fillStyle = "rgba(0,0,0,"+Stage.fade+")";
 	stage.fillRect(0,0,Stage.width,Stage.height);
+	
+	drawHud();
 }
 
 onkeydown = function(e){
@@ -131,9 +136,19 @@ onkeyup = function(e){
 	pressed[e.keyCode] = false;
 }
 
-function onClick(e,canvas){
+function onMouseMove(e,canvas){
 	point = relMouseCoords(e,canvas);
-	//console.log(point.x+","+point.y);
+	Mouse.x = point.x;
+	Mouse.y = point.y;
+	//console.log(Mouse.x+" "+Mouse.y);
+}
+
+function onMouseDown(e,canvas){
+	Mouse.down = true;
+}
+
+function onMouseUp(e,canvas){
+	Mouse.down = false;
 }
 
 function relMouseCoords(event,canvas){
@@ -178,6 +193,26 @@ function handleInputs(){
 	}
 }
 
+function handleHud(){
+	hud.volumeButton.updateMouse(Mouse.x,Mouse.y,Mouse.down);
+	hud.helpButton.updateMouse(Mouse.x,Mouse.y,Mouse.down);
+	hud.volumeButton.update(1);
+	hud.helpButton.update(1);
+	if(hasControl){
+		if(hud.helpButton.clicked){
+			performAction(new Action("helpAction","talk","@! HELP!"));
+		}
+		if(hud.volumeButton.clicked){
+			
+		}
+	}
+}
+
+function drawHud(){
+	hud.volumeButton.draw();
+	hud.helpButton.draw();
+}
+
 function hasControl(){
 	return !dialoger.talking && !chooser.choosing && !destRoom;
 }
@@ -197,6 +232,8 @@ function performAction(action){
 function focusCamera(){
 	Stage.x = Math.max(0,Math.min(focus.x-Stage.width/2/Stage.scaleX,curRoom.width-Stage.width/Stage.scaleX));
 	Stage.y = Math.max(0,Math.min(focus.y-Stage.height/2/Stage.scaleY,curRoom.height-Stage.height/Stage.scaleY));
+	Stage.x = Math.round(Stage.x/3)*3;
+	Stage.y = Math.round(Stage.y/3)*3;
 }
 
 function changeRoom(newRoom,newX,newY){

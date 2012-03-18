@@ -2,6 +2,7 @@ function serialize(){
 	var out = document.getElementById("serialText");
 	var output = "<SBURB curRoom='"+curRoom.name+"' char='"+char.name+"'>";
 	output = serializeAssets(output);
+	output = serializeHud(output);
 	for(var room in rooms){
 		output = rooms[room].serialize(output);
 	}
@@ -36,6 +37,15 @@ function serializeAssets(output){
 	return output;
 }
 
+function serializeHud(output){
+	output = output.concat("<HUD>");
+	for(var content in hud){
+		output = hud[content].serialize(output);
+	}
+	output = output.concat("</HUD>");
+	return output;
+}
+
 function purgeAssets() {
     assetManager.purge();
 }
@@ -54,6 +64,7 @@ function purgeState(){
 		bgm.stop();
 		bgm = null;
 	}
+	hud = {};
 	sprites = {};
 	pressed = new Array();
 	chooser = new Chooser();
@@ -158,10 +169,23 @@ function parseSerialAsset(curAsset) {
 function loadSerialState(input) {
     // this is more or less this init function for a game
     if(!assetManager.finishedLoading()) {
-	updateLoop=setTimeout(function() { loadSerialState(input); } ,500);
-	return;
+		updateLoop=setTimeout(function() { loadSerialState(input); } ,500);
+		return;
     }
-
+	
+	var newButtons = input.getElementsByTagName("SpriteButton");
+	for(var i=0;i<newButtons.length;i++){
+		var curButton = newButtons[i];
+		var attributes = curButton.attributes;
+		var newButton = new SpriteButton(attributes.getNamedItem("name").value,
+  									parseInt(attributes.getNamedItem("x").value),
+  									parseInt(attributes.getNamedItem("y").value),
+  									parseInt(attributes.getNamedItem("width").value),
+  									parseInt(attributes.getNamedItem("height").value),
+  									assets[attributes.getNamedItem("sheet").value]);
+  		hud[newButton.name] = newButton;
+	}
+  	
   	var newSprites = input.getElementsByTagName("Sprite");
   	for(var i=0;i<newSprites.length;i++){
   		var curSprite = newSprites[i];
