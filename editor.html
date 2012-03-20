@@ -3,9 +3,19 @@
 		
 		<script type="text/javascript" src="editor/Editor.js"></script>
 		<script type="text/javascript" src="editor/EditAssets.js"></script>
+		<script type="text/javascript" src="editor/EditRooms.js"></script>
+		<script type="text/javascript" src="editor/EditSprites.js"></script>
 		<script type="text/javascript" src="editor/Display.js"></script>
 		<script type="text/javascript" src="serialization.js"></script>
+		<script type="text/javascript" src="inheritance.js"></script>
 		<script type="text/javascript" src="Assets.js"></script>
+		<script type="text/javascript" src="Sprite.js"></script>
+		<script type="text/javascript" src="StaticSprite.js"></script>
+		<script type="text/javascript" src="Character.js"></script>
+		<script type="text/javascript" src="Animation.js"></script>
+		<script type="text/javascript" src="Room.js"></script>
+		<script type="text/javascript" src="Action.js"></script>
+		
 		<!--
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 		-->
@@ -20,7 +30,6 @@
 			<tr id="tablerow">
 				<td id="leftside">
 				  <div id="leftmenu">
-				    
 				  </div>
 				</td>
 				<td id="mainDisplayCell">
@@ -29,9 +38,13 @@
 				  </div>
 				</td>
 				
-				<!-- Right cell. basically padding... FOR NOW............ -->
 				<td id="rightside">
 				  <div id="mainmenu">
+				    <ul>
+				      <li><a href="javascript:void(0);" id="assetTabLink">Assets</a></li>
+				      <li><a href="javascript:void(0);" id="spriteTabLink">Sprites</a></li>
+				      <li><a href="javascript:void(0);" id="roomTabLink" >Rooms</a></li>
+				    </ul>
 				  </div>
 				</td>
 

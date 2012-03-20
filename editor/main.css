@@ -78,3 +78,14 @@ canvas {
 .assetSource {
     clear: both;
 }
+
+#mainmenu ul { list-style: none; padding: 0; margin: 0; }
+
+#mainmenu li { font-size:12px; padding:0 0 0 10px; margin:3px 0; zoom: 1; display: inline; }
+
+#mainmenu li a:link,
+#mainmenu li a:visited { display:inline; padding:1px 8px 4px; border-bottom:1px dotted #b3b3b3; }
+#mainmenu li a:link,
+#mainmenu li a:visited { padding:1px 8px 2px; }
+#mainmenu li a:hover,
+#mainmenu li a:active { background-color:#f6f6f6; }
