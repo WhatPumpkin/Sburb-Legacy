@@ -34,6 +34,9 @@ function Sprite(name,x,y,width,height,dx,dy,depthing,collidable){
 	this.update = function(gameTime){
 		this.animation.update(1);
 	}
+	this.staticImg = function() {
+		return this.animation.staticImg();
+	}
 	
 	this.draw = function(){
 		this.animation.draw(this.x,this.y);
@@ -72,9 +75,9 @@ function Sprite(name,x,y,width,height,dx,dy,depthing,collidable){
 	    var i;
 	    var moveMap = room.getMoveFunction(this.x, this.y);
 	    if(moveMap) {
-		l = moveMap(vx, vy);
-		vx = l[0];
-		vy = l[1];
+			l = moveMap(vx, vy);
+			vx = l.x;
+			vy = l.y;
 	    }
 		this.x += vx;
 		this.y += vy;

@@ -19,18 +19,19 @@ function Room(name,width,height,walkable){
 		}
 		return false;
 	}
-    this.addMotionPath = function(path, ldx, ldy, udx, udy) {
-	var motionPath = new function (){
-	    this.path = path;
-	    this.ldx = ldx; this.ldy = ldy;
-	    this.udx = udx; this.udy = udy;
-	};
-	this.motionPaths.push(motionPath);
+    this.addMotionPath = function(path, xtox,xtoy,ytox,ytoy,dx,dy) {
+		var motionPath = new function (){
+			this.path = path;
+			this.xtox = xtox; this.xtoy = xtoy;
+			this.ytox = ytox; this.ytoy = ytoy;
+			this.dx = dx; this.dy = dy;
+		};
+		this.motionPaths.push(motionPath);
     }
     this.initialize = function() {
-	// do we need this method anymore?
-	// chained actions might make this obsolete
-	return;
+		// do we need this method anymore?
+		// chained actions might make this obsolete
+		return;
     }
 	this.contains = function(sprite){
 		for(var i=0;i<this.sprites.length;i++){
@@ -93,48 +94,51 @@ function Room(name,width,height,walkable){
 		stage.restore();
 		return result;
 	}
+	
     this.getMoveFunction = function(x, y) {
-	var result;
-	for(i=0; i<this.motionPaths.length; i++) {
-	    var motionPath = this.motionPaths[i];
-	    var path = motionPath.path;
-	    stage.save();
-	    stage.beginPath();
-	    stage.moveTo(path[0].x, path[0].y);
-	    for(var j=1;j<path.length;j++) {
-		stage.lineTo(path[j].x, path[j].y);
-	    }
-	    if(stage.isPointInPath(x, y)) {
-		result = function(ax, ay) {
-		    if(ax < 0) {
-			ax += motionPath.ldx;
-			ay += motionPath.ldy;
-		    }
-		    if(ax > 0) {
-			ax -= motionPath.ldx;
-			ay -= motionPath.ldy;
-		    }
-		    if(ay < 0) {
-			ax += motionPath.udx;
-			ay += motionPath.udy;
-		    }
-		    if(ay > 0) {
-			ax -= motionPath.udx;
-			ay -= motionPath.udy;
-		    }
-		    return [ax, ay];
-		};
-	    }
-	    stage.restore();
-	}
+		var result;
+		for(i=0; i<this.motionPaths.length; i++) {
+			var motionPath = this.motionPaths[i];
+			var path = motionPath.path;
+			stage.save();
+			stage.beginPath();
+			stage.moveTo(path[0].x, path[0].y);
+			for(var j=1;j<path.length;j++) {
+				stage.lineTo(path[j].x, path[j].y);
+			}
+			if(stage.isPointInPath(x, y)) {
+				//console.log(path.name);
+				
+				result = function(ax, ay) {
+					var fx,fy;
+					//console.log(motionPath.xtox +" "+ motionPath.xtoy);
+					//console.log(motionPath.ytox +" "+ motionPath.ytoy);
+					//console.log(motionPath.dx +" "+ motionPath.dy);
+					fx = Math.round((ax*motionPath.xtox + ay*motionPath.ytox + motionPath.dx)/3)*3;
+					fy = Math.round((ax*motionPath.xtoy + ay*motionPath.ytoy + motionPath.dy)/3)*3;
+					//console.log(fx+","+fy);
+					return {x:fx,y:fy};
+				};
+				stage.restore();
+				return result;
+
+			}
+			stage.restore();
+		}
 	// overlapping stairs? shouldnt happen
-	return result;
+	
     }
+    
 	this.serialize = function(output){
 		output = output.concat("<Room name='"+this.name+"' width='"+this.width+"' height='"+this.height+"' walkable='"+this.walkable.name+
 				       "'>");
 		for(var sprite in this.sprites){
 			output = this.sprites[sprite].serialize(output);
+		}
+		for(var i=0;i<this.motionPaths.length;i++){
+			var motionPath = this.motionPaths[i];
+			 output = output.concat("<MotionPath path='"+motionPath.path.name+"' xtox='"+motionPath.xtox+"' xtoy='"+motionPath.xtoy+
+			 "' ytox='"+motionPath.ytox+"' ytoy='"+motionPath.ytoy+"' dx='"+motionPath.dx+"' dy='"+motionPath.dy+"'/>");
 		}
 		output = output.concat("</Room>");
 		return output;

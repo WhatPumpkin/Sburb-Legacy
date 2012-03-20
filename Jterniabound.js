@@ -23,6 +23,9 @@ var initFinished;
 var _hardcode_load;
 
 function initialize(){
+	var gameDiv = document.getElementById("gameDiv");
+	gameDiv.onkeydown = _onkeydown;
+	gameDiv.onkeyup = _onkeyup;
 	Stage = document.getElementById("Stage");	
 	Stage.scaleX = Stage.scaleY = 1;
 	Stage.x = Stage.y = 0;
@@ -83,7 +86,7 @@ function draw(gameTime){
 	stage.fillRect(0,0,Stage.width,Stage.height);
 }
 
-onkeydown = function(e){
+var _onkeydown = function(e){
 	if(chooser.choosing){
 		if(e.keyCode == Keys.down || e.keyCode==Keys.s){
 			chooser.nextChoice();
@@ -127,7 +130,7 @@ onkeydown = function(e){
     return false;
 }
 
-onkeyup = function(e){
+var _onkeyup = function(e){
 	pressed[e.keyCode] = false;
 }
 
@@ -163,7 +166,7 @@ function drawLoader(){
 }
 
 function handleInputs(){
-	if(!chooser.choosing){
+	if(hasControl()){
 		if(pressed[Keys.down] || pressed[Keys.s]){
 			char.moveDown(curRoom);
 		}else if(pressed[Keys.up] || pressed[Keys.w]){
@@ -176,6 +179,10 @@ function handleInputs(){
 			char.idle();
 		}
 	}
+}
+
+function hasControl(){
+	return !dialoger.talking && !chooser.choosing && !destRoom;
 }
 
 function buildCommands(){
@@ -268,7 +275,7 @@ function checkBGMLoop() {
 }
     
 function chainAction(){
-	if(!dialoger.talking && !chooser.choosing){
+	if(hasControl()){
 		if(curAction && curAction.followUp){
 			curAction = curAction.followUp;
 			performAction(curAction);
