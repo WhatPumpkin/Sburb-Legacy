@@ -34,6 +34,9 @@ function Sprite(name,x,y,width,height,dx,dy,depthing,collidable){
 	this.update = function(gameTime){
 		this.animation.update(1);
 	}
+	this.staticImg = function() {
+		return this.animation.staticImg();
+	}
 	
 	this.draw = function(){
 		this.animation.draw(this.x,this.y);

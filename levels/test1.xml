@@ -1,4 +1,4 @@
-<SBURB curRoom='baseRoom' char='karkat' id='level1'>
+<SBURB curRoom='baseRoom' char='karkat' id='level1' startAction="startGame">
   <Asset name='aaSheet' type='graphic'>resources/AAsheetBig.png</Asset>
   <Asset name='acSheet' type='graphic'>resources/ACsheetBig.png</Asset>
   <Asset name='agSheet' type='graphic'>resources/AGsheetBig.png</Asset>
@@ -95,6 +95,5 @@ baseRoom,300,300
     <MotionPath path="stairRoomStairs1" xtox = '1' xtoy = '-1' ytox='0' ytoy = '1' dx='0' dy='0'/>
     <MotionPath path="stairRoomStairs2" xtox = '1' xtoy = '1' ytox='0' ytoy = '1' dx='0' dy='0'/>
     <MotionPath path="stairRoomStairs3" xtox = '1' xtoy = '1' ytox='0' ytoy = '1' dx='0' dy='0'/>
-    </MotionPath>
   </Room>
 </SBURB>
