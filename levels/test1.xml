@@ -32,7 +32,7 @@
   	<SpriteButton name='helpButton' x='591' y='9' width='54' height='63' sheet='helpControl' />
   </HUD>
   
-  <Action sprite='null' name='startGame' command='talk'>@! MEANWHILE, IN THE HALL OF JUSTICE...
+  <Action sprite='null' name='startGame' command='talk'>@CGAngry FUCK _THIS_ /0xff0000FUCKING _HORSE/0x/ FUCKING_ SHIT _ASS CRAP_.
     <!-- <Action sprite='null' name='introMusic' command='playSong'>
       karkatBGM, 6.7 
     </Action> -->
@@ -104,6 +104,5 @@ baseRoom,300,300
     <MotionPath path="stairRoomStairs1" xtox = '1' xtoy = '-1' ytox='0' ytoy = '1' dx='0' dy='0'/>
     <MotionPath path="stairRoomStairs2" xtox = '1' xtoy = '1' ytox='0' ytoy = '1' dx='0' dy='0'/>
     <MotionPath path="stairRoomStairs3" xtox = '1' xtoy = '1' ytox='0' ytoy = '1' dx='0' dy='0'/>
-    </MotionPath>
   </Room>
 </SBURB>

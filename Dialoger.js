@@ -36,7 +36,7 @@ function Dialoger(){
 	
 	this.nextDialog = function(){
 		var nextDialog = this.queue.pop();
-		this.dialog.setText(nextDialog.substring(nextDialog.indexOf(" ")+1,nextDialog.length));
+		this.dialog.setText(nextDialog);
 		this.dialog.showSubText(0,0);
 	}
 	

@@ -13,6 +13,22 @@ function FontEngine(text){
 	this.lineHeight = 17;
 	this.charWidth = 8;
 	
+	this.formatQueue = new Array();
+	
+	this.prefixColours = {	aa : "#a10000",
+							ac : "#416600",
+							ag : "#005682",
+							at : "#a15000",
+							ca : "#6a006a",
+							cc : "#77003c",
+							cg : "#626262",
+							ct : "#000056",
+							ga : "#008141",
+							gc : "#008282",
+							ta : "#a1a100",
+							tc : "#2b0057"
+						  }
+	
 	this.setStyle = function(font,color,lineHeight,charWidth){
 		this.font = typeof font == "string" ? font:this.font;
 		this.color = typeof color == "string" ? color:this.color;
@@ -23,7 +39,7 @@ function FontEngine(text){
 	
 	this.setText = function(text){
 		this.text = text;
-		this.parseText();
+		this.parseEverything();
 	}
 	
 	this.showSubText = function(start,end){
@@ -36,6 +52,10 @@ function FontEngine(text){
 		this.y = typeof y == "number" ? y:this.y;
 		this.width = typeof width == "number" ? width:this.width;
 		this.height = typeof height == "number" ? height:this.height;
+		this.parseText();
+	}
+	this.parseEverything = function(){
+		this.parseFormatting();
 		this.parseText();
 	}
 	
@@ -68,7 +88,95 @@ function FontEngine(text){
 		this.lines.push(this.text.substring(lineStart,i));
 	}
 	
+	this.parseFormatting = function(){
+		this.formatQueue = new Array();
+		var prefix = this.text.substring(0,this.text.indexOf(" "));
+		var actor;
+		if(prefix!="!"){
+			if(prefix.indexOf("_")>=0){
+				actor = prefix.substring(0,this.text.indexOf("_"));	
+			}else{
+				actor = prefix.substring(0,2);
+			}
+			this.parsePrefix(actor);
+		}
+		this.text = this.text.substring(this.text.indexOf(" ")+1,this.text.length);
+		
+		var index= this.text.indexOf("_");
+		while(index>=0){
+			var closing = false;
+			for(var i=this.formatQueue.length-1;i>=0;i--){
+				if(this.formatQueue[i].type=="italic" && this.formatQueue[i].maxIndex==999999){
+					this.formatQueue[i].maxIndex=index;
+					closing = true;
+					break;
+				}
+			}
+			if(!closing){
+				this.addToFormatQueue(new FormatRange(index,999999,"italic"));
+			}
+			this.text = this.text.substring(0,index)+this.text.substring(index+1,this.text.length);
+			this.realignFormatQueue(index,1);
+			index = this.text.indexOf("_");
+		}
+		index = this.text.indexOf("/0x");
+		while(index>=0){
+			if(this.text.indexOf("/0x/")==index){
+				for(var i=this.formatQueue.length-1;i>=0;i--){
+					if(this.formatQueue[i].type=="colour" && this.formatQueue[i].maxIndex==999999){
+						this.formatQueue[i].maxIndex=index;
+						break;
+					}
+				}
+				this.text = this.text.substring(0,index)+this.text.substring(index+4,this.text.length);
+				this.realignFormatQueue(index,4);
+			}else{
+				this.addToFormatQueue(new FormatRange(index,999999,"colour","#"+this.text.substring(index+3,index+9)));
+				this.text = this.text.substring(0,index)+this.text.substring(index+9,this.text.length);
+				this.realignFormatQueue(index,9);
+			}
+			
+			index = this.text.indexOf("/0x");
+		}
+	}
+	
+	this.addToFormatQueue = function(format){
+		var newPlace = this.formatQueue.length;
+		for(var i=0;i<this.formatQueue.length;i++){
+			if(this.formatQueue[i].minIndex>format.minIndex){
+				newPlace = i;
+				break;
+			}
+		}
+		this.formatQueue.splice(newPlace,0,format);
+	}
+	
+	this.realignFormatQueue = function(startPos,shiftSize){
+		for(var i=0;i<this.formatQueue.length;i++){
+			var curFormat = this.formatQueue[i];
+			if(curFormat.maxIndex>startPos && curFormat.maxIndex!=999999){
+				curFormat.maxIndex-=shiftSize;
+			}
+			if(curFormat.minIndex>startPos){
+				curFormat.minIndex-=shiftSize;
+			}
+		}
+	}
+	
+	this.parsePrefix = function(prefix){
+		this.formatQueue.push(new FormatRange(0,this.text.length,"colour",this.prefixColouration(prefix)));
+	}
+	
+	this.prefixColouration = function(prefix){
+		if(this.prefixColours[prefix.toLowerCase()]){
+			return this.prefixColours[prefix.toLowerCase()];
+		}else{
+			return "#000000";
+		}
+	}
+	
 	this.nextBatch = function(){
+		this.realignFormatQueue(-1,this.batchLength());
 		this.lines.splice(0,Math.min(this.lines.length,Math.floor(this.height/this.lineHeight)));
 		return this.lines.length;
 	}
@@ -76,30 +184,76 @@ function FontEngine(text){
 	this.draw = function(){
 		var i;
 		var lenCount;
+		var linePos=0;
 		var strStart,strEnd;
+		var currentFormat = 0;
+		var currentFormats = new Array();
+		var nextStop;
+		var curLine;
 		stage.save();
 		stage.textBaseline = "top";
-		stage.fillStyle = this.color;
-		stage.font = this.font;
 		i=0;
 		lenCount=0;
+		
 		while(i<Math.floor(this.height/this.lineHeight) && i<this.lines.length){
-			if(lenCount+this.lines[i].length<=this.end){
-				strEnd = this.lines[i].length;
-			}else{
-				strEnd = this.end-lenCount;
+			curLine = this.lines[i];
+			stage.fillStyle = this.color;
+			stage.font = this.font;
+			
+			nextStop = curLine.length;
+			
+			if(currentFormat<this.formatQueue.length && this.formatQueue[currentFormat].minIndex<=lenCount+linePos){
+				currentFormats.push(this.formatQueue[currentFormat]);
+				currentFormat++;
 			}
-			if(lenCount>=this.start){
-				strStart = 0;
-			}else if(lenCount+this.lines[i].length>=this.start){
-				strStart = this.start-lenCount;
-			}else{
-				strStart = 0;
-				strEnd = 0;
+			for(var k=currentFormats.length-1;k>=0;k--){
+				if(currentFormats[k].maxIndex<=lenCount+linePos){
+					currentFormats.splice(k,1);
+				}
 			}
-			stage.fillText(this.lines[i].substring(strStart,strEnd),this.x+strStart*this.charWidth,this.y+i*this.lineHeight);
-			lenCount+=this.lines[i].length;
-			i++
+			for(var k=0;k<currentFormats.length;k++){
+				if(currentFormats[k].type=="colour"){
+					stage.fillStyle = currentFormats[k].extra;
+				}else if(currentFormats[k].type=="italic"){
+					stage.font = "italic "+this.font;
+				}
+			}
+			if(currentFormat<this.formatQueue.length && this.formatQueue[currentFormat].minIndex<lenCount+curLine.length){
+				if(this.formatQueue[currentFormat].minIndex<this.end){
+					nextStop = Math.min(nextStop,this.formatQueue[currentFormat].minIndex-lenCount);
+				}
+			}
+			for(var k=0;k<currentFormats.length;k++){
+				if(currentFormats[k].maxIndex<this.end){
+					nextStop = Math.min(nextStop,currentFormats[k].maxIndex-lenCount);
+				}
+			}
+			if(nextStop!=curLine.length){
+				strStart = linePos;
+				strEnd = nextStop;
+				linePos+=strEnd-strStart;
+			}else{
+				if(lenCount+curLine.length<=this.end){ //if the line wouldn't take me past the displayed length
+					strEnd = curLine.length; //do the whole line
+				}else{ //otherwise, if the line would take me past the displayed length
+					strEnd = this.end-lenCount; //only show up to the limit
+				}
+				if(lenCount+linePos>=this.start){ //if the start of the line is within the bounds of the displayed length
+					strStart = linePos; //display from the start of the line
+				}else if(lenCount+curLine.length>=this.start){ //otherwise, if any part of the line should be displayed
+					strStart = this.start-(lenCount)+linePos; //display from where we should start
+				}else{ //otherwise, don't show this line at all
+					strStart = linePos;
+					strEnd = linePos;
+				}
+				linePos = -1;
+			}
+			stage.fillText(curLine.substring(strStart,strEnd),this.x+strStart*this.charWidth,this.y+i*this.lineHeight);
+			if(linePos==-1){
+				lenCount+=this.lines[i].length;
+				linePos = 0;
+				i++;
+			}
 		}
 		stage.restore();
 	}
@@ -120,6 +274,13 @@ function FontEngine(text){
 	this.showAll = function(){
 		this.end = this.batchLength();
 	}
+	
+	function FormatRange(minIndex,maxIndex,type,extra){
+		this.minIndex = minIndex;
+		this.maxIndex = maxIndex;
+		this.type = type;
+		this.extra = typeof extra == "string"?extra:"";
+	}
 }
 
 /* Talking text markup
@@ -134,4 +295,8 @@ EX:
 @TTAngry Blahblahblah
 @CGBored snoooooze
 @Karkat_Stupid blarhagahl
+
+Inserting underscores italicizes the text between them, e.g. _blah blah blah_
+Inserting /0xff00ff colours all following text with the specificed colour.
+Insterting /0x/ ends the previously specified behaviour.
 */
