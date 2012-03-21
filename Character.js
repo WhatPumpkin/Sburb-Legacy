@@ -6,6 +6,7 @@ function Character(name,x,y,width,height,sx,sy,sWidth,sHeight,sheet){
 	this.speed = 9;
 	this.facing = "Front";
 	this.npc = true;
+	this.spriteType = "character";
 
 	sWidth = typeof sWidth == "number" ? sWidth : width;
 	sHeight = typeof sHeight == "number" ? sHeight : height;

@@ -1,7 +1,6 @@
-<SBURB curRoom='baseRoom' char='karkat' id='level1'>
+<SBURB curRoom='baseRoom' char='karkat' id='level1' startAction="startGame">
   <Asset name='volumeControl' type='graphic'>resources/volumeControl.png</Asset>
   <Asset name='helpControl' type='graphic'>resources/helpControl.png</Asset>
-
   <Asset name='aaSheet' type='graphic'>resources/AAsheetBig.png</Asset>
   <Asset name='acSheet' type='graphic'>resources/ACsheetBig.png</Asset>
   <Asset name='agSheet' type='graphic'>resources/AGsheetBig.png</Asset>

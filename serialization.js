@@ -166,6 +166,64 @@ function parseSerialAsset(curAsset) {
     return newAsset;
 }
 
+function parseSprite(spriteNode, assetFolder) {
+
+  	var attributes = spriteNode.attributes;
+ 	var newSprite = new Sprite(attributes.getNamedItem("name").value,
+  				   parseInt(attributes.getNamedItem("x").value),
+  				   parseInt(attributes.getNamedItem("y").value),
+  				   parseInt(attributes.getNamedItem("width").value),
+  				   parseInt(attributes.getNamedItem("height").value),
+  				   parseInt(attributes.getNamedItem("dx").value),
+  				   parseInt(attributes.getNamedItem("dy").value),
+  				   parseInt(attributes.getNamedItem("depthing").value),
+  				   attributes.getNamedItem("collidable").value=="true");
+  	var state = attributes.getNamedItem("state").value;
+  	var anims = spriteNode.getElementsByTagName("Animation");
+  	for(var j=0;j<anims.length;j++){
+  		var curAnim = anims[j];
+  		var attributes = curAnim.attributes;
+  		var newAnim = new Animation(attributes.getNamedItem("name").value,
+  					    assetFolder[attributes.getNamedItem("sheet").value],
+  					    parseInt(attributes.getNamedItem("sx").value),
+  					    parseInt(attributes.getNamedItem("sy").value),
+  					    parseInt(attributes.getNamedItem("colSize").value),
+  					    parseInt(attributes.getNamedItem("rowSize").value),
+  					    parseInt(attributes.getNamedItem("startPos").value),
+  					    parseInt(attributes.getNamedItem("length").value),
+  					    parseInt(attributes.getNamedItem("frameInterval").value));
+  		newSprite.addAnimation(newAnim);
+  	}
+  	newSprite.startAnimation(state);
+	return newSprite;
+}
+function parseCharacter(charNode, assetFolder) {
+  	var attributes = charNode.attributes;
+  	var newChar = new Character(attributes.getNamedItem("name").value,
+  				    parseInt(attributes.getNamedItem("x").value),
+  				    parseInt(attributes.getNamedItem("y").value),
+  				    parseInt(attributes.getNamedItem("width").value),
+  				    parseInt(attributes.getNamedItem("height").value),
+  				    parseInt(attributes.getNamedItem("sx").value),
+  				    parseInt(attributes.getNamedItem("sy").value),
+  				    parseInt(attributes.getNamedItem("sWidth").value),
+  				    parseInt(attributes.getNamedItem("sHeight").value),
+  				    assetFolder[attributes.getNamedItem("sheet").value]);
+  	newChar.startAnimation(attributes.getNamedItem("state").value);
+  	newChar.facing = attributes.getNamedItem("facing").value;
+	return newChar;
+}
+function parseRoom(roomNode, assetFolder, spriteFolder) {
+  	var attributes = roomNode.attributes;
+  	var newRoom = new Room(attributes.getNamedItem("name").value,
+  			       parseInt(attributes.getNamedItem("width").value),
+  			       parseInt(attributes.getNamedItem("height").value),
+  			       assetFolder[attributes.getNamedItem("walkable").value]);
+  	serialLoadRoomSprites(newRoom,roomNode.getElementsByTagName("Sprite"), spriteFolder);
+  	serialLoadRoomSprites(newRoom,roomNode.getElementsByTagName("Character"), spriteFolder);
+	serialLoadRoomMotion(newRoom, roomNode.getElementsByTagName("MotionPath"), assetFolder);
+	return newRoom;
+}
 function loadSerialState(input) {
     // this is more or less this init function for a game
     if(!assetManager.finishedLoading()) {
@@ -189,65 +247,21 @@ function loadSerialState(input) {
   	var newSprites = input.getElementsByTagName("Sprite");
   	for(var i=0;i<newSprites.length;i++){
   		var curSprite = newSprites[i];
-  		var attributes = curSprite.attributes;
-  		var newSprite = new Sprite(attributes.getNamedItem("name").value,
-  									parseInt(attributes.getNamedItem("x").value),
-  									parseInt(attributes.getNamedItem("y").value),
-  									parseInt(attributes.getNamedItem("width").value),
-  									parseInt(attributes.getNamedItem("height").value),
-  									parseInt(attributes.getNamedItem("dx").value),
-  									parseInt(attributes.getNamedItem("dy").value),
-  									parseInt(attributes.getNamedItem("depthing").value),
-  									attributes.getNamedItem("collidable").value=="true");
+		var newSprite = parseSprite(curSprite, assets);
+		
   		sprites[newSprite.name] = newSprite;
-  		var state = attributes.getNamedItem("state").value;
-  		var anims = curSprite.getElementsByTagName("Animation");
-  		for(var j=0;j<anims.length;j++){
-  			var curAnim = anims[j];
-  			var attributes = curAnim.attributes;
-  			var newAnim = new Animation(attributes.getNamedItem("name").value,
-  										assets[attributes.getNamedItem("sheet").value],
-  										parseInt(attributes.getNamedItem("sx").value),
-  										parseInt(attributes.getNamedItem("sy").value),
-  										parseInt(attributes.getNamedItem("colSize").value),
-  										parseInt(attributes.getNamedItem("rowSize").value),
-  										parseInt(attributes.getNamedItem("startPos").value),
-  										parseInt(attributes.getNamedItem("length").value),
-  										parseInt(attributes.getNamedItem("frameInterval").value));
-  			newSprite.addAnimation(newAnim);
-  		}
-  		newSprite.startAnimation(state);
   	}
   	var newChars = input.getElementsByTagName("Character");
   	for(var i=0;i<newChars.length;i++){
   		var curChar = newChars[i];
-  		var attributes = curChar.attributes;
-  		var newChar = new Character(attributes.getNamedItem("name").value,
-  									parseInt(attributes.getNamedItem("x").value),
-  									parseInt(attributes.getNamedItem("y").value),
-  									parseInt(attributes.getNamedItem("width").value),
-  									parseInt(attributes.getNamedItem("height").value),
-  									parseInt(attributes.getNamedItem("sx").value),
-  									parseInt(attributes.getNamedItem("sy").value),
-  									parseInt(attributes.getNamedItem("sWidth").value),
-  									parseInt(attributes.getNamedItem("sHeight").value),
-  									assets[attributes.getNamedItem("sheet").value]);
+		var newChar = parseCharacter(curChar, assets);
   		sprites[newChar.name] = newChar;
-  		newChar.startAnimation(attributes.getNamedItem("state").value);
-  		newChar.facing = attributes.getNamedItem("facing").value;
   	}
   	var newRooms = input.getElementsByTagName("Room");
   	for(var i=0;i<newRooms.length;i++){
   		var currRoom = newRooms[i];
-  		var attributes = currRoom.attributes;
-  		var newRoom = new Room(attributes.getNamedItem("name").value,
-  								parseInt(attributes.getNamedItem("width").value),
-  								parseInt(attributes.getNamedItem("height").value),
-  								assets[attributes.getNamedItem("walkable").value]);
+		var newRoom = parseRoom(currRoom, assets, sprites);
   		rooms[newRoom.name] = newRoom;
-  		serialLoadRoomSprites(newRoom,currRoom.getElementsByTagName("Sprite"));
-  		serialLoadRoomSprites(newRoom,currRoom.getElementsByTagName("Character"));
-	    serialLoadRoomMotion(newRoom, currRoom.getElementsByTagName("MotionPath"));
   	}
   	var rootInfo = input.attributes;
   	focus = char = sprites[rootInfo.getNamedItem("char").value];
@@ -257,9 +271,10 @@ function loadSerialState(input) {
   	sprites.dialogBox = new StaticSprite("dialogBox",Stage.width+1,1000,null,null,null,null,assets.dialogBox,FG_DEPTHING);
   	dialoger.setBox(sprites.dialogBox);
     var initAction;
+    var initActionName = rootInfo.getNamedItem("startAction").value;
     for(var i=0; i<input.childNodes.length; i++) {
 	var tmp = input.childNodes[i];
-	if(tmp.tagName=="Action" && tmp.attributes.getNamedItem("name").value == "startGame") {
+	if(tmp.tagName=="Action" && tmp.attributes.getNamedItem("name").value == initActionName) {
 	    initAction = parseXMLAction(tmp);
 	    continue;
 	}
@@ -272,10 +287,10 @@ function loadSerialState(input) {
     update(0);
 }
 
-function serialLoadRoomSprites(newRoom,roomSprites){
+function serialLoadRoomSprites(newRoom, roomSprites, spriteFolder){
 	for(var j=0;j<roomSprites.length;j++){
 		var curSprite = roomSprites[j];
-		var actualSprite = sprites[curSprite.attributes.getNamedItem("name").value];
+		var actualSprite = spriteFolder[curSprite.attributes.getNamedItem("name").value];
 		newRoom.addSprite(actualSprite);
 	        var newActions = curSprite.childNodes;
 		for(var k=0;k<newActions.length;k++){
@@ -290,10 +305,16 @@ function serialLoadRoomSprites(newRoom,roomSprites){
 	}
 }
 
-function serialLoadRoomMotion(newRoom, motionPaths) {
+function serialLoadRoomMotion(newRoom, motionPaths, assetFolder) {
 	for(var j=0;j<motionPaths.length;j++) {
 		var node = motionPaths[j];
 		var attributes = node.attributes;
-		newRoom.addMotionPath(assets[attributes.getNamedItem("path").value], parseInt(attributes.getNamedItem("xtox").value), parseInt(attributes.getNamedItem("xtoy").value), parseInt(attributes.getNamedItem("ytox").value), parseInt(attributes.getNamedItem("ytoy").value), parseInt(attributes.getNamedItem("dx").value), parseInt(attributes.getNamedItem("dy").value));
-    }
+		newRoom.addMotionPath(assetFolder[attributes.getNamedItem("path").value], 
+				      parseInt(attributes.getNamedItem("xtox").value), 
+				      parseInt(attributes.getNamedItem("xtoy").value), 
+				      parseInt(attributes.getNamedItem("ytox").value), 
+				      parseInt(attributes.getNamedItem("ytoy").value), 
+				      parseInt(attributes.getNamedItem("dx").value), 
+				      parseInt(attributes.getNamedItem("dy").value));
+	}
 }
