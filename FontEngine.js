@@ -106,14 +106,14 @@ function FontEngine(text){
 		while(index>=0){
 			var closing = false;
 			for(var i=this.formatQueue.length-1;i>=0;i--){
-				if(this.formatQueue[i].type=="italic" && this.formatQueue[i].maxIndex==999999){
+				if(this.formatQueue[i].type=="underline" && this.formatQueue[i].maxIndex==999999){
 					this.formatQueue[i].maxIndex=index;
 					closing = true;
 					break;
 				}
 			}
 			if(!closing){
-				this.addToFormatQueue(new FormatRange(index,999999,"italic"));
+				this.addToFormatQueue(new FormatRange(index,999999,"underline"));
 			}
 			this.text = this.text.substring(0,index)+this.text.substring(index+1,this.text.length);
 			this.realignFormatQueue(index,1);
@@ -197,8 +197,9 @@ function FontEngine(text){
 		
 		while(i<Math.floor(this.height/this.lineHeight) && i<this.lines.length){
 			curLine = this.lines[i];
-			stage.fillStyle = this.color;
+			stage.strokeStyle = stage.fillStyle = this.color;
 			stage.font = this.font;
+			var underlining = false;
 			
 			nextStop = curLine.length;
 			
@@ -213,7 +214,10 @@ function FontEngine(text){
 			}
 			for(var k=0;k<currentFormats.length;k++){
 				if(currentFormats[k].type=="colour"){
-					stage.fillStyle = currentFormats[k].extra;
+					stage.strokeStyle = stage.fillStyle = currentFormats[k].extra;
+					
+				}else if(currentFormats[k].type=="underline"){
+					underlining = true;
 				}else if(currentFormats[k].type=="italic"){
 					stage.font = "italic "+this.font;
 				}
@@ -248,7 +252,18 @@ function FontEngine(text){
 				}
 				linePos = -1;
 			}
-			stage.fillText(curLine.substring(strStart,strEnd),this.x+strStart*this.charWidth,this.y+i*this.lineHeight);
+			var startX = this.x+strStart*this.charWidth;
+			var startY = this.y+i*this.lineHeight;
+			stage.fillText(curLine.substring(strStart,strEnd),startX,startY);
+			if(underlining){
+				stage.lineWidth = 0.6;
+				stage.lineCap = "square";
+				stage.beginPath();
+				stage.moveTo(startX,startY+this.lineHeight-3);
+				stage.lineTo(startX+(strEnd-strStart)*this.charWidth,startY+this.lineHeight-3);
+				stage.closePath();
+				stage.stroke();
+			}
 			if(linePos==-1){
 				lenCount+=this.lines[i].length;
 				linePos = 0;
@@ -296,7 +311,7 @@ EX:
 @CGBored snoooooze
 @Karkat_Stupid blarhagahl
 
-Inserting underscores italicizes the text between them, e.g. _blah blah blah_
+Inserting underscores underlines the text between them, e.g. _blah blah blah_
 Inserting /0xff00ff colours all following text with the specificed colour.
 Insterting /0x/ ends the previously specified behaviour.
 */

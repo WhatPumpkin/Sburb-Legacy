@@ -20,7 +20,6 @@
  <!-- <Asset name='karkatBGM' type='audio'>resources/karkat.ogg;resources/karkat.mp3</Asset>
   <Asset name='tereziBGM' type='audio'>resources/terezi.ogg;resources/terezi.mp3</Asset> -->
   <Asset name='compLabWalkable' type='path'>70,270;800,270;800,820;70,820</Asset>
-  <!-- <Asset name='compLabStairs' type='path'>400,400;800,400;800,700;400,700</Asset> -->
   <Asset name='stairRoomWalkable' type='path'> 999,368;442,369;258,560;86,556;86,608;0,609;0,940;264,942;630,1318;813,1320;813,2070;222,2070;224,1510;588,1888;402,1888;402,1904; 237,1905;236,2049;801,2054;800,1706;591,1702;228,1323;142,1323; 140,1344;0,1344;0,2258;999,2258;999,1126;624,1124;260,754;260,740;441,552;999,552</Asset>
   <Asset name='stairRoomStairs1' type='path'>442,369;258,560;260,740;441,552</Asset>
   <Asset name='stairRoomStairs2' type='path'>264,942;630,1318;624,1124;260,754</Asset>
@@ -37,7 +36,10 @@
     </Action> -->
   </Action> 
   
-  <Room name='baseRoom' width='861' height='909' walkable='compLabWalkable'>
+  <Room name='baseRoom' width='861' height='909'>
+  	<Paths>
+  		<Walkable path='compLabWalkable'/>
+  	</Paths>
     <Character name='karkat' x='300' y='501' sx='-36' sy='-87' sWidth='66' sHeight='96' width='48' height='21' 
 	       sheet='cgSheet' state='walkFront' facing='Front'>
       <Action sprite='null' name='swap' command='changeChar'>karkat</Action>
@@ -82,7 +84,14 @@ laborum. @CGAngry hehehe @CGAngry whaaaat
       <Animation name='image' sx='0' sy='0' sheet='compLabBG' rowSize='909' colSize='861' startPos='0' length='1' frameInterval='1' />
     </Sprite>
   </Room>
-  <Room name='stairRoom' width='999' height='2259' walkable='stairRoomWalkable'>
+  
+  <Room name='stairRoom' width='999' height='2259'>
+  	<Paths>
+  		<Walkable path="stairRoomWalkable"/>
+  		<MotionPath path="stairRoomStairs1" xtox = '1' xtoy = '-1' ytox='0' ytoy = '1' dx='0' dy='0'/>
+    	<MotionPath path="stairRoomStairs2" xtox = '1' xtoy = '1' ytox='0' ytoy = '1' dx='0' dy='0'/>
+    	<MotionPath path="stairRoomStairs3" xtox = '1' xtoy = '1' ytox='0' ytoy = '1' dx='0' dy='0'/>
+  	</Paths>
     <Character name='sollux' x='360' y='1950' sx='-33' sy='-78' sWidth='63' sHeight='81' width='42' height='21'
     	 sheet='taSheet' state='walkFront' facing='Front'>
       <Action sprite='null' name='talk' command='talk'>@! blahblahblah</Action>
@@ -99,9 +108,5 @@ baseRoom,300,300
     <Sprite name='stairRoomBG' x='0' y='0' dx='0' dy='0' width='999' height='2259' depthing='0' collidable='false' state='image'>
       <Animation name='image' sheet='stairRoomBG' sx='0' sy='0' rowSize='2259' colSize='999' startPos='0' length='1' frameInterval='1' />
     </Sprite>
-    
-    <MotionPath path="stairRoomStairs1" xtox = '1' xtoy = '-1' ytox='0' ytoy = '1' dx='0' dy='0'/>
-    <MotionPath path="stairRoomStairs2" xtox = '1' xtoy = '1' ytox='0' ytoy = '1' dx='0' dy='0'/>
-    <MotionPath path="stairRoomStairs3" xtox = '1' xtoy = '1' ytox='0' ytoy = '1' dx='0' dy='0'/>
   </Room>
 </SBURB>

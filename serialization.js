@@ -217,11 +217,10 @@ function parseRoom(roomNode, assetFolder, spriteFolder) {
   	var attributes = roomNode.attributes;
   	var newRoom = new Room(attributes.getNamedItem("name").value,
   			       parseInt(attributes.getNamedItem("width").value),
-  			       parseInt(attributes.getNamedItem("height").value),
-  			       assetFolder[attributes.getNamedItem("walkable").value]);
+  			       parseInt(attributes.getNamedItem("height").value));
   	serialLoadRoomSprites(newRoom,roomNode.getElementsByTagName("Sprite"), spriteFolder);
   	serialLoadRoomSprites(newRoom,roomNode.getElementsByTagName("Character"), spriteFolder);
-	serialLoadRoomMotion(newRoom, roomNode.getElementsByTagName("MotionPath"), assetFolder);
+	serialLoadRoomPaths(newRoom, roomNode.getElementsByTagName("Paths"), assetFolder);
 	return newRoom;
 }
 function loadSerialState(input) {
@@ -271,17 +270,22 @@ function loadSerialState(input) {
   	sprites.dialogBox = new StaticSprite("dialogBox",Stage.width+1,1000,null,null,null,null,assets.dialogBox,FG_DEPTHING);
   	dialoger.setBox(sprites.dialogBox);
     var initAction;
-    var initActionName = rootInfo.getNamedItem("startAction").value;
+    var initActionName;
+    if(rootInfo.getNamedItem("startAction")){
+    	initActionName = rootInfo.getNamedItem("startAction").value;
+    }else{
+    	initActionName = "none";
+    }
     for(var i=0; i<input.childNodes.length; i++) {
-	var tmp = input.childNodes[i];
-	if(tmp.tagName=="Action" && tmp.attributes.getNamedItem("name").value == initActionName) {
-	    initAction = parseXMLAction(tmp);
-	    continue;
-	}
+		var tmp = input.childNodes[i];
+		if(tmp.tagName=="Action" && tmp.attributes.getNamedItem("name").value == initActionName) {
+			initAction = parseXMLAction(tmp);
+			continue;
+		}
     }
     if(initAction) {
-	curAction = initAction;
-	performAction(curAction);
+		curAction = initAction;
+		performAction(curAction);
     }
 
     update(0);
@@ -305,7 +309,22 @@ function serialLoadRoomSprites(newRoom, roomSprites, spriteFolder){
 	}
 }
 
-function serialLoadRoomMotion(newRoom, motionPaths, assetFolder) {
+function serialLoadRoomPaths(newRoom, paths, assetFolder) {
+	var walkables = paths[0].getElementsByTagName("Walkable");
+	for(var j=0;j<walkables.length;j++){
+		var node = walkables[j];
+		var attributes = node.attributes;
+		newRoom.addWalkable(assetFolder[attributes.getNamedItem("path").value]);
+	}
+	
+	var unwalkables = paths[0].getElementsByTagName("Unwalkable");
+	for(var j=0;j<unwalkables.length;j++){
+		var node = unwalkables[j];
+		var attributes = node.attributes;
+		newRoom.addUnWalkable(assetFolder[attributes.getNamedItem("path").value]);
+	}
+	
+	var motionPaths = paths[0].getElementsByTagName("MotionPath");
 	for(var j=0;j<motionPaths.length;j++) {
 		var node = motionPaths[j];
 		var attributes = node.attributes;

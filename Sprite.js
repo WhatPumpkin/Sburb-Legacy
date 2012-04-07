@@ -73,9 +73,14 @@ function Sprite(name,x,y,width,height,dx,dy,depthing,collidable){
 	
 	this.tryToMove = function(vx,vy,room){
 	    var i;
-	    var moveMap = room.getMoveFunction(this.x, this.y);
+	    var moveMap = room.getMoveFunction(this);
+	    var wasShifted = false;
 	    if(moveMap) {
+	    	//console.log("stairs!");
 			l = moveMap(vx, vy);
+			if(vx!=l.x || vy!=l.y){
+				wasShifted = true;
+			}
 			vx = l.x;
 			vy = l.y;
 	    }
@@ -92,9 +97,17 @@ function Sprite(name,x,y,width,height,dx,dy,depthing,collidable){
 				}
 			}
 			if(!room.isInBounds(this)){
-				this.x -=vx;
-				this.y -=vy;
-				return false;
+				if((moveMap && wasShifted) || (!moveMap && room.isBufferable(this))){
+					//console.log("no clip!");
+					var adjustment = room.getMovementBuffer(this);
+					this.x += adjustment.x;
+					this.y += adjustment.y;
+				}else{
+					//console.log("no move!");
+					this.x -=vx;
+					this.y -=vy;
+					return false;
+				}
 			}
 		}
 		return true;
