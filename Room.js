@@ -174,35 +174,30 @@ function Room(name,width,height){
 	
 	this.getMovementBuffer = function(sprite){
 		var result = {x:0,y:0}
-		stage.save();
-		stage.beginPath();
-		stage.moveTo(this.walkable[0].x,this.walkable[0].y);
-		for(var i=1;i<this.walkable.length;i++){
-			stage.lineTo(this.walkable[i].x,this.walkable[i].y);
-		}
+		
 		do{
-			var downRightIn = stage.isPointInPath(sprite.x+result.x+sprite.width/2,sprite.y+result.y+sprite.height/2);
-			var downLeftIn = stage.isPointInPath(sprite.x+result.x-sprite.width/2,sprite.y+result.y+sprite.height/2);
-			var upLeftIn = stage.isPointInPath(sprite.x+result.x-sprite.width/2,sprite.y+result.y-sprite.height/2);
-			var upRightIn = stage.isPointInPath(sprite.x+result.x+sprite.width/2,sprite.y+result.y-sprite.height/2);
-			if(!upLeftIn){
+			var queries = {upRight:{x:sprite.x+sprite.width/2+result.x,y:sprite.y-sprite.height/2+result.y},
+						 upLeft:{x:sprite.x-sprite.width/2+result.x,y:sprite.y-sprite.height/2+result.y},
+						 downLeft:{x:sprite.x-sprite.width/2+result.x,y:sprite.y+sprite.height/2+result.y},
+						 downRight:{x:sprite.x+sprite.width/2+result.x,y:sprite.y+sprite.height/2+result.y}}
+			var results = this.isInBoundsBatch(queries);
+			if(!results.upLeft){
 				result.x+=3;
 				result.y+=3;
 			}
-			if(!upRightIn){
+			if(!results.upRight){
 				result.x-=3;
 				result.y+=3;
 			}
-			if(!downLeftIn){
+			if(!results.downLeft){
 				result.x+=3;
 				result.y-=3;
 			}
-			if(!downRightIn){
+			if(!results.downRight){
 				result.x-=3;
 				result.y-=3;
 			}
-		}while(!downRightIn || !downLeftIn || !upLeftIn || !downRightIn);
-		stage.restore();
+		}while(!results.upLeft || !results.upRight || !results.downLeft || !results.downRight);
 		return result;
 	}
 	
