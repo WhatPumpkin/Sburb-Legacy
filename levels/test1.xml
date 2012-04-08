@@ -13,6 +13,9 @@
   <Asset name='gcSheet' type='graphic'>resources/GCsheetBig.png</Asset>
   <Asset name='taSheet' type='graphic'>resources/TAsheetBig.png</Asset>
   <Asset name='tcSheet' type='graphic'>resources/TCsheetBig.png</Asset>
+  
+  <Asset name='VriskaIdleSheet' type='graphic'>resources/vriskaportrait.gif</Asset>
+  <Asset name='NepetaIdleSheet' type='graphic'>resources/nepetaDialog1.png</Asset>
     
   <Asset name='compLabBG' type='graphic'>resources/comlab-background.gif</Asset>
   <Asset name='stairRoomBG' type='graphic'>resources/stairRoom.png</Asset>
@@ -28,9 +31,13 @@
   <HUD>
   	<SpriteButton name='volumeButton' x='9' y='9' width='54' height='36' sheet='volumeControl' />
   	<SpriteButton name='helpButton' x='591' y='9' width='54' height='63' sheet='helpControl' />
+  	<DialogSprites>
+  		<Animation name='Vriska_Idle' sx='-142' sy='-424' sheet='VriskaIdleSheet' rowSize='424' colSize='284' startPos='0' length='1' frameInterval='1000' />
+  		<Animation name='Nepeta_Idle' sx='-270' sy='-450' sheet='NepetaIdleSheet' rowSize='450' colSize='456' startPos='0' length='1' frameInterval='1000' />
+  	</DialogSprites>
   </HUD>
   
-  <Action sprite='null' name='startGame' command='talk'>@CGAngry FUCK _THIS_ /0xff0000FUCKING _HORSE/0x/ FUCKING_ SHIT _ASS CRAP_.
+  <Action sprite='null' name='startGame' command='talk'>@! Let's do this!!!
     <!-- <Action sprite='null' name='introMusic' command='playSong'>
       karkatBGM, 6.7 
     </Action> -->
@@ -58,17 +65,11 @@
     </Character>
     <Character name='terezi' x='201' y='402' sx='-45' sy='-72' sWidth='93' sHeight='93' width='55' height='21' 
 	       sheet='gcSheet' state='walkFront' facing='Front'>
-      <Action sprite='null' name='talk' command='talk'>@CGAngry Lorem ipsum
-
-dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit
-
-in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-
-mollit anim id
-
-est
-
-laborum. @CGAngry hehehe @CGAngry whaaaat
+      <Action sprite='null' name='talk' command='talk'>
+      @Vriska_Idle HELLO I AM A PRETTY TEST DIALOG. DO YOU LIKE ME? WHY DON'T YOU LIKE ME???
+      @Vriska_Idle I'm sure you really do like me.
+      @Nepeta_Idle No I really don't like you. In fact I loathe you with to an unimaginable degree. I would rather you never existed at all!
+      @Vriska_Idle YES YOU DO.
       </Action>
       <Action sprite='null' name='change room' command='changeRoom'>
 	stairRoom,666,450

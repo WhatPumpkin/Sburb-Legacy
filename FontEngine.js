@@ -16,17 +16,29 @@ function FontEngine(text){
 	this.formatQueue = new Array();
 	
 	this.prefixColours = {	aa : "#a10000",
+							aradia : "#a10000",
 							ac : "#416600",
+							nepeta : "#416600",
 							ag : "#005682",
+							vriska : "#005682",
 							at : "#a15000",
+							tavros : "#a15000",
 							ca : "#6a006a",
+							eridan : "#6a006a",
 							cc : "#77003c",
+							feferi : "#77003c",
 							cg : "#626262",
+							karkat : "#626262",
 							ct : "#000056",
+							equius : "#000056",
 							ga : "#008141",
+							kanaya : "#008141",
 							gc : "#008282",
+							terezi : "#008282",
 							ta : "#a1a100",
-							tc : "#2b0057"
+							sollux : "#a1a100",
+							tc : "#2b0057",
+							gamzee : "#2b0057"
 						  }
 	
 	this.setStyle = function(font,color,lineHeight,charWidth){

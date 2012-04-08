@@ -39,7 +39,9 @@ function Sprite(name,x,y,width,height,dx,dy,depthing,collidable){
 	}
 	
 	this.draw = function(){
-		this.animation.draw(this.x,this.y);
+		if(this.animation!=null){
+			this.animation.draw(this.x,this.y);
+		}
 	}
 	
 	this.isBehind = function(other){

@@ -91,7 +91,7 @@ function loadSerialFromXML(file, savedStateID) {
 }
 function loadLevelFile(node) {
     if (!window.FileReader) {
-	alert("This browser doesn't support reading files");
+		alert("This browser doesn't support reading files");
     }
     oFReader = new FileReader();
     if (node.files.length === 0) { return; }  
@@ -107,9 +107,9 @@ function loadSerial(serialText, sburbID) {
     var input=parser.parseFromString(inText,"text/xml");
 
     if(sburbID) {
-	input = input.getElementById(sburbID);
+		input = input.getElementById(sburbID);
     } else {
-  	input = input.documentElement;
+  		input = input.documentElement;
     }
 
     // should we assume that all assets with the same name
@@ -119,12 +119,12 @@ function loadSerial(serialText, sburbID) {
     purgeState();
     var newAssets = input.getElementsByTagName("Asset");
     for(var i=0;i<newAssets.length;i++){
-	var curAsset = newAssets[i];
-  	var attributes = curAsset.attributes;
-	var name = attributes.getNamedItem("name").value;
-	if (!assetManager.isLoaded(name)) {
-	    loadSerialAsset(curAsset);
-	}
+		var curAsset = newAssets[i];
+	  	var attributes = curAsset.attributes;
+		var name = attributes.getNamedItem("name").value;
+		if (!assetManager.isLoaded(name)) {
+			loadSerialAsset(curAsset);
+		}
     }
     setTimeout(function() { loadSerialState(input) }, 500);
 }
@@ -181,9 +181,16 @@ function parseSprite(spriteNode, assetFolder) {
   	var state = attributes.getNamedItem("state").value;
   	var anims = spriteNode.getElementsByTagName("Animation");
   	for(var j=0;j<anims.length;j++){
-  		var curAnim = anims[j];
-  		var attributes = curAnim.attributes;
-  		var newAnim = new Animation(attributes.getNamedItem("name").value,
+  		var newAnim = parseAnimation(anims[j],assetFolder);
+  		newSprite.addAnimation(newAnim);
+  	}
+  	newSprite.startAnimation(state);
+	return newSprite;
+}
+
+function parseAnimation(animationNode, assetFolder){
+	var attributes = animationNode.attributes;
+	return new Animation(attributes.getNamedItem("name").value,
   					    assetFolder[attributes.getNamedItem("sheet").value],
   					    parseInt(attributes.getNamedItem("sx").value),
   					    parseInt(attributes.getNamedItem("sy").value),
@@ -192,11 +199,8 @@ function parseSprite(spriteNode, assetFolder) {
   					    parseInt(attributes.getNamedItem("startPos").value),
   					    parseInt(attributes.getNamedItem("length").value),
   					    parseInt(attributes.getNamedItem("frameInterval").value));
-  		newSprite.addAnimation(newAnim);
-  	}
-  	newSprite.startAnimation(state);
-	return newSprite;
 }
+
 function parseCharacter(charNode, assetFolder) {
   	var attributes = charNode.attributes;
   	var newChar = new Character(attributes.getNamedItem("name").value,
@@ -269,6 +273,7 @@ function loadSerialState(input) {
   	curRoom.initialize();
   	sprites.dialogBox = new StaticSprite("dialogBox",Stage.width+1,1000,null,null,null,null,assets.dialogBox,FG_DEPTHING);
   	dialoger.setBox(sprites.dialogBox);
+  	serialLoadDialogSprites(input.getElementsByTagName("HUD")[0].getElementsByTagName("DialogSprites")[0],assets);
     var initAction;
     var initActionName;
     if(rootInfo.getNamedItem("startAction")){
@@ -289,6 +294,16 @@ function loadSerialState(input) {
     }
 
     update(0);
+}
+
+function serialLoadDialogSprites(dialogSprites,assetFolder){
+	dialoger.dialogSpriteLeft = new Sprite("dialogSprite",-1000,Stage.height,0,0);
+	dialoger.dialogSpriteRight = new Sprite("dialogSprite",Stage.width+1000,Stage.height,0,0);
+	var animations = dialogSprites.getElementsByTagName("Animation");
+	for(var i=0;i<animations.length;i++){
+		dialoger.dialogSpriteLeft.addAnimation(parseAnimation(animations[i],assetFolder));
+		dialoger.dialogSpriteRight.addAnimation(parseAnimation(animations[i],assetFolder));
+	}
 }
 
 function serialLoadRoomSprites(newRoom, roomSprites, spriteFolder){
