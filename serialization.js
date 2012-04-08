@@ -42,6 +42,12 @@ function serializeHud(output){
 	for(var content in hud){
 		output = hud[content].serialize(output);
 	}
+	var animations = dialoger.dialogSpriteLeft.animations;
+	output = output.concat("<DialogSprites>");
+	for(var animation in animations){
+		output = animations[animation].serialize(output);
+	}
+	output = output.concat("</DialogSprites>");
 	output = output.concat("</HUD>");
 	return output;
 }
