@@ -4,24 +4,25 @@ var Keys = {backspace:8,tab:9,enter:13,shift:16,ctrl:17,alt:18,escape:27,space:3
 
 var Stage; //the canvas, we're gonna load it up with a bunch of flash-like game data like fps and scale factors
 var stage; //its context
-var updateLoop;
-var pressed;
-var assetManager;
-var assets;
-var sprites;
-var rooms;
-var char;
-var curRoom,destRoom;
-var destX,destY;
-var focus;
-var chooser;
-var curAction;
-var bgm;
-var hud;
-var Mouse = {down:false,x:0,y:0};
+var updateLoop; //the main updateLoop, used to interrupt updating
+var pressed; //the pressed keys
+var assetManager; //the asset loader
+var assets; //all images, sounds, paths
+var sprites; //all sprites that were Serial loaded
+var rooms; //all rooms
+var effects; //all effects 
+var char; //the player
+var curRoom,destRoom; //current room, the room we are transitioning to, if it exists.
+var destX,destY; //the desired location in the room we are transitioning to, if it exists.
+var focus; //the focus of the camera (a sprite), usually just the char
+var chooser; //the option chooser
+var curAction; //the current action being performed
+var bgm; //the current background music
+var hud; //the hud; help and sound buttons
+var Mouse = {down:false,x:0,y:0}; //current recorded properties of the mouse
 
-var initFinished;
-var _hardcode_load;
+var initFinished; //only used when _hardcode_load is true
+var _hardcode_load; //set to 1 when we don't want to load from XML: see initialize()
 
 function initialize(){
 	var gameDiv = document.getElementById("gameDiv");
@@ -43,7 +44,8 @@ function initialize(){
 	rooms = {};
 	sprites = {};
 	commands = {};
-	hud = {}
+	effects = {};
+	hud = {};
 	pressed = new Array();
 	buildCommands();
 	
@@ -111,14 +113,12 @@ var _onkeydown = function(e){
 	}else{
 		if(e.keyCode == Keys.space && !pressed[Keys.space]){
 			chooser.choices = new Array();
-			if(char.facing=="Front"){
-				chooser.choices = curRoom.queryActions(char,char.x,char.y+char.height/2+15);
-			}else if(char.facing=="Back"){
-				chooser.choices = curRoom.queryActions(char,char.x,char.y-char.height/2-15);
-			}else if(char.facing=="Right"){
-				chooser.choices = curRoom.queryActions(char,char.x+char.width/2+15,char.y);
-			}else if(char.facing=="Left"){
-				chooser.choices = curRoom.queryActions(char,char.x-char.width/2-15,char.y);
+			var queries = char.getActionQueries();
+			for(var i=0;i<queries.length;i++){
+				chooser.choices = curRoom.queryActions(char,queries[i].x,queries[i].y);
+				if(chooser.choices.length>0){
+					break;
+				}
 			}
 			if(chooser.choices.length>0){
 				chooser.choices.push(new Action("cancel","cancel","cancel"));
@@ -129,8 +129,8 @@ var _onkeydown = function(e){
 	pressed[e.keyCode] = true;
     // return true if we want to pass keys along to the browser, i.e. Ctrl-N for a new window
     if(e.altKey || e.ctrlKey || e.metaKey) {
-	// don't muck with system stuff
-	return true;
+		// don't muck with system stuff
+		return true;
     }
     return false;
 }
@@ -230,7 +230,10 @@ function buildCommands(){
 	commands.changeRoom = changeRoomCommand;
 	commands.changeChar = changeCharCommand;
 	commands.playSong = playSongCommand;
+	commands.playSound = playSoundCommand;
+	commands.teleport = teleportCommand;
 	commands.cancel = cancelCommand;
+	
 }
 
 function performAction(action){
@@ -305,6 +308,15 @@ function changeBGM(newSong) {
 		bgm.play();
 		setTimeout("checkBGMLoop()", 100);
     }
+}
+
+function playEffect(effect,x,y){
+	//
+}
+
+function playSound(sound){
+	sound.stop();
+	sound.play();
 }
 
 function checkBGMLoop() {

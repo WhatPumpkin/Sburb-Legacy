@@ -1,5 +1,5 @@
 //no dependencies
-function Animation(name,sheet,sx,sy,colSize,rowSize,startPos,length,frameInterval){
+function Animation(name,sheet,sx,sy,colSize,rowSize,startPos,length,frameInterval,loopNum){
 	this.sheet = sheet;
 	this.sx = sx;
 	this.sy = sy;
@@ -13,9 +13,21 @@ function Animation(name,sheet,sx,sy,colSize,rowSize,startPos,length,frameInterva
 	this.numRows = sheet.height/rowSize;
 	this.numCols = sheet.width/colSize;
 	this.name = name;
+	this.loopNum = typeof loopNum == "number"?loopNum:-1;
 	
 	this.nextFrame = function() {
-		this.curFrame = (this.curFrame+1)%this.length;
+		this.curFrame++;
+		if(this.curFrame>=this.length){
+			if(this.loopNum==0){
+				this.curFrame = this.length-1;
+			}else{
+				this.curFrame=0;
+				this.loopNum--;
+				if(this.loopNum<0){
+					this.loopNum++;
+				}
+			}
+		}
 	}
 	this.update = function(elapsedTime){
 		this.curInterval += elapsedTime;
@@ -55,6 +67,10 @@ function Animation(name,sheet,sx,sy,colSize,rowSize,startPos,length,frameInterva
 	this.reset = function(){
 		this.curFrame = 0;
 		this.curInterval = 0;
+	}
+	
+	this.hasPlayed = function(){
+		return loopNum==0 && this.curFrame==this.length;
 	}
 	
 	this.serialize = function(output){

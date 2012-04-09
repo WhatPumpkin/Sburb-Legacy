@@ -10,6 +10,7 @@ function Room(name,width,height){
 	this.addSprite = function(sprite){
 		this.sprites.push(sprite);
 	}
+	
 	this.removeSprite = function(sprite){
 		var i;
 		for(i=0;i<this.sprites.length;i++){
@@ -20,12 +21,15 @@ function Room(name,width,height){
 		}
 		return false;
 	}
+	
 	this.addWalkable = function(path){
 		this.walkables.push(path);
 	}
+	
 	this.addUnwalkable = function(path){
 		this.unwalkables.push(path);
 	}
+	
     this.addMotionPath = function(path, xtox,xtoy,ytox,ytoy,dx,dy) {
 		var motionPath = new function (){
 			this.path = path;
@@ -35,11 +39,13 @@ function Room(name,width,height){
 		};
 		this.motionPaths.push(motionPath);
     }
+    
     this.initialize = function() {
 		// do we need this method anymore?
 		// chained actions might make this obsolete
 		return;
     }
+    
 	this.contains = function(sprite){
 		for(var i=0;i<this.sprites.length;i++){
 			if(this.sprites[i]==sprite){
@@ -55,6 +61,7 @@ function Room(name,width,height){
 			this.sprites[i].update(gameTime);
 		}
 	}
+	
 	this.draw = function(){
 		this.sortDepths();
 		var i;
@@ -87,6 +94,7 @@ function Room(name,width,height){
 		}
 		return validActions;
 	}
+	
 	this.isInBounds = function(sprite){
 		var queries = {upRight:{x:sprite.x+sprite.width/2,y:sprite.y-sprite.height/2},
 					 upLeft:{x:sprite.x-sprite.width/2,y:sprite.y-sprite.height/2},

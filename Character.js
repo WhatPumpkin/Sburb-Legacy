@@ -64,6 +64,28 @@ function Character(name,x,y,width,height,sx,sy,sWidth,sHeight,sheet){
 		this.animations.walkRight.frameInterval = 4;
 	}
 	
+	this.getActionQueries = function(){
+		var queries = new Array();
+		if(this.facing=="Front"){
+			queries.push({x:this.x,y:this.y+(this.height/2+15)});
+			queries.push({x:this.x-this.width/2,y:this.y+(this.height/2+15)});
+			queries.push({x:this.x+this.width/2,y:this.y+(this.height/2+15)});
+		}else if(this.facing=="Back"){
+			queries.push({x:this.x,y:this.y-(this.height/2+15)});
+			queries.push({x:this.x-this.width/2,y:this.y-(this.height/2+15)});
+			queries.push({x:this.x+this.width/2,y:this.y-(this.height/2+15)});
+		}else if(this.facing=="Right"){
+			queries.push({x:this.x+(this.width/2+15),y:this.y});
+			queries.push({x:this.x+(this.width/2+15),y:this.y+this.height/2});
+			queries.push({x:this.x+(this.width/2+15),y:this.y-this.height/2});
+		}else if(this.facing=="Left"){
+			queries.push({x:this.x-(this.width/2+15),y:this.y});
+			queries.push({x:this.x-(this.width/2+15),y:this.y+this.height/2});
+			queries.push({x:this.x-(this.width/2+15),y:this.y-this.height/2});
+		}
+		return queries;
+	}
+	
 	this.serialize = function(output){
 		output = output.concat("<Character name='"+this.name+"' x='"+this.x+"' y='"+this.y+
 									"' sx='"+this.animations.walkFront.sx+"' sy='"+this.animations.walkFront.sy+
