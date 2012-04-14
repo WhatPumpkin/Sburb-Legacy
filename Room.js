@@ -64,14 +64,13 @@ function Room(name,width,height){
 	
 	this.draw = function(){
 		this.sortDepths();
-		var i;
-		for(i=0;i<this.sprites.length;i++){
+		for(var i=0;i<this.sprites.length;i++){
 			this.sprites[i].draw();
 		}
 	}
 	
 	this.drawMeta = function(){
-		stage.fillStyle = "rgba(50,200,50,50)";
+		stage.fillStyle = "rgba(50,200,50,0.2)";
 		for(var i=0;i<this.walkables.length;i++){
 			this.buildPath(this.walkables[i]);
 			stage.closePath();
@@ -79,7 +78,7 @@ function Room(name,width,height){
 			stage.fill();
 			this.clearPath();
 		}
-		stage.fillStyle = "rgba(200,50,50,50)";
+		stage.fillStyle = "rgba(200,50,50,0.2)";
 		for(var i=0;i<this.unwalkables.length;i++){
 			this.buildPath(this.unwalkables[i]);
 			stage.closePath();
@@ -87,16 +86,25 @@ function Room(name,width,height){
 			stage.fill();
 			this.clearPath();
 		}
+		stage.fillStyle = "rgba(50,50,200,0.2)";
+		for(var i=0;i<this.motionPaths.length;i++){
+			this.buildPath(this.motionPaths[i].path);
+			stage.closePath();
+			stage.stroke();
+			stage.fill();
+			this.clearPath();
+		}
+		for(var i=0;i<this.sprites.length;i++){
+			this.sprites[i].drawMeta();
+		}
 	}
 	
 	this.sortDepths = function(){
 		//insertion sort?!?
-		var i=0;
-		var j=0;
-		var temp;
+		var i,j;
 		for(i=1,j=1;i<this.sprites.length;i++,j=i){
-			temp = this.sprites[j];
-			while(j>0 && this.sprites[j].isBehind(this.sprites[j-1])){
+			var temp = this.sprites[j];
+			while(j>0 && temp.isBehind(this.sprites[j-1])){
 				this.sprites[j] = this.sprites[j-1]
 				j--;
 			}

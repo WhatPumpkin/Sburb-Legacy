@@ -145,68 +145,34 @@ function showSpritePreview(sprite) {
     clearLeftMenu();
 
     // main screen turn on
-    var previewNode = $('<div id="previewNode"><canvas id="Stage" width="650" height="450" tabindex="0" </canvas></div>');
-    toDraw.push(sprite);
-    //sprite.staticImg().appendTo(previewNode);
+    var previewNode = $('<div id="previewNode"></div>');
     mainNode.append(previewNode);
+    
+    toDraw.push(sprite);
+    
 
     // edit info
     var newLeftDiv = $("<div></div>").appendTo($("#leftmenu"));
-    $(sprintf("<div class='leftTitle'>Sprite %s</div>", sprite.name)).appendTo(newLeftDiv);
     var options = $("<div class='leftOptions'>").appendTo(newLeftDiv);
-    if(sprite.spriteType == "character") {
-    	var c0 = $('sx: <input type="text" /></br>').change(function() { sprite.animation.sx = parseInt(this.value); }).val(sprite.animation.sx);
-    	var c1 = $('sy: <input type="text" /></br>').change(function() { sprite.animation.sy = parseInt(this.value); }).val(sprite.animation.sy);
-    	var c2 = $('sWidth: <input type="text" /></br>').change(function() { sprite.animation.colSize = parseInt(this.value); }).val(sprite.animation.colSize);
-    	var c3 = $('sHeight: <input type="text" /></br>').change(function() { sprite.animation.rowSize = parseInt(this.value); }).val(sprite.animation.rowSize);
-    	var c4 = $('<select>\
-					<option value="Front">Front</option>\
-					<option value="Back">Back</option>\
-					<option value="Left">Left</option>\
-					<option value="Right">Right</option></select>').change(function() { sprite.facing = this.value; sprite.walk();}).val(sprite.facing);
-    	
-    	$("<div>").append(c0).appendTo(options);
-		$("<div>").append(c1).appendTo(options);
-		$("<div>").append(c2).appendTo(options);
-		$("<div>").append(c3).appendTo(options);
-		$("<div>").append(c4).appendTo(options);
-    } else {
-        var i0 = $('<input type="checkbox" />Collidable</br>').click(function() { sprite.collidable = this.checked; });
-        if(sprite.collidable) {
-	    	i0.prop("checked", true);
-        }
-        var i1 = $('<select>\
-					<option value="0">Background</option>\
-					<option value="1">Midground</option>\
-					<option value="2">Foreground</option></select>').change(function() { sprite.depthing = this.value; }).val(sprite.depthing);
-        $("<div>").append(i0).appendTo(options);
-        $("<div>").append(i1).appendTo(options);
-    }
-    var s0 = $('x: <input type="text" /></br>').change(function() { sprite.x = parseInt(this.value); }).val(sprite.x);
-    var s1 = $('y:  <input type="text" /></br>').change(function() { sprite.y = parseInt(this.value); }).val(sprite.y);
-    var s2 = $('width:  <input type="text" /></br>').change(function() { sprite.width = parseInt(this.value); }).val(sprite.width);
-    var s3 = $('height:  <input type="text" /></br>').change(function() { sprite.width = parseInt(this.value); }).val(sprite.height);
+    addSpriteOptions(options,sprite);
     
-    
-    $("<div>").append(s0).appendTo(options);
-    $("<div>").append(s1).appendTo(options);
-    $("<div>").append(s2).appendTo(options);
-    $("<div>").append(s3).appendTo(options);
-    
-    Stage  = document.getElementById("Stage");	
-	Stage.fps = 30;
-    stage = Stage.getContext("2d"); 
-    drawingOne = true;
-    update(0);
+    deployStage(previewNode,true);
 }
 
 function buildRooms() {
 
-    menus.roomMenu = {'maindiv': $('<div id="roomTab">'),
-		     };
+	function roomMenuDisplay(room) {
+		this.maindiv = $('<div class="roomInfo">');
+		$(sprintf('<div><a href="javascript:void(0);">%s</a></div>', room.name)).appendTo(this.maindiv);
+		this.maindiv.click(function() { roomPreview(room); })
+    }	
+	
+    menus.roomMenu = {'maindiv': $('<div id="roomTab">'),roomDisplays:new Array()};
     $('#mainmenu').append(menus.roomMenu.maindiv);
-    if(!menus.roomMenu) {
+    if(menus.roomMenu) {
+    	console.log("room menu");
 		for(name in editRooms.rooms) {
+			console.log("room: "+name);
 			var sdisplay = new roomMenuDisplay(editRooms.rooms[name]);
 			menus.roomMenu.maindiv.append(sdisplay.maindiv);
 			menus.roomMenu.roomDisplays.push(sdisplay);
@@ -214,6 +180,139 @@ function buildRooms() {
 		$('#mainmenu').append(menus.roomMenu.maindiv);
     }
 }
+
+function showRoomPreview(room){
+	var mainNode = $('#mainDisplay');
+    clearViewScreen();
+    clearLeftMenu();
+	
+	toDraw.push(room);
+	
+    // main screen turn on
+    var previewNode = $('<div id="previewNode"></div>');
+    mainNode.append(previewNode);
+
+    // edit info
+    
+    var newLeftDiv = $("<div></div>").appendTo($("#leftmenu"));
+    var options = $("<div class='leftOptions'>").appendTo(newLeftDiv);
+    addRoomOptions(options,room);
+    
+    deployStage(previewNode);
+}
+
+function deployStage(area,oneObject){
+	var canvas = $('<canvas id="Stage" width="650" height="450" tabindex="0" </canvas>');
+	$("<div>").append(canvas).appendTo(area);
+	Stage  = document.getElementById("Stage");	
+	Stage.fps = 30;
+    stage = Stage.getContext("2d"); 
+    
+    if(oneObject){
+    	drawingOne = true;
+    }else{
+    	drawingOne = false;
+    }
+    
+    update(0);
+}
+
+function addRoomOptions(theOptions,room){
+	removeRoomOptions(theOptions);
+	theOptions.remove('roomOptions');
+	var options =  $("<div class='roomOptions'>").appendTo(theOptions);
+	$(sprintf("<div class='leftTitle'>Room %s</div>", room.name)).appendTo(options);
+	
+	var items = new Array();
+	
+	items.push($('<input name="width" type="text" />').change(function() { room.width = parseInt(this.value); }).val(room.width));
+    items.push($('<input name="height" type="text" />').change(function() { room.height = parseInt(this.value); }).val(room.height));
+	
+	addItems(options,items);
+}
+
+function addSpriteOptions(theOptions,sprite){
+	removeSpriteOptions(theOptions);
+	var options =  $("<div class='spriteOptions'>").appendTo(theOptions);
+	$(sprintf("<div class='leftTitle'>Sprite %s</div>", sprite.name)).appendTo(options);
+	
+	var items = new Array();
+	
+	items.push($('<input name="x" type="text" />').change(function() { sprite.x = parseInt(this.value); }).val(sprite.x));
+    items.push($('<input name="y" type="text" />').change(function() { sprite.y = parseInt(this.value); }).val(sprite.y));
+    items.push($('<input name="width" type="text" />').change(function() { sprite.width = parseInt(this.value); }).val(sprite.width));
+    items.push($('<input name="height" type="text" />').change(function() { sprite.height = parseInt(this.value); }).val(sprite.height));
+	
+	var animationSelect = $('<select>');
+    for(animation in sprite.animations){
+    	$('<option value="'+animation+'">'+animation+'</option>').appendTo(animationSelect);
+    }
+    animationSelect.change(function(){sprite.startAnimation(this.value);addAnimationOptions(options,sprite.animation);}).val(sprite.animation.name);
+	
+	if(sprite.spriteType == "character") {
+    	items.push($('<input name="sx" type="text" />').change(function() { sprite.animation.sx = parseInt(this.value); }).val(sprite.animation.sx));
+    	items.push($('<input name="sy" type="text" />').change(function() { sprite.animation.sy = parseInt(this.value); }).val(sprite.animation.sy));
+    	items.push($('<input name="sWidth" type="text" />').change(function() { sprite.animation.colSize = parseInt(this.value); }).val(sprite.animation.colSize));
+    	items.push($('<input name="sHeight" type="text" />').change(function() { sprite.animation.rowSize = parseInt(this.value); }).val(sprite.animation.rowSize));
+    	items.push($('<select name="facing">\
+					<option value="Front">Front</option>\
+					<option value="Back">Back</option>\
+					<option value="Left">Left</option>\
+					<option value="Right">Right</option></select>').change(function() { sprite.facing = this.value; sprite.walk(); addAnimationOptions(options,sprite.animation); animationSelect.val(sprite.animation.name);}).val(sprite.facing));
+    } else {
+        items.push($('<input name="collidable" type="checkbox" />').click(function() { sprite.collidable = this.checked; }).val(sprite.collidable));
+        /*if(sprite.collidable) {
+	    	i0.prop("checked", true);
+        }*/
+        items.push($('<name="depthing" select>\
+					<option value="0">Background</option>\
+					<option value="1">Midground</option>\
+					<option value="2">Foreground</option></select>').change(function() { sprite.depthing = this.value; }).val(sprite.depthing));
+    }
+    
+    items.push(animationSelect);
+    
+    addItems(options,items);
+    
+    addAnimationOptions(options,sprite.animation);
+}
+
+function addItems(options,items){
+	for(var i=0;i<items.length;i++){
+    	var item = items[i];
+    	var name = item.attr("name");
+    	var label = name?name+":" : "";
+    	$("<div>"+label+"</div>").append(item).appendTo(options);
+    }
+}
+
+function addAnimationOptions(theOptions,animation){
+	removeAnimationOptions(theOptions);
+	var options =  $("<div class='animationOptions'>").appendTo(theOptions);
+	$(sprintf("<div class='leftTitle'>Animation %s</div>", animation.name)).appendTo(options);
+	
+	var items = new Array();
+	items.push($('<input name="sheet" type="text" /></br>').change(function() { animation.sheet = assets[this.value]; }).val(animation.sheet.name));
+	items.push($('<input name="sx" type="text" /></br>').change(function() { animation.sx = parseInt(this.value); }).val(animation.sx));
+	items.push($('<input name="sy" type="text" /></br>').change(function() { animation.sy = parseInt(this.value); }).val(animation.sy));
+	
+	addItems(options,items);
+}
+
+function removeRoomOptions(theOptions){
+	$('div').remove('.roomOptions');
+}
+
+function removeSpriteOptions(theOptions){
+	$('div').remove('.spriteOptions');
+}
+
+function removeAnimationOptions(theOptions){
+	$('div').remove('.animationOptions');
+}
+
+
+
 
 function update(gameTime){
 	for(var i=0;i<toDraw.length;i++){
@@ -228,7 +327,21 @@ function draw(gameTime){
 	stage.fillStyle = "rgb(255,255,255)";
 	stage.fillRect(0,0,Stage.width,Stage.height);
 	if(drawingOne && toDraw.length>0){
-		stage.translate(-toDraw[0].x+Stage.width/2,-toDraw[0].y+Stage.height/2);
+		var specialOne = toDraw[0];
+		var specialAnim = specialOne.animation;
+		
+		var scaleFactor = 1;
+		if(specialAnim.colSize>Stage.width*scaleFactor){
+			scaleFactor = specialAnim.colSize/Stage.width;
+		}
+		if(specialAnim.rowSize>Stage.height*scaleFactor){
+			scaleFactor = specialAnim.rowSize/Stage.height;
+		}
+		var newX = Stage.width*scaleFactor/2-specialOne.x-specialAnim.sx-specialAnim.colSize/2;
+		var newY = Stage.height*scaleFactor/2-specialOne.y-specialAnim.sx-specialAnim.rowSize/2;
+		stage.scale(1/scaleFactor,1/scaleFactor);
+		stage.translate(newX,newY);
+		
 	}
 	for(var i=0;i<toDraw.length;i++){
 		toDraw[i].draw();
