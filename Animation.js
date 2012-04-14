@@ -73,6 +73,25 @@ function Animation(name,sheet,sx,sy,colSize,rowSize,startPos,length,frameInterva
 		return loopNum==0 && this.curFrame==this.length;
 	}
 	
+	this.setColSize = function(newSize){
+		this.colSize = newSize;
+		this.numCols = this.sheet.width/this.colSize;
+		this.reset();
+	}
+	
+	this.setRowSize = function(newSize){
+		this.rowSize = newSize;
+		this.numRows = this.sheet.height/this.rowSize;
+		this.reset();
+	}
+	
+	this.setSheet = function(newSheet){
+		this.sheet = newSheet;
+		this.numRows = this.sheet.height/this.rowSize;
+		this.numCols = this.sheet.width/this.colSize;
+		this.reset();
+	}
+	
 	this.serialize = function(output){
 		output = output.concat("<Animation name='"+this.name+"' sheet='"+this.sheet.name+
 								"' sx='"+this.sx+"' sy='"+this.sy+

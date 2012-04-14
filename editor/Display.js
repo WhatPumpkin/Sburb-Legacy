@@ -232,6 +232,12 @@ function addRoomOptions(theOptions,room){
 }
 
 function addSpriteOptions(theOptions,sprite){
+	function rebuildCharAnims(sprite){
+		if(sprite.spriteType=="character"){
+			sprite.animations = (new Character(sprite.name,sprite.x,sprite.y,sprite.width,sprite.height,sprite.animation.sx, sprite.animation.sy, sprite.animation.colSize, sprite.animation.rowSize,editAssets.assets[animation.sheet])).animations;
+			sprite.animation = sprite.animations[sprite.animation.name];
+		}
+	}
 	removeSpriteOptions(theOptions);
 	var options =  $("<div class='spriteOptions'>").appendTo(theOptions);
 	$(sprintf("<div class='leftTitle'>Sprite %s</div>", sprite.name)).appendTo(options);
@@ -247,13 +253,14 @@ function addSpriteOptions(theOptions,sprite){
     for(animation in sprite.animations){
     	$('<option value="'+animation+'">'+animation+'</option>').appendTo(animationSelect);
     }
-    animationSelect.change(function(){sprite.startAnimation(this.value);addAnimationOptions(options,sprite.animation);}).val(sprite.animation.name);
+    animationSelect.change(function(){sprite.startAnimation(this.value);if(sprite.spriteType!="character"){addAnimationOptions(options,sprite.animation);}}).val(sprite.animation.name);
 	
 	if(sprite.spriteType == "character") {
-    	items.push($('<input name="sx" type="text" />').change(function() { sprite.animation.sx = parseInt(this.value); }).val(sprite.animation.sx));
-    	items.push($('<input name="sy" type="text" />').change(function() { sprite.animation.sy = parseInt(this.value); }).val(sprite.animation.sy));
-    	items.push($('<input name="sWidth" type="text" />').change(function() { sprite.animation.colSize = parseInt(this.value); }).val(sprite.animation.colSize));
-    	items.push($('<input name="sHeight" type="text" />').change(function() { sprite.animation.rowSize = parseInt(this.value); }).val(sprite.animation.rowSize));
+    	items.push($('<input name="sx" type="text" />').change(function() { sprite.animation.sx = parseInt(this.value); rebuildCharAnims(sprite);}).val(sprite.animation.sx));
+    	items.push($('<input name="sy" type="text" />').change(function() { sprite.animation.sy = parseInt(this.value); rebuildCharAnims(sprite);}).val(sprite.animation.sy));
+    	items.push($('<input name="sWidth" type="text" />').change(function() { sprite.animation.colSize = parseInt(this.value); rebuildCharAnims(sprite);}).val(sprite.animation.colSize));
+    	items.push($('<input name="sHeight" type="text" />').change(function() { sprite.animation.rowSize = parseInt(this.value); rebuildCharAnims(sprite);}).val(sprite.animation.rowSize));
+    	items.push($('<input name="sheet" type="text" />').change(function() { sprite.animation.sheet = editAssets.assets[this.value]; rebuildCharAnims(sprite);}).val(sprite.animation.sheet.name));
     	items.push($('<select name="facing">\
 					<option value="Front">Front</option>\
 					<option value="Back">Back</option>\
@@ -274,7 +281,9 @@ function addSpriteOptions(theOptions,sprite){
     
     addItems(options,items);
     
+    if(sprite.spriteType!="character"){
     addAnimationOptions(options,sprite.animation);
+    }
 }
 
 function addItems(options,items){
@@ -292,9 +301,15 @@ function addAnimationOptions(theOptions,animation){
 	$(sprintf("<div class='leftTitle'>Animation %s</div>", animation.name)).appendTo(options);
 	
 	var items = new Array();
-	items.push($('<input name="sheet" type="text" /></br>').change(function() { animation.sheet = assets[this.value]; }).val(animation.sheet.name));
+	items.push($('<input name="sheet" type="text" /></br>').change(function() { animation.setSheet(editAssets.assets[this.value]);}).val(animation.sheet.name));
 	items.push($('<input name="sx" type="text" /></br>').change(function() { animation.sx = parseInt(this.value); }).val(animation.sx));
 	items.push($('<input name="sy" type="text" /></br>').change(function() { animation.sy = parseInt(this.value); }).val(animation.sy));
+	items.push($('<input name="colSize" type="text" /></br>').change(function() { animation.setColSize(parseInt(this.value)); }).val(animation.colSize));
+	items.push($('<input name="rowSize" type="text" /></br>').change(function() { animation.setRowSize(parseInt(this.value)); }).val(animation.rowSize));
+	items.push($('<input name="startPos" type="text" /></br>').change(function() { animation.startPos = parseInt(this.value); this.animation.reset();}).val(animation.startPos));
+	items.push($('<input name="length" type="text" /></br>').change(function() { animation.length = parseInt(this.value); this.animation.reset();}).val(animation.length));
+	items.push($('<input name="frameInterval" type="text" /></br>').change(function() { animation.frameInterval = parseInt(this.value); this.animation.reset();}).val(animation.frameInterval));
+	items.push($('<input name="loops" type="text" /></br>').change(function() { animation.loopNum = parseInt(this.value); this.animation.reset();}).val(animation.loopNum));
 	
 	addItems(options,items);
 }
@@ -338,7 +353,7 @@ function draw(gameTime){
 			scaleFactor = specialAnim.rowSize/Stage.height;
 		}
 		var newX = Stage.width*scaleFactor/2-specialOne.x-specialAnim.sx-specialAnim.colSize/2;
-		var newY = Stage.height*scaleFactor/2-specialOne.y-specialAnim.sx-specialAnim.rowSize/2;
+		var newY = Stage.height*scaleFactor/2-specialOne.y-specialAnim.sy-specialAnim.rowSize/2;
 		stage.scale(1/scaleFactor,1/scaleFactor);
 		stage.translate(newX,newY);
 		
