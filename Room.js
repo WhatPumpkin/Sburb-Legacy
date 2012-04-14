@@ -70,6 +70,25 @@ function Room(name,width,height){
 		}
 	}
 	
+	this.drawMeta = function(){
+		stage.fillStyle = "rgba(50,200,50,50)";
+		for(var i=0;i<this.walkables.length;i++){
+			this.buildPath(this.walkables[i]);
+			stage.closePath();
+			stage.stroke();
+			stage.fill();
+			this.clearPath();
+		}
+		stage.fillStyle = "rgba(200,50,50,50)";
+		for(var i=0;i<this.unwalkables.length;i++){
+			this.buildPath(this.unwalkables[i]);
+			stage.closePath();
+			stage.stroke();
+			stage.fill();
+			this.clearPath();
+		}
+	}
+	
 	this.sortDepths = function(){
 		//insertion sort?!?
 		var i=0;

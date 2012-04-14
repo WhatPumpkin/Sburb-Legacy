@@ -1,0 +1,62 @@
+<html>
+	<head>
+		
+		<script type="text/javascript" src="editor/Editor.js"></script>
+		<script type="text/javascript" src="editor/EditAssets.js"></script>
+		<script type="text/javascript" src="editor/EditRooms.js"></script>
+		<script type="text/javascript" src="editor/EditSprites.js"></script>
+		<script type="text/javascript" src="editor/Display.js"></script>
+		<script type="text/javascript" src="serialization.js"></script>
+		<script type="text/javascript" src="inheritance.js"></script>
+		<script type="text/javascript" src="Assets.js"></script>
+		<script type="text/javascript" src="Sprite.js"></script>
+		<script type="text/javascript" src="StaticSprite.js"></script>
+		<script type="text/javascript" src="Character.js"></script>
+		<script type="text/javascript" src="Animation.js"></script>
+		<script type="text/javascript" src="Room.js"></script>
+		<script type="text/javascript" src="Action.js"></script>
+		
+		<!--
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+		-->
+		<script type="text/javascript" src="editor/jquery.min.js"></script>
+		<script type="text/javascript" src="editor/sprintf.js"></script>
+
+		<link rel="stylesheet" type="text/css" href="editor/main.css" />
+	</head>
+	<body onload="editMode()">
+		<!-- Table! -->
+		<table id="maintable">
+			<tr id="tablerow">
+				<td id="leftside">
+				  <div id="leftmenu">
+				  </div>
+				</td>
+				<td id="mainDisplayCell">
+				  <div id="mainDisplay">
+				    
+				  </div>
+				</td>
+				
+				<td id="rightside">
+				  <div id="mainmenu">
+				    <ul>
+				      <li><a href="javascript:void(0);" id="assetTabLink">Assets</a></li>
+				      <li><a href="javascript:void(0);" id="spriteTabLink">Sprites</a></li>
+				      <li><a href="javascript:void(0);" id="roomTabLink" >Rooms</a></li>
+				    </ul>
+				  </div>
+				</td>
+
+			</tr>
+		</table>
+		<div id="loadText">
+		  <textarea id="serialText"></textarea><br/>
+		  <button id="saveState" onclick="">save state</button>
+		  <button id="loadState" onclick="">load state</button>
+		  <br />
+		  <input type="file" name="level" id="levelFile" />
+		  <button id="loadLevelFile" onclick="editLevelFile(document.getElementById('levelFile'))">load level</button>
+		</div>
+	</body>
+</html>

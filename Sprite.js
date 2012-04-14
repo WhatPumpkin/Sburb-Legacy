@@ -43,6 +43,31 @@ function Sprite(name,x,y,width,height,dx,dy,depthing,collidable){
 			this.animation.draw(this.x,this.y);
 		}
 	}
+	this.drawMeta = function(){
+		stage.save();
+			stage.strokeStyle = "rgb(200,40,40)";
+			stage.beginPath();
+			stage.moveTo(this.x-this.width/2,this.y-this.height/2);
+			stage.lineTo(this.x-this.width/2,this.y+this.height/2);
+			stage.lineTo(this.x+this.width/2,this.y+this.height/2);
+			stage.lineTo(this.x+this.width/2,this.y-this.height/2);	
+			stage.lineTo(this.x-this.width/2,this.y-this.height/2);
+			stage.closePath();
+			stage.stroke();
+			
+			stage.beginPath();
+			stage.moveTo(this.x+3,this.y);
+			stage.lineTo(this.x-3,this.y);
+			stage.closePath();
+			stage.stroke();
+			
+			stage.beginPath();
+			stage.moveTo(this.x,this.y+3);
+			stage.lineTo(this.x,this.y-3);
+			stage.closePath();
+			stage.stroke();
+		stage.restore();
+	}
 	
 	this.isBehind = function(other){
 		if(this.depthing == other.depthing){

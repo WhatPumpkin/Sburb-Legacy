@@ -20,13 +20,14 @@
   <Asset name='compLabBG' type='graphic'>resources/comlab-background.gif</Asset>
   <Asset name='stairRoomBG' type='graphic'>resources/stairRoom.png</Asset>
   <Asset name='dialogBox' type='graphic'>resources/dialogBoxBig.png</Asset>
- <!-- <Asset name='karkatBGM' type='audio'>resources/karkat.ogg;resources/karkat.mp3</Asset>
-  <Asset name='tereziBGM' type='audio'>resources/terezi.ogg;resources/terezi.mp3</Asset> -->
+  <Asset name='karkatBGM' type='audio'>resources/karkat.ogg;resources/karkat.mp3</Asset>
+  <Asset name='tereziBGM' type='audio'>resources/terezi.ogg;resources/terezi.mp3</Asset>
   <Asset name='compLabWalkable' type='path'>70,270;800,270;800,820;70,820</Asset>
   <Asset name='stairRoomWalkable' type='path'> 999,368;442,369;258,560;86,556;86,608;0,609;0,940;264,942;630,1318;813,1320;813,2070;222,2070;224,1510;588,1888;402,1888;402,1904; 237,1905;236,2049;801,2054;800,1706;591,1702;228,1323;142,1323; 140,1344;0,1344;0,2258;999,2258;999,1126;624,1124;260,754;260,740;441,552;999,552</Asset>
   <Asset name='stairRoomStairs1' type='path'>442,369;258,560;260,740;441,552</Asset>
   <Asset name='stairRoomStairs2' type='path'>264,942;630,1318;624,1124;260,754</Asset>
   <Asset name='stairRoomStairs3' type='path'>224,1510;588,1888;591,1702;228,1323</Asset>
+
   
   <HUD>
   	<SpriteButton name='volumeButton' x='9' y='9' width='54' height='36' sheet='volumeControl' />
@@ -40,7 +41,7 @@
   <Action sprite='null' name='startGame' command='talk'>@! Let's do this!!!
     <!-- <Action sprite='null' name='introMusic' command='playSong'>
       karkatBGM, 6.7 
-    </Action> -->
+    </Action>-->
   </Action> 
   
   <Room name='baseRoom' width='861' height='909'>
@@ -98,11 +99,9 @@
       <Action sprite='null' name='talk' command='talk'>@! blahblahblah</Action>
       <Action sprite='null' name='change room' command='changeRoom'>
 baseRoom,300,300
-<!--
 	<Action sprite='null' name='T3R3Z1 TH3M3' command='playSong'>
 	  karkatBGM, 6.7
 	</Action>
--->
       </Action>
       <Action sprite='null' name='swap' command='changeChar'>sollux</Action>
     </Character>
