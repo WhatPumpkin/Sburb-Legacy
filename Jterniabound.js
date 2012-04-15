@@ -9,6 +9,7 @@ var pressed; //the pressed keys
 var assetManager; //the asset loader
 var assets; //all images, sounds, paths
 var sprites; //all sprites that were Serial loaded
+var effects; //all effects that were Serial loaded
 var rooms; //all rooms
 var effects; //all effects 
 var char; //the player
@@ -225,17 +226,6 @@ function hasControl(){
 	return !dialoger.talking && !chooser.choosing && !destRoom;
 }
 
-function buildCommands(){
-	commands.talk = talkCommand;
-	commands.changeRoom = changeRoomCommand;
-	commands.changeChar = changeCharCommand;
-	commands.playSong = playSongCommand;
-	commands.playSound = playSoundCommand;
-	commands.teleport = teleportCommand;
-	commands.cancel = cancelCommand;
-	
-}
-
 function performAction(action){
     commands[action.command.trim()](action.info.trim());
 }
@@ -261,6 +251,7 @@ function handleRoomChange(){
 			char.x = destX;
 			char.y = destY;
 			moveSprite(char,curRoom,destRoom);
+			curRoom.exit();
 			curRoom = destRoom;
 		    curRoom.initialize();
 			destRoom = null;
@@ -311,7 +302,8 @@ function changeBGM(newSong) {
 }
 
 function playEffect(effect,x,y){
-	//
+	var newEffect = new Animation(effect.name, effect.sheet, x, y, effect.colSize,effect.rowSize, effect.startPos, effect.length, effect.frameInterval, effect.loopNum);
+	curRoom.addEffect(newEffect);
 }
 
 function playSound(sound){

@@ -1,17 +1,20 @@
-function serialize(){
+function serialize(assets){
 	var out = document.getElementById("serialText");
 	var output = "<SBURB curRoom='"+curRoom.name+"' char='"+char.name+"'>";
-	output = serializeAssets(output);
+	output = serializeAssets(output,assets);
 	output = serializeHud(output);
+	output = output.concat("<Rooms>");
 	for(var room in rooms){
 		output = rooms[room].serialize(output);
 	}
+	output = output.concat("</Rooms>");
 	output = output.concat("</SBURB>");
 	out.value = output;
 	return output;
 }
 
-function serializeAssets(output){
+function serializeAssets(output,assets){
+	output = output.concat("<Assets>");
 	for(var asset in assets){
 		var curAsset = assets[asset];
 		output = output.concat("<Asset name='"+curAsset.name+"' type='"+curAsset.type+"'>");
@@ -34,6 +37,13 @@ function serializeAssets(output){
 		}
 		output = output.concat("</Asset>");
 	}
+	output = output.concat("</Assets>");
+	output = output.concat("<Effects>");
+	for(var effect in effects){
+		var curEffect = effects[effect];
+		output = effect.serialize(output);
+	}
+	output = output.concat("</Effects>");
 	return output;
 }
 
@@ -72,6 +82,7 @@ function purgeState(){
 	}
 	hud = {};
 	sprites = {};
+	effects = {};
 	pressed = new Array();
 	chooser = new Chooser();
 	dialoger = new Dialoger();
@@ -204,7 +215,8 @@ function parseAnimation(animationNode, assetFolder){
   					    parseInt(attributes.getNamedItem("rowSize").value),
   					    parseInt(attributes.getNamedItem("startPos").value),
   					    parseInt(attributes.getNamedItem("length").value),
-  					    parseInt(attributes.getNamedItem("frameInterval").value));
+  					    parseInt(attributes.getNamedItem("frameInterval").value),
+  					    parseInt(attributes.getNamedItem("loopNum").value));
 }
 
 function parseCharacter(charNode, assetFolder) {
@@ -239,6 +251,7 @@ function loadSerialState(input) {
 		updateLoop=setTimeout(function() { loadSerialState(input); } ,500);
 		return;
     }
+    
 	
 	var newButtons = input.getElementsByTagName("SpriteButton");
 	for(var i=0;i<newButtons.length;i++){
@@ -257,7 +270,6 @@ function loadSerialState(input) {
   	for(var i=0;i<newSprites.length;i++){
   		var curSprite = newSprites[i];
 		var newSprite = parseSprite(curSprite, assets);
-		
   		sprites[newSprite.name] = newSprite;
   	}
   	var newChars = input.getElementsByTagName("Character");
@@ -273,13 +285,18 @@ function loadSerialState(input) {
   		rooms[newRoom.name] = newRoom;
   	}
   	var rootInfo = input.attributes;
+  	
   	focus = char = sprites[rootInfo.getNamedItem("char").value];
   	char.becomePlayer();
   	curRoom = rooms[rootInfo.getNamedItem("curRoom").value];
   	curRoom.initialize();
+  	
   	sprites.dialogBox = new StaticSprite("dialogBox",Stage.width+1,1000,null,null,null,null,assets.dialogBox,FG_DEPTHING);
   	dialoger.setBox(sprites.dialogBox);
   	serialLoadDialogSprites(input.getElementsByTagName("HUD")[0].getElementsByTagName("DialogSprites")[0],assets);
+  	
+  	serialLoadEffects(input.getElementsByTagName("Effects")[0],assets,effects);
+  	
     var initAction;
     var initActionName;
     if(rootInfo.getNamedItem("startAction")){
@@ -309,6 +326,14 @@ function serialLoadDialogSprites(dialogSprites,assetFolder){
 	for(var i=0;i<animations.length;i++){
 		dialoger.dialogSpriteLeft.addAnimation(parseAnimation(animations[i],assetFolder));
 		dialoger.dialogSpriteRight.addAnimation(parseAnimation(animations[i],assetFolder));
+	}
+}
+
+function serialLoadEffects(effects,assetFolder,effectsFolder){
+	var animations = effects.getElementsByTagName("Animation");
+	for(var i=0;i<animations.length;i++){
+		var newEffect = parseAnimation(animations[i],assetFolder);
+		effectsFolder[newEffect.name] = newEffect;
 	}
 }
 

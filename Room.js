@@ -1,11 +1,16 @@
 function Room(name,width,height){
+	this.name = name;
 	this.width = width;
 	this.height = height;
 	this.sprites = new Array();
+	this.effects = new Array();
 	this.walkables = new Array();
 	this.unwalkables = new Array();
-	this.name = name;
-    this.motionPaths = new Array();
+	this.motionPaths = new Array();
+	
+    this.addEffect = function(animation){
+    	effects.push(animation);
+    }
 	
 	this.addSprite = function(sprite){
 		this.sprites.push(sprite);
@@ -46,6 +51,10 @@ function Room(name,width,height){
 		return;
     }
     
+    this.exit = function(){
+    	this.effects = new Array();
+    }
+    
 	this.contains = function(sprite){
 		for(var i=0;i<this.sprites.length;i++){
 			if(this.sprites[i]==sprite){
@@ -60,12 +69,21 @@ function Room(name,width,height){
 		for(i=0;i<this.sprites.length;i++){
 			this.sprites[i].update(gameTime);
 		}
+		for(i=this.effects.length-1;i>=0;i--){
+			if(this.effects[i].hasPlayed){
+				this.effects.splice(i,1);
+			}
+			this.effects[i].update(gameTime);
+		}
 	}
 	
 	this.draw = function(){
 		this.sortDepths();
 		for(var i=0;i<this.sprites.length;i++){
 			this.sprites[i].draw();
+		}
+		for(i=0;i<this.effects.length;i++){
+			this.effects[i].draw(0,0);
 		}
 	}
 	

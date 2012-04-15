@@ -14,7 +14,8 @@ teleportCommand = function(info){
 }
 
 playEffectCommand = function(info){
-	
+	var params = info.split(",");
+	playEffect(effects[params[0]],parseInt(params[1]),parseInt(params[2]));
 }
 
 changeCharCommand = function(info){
@@ -41,4 +42,15 @@ playEffectCommand = function(info){
 
 cancelCommand = function(){
 	//do nothing
+}
+
+function buildCommands(){
+	commands.talk = talkCommand;
+	commands.changeRoom = changeRoomCommand;
+	commands.changeChar = changeCharCommand;
+	commands.playSong = playSongCommand;
+	commands.playSound = playSoundCommand;
+	commands.teleport = teleportCommand;
+	commands.cancel = cancelCommand;
+	
 }

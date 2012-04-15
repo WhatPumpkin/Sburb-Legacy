@@ -1,6 +1,7 @@
 var editAssets;
 var editSprites;
 var editRooms;
+var editEffects;
 var dialoger;
 
 // util function
@@ -11,10 +12,11 @@ function abs2relURL(url) {
 }
 
 function editMode() {
-
+	
     editAssets = new EditAssets();
     editSprites = new EditSprites();
     editRooms = new EditRooms();
+    editEffects = new EditEffects();
 }
 
 function editSerial(serialText, sburbID) {
@@ -54,6 +56,8 @@ function editSerial(serialText, sburbID) {
     dialoger = new Dialoger();
   	dialoger.setBox(new StaticSprite("dialogBox",Stage.width+1,1000,null,null,null,null,editAssets.assets.dialogBox,FG_DEPTHING));
   	serialLoadDialogSprites(input.getElementsByTagName("HUD")[0].getElementsByTagName("DialogSprites")[0],editAssets.assets);
+
+	serialLoadEffects(input.getElementsByTagName("Effects")[0],editAssets.assets,editEffects.effects);
 
     displayMainMenu();
 }

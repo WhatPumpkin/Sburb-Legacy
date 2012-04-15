@@ -14,17 +14,17 @@ function Animation(name,sheet,sx,sy,colSize,rowSize,startPos,length,frameInterva
 	this.numCols = sheet.width/colSize;
 	this.name = name;
 	this.loopNum = typeof loopNum == "number"?loopNum:-1;
+	this.curLoop = 0;
 	
 	this.nextFrame = function() {
 		this.curFrame++;
 		if(this.curFrame>=this.length){
-			if(this.loopNum==0){
+			if(this.curLoop==this.loopNum){
 				this.curFrame = this.length-1;
 			}else{
 				this.curFrame=0;
-				this.loopNum--;
-				if(this.loopNum<0){
-					this.loopNum++;
+				if(this.loopNum>=0){
+					this.curLoop++;
 				}
 			}
 		}
@@ -67,10 +67,11 @@ function Animation(name,sheet,sx,sy,colSize,rowSize,startPos,length,frameInterva
 	this.reset = function(){
 		this.curFrame = 0;
 		this.curInterval = 0;
+		this.curLoop = 0;
 	}
 	
 	this.hasPlayed = function(){
-		return loopNum==0 && this.curFrame==this.length;
+		return curLoop == loopNum && this.curFrame==this.length-1;
 	}
 	
 	this.setColSize = function(newSize){
@@ -96,7 +97,7 @@ function Animation(name,sheet,sx,sy,colSize,rowSize,startPos,length,frameInterva
 		output = output.concat("<Animation name='"+this.name+"' sheet='"+this.sheet.name+
 								"' sx='"+this.sx+"' sy='"+this.sy+
 								"' rowSize='"+this.rowSize+"' colSize='"+this.colSize+"' startPos='"+this.startPos+
-								"' length='"+this.length+"' frameInterval='"+this.frameInterval+"' />");
+								"' length='"+this.length+"' frameInterval='"+this.frameInterval+"' loopNum='"+this.loopNum+"' />");
 		return output;
 	}
 }
