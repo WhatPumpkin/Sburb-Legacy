@@ -6,6 +6,7 @@ var Stage;
 var toDraw = new Array();
 var drawingOne = false;
 var updateLoop;
+var Stage = {width:650,height:450,color:"rgb(0,0,0)"}
 
 function clearViewScreen() {
     $("#previewNode").empty(); // erase preview resources
@@ -35,9 +36,11 @@ function displayMainMenu() {
     buildAssets();
     buildSprites();
     buildRooms();
+    buildDialogs();
     $("#assetTabLink").click(function() { showMenu(menus.assetMenu); });
     $("#spriteTabLink").click(function() { showMenu(menus.spriteMenu); });
     $("#roomTabLink").click(function() { showMenu(menus.roomMenu); });
+    $("#dialogTabLink").click(function() { showMenu(menus.dialogMenu); });
     showMenu(menus.assetMenu);
 }
 
@@ -156,7 +159,7 @@ function showSpritePreview(sprite) {
     var options = $("<div class='leftOptions'>").appendTo(newLeftDiv);
     addSpriteOptions(options,sprite);
     
-    deployStage(previewNode,true);
+    deployStage(previewNode,"rgb(200,200,200)",true);
 }
 
 function buildRooms() {
@@ -170,9 +173,7 @@ function buildRooms() {
     menus.roomMenu = {'maindiv': $('<div id="roomTab">'),roomDisplays:new Array()};
     $('#mainmenu').append(menus.roomMenu.maindiv);
     if(menus.roomMenu) {
-    	console.log("room menu");
 		for(name in editRooms.rooms) {
-			console.log("room: "+name);
 			var sdisplay = new roomMenuDisplay(editRooms.rooms[name]);
 			menus.roomMenu.maindiv.append(sdisplay.maindiv);
 			menus.roomMenu.roomDisplays.push(sdisplay);
@@ -180,6 +181,8 @@ function buildRooms() {
 		$('#mainmenu').append(menus.roomMenu.maindiv);
     }
 }
+
+
 
 function showRoomPreview(room){
 	var mainNode = $('#mainDisplay');
@@ -201,7 +204,46 @@ function showRoomPreview(room){
     deployStage(previewNode);
 }
 
-function deployStage(area,oneObject){
+function buildDialogs(){
+	function dialogMenuDisplay(animation){
+		this.maindiv = $('<div class="dialogInfo">');
+		$(sprintf('<div><a href="javascript:void(0);">%s</a></div>', animation.name)).appendTo(this.maindiv);
+		this.maindiv.click(function() { showDialogPreview(animation); })
+	}
+	menus.dialogMenu = {'maindiv': $('<div id="dialogTab">'),dialogDisplays:new Array()};
+    $('#mainmenu').append(menus.dialogMenu.maindiv);
+    if(menus.dialogMenu) {
+		for(name in dialoger.dialogSpriteLeft.animations) {
+			var sdisplay = new dialogMenuDisplay(dialoger.dialogSpriteLeft.animations[name]);
+			menus.dialogMenu.maindiv.append(sdisplay.maindiv);
+			menus.dialogMenu.dialogDisplays.push(sdisplay);
+		}
+		$('#mainmenu').append(menus.dialogMenu.maindiv);
+    }
+}
+
+function showDialogPreview(animation){
+	var mainNode = $('#mainDisplay');
+    clearViewScreen();
+    clearLeftMenu();
+	
+	toDraw.push(dialoger);
+	dialoger.startDialog("@"+animation.name+" Lorem Ipsum...");
+	
+    // main screen turn on
+    var previewNode = $('<div id="previewNode"></div>');
+    mainNode.append(previewNode);
+
+    // edit info
+    
+    var newLeftDiv = $("<div></div>").appendTo($("#leftmenu"));
+    var options = $("<div class='leftOptions'>").appendTo(newLeftDiv);
+    addAnimationOptions(options,animation);
+    
+    deployStage(previewNode,"rgb(170,170,170)");
+}
+
+function deployStage(area,color,oneObject){
 	var canvas = $('<canvas id="Stage" width="650" height="450" tabindex="0" </canvas>');
 	$("<div>").append(canvas).appendTo(area);
 	Stage  = document.getElementById("Stage");	
@@ -212,6 +254,12 @@ function deployStage(area,oneObject){
     	drawingOne = true;
     }else{
     	drawingOne = false;
+    }
+    
+    if(color){
+    	Stage.color = color;
+    }else{
+    	Stage.color = "rgb(0,0,0)";
     }
     
     update(0);
@@ -301,17 +349,37 @@ function addAnimationOptions(theOptions,animation){
 	$(sprintf("<div class='leftTitle'>Animation %s</div>", animation.name)).appendTo(options);
 	
 	var items = new Array();
-	items.push($('<input name="sheet" type="text" /></br>').change(function() { animation.setSheet(editAssets.assets[this.value]);}).val(animation.sheet.name));
-	items.push($('<input name="sx" type="text" /></br>').change(function() { animation.sx = parseInt(this.value); }).val(animation.sx));
-	items.push($('<input name="sy" type="text" /></br>').change(function() { animation.sy = parseInt(this.value); }).val(animation.sy));
-	items.push($('<input name="colSize" type="text" /></br>').change(function() { animation.setColSize(parseInt(this.value)); }).val(animation.colSize));
-	items.push($('<input name="rowSize" type="text" /></br>').change(function() { animation.setRowSize(parseInt(this.value)); }).val(animation.rowSize));
-	items.push($('<input name="startPos" type="text" /></br>').change(function() { animation.startPos = parseInt(this.value); this.animation.reset();}).val(animation.startPos));
-	items.push($('<input name="length" type="text" /></br>').change(function() { animation.length = parseInt(this.value); this.animation.reset();}).val(animation.length));
-	items.push($('<input name="frameInterval" type="text" /></br>').change(function() { animation.frameInterval = parseInt(this.value); this.animation.reset();}).val(animation.frameInterval));
-	items.push($('<input name="loops" type="text" /></br>').change(function() { animation.loopNum = parseInt(this.value); this.animation.reset();}).val(animation.loopNum));
+	items.push($('<input name="sheet" type="text" />').change(function() { animation.setSheet(editAssets.assets[this.value]);}).val(animation.sheet.name));
+	items.push($('<input name="sx" type="text" />').change(function() { animation.sx = parseInt(this.value); }).val(animation.sx));
+	items.push($('<input name="sy" type="text" />').change(function() { animation.sy = parseInt(this.value); }).val(animation.sy));
+	items.push($('<input name="colSize" type="text" />').change(function() { animation.setColSize(parseInt(this.value)); }).val(animation.colSize));
+	items.push($('<input name="rowSize" type="text" />').change(function() { animation.setRowSize(parseInt(this.value)); }).val(animation.rowSize));
+	items.push($('<input name="startPos" type="text" />').change(function() { animation.startPos = parseInt(this.value); this.animation.reset();}).val(animation.startPos));
+	items.push($('<input name="length" type="text" />').change(function() { animation.length = parseInt(this.value); this.animation.reset();}).val(animation.length));
+	items.push($('<input name="frameInterval" type="text" />').change(function() { animation.frameInterval = parseInt(this.value); this.animation.reset();}).val(animation.frameInterval));
+	items.push($('<input name="loops" type="text" />').change(function() { animation.loopNum = parseInt(this.value); this.animation.reset();}).val(animation.loopNum));
 	
 	addItems(options,items);
+}
+
+function addPathOptions(theOptions,path){
+	var options =  $("<div class='pathOptions'>").appendTo(theOptions);
+	$(sprintf("<div class='leftTitle'>Path %s</div>", path.name)).appendTo(options);
+}
+
+function addMotionPathOptions(theOptions,motionPath){
+	var options =  $("<div class='motionPathOptions'>").appendTo(theOptions);
+	$(sprintf("<div class='leftTitle'>MotionPath</div>")).appendTo(options);
+	
+	var items = new Array();
+	items.push($('<input name="xtox" type="text" />').change(function() { motionPath.xtox = parseInt(this.value);}).val(motionPath.xtox));
+	items.push($('<input name="xtoy" type="text" />').change(function() { motionPath.xtoy = parseInt(this.value);}).val(motionPath.xtoy));
+	items.push($('<input name="ytox" type="text" />').change(function() { motionPath.ytox = parseInt(this.value);}).val(motionPath.ytox));
+	items.push($('<input name="ytoy" type="text" />').change(function() { motionPath.ytoy = parseInt(this.value);}).val(motionPath.ytoy));
+	items.push($('<input name="dx" type="text" />').change(function() { motionPath.dx = parseInt(this.value);}).val(motionPath.dx));
+	items.push($('<input name="dy" type="text" />').change(function() { motionPath.dy = parseInt(this.value);}).val(motionPath.dy));
+	addItems(options,items);
+	addPathOptions(options,motionPath.path);
 }
 
 function removeRoomOptions(theOptions){
@@ -327,8 +395,6 @@ function removeAnimationOptions(theOptions){
 }
 
 
-
-
 function update(gameTime){
 	for(var i=0;i<toDraw.length;i++){
 		toDraw[i].update(gameTime);
@@ -339,7 +405,7 @@ function update(gameTime){
 
 function draw(gameTime){
 	stage.save();
-	stage.fillStyle = "rgb(255,255,255)";
+	stage.fillStyle = Stage.color;
 	stage.fillRect(0,0,Stage.width,Stage.height);
 	if(drawingOne && toDraw.length>0){
 		var specialOne = toDraw[0];

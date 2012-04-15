@@ -17,8 +17,8 @@ canvas {
     border: 1px solid black;
 }
 #mainDisplayCell {
-    width:650px;
-    height:450px;
+    width:680px;
+    height:480px;
     border: 1px solid red;
 }
 #mainDisplay {

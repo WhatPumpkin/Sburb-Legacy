@@ -35,6 +35,7 @@ function Dialoger(){
 	}
 	
 	this.startDialog = function(info){
+		this.actor = null;
 		this.queue = info.split("@");
 		this.queue.reverse();
 		this.queue.pop();
