@@ -174,4 +174,19 @@ function Dialoger(){
 			stage.restore();
 		}
 	}
+	
+	this.drawMeta = function(){
+		var box = this.decideDialogDimensions();
+		stage.save();
+		stage.strokeStyle = "rgb(200,50,50)";
+		stage.beginPath();
+		stage.moveTo(box.x,box.y);
+		stage.lineTo(box.x+box.width,box.y);
+		stage.lineTo(box.x+box.width,box.y+box.height);
+		stage.lineTo(box.x,box.y+box.height);
+		stage.lineTo(box.x,box.y);
+		stage.closePath();
+		stage.stroke();
+		stage.restore();
+	}
 }

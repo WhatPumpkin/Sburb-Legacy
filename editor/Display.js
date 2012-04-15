@@ -265,7 +265,7 @@ function addSpriteOptions(theOptions,sprite){
 					<option value="Front">Front</option>\
 					<option value="Back">Back</option>\
 					<option value="Left">Left</option>\
-					<option value="Right">Right</option></select>').change(function() { sprite.facing = this.value; sprite.walk(); addAnimationOptions(options,sprite.animation); animationSelect.val(sprite.animation.name);}).val(sprite.facing));
+					<option value="Right">Right</option></select>').change(function() { sprite.facing = this.value; sprite.walk(); animationSelect.val(sprite.animation.name);}).val(sprite.facing));
     } else {
         items.push($('<input name="collidable" type="checkbox" />').click(function() { sprite.collidable = this.checked; }).val(sprite.collidable));
         /*if(sprite.collidable) {
