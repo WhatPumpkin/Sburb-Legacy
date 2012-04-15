@@ -1,0 +1,52 @@
+TODO:
+
+(Note: blah::what is the object/function "what" found in the file "blah")
+
+Core engine:
+	General:
+		-properly test effects
+		-add "wait" commands to the list of commands; commands::waitForTimeCommand; commands::waitForAnimationCommand...?
+		-add transporter
+
+Editor:
+	General:
+		-Load in the startAction and reserialize it
+		-Way to set curRoom, char, startAction
+		-Way to move the "camera" in stage (Stage.x,Stage.y) with arrow-keys/WASD
+		-Way to toggle whether drawMeta() should be called in Display::draw()
+		-Add main menu tab for Editor::initState contents (holds char, curRoom)
+		-Add paths to Assets? Give paths their own tab? Some way to modify paths
+		
+	Rooms:
+		-Way to add/remove/rename rooms
+		-Way to select sprites in room; edit them
+		-Way to select paths (walkables, unwalkables, motionPaths) in room; edit them (see TODO::Paths)
+		-Way to add/remove paths to/from walkables and unwalkables
+		-Way to add/remove motionPaths
+		
+	Sprites:
+		-Way to add/remove/rename sprites/characters
+		-Way to add/remove/rename actions
+		-Way to add/remove/rename animations
+	
+	Assets:
+		-Way to add/remove/rename assets
+		
+	Actions:
+		-Way to show/hide followUp actions (like MSPA chatlogs?)
+		-Way to add/remove followUp actions (should be able to splice them in)
+		-Pull in commands::commands, use those to have the "command: " option be a selection dropdown, and not a textfield
+	
+	Dialogs:
+		-Way to add/remove/rename dialogSprites
+		-Way to view the dialogSprite on the other side of the box?
+		-Way to replay the animation?
+		
+	Paths:
+		-Way to add/remove/rename paths
+		-Draw edges and dots for vertices
+		-Left click vertex lets you drag it
+		-Right click vertex removes it
+		-Right click edge adds a vertex there
+		-Left click edge drags the edge?
+

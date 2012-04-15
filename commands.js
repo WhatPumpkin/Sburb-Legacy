@@ -45,6 +45,7 @@ cancelCommand = function(){
 }
 
 function buildCommands(){
+	commands = {};
 	commands.talk = talkCommand;
 	commands.changeRoom = changeRoomCommand;
 	commands.changeChar = changeCharCommand;

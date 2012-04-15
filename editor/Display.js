@@ -180,6 +180,7 @@ function buildRooms() {
 			menus.roomMenu.maindiv.append(sdisplay.maindiv);
 			menus.roomMenu.roomDisplays.push(sdisplay);
 		}
+
 		$('#mainmenu').append(menus.roomMenu.maindiv);
     }
 }
@@ -292,6 +293,7 @@ function deployStage(area,color,oneObject){
 	$("<div>").append(canvas).appendTo(area);
 	Stage  = document.getElementById("Stage");	
 	Stage.fps = 30;
+	Stage.x = Stage.y = 0;
     stage = Stage.getContext("2d"); 
     
     if(oneObject){
@@ -519,7 +521,7 @@ function draw(gameTime){
 		var newX = Stage.width*scaleFactor/2-specialOne.x-specialAnim.sx-specialAnim.colSize/2;
 		var newY = Stage.height*scaleFactor/2-specialOne.y-specialAnim.sy-specialAnim.rowSize/2;
 		stage.scale(1/scaleFactor,1/scaleFactor);
-		stage.translate(newX,newY);
+		stage.translate(newX+Stage.x,newY+Stage.y);
 		
 	}
 	for(var i=0;i<toDraw.length;i++){
