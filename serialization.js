@@ -1,8 +1,8 @@
-function serialize(assets){
+function serialize(assets,effects,rooms,hud,dialoger,curRoom,char){
 	var out = document.getElementById("serialText");
 	var output = "<SBURB curRoom='"+curRoom.name+"' char='"+char.name+"'>";
-	output = serializeAssets(output,assets);
-	output = serializeHud(output);
+	output = serializeAssets(output,assets,effects);
+	output = serializeHud(output,hud,dialoger);
 	output = output.concat("<Rooms>");
 	for(var room in rooms){
 		output = rooms[room].serialize(output);
@@ -13,7 +13,7 @@ function serialize(assets){
 	return output;
 }
 
-function serializeAssets(output,assets){
+function serializeAssets(output,assets,effects){
 	output = output.concat("<Assets>");
 	for(var asset in assets){
 		var curAsset = assets[asset];
@@ -41,13 +41,13 @@ function serializeAssets(output,assets){
 	output = output.concat("<Effects>");
 	for(var effect in effects){
 		var curEffect = effects[effect];
-		output = effect.serialize(output);
+		output = curEffect.serialize(output);
 	}
 	output = output.concat("</Effects>");
 	return output;
 }
 
-function serializeHud(output){
+function serializeHud(output,hud,dialoger){
 	output = output.concat("<HUD>");
 	for(var content in hud){
 		output = hud[content].serialize(output);

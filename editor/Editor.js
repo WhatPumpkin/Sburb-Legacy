@@ -3,6 +3,8 @@ var editSprites;
 var editRooms;
 var editEffects;
 var dialoger;
+var hud;
+var initState;
 
 // util function
 function abs2relURL(url) {
@@ -17,6 +19,7 @@ function editMode() {
     editSprites = new EditSprites();
     editRooms = new EditRooms();
     editEffects = new EditEffects();
+    
 }
 
 function editSerial(serialText, sburbID) {
@@ -58,7 +61,27 @@ function editSerial(serialText, sburbID) {
   	serialLoadDialogSprites(input.getElementsByTagName("HUD")[0].getElementsByTagName("DialogSprites")[0],editAssets.assets);
 
 	serialLoadEffects(input.getElementsByTagName("Effects")[0],editAssets.assets,editEffects.effects);
-
+	hud = {};
+	
+	var newButtons = input.getElementsByTagName("SpriteButton");
+	for(var i=0;i<newButtons.length;i++){
+		var curButton = newButtons[i];
+		var attributes = curButton.attributes;
+		var newButton = new SpriteButton(attributes.getNamedItem("name").value,
+  									parseInt(attributes.getNamedItem("x").value),
+  									parseInt(attributes.getNamedItem("y").value),
+  									parseInt(attributes.getNamedItem("width").value),
+  									parseInt(attributes.getNamedItem("height").value),
+  									editAssets.assets[attributes.getNamedItem("sheet").value]);
+  		hud[newButton.name] = newButton;
+	}
+	
+	var rootInfo = input.attributes;
+    initState = {};
+    
+    initState.char = editSprites.sprites[rootInfo.getNamedItem("char").value];
+  	initState.curRoom = editRooms.rooms[rootInfo.getNamedItem("curRoom").value];
+    
     displayMainMenu();
 }
 

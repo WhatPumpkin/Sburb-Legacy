@@ -50,7 +50,7 @@
 				<!-- Left cell, textfield 'n buttons -->
 				<div style="display:table-cell;width:33%;height:450px;min-width:0px;" >
 					<textarea id="serialText"></textarea><br/>
-					<button id="saveState" onclick="serialize()">save state</button>
+					<button id="saveState" onclick="serialize(assets,effects,rooms,hud,dialoger,curRoom,char)">save state</button>
 					<button id="loadState" onclick="loadSerial(document.getElementById('serialText').value)">load state</button>
 					<br />
 					<input type="file" name="level" id="levelFile" />

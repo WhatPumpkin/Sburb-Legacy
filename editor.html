@@ -13,6 +13,7 @@
 		<script type="text/javascript" src="Assets.js"></script>
 		<script type="text/javascript" src="Sprite.js"></script>
 		<script type="text/javascript" src="StaticSprite.js"></script>
+		<script type="text/javascript" src="SpriteButton.js"></script>
 		<script type="text/javascript" src="Character.js"></script>
 		<script type="text/javascript" src="Animation.js"></script>
 		<script type="text/javascript" src="Room.js"></script>
@@ -58,7 +59,7 @@
 		</table>
 		<div id="loadText">
 		  <textarea id="serialText"></textarea><br/>
-		  <button id="saveState" onclick="">save state</button>
+		  <button id="saveState" onclick="if(hud){serialize(editAssets.assets,editEffects.effects,editRooms.rooms,hud,dialoger,initState.curRoom,initState.char)}">save state</button>
 		  <button id="loadState" onclick="">load state</button>
 		  <br />
 		  <input type="file" name="level" id="levelFile" />
