@@ -19,10 +19,12 @@ function editMode() {
     editSprites = new EditSprites();
     editRooms = new EditRooms();
     editEffects = new EditEffects();
+    buildCommands();
     
 }
 
 function editSerial(serialText, sburbID) {
+	editMode();
     var inText = serialText; //document.getElementById("serialText");
     var parser=new DOMParser();
     var input=parser.parseFromString(inText,"text/xml");
@@ -34,6 +36,7 @@ function editSerial(serialText, sburbID) {
     }
     // add assets
     assetsNodes = input.getElementsByTagName("Asset")
+    console.log(assetsNodes.length);
     for(var i=0; i<assetsNodes.length; i++) {
 		aNode = assetsNodes[i];
 		editAssets.add(parseSerialAsset(aNode));

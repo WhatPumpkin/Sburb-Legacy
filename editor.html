@@ -60,7 +60,7 @@
 		<div id="loadText">
 		  <textarea id="serialText"></textarea><br/>
 		  <button id="saveState" onclick="if(hud){serialize(editAssets.assets,editEffects.effects,editRooms.rooms,hud,dialoger,initState.curRoom,initState.char)}">save state</button>
-		  <button id="loadState" onclick="">load state</button>
+		  <button id="loadState" onclick="editSerial(serialText.value)">load state</button>
 		  <br />
 		  <input type="file" name="level" id="levelFile" />
 		  <button id="loadLevelFile" onclick="editLevelFile(document.getElementById('levelFile'))">load level</button>

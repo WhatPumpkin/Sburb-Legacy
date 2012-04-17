@@ -2,11 +2,10 @@
 
 var menus = {};
 var stage;
-var Stage;
 var toDraw = new Array();
 var drawingOne = false;
 var updateLoop;
-var Stage = {width:650,height:450,color:"rgb(0,0,0)"}
+var Stage = {width:650,height:450,color:"rgb(0,0,0)"};
 
 function clearViewScreen() {
     $("#previewNode").empty(); // erase preview resources
@@ -423,7 +422,7 @@ function addActionOptions(theOptions,action){
 	$(sprintf("<div class='leftTitle'>Action %s</div>", action.name)).appendTo(options);
 	
 	var items = new Array();
-	items.push($('<input name="command" type="text" />').change(function() { action.command=this.value;}).val(action.command));
+	items.push(commandSelect("command",function() { action.command=this.value;},action.command));
 	items.push($('<textarea name="info"/>').change(function() { action.command=this.value;}).val(action.info.trim()));
 	items.push(spriteSelect("sprite",function() { action.sprite = editSprites.sprites[this.value]; },action.sprite?action.sprite.name:"null"));
 	items.push($('<div name="followUp"/>').change(function() { action.followUp=this.value;}).val(action.followUp?action.followUp.name:"null"));
@@ -488,6 +487,16 @@ function graphicSelect(name,change,value){
     select.change(change);
     select.val(value);
     return select;
+}
+
+function commandSelect(name,change,value){
+	var select = $('<select name="'+name+'">');
+    for(command in commands){
+    	$('<option value="'+command+'">'+command+'</option>').appendTo(select);
+    }
+    select.change(change);
+    select.val(value);
+    return select; 
 }
 
 function spriteSnap(val){

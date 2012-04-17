@@ -16,6 +16,7 @@ Editor:
 		-Way to toggle whether drawMeta() should be called in Display::draw()
 		-Add main menu tab for Editor::initState contents (holds char, curRoom)
 		-Add paths to Assets? Give paths their own tab? Some way to modify paths
+		-Little "?" links/buttons next to stuff that brings up info about the field/property
 		
 	Rooms:
 		-Way to add/remove/rename rooms
@@ -35,7 +36,6 @@ Editor:
 	Actions:
 		-Way to show/hide followUp actions (like MSPA chatlogs?)
 		-Way to add/remove followUp actions (should be able to splice them in)
-		-Pull in commands::commands, use those to have the "command: " option be a selection dropdown, and not a textfield
 	
 	Dialogs:
 		-Way to add/remove/rename dialogSprites
