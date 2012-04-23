@@ -98,6 +98,10 @@ function Sprite(name,x,y,width,height,dx,dy,depthing,collidable){
 	    return false;
 	}
 	
+	this.isVisuallyUnder = function(x,y){
+		return this.animation.isVisuallyUnder(x-this.x,y-this.y);
+	}
+	
 	this.tryToMove = function(vx,vy,room){
 	    var i;
 	    var moveMap = room.getMoveFunction(this);

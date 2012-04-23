@@ -93,6 +93,15 @@ function Animation(name,sheet,sx,sy,colSize,rowSize,startPos,length,frameInterva
 		this.reset();
 	}
 	
+	this.isVisuallyUnder = function(x,y){
+		if(x>=this.sx && x<=this.sx+this.colSize){
+			if(y>=this.sy && y<=this.sy+this.rowSize){
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	this.serialize = function(output){
 		output = output.concat("<Animation name='"+this.name+"' sheet='"+this.sheet.name+
 								"' sx='"+this.sx+"' sy='"+this.sy+

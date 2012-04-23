@@ -6,7 +6,7 @@ var toDraw = new Array();
 var drawingOne = false;
 var updateLoop;
 var Stage = {width:650,height:450,color:"rgb(0,0,0)"};
-
+var Mouse = {x:0,y:0,down:false};
 function clearViewScreen() {
     $("#previewNode").empty(); // erase preview resources
     $('#mainDisplay').contents().detach();
@@ -288,7 +288,10 @@ function showDialogPreview(animation){
 }
 
 function deployStage(area,color,oneObject){
-	var canvas = $('<canvas id="Stage" width="650" height="450" tabindex="0" </canvas>');
+	var canvas = $('<canvas id="Stage" width="650" height="450" tabindex="0"\
+								onmousedown = "onMouseDown(event,this)"\
+								onmousemove = "onMouseMove(event,this)"\
+								onmouseup = "onMouseUp(event,this)"></canvas>');
 	$("<div>").append(canvas).appendTo(area);
 	Stage  = document.getElementById("Stage");	
 	Stage.fps = 30;
@@ -313,15 +316,17 @@ function deployStage(area,color,oneObject){
 function addRoomOptions(theOptions,room){
 	removeRoomOptions(theOptions);
 	theOptions.remove('roomOptions');
-	var options =  $("<div class='roomOptions'>").appendTo(theOptions);
+	var options =  $("<div class='collapsable'>").appendTo(theOptions);
 	$(sprintf("<div class='leftTitle'>Room %s</div>", room.name)).appendTo(options);
 	
 	var items = new Array();
 	
 	items.push($('<input name="width" type="text" />').change(function() { room.width = parseInt(this.value); }).val(room.width));
-    items.push($('<input name="height" type="text" />').change(function() { room.height = parseInt(this.value); }).val(room.height));
+  items.push($('<input name="height" type="text" />').change(function() { room.height = parseInt(this.value); }).val(room.height));
+  
 	
 	addItems(options,items);
+	$("<div id='roomSelection'>").appendTo(options);
 }
 
 function addSpriteOptions(theOptions,sprite){
@@ -332,7 +337,7 @@ function addSpriteOptions(theOptions,sprite){
 		}
 	}
 	removeSpriteOptions(theOptions);
-	var options =  $("<div class='spriteOptions'>").appendTo(theOptions);
+	var options =  $("<div class='collapsable' id='spriteOptions'>").appendTo(theOptions);
 	$(sprintf("<div class='leftTitle'>Sprite %s</div>", sprite.name)).appendTo(options);
 	
 	var items = new Array();
@@ -372,12 +377,12 @@ function addSpriteOptions(theOptions,sprite){
     
     items.push(animationSelect);
     if(sprite.actions.length>0){
-		var actionSelect = $('<select name="action">');
-		for(var i=0;i<sprite.actions.length;i++){
-			$('<option value="'+i+'">'+sprite.actions[i].name+'</option>').appendTo(actionSelect);
-		}
-		actionSelect.change(function(){removeActionOptions(options); addActionOptions(options,sprite.actions[parseInt(this.value)]);}).val(sprite.actions[0]);
-		items.push(actionSelect);
+			var actionSelect = $('<select name="action">');
+			for(var i=0;i<sprite.actions.length;i++){
+				$('<option value="'+i+'">'+sprite.actions[i].name+'</option>').appendTo(actionSelect);
+			}
+			actionSelect.change(function(){removeActionOptions(options); addActionOptions(options,sprite.actions[parseInt(this.value)]);}).val(sprite.actions[0]);
+			items.push(actionSelect);
     }
     addItems(options,items);
     if(sprite.spriteType!="character"){
@@ -390,16 +395,30 @@ function addSpriteOptions(theOptions,sprite){
 
 function addItems(options,items){
 	for(var i=0;i<items.length;i++){
-    	var item = items[i];
-    	var name = item.attr("name");
-    	var label = name?name+":" : "";
-    	$("<div>"+label+"</div>").append(item).appendTo(options);
-    }
+  	var item = items[i];
+  	var name = item.attr("name");
+  	var label = name?name+":" : "";
+  	$("<div>"+label+"</div>").append(item).appendTo(options);
+  }
+  $(".leftTitle").unbind();
+  $(".leftTitle").click(function(){ 
+  	console.log("toggle!");
+  	if(!this.hidden){
+  		console.log("hide!");
+			this.hidden = true;
+			$(this).parent().children().hide();
+			$(this).parent().children(".leftTitle").show();
+		}else{
+			console.log("show!");
+			this.hidden = false;
+			$(this).parent().children().show();
+		}
+	});
 }
 
 function addAnimationOptions(theOptions,animation){
 	removeAnimationOptions(theOptions);
-	var options =  $("<div class='animationOptions'>").appendTo(theOptions);
+	var options =  $("<div class='collapsable' id='animationOptions'>").appendTo(theOptions);
 	$(sprintf("<div class='leftTitle'>Animation %s</div>", animation.name)).appendTo(options);
 	
 	var items = new Array();
@@ -418,7 +437,7 @@ function addAnimationOptions(theOptions,animation){
 }
 
 function addActionOptions(theOptions,action){
-	var options =  $("<div class='actionOptions'>").appendTo(theOptions);
+	var options =  $("<div class='collapsable' id='actionOptions'>").appendTo(theOptions);
 	$(sprintf("<div class='leftTitle'>Action %s</div>", action.name)).appendTo(options);
 	
 	var items = new Array();
@@ -432,12 +451,12 @@ function addActionOptions(theOptions,action){
 
 
 function addPathOptions(theOptions,path){
-	var options =  $("<div class='pathOptions'>").appendTo(theOptions);
+	var options =  $("<div class='collapsable' id='pathOptions'>").appendTo(theOptions);
 	$(sprintf("<div class='leftTitle'>Path %s</div>", path.name)).appendTo(options);
 }
 
 function addMotionPathOptions(theOptions,motionPath){
-	var options =  $("<div class='motionPathOptions'>").appendTo(theOptions);
+	var options =  $("<div class='collapsable' id='motionPathOptions'>").appendTo(theOptions);
 	$(sprintf("<div class='leftTitle'>MotionPath</div>")).appendTo(options);
 	
 	var items = new Array();
@@ -452,18 +471,18 @@ function addMotionPathOptions(theOptions,motionPath){
 }
 
 function removeRoomOptions(theOptions){
-	$('div').remove('.roomOptions');
+	$('div').remove('#roomOptions');
 }
 
 function removeSpriteOptions(theOptions){
-	$('div').remove('.spriteOptions');
+	$('div').remove('#spriteOptions');
 }
 
 function removeAnimationOptions(theOptions){
-	$('div').remove('.animationOptions');
+	$('div').remove('#animationOptions');
 }
 function removeActionOptions(theOptions){
-	$('div').remove('.actionOptions');
+	$('div').remove('#actionOptions');
 }
 
 function spriteSelect(name,change,value){
@@ -538,4 +557,60 @@ function draw(gameTime){
 		toDraw[i].drawMeta();
 	}
 	stage.restore();
+}
+
+function onMouseMove(e,canvas){
+	point = relMouseCoords(e,canvas);
+	Mouse.x = point.x;
+	Mouse.y = point.y;
+	//console.log(Mouse.x+" "+Mouse.y);
+}
+
+function onMouseDown(e,canvas){
+	if(!Mouse.down){
+		if(toDraw.length>0){
+			if(toDraw[0] instanceof Room){
+				var room = toDraw[0];
+				selectObjectUnderMouse(room,Stage.x+Mouse.x,Stage.y+Mouse.y);
+			}
+		}
+	}
+	Mouse.down = true;
+}
+
+function onMouseUp(e,canvas){
+	Mouse.down = false;
+}
+
+function relMouseCoords(event,canvas){
+    var totalOffsetX = 0;
+    var totalOffsetY = 0;
+    var canvasX = 0;
+    var canvasY = 0;
+    var currentElement = canvas;
+
+    do{
+        totalOffsetX += currentElement.offsetLeft;
+        totalOffsetY += currentElement.offsetTop;
+    }
+    while(currentElement = currentElement.offsetParent)
+    canvasX = event.pageX - totalOffsetX;
+    canvasY = event.pageY - totalOffsetY;
+    return {x:canvasX,y:canvasY};
+}
+
+function selectObjectUnderMouse(room,x,y){
+	console.log("selectObject "+x+" "+y);
+	/*this.sprites = new Array();
+	this.effects = new Array();
+	this.walkables = new Array();
+	this.unwalkables = new Array();
+	this.motionPaths = new Array();*/
+	for(var i=room.sprites.length-1;i>=0;i--){
+		var curSprite = room.sprites[i];
+		if(curSprite.isVisuallyUnder(x,y)){
+			addSpriteOptions($("#roomSelection"),curSprite);
+			return true;
+		}
+	}
 }

@@ -12,10 +12,12 @@ canvas {
     width:100%;
 }
 #leftside {
-    height:450px;
-    width:350px;
+    min-height:450px;
+    min-width:350px;
     border: 1px solid black;
+    vertical-align:top;
 }
+
 #mainDisplayCell {
     width:680px;
     height:480px;
@@ -77,6 +79,14 @@ canvas {
 }
 .assetSource {
     clear: both;
+}
+
+.leftTitle {
+	background-color:rgb(200,200,200);
+}
+
+.collapsable{
+	background-color:rgba(200,200,200,0.2);
 }
 
 #mainmenu ul { list-style: none; padding: 0; margin: 0; }
