@@ -7,6 +7,8 @@ Core engine:
 		-properly test effects
 		-add "wait" commands to the list of commands; commands::waitForTimeCommand; commands::waitForAnimationCommand...?
 		-add transporter
+	Strife:
+		-design Strife mode? (1px free motion, mouse click to interact)
 
 Editor:
 	General:
@@ -35,7 +37,7 @@ Editor:
 		
 	Actions:
 		-Way to show/hide followUp actions (like MSPA chatlogs?)
-		-Way to add/remove followUp actions (should be able to splice them in)
+		-Better way to add/remove followUp actions (should be able to splice them in)
 	
 	Dialogs:
 		-Way to add/remove/rename dialogSprites
