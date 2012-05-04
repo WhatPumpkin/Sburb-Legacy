@@ -140,11 +140,13 @@ function Room(name,width,height){
 		return validActions;
 	}
 	
-	this.isInBounds = function(sprite){
-		var queries = {upRight:{x:sprite.x+sprite.width/2,y:sprite.y-sprite.height/2},
-					 upLeft:{x:sprite.x-sprite.width/2,y:sprite.y-sprite.height/2},
-					 downLeft:{x:sprite.x-sprite.width/2,y:sprite.y+sprite.height/2},
-					 downRight:{x:sprite.x+sprite.width/2,y:sprite.y+sprite.height/2}}
+	this.isInBounds = function(sprite,dx,dy){
+		spriteX = sprite.x+(dx?dx:0);
+		spriteY = sprite.y+(dy?dy:0);
+		var queries = {upRight:{x:spriteX+sprite.width/2,y:spriteY-sprite.height/2},
+					 upLeft:{x:spriteX-sprite.width/2,y:spriteY-sprite.height/2},
+					 downLeft:{x:spriteX-sprite.width/2,y:spriteY+sprite.height/2},
+					 downRight:{x:spriteX+sprite.width/2,y:spriteY+sprite.height/2}}
 		var result = this.isInBoundsBatch(queries);
 		return result.upRight && result.upLeft && result.downRight && result.downLeft;
 	}
@@ -203,58 +205,7 @@ function Room(name,width,height){
 		stage.restore();
 	}
 	
-	this.isBufferable = function(sprite){
-		for(i=0; i<this.motionPaths.length; i++) {
-			var motionPath = this.motionPaths[i];
-			var path = motionPath.path;
-			stage.save();
-			stage.beginPath();
-			stage.moveTo(path[0].x, path[0].y);
-			for(var j=1;j<path.length;j++) {
-				stage.lineTo(path[j].x, path[j].y);
-			}
-			var result = stage.isPointInPath(sprite.x+sprite.width/2,sprite.y+sprite.height/2)
-					|| stage.isPointInPath(sprite.x-sprite.width/2,sprite.y+sprite.height/2)
-					|| stage.isPointInPath(sprite.x-sprite.width/2,sprite.y-sprite.height/2)
-					|| stage.isPointInPath(sprite.x+sprite.width/2,sprite.y-sprite.height/2);
-			stage.restore();
-			if(result){
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	this.getMovementBuffer = function(sprite){
-		var result = {x:0,y:0}
-		
-		do{
-			var queries = {upRight:{x:sprite.x+sprite.width/2+result.x,y:sprite.y-sprite.height/2+result.y},
-						 upLeft:{x:sprite.x-sprite.width/2+result.x,y:sprite.y-sprite.height/2+result.y},
-						 downLeft:{x:sprite.x-sprite.width/2+result.x,y:sprite.y+sprite.height/2+result.y},
-						 downRight:{x:sprite.x+sprite.width/2+result.x,y:sprite.y+sprite.height/2+result.y}}
-			var results = this.isInBoundsBatch(queries);
-			if(!results.upLeft){
-				result.x+=3;
-				result.y+=3;
-			}
-			if(!results.upRight){
-				result.x-=3;
-				result.y+=3;
-			}
-			if(!results.downLeft){
-				result.x+=3;
-				result.y-=3;
-			}
-			if(!results.downRight){
-				result.x-=3;
-				result.y-=3;
-			}
-		}while(!results.upLeft || !results.upRight || !results.downLeft || !results.downRight);
-		return result;
-	}
-	
-    this.getMoveFunction = function(sprite) {
+	this.getMoveFunction = function(sprite) {
 		var result;
 		for(i=0; i<this.motionPaths.length; i++) {
 			var motionPath = this.motionPaths[i];
@@ -279,7 +230,19 @@ function Room(name,width,height){
 			}
 			stage.restore();
 		}	
-    }
+	}
+    
+	this.collides = function(sprite){
+		for(var i=0;i<this.sprites.length;i++){
+			var theSprite = this.sprites[i];
+			if(theSprite.collidable && sprite!=theSprite){
+				if(theSprite.collides(sprite)){
+					return theSprite;
+				}
+			}
+		}
+		return null;
+	}
     
 	this.serialize = function(output){
 		output = output.concat("<Room name='"+this.name+"' width='"+this.width+"' height='"+this.height+"'>");

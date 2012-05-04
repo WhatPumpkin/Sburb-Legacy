@@ -65,43 +65,96 @@ function Character(name,x,y,width,height,sx,sy,sWidth,sHeight,sheet){
 	}
 	
 	this.tryToMove = function(vx,vy,room){
-	    var i;
-	    var moveMap = room.getMoveFunction(this);
-	    var wasShifted = false;
-	    if(moveMap) { //our motion could be modified somehow
+		var i;
+		var moveMap = room.getMoveFunction(this);
+		var wasShifted = false;
+		if(moveMap) { //our motion could be modified somehow
 			l = moveMap(vx, vy);
 			if(vx!=l.x || vy!=l.y){
 				wasShifted = true;
 			}
 			vx = l.x;
 			vy = l.y;
-	    }
-		this.x += vx;
-		this.y += vy;
-		if(this.collidable){
-			for(var i=0;i<room.sprites.length;i++){
-				if(room.sprites[i]!=this){
-				    if(this.collides(room.sprites[i])){
-						this.x -=vx;
-						this.y -=vy;
-						return false;
+		}
+		var minX = Stage.scaleX;
+		var minY = Stage.scaleY;
+		while(Math.abs(vx)>=minX || Math.abs(vy)>=minY){
+			var dx = 0;
+			var dy = 0;
+			if(Math.abs(vx)>=minX){
+				dx=Math.round((minX)*vx/Math.abs(vx));
+				this.x+=dx;
+				vx-=dx;
+			}
+			if(Math.abs(vy)>=minY){
+				dy=Math.round((minY)*vy/Math.abs(vy));
+				this.y+=dy;
+				vy-=dy;
+			}
+			
+			var collision;
+			if(collision = room.collides(this)){
+				var fixed = false;
+				if(dx!=0){
+					if(!this.collides(collision,0,minY)){
+						dy+=minY;
+						this.y+=minY;
+						fixed = true;
+					}else if(!this.collides(collision,0,-minY)){
+						dy-=minY;
+						this.y-=minY;
+						fixed = true;
 					}
 				}
-			}
-			if(!room.isInBounds(this)){
-				if((moveMap && wasShifted) || (!moveMap && room.isBufferable(this))){
-					//console.log("no clip!");
-					var adjustment = room.getMovementBuffer(this);
-					this.x += adjustment.x;
-					this.y += adjustment.y;
-				}else{
-					//console.log("no move!");
-					this.x -=vx;
-					this.y -=vy;
+				if(!fixed && dy!=0){
+					if(!this.collides(collision,minX,0)){
+						dx+=minX;
+						this.x+=minX;
+						fixed = true;
+					}else if(!this.collides(collision,-minX,0)){
+						dx-=minX;
+						this.x-=minX;
+						fixed = true;
+					}
+				}
+				if(!fixed || room.collides(this)){
+					this.x-=dx;
+					this.y-=dy;
 					return false;
 				}
 			}
-		}
+			
+			if(!room.isInBounds(this)){
+				var fixed = false;
+				if(dx!=0){
+					if(room.isInBounds(this,0,minY)){
+						dy+=minY;
+						this.y+=minY;
+						fixed = true;
+					}else if(room.isInBounds(this,0,-minY)){
+						dy-=minY;
+						this.y-=minY;
+						fixed = true;
+					}
+				}
+				if(!fixed && dy!=0){
+					if(room.isInBounds(this,minX,0)){
+						dx+=minX;
+						this.x+=minX;
+						fixed = true;
+					}else if(room.isInBounds(this,-minX,0)){
+						dx-=minX;
+						this.x-=minX;
+						fixed = true;
+					}
+				}
+				if(!fixed){
+					this.x-=dx;
+					this.y-=dy;
+					return false;
+				}
+			}
+		}	
 		return true;
 	}
 	
