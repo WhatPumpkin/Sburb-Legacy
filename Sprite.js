@@ -102,47 +102,6 @@ function Sprite(name,x,y,width,height,dx,dy,depthing,collidable){
 		return this.animation.isVisuallyUnder(x-this.x,y-this.y);
 	}
 	
-	this.tryToMove = function(vx,vy,room){
-	    var i;
-	    var moveMap = room.getMoveFunction(this);
-	    var wasShifted = false;
-	    if(moveMap) {
-	    	//console.log("stairs!");
-			l = moveMap(vx, vy);
-			if(vx!=l.x || vy!=l.y){
-				wasShifted = true;
-			}
-			vx = l.x;
-			vy = l.y;
-	    }
-		this.x += vx;
-		this.y += vy;
-		if(this.collidable){
-			for(i=0;i<room.sprites.length;i++){
-				if(room.sprites[i]!=this){
-				    if(this.collides(room.sprites[i])){
-						this.x -=vx;
-						this.y -=vy;
-						return false;
-					}
-				}
-			}
-			if(!room.isInBounds(this)){
-				if((moveMap && wasShifted) || (!moveMap && room.isBufferable(this))){
-					//console.log("no clip!");
-					var adjustment = room.getMovementBuffer(this);
-					this.x += adjustment.x;
-					this.y += adjustment.y;
-				}else{
-					//console.log("no move!");
-					this.x -=vx;
-					this.y -=vy;
-					return false;
-				}
-			}
-		}
-		return true;
-	}
 	
 	this.addAction = function(action){
 		this.actions.push(action);

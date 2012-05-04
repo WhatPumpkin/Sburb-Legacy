@@ -64,6 +64,47 @@ function Character(name,x,y,width,height,sx,sy,sWidth,sHeight,sheet){
 		this.animations.walkRight.frameInterval = 4;
 	}
 	
+	this.tryToMove = function(vx,vy,room){
+	    var i;
+	    var moveMap = room.getMoveFunction(this);
+	    var wasShifted = false;
+	    if(moveMap) { //our motion could be modified somehow
+			l = moveMap(vx, vy);
+			if(vx!=l.x || vy!=l.y){
+				wasShifted = true;
+			}
+			vx = l.x;
+			vy = l.y;
+	    }
+		this.x += vx;
+		this.y += vy;
+		if(this.collidable){
+			for(var i=0;i<room.sprites.length;i++){
+				if(room.sprites[i]!=this){
+				    if(this.collides(room.sprites[i])){
+						this.x -=vx;
+						this.y -=vy;
+						return false;
+					}
+				}
+			}
+			if(!room.isInBounds(this)){
+				if((moveMap && wasShifted) || (!moveMap && room.isBufferable(this))){
+					//console.log("no clip!");
+					var adjustment = room.getMovementBuffer(this);
+					this.x += adjustment.x;
+					this.y += adjustment.y;
+				}else{
+					//console.log("no move!");
+					this.x -=vx;
+					this.y -=vy;
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	
 	this.getActionQueries = function(){
 		var queries = new Array();
 		if(this.facing=="Front"){

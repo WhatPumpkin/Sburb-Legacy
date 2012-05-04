@@ -30,7 +30,7 @@ function initialize(){
 	gameDiv.onkeydown = _onkeydown;
 	gameDiv.onkeyup = _onkeyup;
 	Stage = document.getElementById("Stage");	
-	Stage.scaleX = Stage.scaleY = 1;
+	Stage.scaleX = Stage.scaleY = 3;
 	Stage.x = Stage.y = 0;
 	Stage.fps = 30;
 	Stage.fade = 0;
@@ -231,8 +231,9 @@ function performAction(action){
 }
 
 function focusCamera(){
-	Stage.x = Math.max(0,Math.min(focus.x-Stage.width/2/Stage.scaleX,curRoom.width-Stage.width/Stage.scaleX));
-	Stage.y = Math.max(0,Math.min(focus.y-Stage.height/2/Stage.scaleY,curRoom.height-Stage.height/Stage.scaleY));
+	//need to divide these by scaleX and scaleY if repurposed
+	Stage.x = Math.max(0,Math.min(focus.x-Stage.width/2,curRoom.width-Stage.width));
+	Stage.y = Math.max(0,Math.min(focus.y-Stage.height/2,curRoom.height-Stage.height));
 	Stage.x = Math.round(Stage.x/3)*3;
 	Stage.y = Math.round(Stage.y/3)*3;
 }
@@ -328,4 +329,17 @@ function chainAction(){
 		}
 	}
 }    
+
+function stageSnap(object){
+	object.x = Math.round(object.x/Stage.scaleX)*Stage.scaleX;
+	object.y = Math.round(object.y/Stage.scaleY)*Stage.scaleY;
+}
+
+function stageSnapX(x){
+	return Math.round(x/Stage.scaleX)*Stage.scaleX;
+}
+
+function stageSnapY(y){
+	return Math.round(y/Stage.scaleY)*Stage.scaleY;
+}
     
