@@ -5,7 +5,7 @@ var stage;
 var toDraw = new Array();
 var drawingOne = false;
 var updateLoop;
-var Stage = {width:650,height:450,color:"rgb(0,0,0)"};
+var Stage = {width:650,height:450,color:"rgb(0,0,0)",scaleX:3,scaleY:3};
 var Mouse = {x:0,y:0,down:false};
 function clearViewScreen() {
     $("#previewNode").empty(); // erase preview resources
@@ -23,12 +23,12 @@ function clearLeftMenu() {
 
 function showMenu(menu) {
     for(m in menus) {
-		var curMenu = menus[m];
-		if(curMenu == menu) {
-			curMenu.maindiv.show();
-		} else {
-			curMenu.maindiv.hide();
-		}
+			var curMenu = menus[m];
+			if(curMenu == menu) {
+				curMenu.maindiv.show();
+			} else {
+				curMenu.maindiv.hide();
+			}
     }
 }
 function displayMainMenu() {
@@ -54,21 +54,22 @@ function deployStage(area,color,oneObject){
 	Stage  = document.getElementById("Stage");	
 	Stage.fps = 30;
 	Stage.x = Stage.y = 0;
-    stage = Stage.getContext("2d"); 
-    
-    if(oneObject){
-    	drawingOne = true;
-    }else{
-    	drawingOne = false;
-    }
-    
-    if(color){
-    	Stage.color = color;
-    }else{
-    	Stage.color = "rgb(0,0,0)";
-    }
-    
-    update(0);
+	Stage.scaleX = Stage.scaleY = 3;
+  stage = Stage.getContext("2d"); 
+  
+  if(oneObject){
+  	drawingOne = true;
+  }else{
+  	drawingOne = false;
+  }
+  
+  if(color){
+  	Stage.color = color;
+  }else{
+  	Stage.color = "rgb(0,0,0)";
+  }
+  
+  update(0);
 }
 
 function addItems(options,items){
@@ -80,14 +81,11 @@ function addItems(options,items){
   }
   $(".leftTitle").unbind();
   $(".leftTitle").click(function(){ 
-  	console.log("toggle!");
   	if(!this.hidden){
-  		console.log("hide!");
 			this.hidden = true;
 			$(this).parent().children().hide();
 			$(this).parent().children(".leftTitle").show();
 		}else{
-			console.log("show!");
 			this.hidden = false;
 			$(this).parent().children().show();
 		}
@@ -155,8 +153,10 @@ function draw(gameTime){
 		if(specialAnim.rowSize>Stage.height*scaleFactor){
 			scaleFactor = specialAnim.rowSize/Stage.height;
 		}
-		var newX = Stage.width*scaleFactor/2-specialOne.x-specialAnim.sx-specialAnim.colSize/2;
-		var newY = Stage.height*scaleFactor/2-specialOne.y-specialAnim.sy-specialAnim.rowSize/2;
+		var newX = Stage.width*scaleFactor/2-specialOne.x-specialAnim.x-specialAnim.colSize/2;
+		var newY = Stage.height*scaleFactor/2-specialOne.y-specialAnim.y-specialAnim.rowSize/2;
+		//console.log(specialAnim);
+		//console.log(Stage.width,scaleFactor,specialOne.x,specialAnim.x,specialAnim.colSize);
 		stage.scale(1/scaleFactor,1/scaleFactor);
 		stage.translate(newX+Stage.x,newY+Stage.y);
 		

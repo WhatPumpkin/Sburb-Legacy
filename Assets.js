@@ -3,22 +3,22 @@ function createGraphicAsset(name, path) {
     var ret = new Image();
     ret.loaded = false;
     ret.onload = function() {
-	ret.loaded = true;
+			ret.loaded = true;
     }
     ret.src = path;
     ret.type = "graphic";
     ret.name = name;
     ret.assetOnLoadFunction = function(fn) {
-	if(ret.loaded) {
-	    if(fn) { fn(); }
-	    return true;
-	} else {
-	    ret.onload = function () {
-		ret.loaded = true
-		if(fn) { fn(); }
-	    }
-	    return false;
-	}
+			if(ret.loaded) {
+					if(fn) { fn(); }
+					return true;
+			} else {
+					ret.onload = function () {
+						ret.loaded = true
+						if(fn) { fn(); }
+					}
+					return false;
+			}
     };
     return ret;
 }
@@ -29,16 +29,16 @@ function createAudioAsset(name) {
     ret.type = "audio";
     ret.preload = true;
     for (a=1; a < arguments.length; a++) {
-	var tmp = document.createElement("source")
-	tmp.src = arguments[a];
-	ret.appendChild(tmp);
+			var tmp = document.createElement("source")
+			tmp.src = arguments[a];
+			ret.appendChild(tmp);
     }
     ret.assetOnLoadFunction = function(fn) {
-	if (ret.readyState == 4) {
-	    if(fn) { fn(); }
-	    return true;
-	}
-	ret.addEventListener('canplaythrough', fn);
+			if (ret.readyState == 4) {
+					if(fn) { fn(); }
+					return true;
+			}
+			ret.addEventListener('loadeddata', fn);
     };
     return ret;
 }

@@ -12,8 +12,8 @@ function Action(name,command,info,sprite,followUp){
 		}
 		output = output.concat("<Action sprite='"+spriteName+"' name='"+this.name+"' command='"+this.command+"'>");
 		output = output.concat(info);
-		if(followUp){
-			output = followUp.serialize(output);
+		if(this.followUp){
+			output = this.followUp.serialize(output);
 		}
 		output = output.concat("</Action>");
 		return output;

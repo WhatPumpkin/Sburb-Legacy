@@ -210,8 +210,16 @@ function handleHud(){
 			performAction(new Action("helpAction","talk","@! HELP!"));
 		}
 		if(hud.volumeButton.clicked){
-			//toggle the volume
-			//100->0->33->66->100
+			if(globalVolume>=1){
+				globalVolume=0;
+			}else if(globalVolume>=0.6){
+				globalVolume = 1;
+			}else if(globalVolume>=0.3){
+				globalVolume = 0.66;
+			}else {
+				globalVolume = 0.33;
+			}
+			bgm.fixVolume();
 		}
 	}
 }
@@ -298,7 +306,7 @@ function changeBGM(newSong) {
 		}
 		bgm = newSong;
 		bgm.play();
-		setTimeout("checkBGMLoop()", 100);
+		//setTimeout("checkBGMLoop()", 100);
     }
 }
 
@@ -312,14 +320,16 @@ function playSound(sound){
 	sound.play();
 }
 
+/*
 function checkBGMLoop() {
     // this is just until we can figure out if Chrome loops things
     // or is just broken?
+    console.log(bgm,bgm.ended(),bgm.asset.ended);
     if(bgm && bgm.ended()) {
-		bgm.loop();
+			//bgm.loop();
     }
     setTimeout("checkBGMLoop()", 100);
-}
+}*/
     
 function chainAction(){
 	if(hasControl()){
@@ -330,16 +340,5 @@ function chainAction(){
 	}
 }    
 
-function stageSnap(object){
-	object.x = Math.round(object.x/Stage.scaleX)*Stage.scaleX;
-	object.y = Math.round(object.y/Stage.scaleY)*Stage.scaleY;
-}
 
-function stageSnapX(x){
-	return Math.round(x/Stage.scaleX)*Stage.scaleX;
-}
-
-function stageSnapY(y){
-	return Math.round(y/Stage.scaleY)*Stage.scaleY;
-}
     

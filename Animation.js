@@ -109,3 +109,16 @@ function Animation(name,sheet,sx,sy,colSize,rowSize,startPos,length,frameInterva
 		return output;
 	}
 }
+
+function stageSnap(object){
+	object.x = Math.round(object.x/Stage.scaleX)*Stage.scaleX;
+	object.y = Math.round(object.y/Stage.scaleY)*Stage.scaleY;
+}
+
+function stageSnapX(x){
+	return Math.round(x/Stage.scaleX)*Stage.scaleX;
+}
+
+function stageSnapY(y){
+	return Math.round(y/Stage.scaleY)*Stage.scaleY;
+}

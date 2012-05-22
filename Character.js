@@ -182,7 +182,7 @@ function Character(name,x,y,width,height,sx,sy,sWidth,sHeight,sheet){
 	
 	this.serialize = function(output){
 		output = output.concat("<Character name='"+this.name+"' x='"+this.x+"' y='"+this.y+
-									"' sx='"+this.animations.walkFront.sx+"' sy='"+this.animations.walkFront.sy+
+									"' sx='"+this.animations.walkFront.x+"' sy='"+this.animations.walkFront.y+
 									"' sWidth='"+this.animations.walkFront.colSize+ "' sHeight='"+this.animations.walkFront.rowSize+
 									"' width='"+this.width+"' height='"+this.height+
 									"' sheet='"+this.animations.walkFront.sheet.name+"' state='"+this.state+"' facing='"+this.facing+"'>");

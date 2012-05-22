@@ -28,12 +28,12 @@ changeCharCommand = function(info){
 
 playSongCommand = function(info){
 	var params = info.split(",");
-    params = params.map(function(s) { return s.trim(); });
-    changeBGM(new BGM(assets[params[0]],parseFloat(params[1])));
+  params = params.map(function(s) { return s.trim(); });
+  changeBGM(new BGM(assets[params[0]],parseFloat(params[1])));
 }
 
 playSoundCommand = function(info){
-	playSound(new BGM(assets[info],0));
+	playSound(new Sound(assets[info.trim()]));
 }
 
 playEffectCommand = function(info){

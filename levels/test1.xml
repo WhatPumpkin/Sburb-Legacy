@@ -46,9 +46,9 @@
 </HUD>
   
   <Action sprite='null' name='startGame' command='talk'>@! Let's do this!!!
-    <!-- <Action sprite='null' name='introMusic' command='playSong'>
+    <Action sprite='null' name='introMusic' command='playSong'>
       karkatBGM, 6.7 
-    </Action>-->
+    </Action>
   </Action> 
 
 <Rooms>
@@ -58,7 +58,11 @@
   	</Paths>
     <Character name='karkat' x='300' y='501' sx='-36' sy='-87' sWidth='66' sHeight='96' width='48' height='21' 
 	       sheet='cgSheet' state='walkFront' facing='Front'>
-      <Action sprite='null' name='swap' command='changeChar'>karkat</Action>
+      <Action sprite='null' name='swap' command='changeChar'>karkat
+      <Action sprite='null' name='introMusic' command='playSong'>
+      	karkatBGM, 6.7 
+    	</Action>
+      </Action>
     </Character>
     <Character name='tavros' x='600' y='501' sx='-51' sy='-75' sWidth='102' sHeight='84' width='55' height='21' 
 	       sheet='atSheet' state='walkFront' facing='Front'>
@@ -82,13 +86,12 @@
       </Action>
       <Action sprite='null' name='change room' command='changeRoom'>
 	stairRoom,666,450
-<!--
-	<Action sprite='null' name='T3R3Z1 TH3M3 4LL D4Y' command='playSong'>
-	  tereziBGM, 1.9
-	</Action>
--->
       </Action>
-      <Action sprite='null' name='swap' command='changeChar'>terezi</Action>
+      <Action sprite='null' name='swap' command='changeChar'>terezi
+      <Action sprite='null' name='T3R3Z1 TH3M3 4LL D4Y' command='playSong'>
+				tereziBGM, 1.9
+			</Action>
+      </Action>
     </Character>
     <Sprite name='compLabBG' x='0' y='0' dx='0' dy='0' width='861' height='909' depthing='0' collidable='false' state='image'>
       <Animation name='image' sx='0' sy='0' sheet='compLabBG' rowSize='909' colSize='861' startPos='0' length='1' frameInterval='1' loopNum='-1'/>
