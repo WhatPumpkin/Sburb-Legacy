@@ -70,7 +70,7 @@ function Animation(name,sheet,sx,sy,colSize,rowSize,startPos,length,frameInterva
 	}
 	
 	this.hasPlayed = function(){
-		return curLoop == loopNum && this.curFrame==this.length-1;
+		return this.curLoop == this.loopNum && this.curFrame==this.length-1;
 	}
 	
 	this.setColSize = function(newSize){
@@ -99,6 +99,10 @@ function Animation(name,sheet,sx,sy,colSize,rowSize,startPos,length,frameInterva
 			}
 		}
 		return false;
+	}
+	
+	this.clone = function(x,y){
+		return new Animation(this.name, this.sheet, x+this.x, y+this.y, this.colSize,this.rowSize, this.startPos, this.length, this.frameInterval, this.loopNum);
 	}
 	
 	this.serialize = function(output){

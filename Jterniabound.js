@@ -311,8 +311,7 @@ function changeBGM(newSong) {
 }
 
 function playEffect(effect,x,y){
-	var newEffect = new Animation(effect.name, effect.sheet, x, y, effect.colSize,effect.rowSize, effect.startPos, effect.length, effect.frameInterval, effect.loopNum);
-	curRoom.addEffect(newEffect);
+	curRoom.addEffect(effect.clone(x,y));
 }
 
 function playSound(sound){

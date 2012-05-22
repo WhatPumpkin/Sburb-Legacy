@@ -14,6 +14,8 @@
   <Asset name='gcSheet' type='graphic'>resources/GCsheetBig.png</Asset>
   <Asset name='taSheet' type='graphic'>resources/TAsheetBig.png</Asset>
   <Asset name='tcSheet' type='graphic'>resources/TCsheetBig.png</Asset>
+  <Asset name='teleporterPad' type='graphic'>resources/teleporterpad.png</Asset>
+  <Asset name='teleportSheet' type='graphic'> resources/teleportSheet.png</Asset>
   
   <Asset name='VriskaIdleSheet' type='graphic'>resources/vriskaportrait.gif</Asset>
   <Asset name='NepetaIdleSheet' type='graphic'>resources/nepetaDialog1.png</Asset>
@@ -33,7 +35,7 @@
 </Assets>
 
 <Effects>
-  <Animation name='test_effect' sx='-142' sy='-424' sheet='VriskaIdleSheet' rowSize='424' colSize='284' startPos='0' length='1' frameInterval='1000' loopNum='1'/>
+  <Animation name='teleportEffect' sx='-66' sy='-110' sheet='teleportSheet' colSize='132' rowSize='165' startPos='0' length='6' frameInterval='2' loopNum='0'/>
 </Effects>
 
 <HUD>
@@ -56,6 +58,14 @@
   	<Paths>
   		<Walkable path='compLabWalkable'/>
   	</Paths>
+  	<Sprite name='baseRoomTeleporter' x='400' y='400' dx='0' dy='0' width='110' height='60' depthing='0' collidable='false' state='image'>
+      <Animation name='image' sheet='teleporterPad' sx='-66' sy='-120' rowSize='165' colSize='132' startPos='0' length='1' frameInterval='1000' loopNum='-1'/>
+      
+      <Action sprite='null' name='teleport' command='teleport'>
+      
+	stairRoom,666,450
+      </Action>
+    </Sprite>
     <Character name='karkat' x='300' y='501' sx='-36' sy='-87' sWidth='66' sHeight='96' width='48' height='21' 
 	       sheet='cgSheet' state='walkFront' facing='Front'>
       <Action sprite='null' name='swap' command='changeChar'>karkat
@@ -84,13 +94,10 @@
       @nepeta_idle No I really don't like you. In fact I loathe you with to an unimaginable degree. I would rather you never existed at all!
       @vriska_idle YES YOU DO.
       </Action>
-      <Action sprite='null' name='change room' command='changeRoom'>
-	stairRoom,666,450
-      </Action>
       <Action sprite='null' name='swap' command='changeChar'>terezi
-      <Action sprite='null' name='T3R3Z1 TH3M3 4LL D4Y' command='playSong'>
-				tereziBGM, 1.9
-			</Action>
+		    <Action sprite='null' name='T3R3Z1 TH3M3 4LL D4Y' command='playSong'>
+					tereziBGM, 1.9
+				</Action>
       </Action>
     </Character>
     <Sprite name='compLabBG' x='0' y='0' dx='0' dy='0' width='861' height='909' depthing='0' collidable='false' state='image'>
@@ -99,6 +106,12 @@
   </Room>
 
   <Room name='stairRoom' width='999' height='2259'>
+  	<Sprite name='stairRoomTeleporter' x='666' y='450' dx='0' dy='0' width='110' height='60' depthing='0' collidable='false' state='image'>
+      <Animation name='image' sheet='teleporterPad' sx='-66' sy='-120' rowSize='165' colSize='132' startPos='0' length='1' frameInterval='1000' loopNum='-1'/>
+      <Action sprite='null' name='teleport' command='teleport'>
+	baseRoom,400,400
+      </Action>
+    </Sprite>
   	<Paths>
   		<Walkable path="stairRoomWalkable"/>
   		<MotionPath path="stairRoomStairs1" xtox = '1' xtoy = '-1' ytox='0' ytoy = '1' dx='0' dy='0'/>

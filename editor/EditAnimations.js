@@ -6,8 +6,8 @@ function addAnimationOptions(theOptions,animation){
 	var items = new Array();
 	items.push(graphicSelect("sheet",function() { animation.setSheet(editAssets.assets[this.value]);},animation.sheet.name));
 	//items.push($('<input name="sheet" type="text" />').change(function() { animation.setSheet(editAssets.assets[this.value]);}).val(animation.sheet.name));
-	items.push($('<input name="sx" type="text" />').change(function() { animation.sx = parseInt(this.value); }).val(animation.sx));
-	items.push($('<input name="sy" type="text" />').change(function() { animation.sy = parseInt(this.value); }).val(animation.sy));
+	items.push($('<input name="sx" type="text" />').change(function() { animation.x = parseInt(this.value); }).val(animation.x));
+	items.push($('<input name="sy" type="text" />').change(function() { animation.y = parseInt(this.value); }).val(animation.y));
 	items.push($('<input name="colSize" type="text" />').change(function() { animation.setColSize(parseInt(this.value)); }).val(animation.colSize));
 	items.push($('<input name="rowSize" type="text" />').change(function() { animation.setRowSize(parseInt(this.value)); }).val(animation.rowSize));
 	items.push($('<input name="startPos" type="text" />').change(function() { animation.startPos = parseInt(this.value); this.animation.reset();}).val(animation.startPos));

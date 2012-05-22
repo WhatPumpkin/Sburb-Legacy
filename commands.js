@@ -9,8 +9,10 @@ changeRoomCommand = function(info){
 
 teleportCommand = function(info){
 	changeRoomCommand(info);
-	playEffectCommand("teleport",char.x,char.y);
-	playSound(new BGM(assets["teleportSound"],0));
+	playEffect(effects["teleportEffect"],char.x,char.y);
+	var params = info.split(",");
+	curAction.followUp = new Action(null,"playEffect","teleportEffect,"+params[1]+","+params[2],null,curAction.followUp)
+	//playSound(new BGM(assets["teleportSound"],0));
 }
 
 playEffectCommand = function(info){
@@ -37,7 +39,8 @@ playSoundCommand = function(info){
 }
 
 playEffectCommand = function(info){
-	
+	var params = info.split(",");
+	playEffect(effects[params[0]],parseInt(params[1]),parseInt(params[2]));
 }
 
 cancelCommand = function(){
@@ -52,6 +55,7 @@ function buildCommands(){
 	commands.playSong = playSongCommand;
 	commands.playSound = playSoundCommand;
 	commands.teleport = teleportCommand;
+	commands.playEffect = playEffectCommand;
 	commands.cancel = cancelCommand;
 	
 }

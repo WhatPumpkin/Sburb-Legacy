@@ -8,9 +8,9 @@ function Room(name,width,height){
 	this.unwalkables = new Array();
 	this.motionPaths = new Array();
 	
-    this.addEffect = function(animation){
-    	effects.push(animation);
-    }
+  this.addEffect = function(effect){
+  	this.effects.push(effect);
+  }
 	
 	this.addSprite = function(sprite){
 		this.sprites.push(sprite);
@@ -70,15 +70,17 @@ function Room(name,width,height){
 			this.sprites[i].update(gameTime);
 		}
 		for(i=this.effects.length-1;i>=0;i--){
-			if(this.effects[i].hasPlayed){
+			if(this.effects[i].hasPlayed()){
 				this.effects.splice(i,1);
+			}else{
+				this.effects[i].update(1);
 			}
-			this.effects[i].update(gameTime);
 		}
 	}
 	
 	this.draw = function(){
 		this.sortDepths();
+		
 		for(var i=0;i<this.sprites.length;i++){
 			this.sprites[i].draw();
 		}
