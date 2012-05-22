@@ -7,9 +7,9 @@ function Action(name,command,info,sprite,followUp){
 	
 	this.serialize = function(output){
 		output = output.concat("\n<Action "+
+			"command='"+this.command+
 			(this.sprite?"sprite='"+this.sprite.name:"")+
 			(this.name?"' name='"+this.name:"")+
-			"' command='"+this.command+
 			"'>");
 		output = output.concat(info.trim());
 		if(this.followUp){

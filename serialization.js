@@ -217,7 +217,8 @@ function parseAnimation(animationNode, assetFolder){
   					    attributes.getNamedItem("startPos")?parseInt(attributes.getNamedItem("startPos").value):0,
   					    attributes.getNamedItem("length")?parseInt(attributes.getNamedItem("length").value):1,
   					    attributes.getNamedItem("frameInterval")?parseInt(attributes.getNamedItem("frameInterval").value):1,
-  					    attributes.getNamedItem("loopNum")?parseInt(attributes.getNamedItem("loopNum").value):-1);
+  					    attributes.getNamedItem("loopNum")?parseInt(attributes.getNamedItem("loopNum").value):-1,
+  					    attributes.getNamedItem("followUp")?attributes.getNamedItem("followUp").value:null);
 }
 
 function parseCharacter(charNode, assetFolder) {
@@ -350,9 +351,7 @@ function serialLoadRoomSprites(newRoom, roomSprites, spriteFolder){
 	    }
 	    if(newActions[k].attributes.getNamedItem("command")){
 				var newAction = parseXMLAction(newActions[k]);
-				console.log(newAction);
 				actualSprite.addAction(newAction);
-				console.log(actualSprite.actions);
 	    }
 		}
 	}

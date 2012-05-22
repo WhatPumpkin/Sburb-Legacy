@@ -11,7 +11,7 @@ teleportCommand = function(info){
 	changeRoomCommand(info);
 	playEffect(effects["teleportEffect"],char.x,char.y);
 	var params = info.split(",");
-	curAction.followUp = new Action(null,"playEffect","teleportEffect,"+params[1]+","+params[2],null,curAction.followUp)
+	curAction = new Action(curAction.name,curAction.command,curAction.info,curAction.sprite,new Action(null,"playEffect","teleportEffect,"+params[1]+","+params[2],null,curAction.followUp));
 	//playSound(new BGM(assets["teleportSound"],0));
 }
 
@@ -43,6 +43,12 @@ playEffectCommand = function(info){
 	playEffect(effects[params[0]],parseInt(params[1]),parseInt(params[2]));
 }
 
+openChestCommand = function(info){
+	var params = info.split(",");
+	sprites[params[0]].startAnimation("open");
+	sprites[params[0]].removeAction(curAction.name);
+}
+
 cancelCommand = function(){
 	//do nothing
 }
@@ -57,5 +63,6 @@ function buildCommands(){
 	commands.teleport = teleportCommand;
 	commands.playEffect = playEffectCommand;
 	commands.cancel = cancelCommand;
+	commands.openChest = openChestCommand;
 	
 }

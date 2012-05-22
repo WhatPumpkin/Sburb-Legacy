@@ -71,8 +71,8 @@ function editSerial(serialText, sburbID) {
 		var curButton = newButtons[i];
 		var attributes = curButton.attributes;
 		var newButton = new SpriteButton(attributes.getNamedItem("name").value,
-  									parseInt(attributes.getNamedItem("x").value),
-  									parseInt(attributes.getNamedItem("y").value),
+  									attributes.getNamedItem("x")?parseInt(attributes.getNamedItem("x").value):0,
+  									attributes.getNamedItem("y")?parseInt(attributes.getNamedItem("y").value):0,
   									parseInt(attributes.getNamedItem("width").value),
   									parseInt(attributes.getNamedItem("height").value),
   									editAssets.assets[attributes.getNamedItem("sheet").value]);

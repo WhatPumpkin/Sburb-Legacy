@@ -1,4 +1,4 @@
-function Animation(name,sheet,x,y,colSize,rowSize,startPos,length,frameInterval,loopNum){
+function Animation(name,sheet,x,y,colSize,rowSize,startPos,length,frameInterval,loopNum,followUp){
 	this.sheet = sheet;
 	this.x = x;
 	this.y = y;
@@ -14,6 +14,7 @@ function Animation(name,sheet,x,y,colSize,rowSize,startPos,length,frameInterval,
 	this.name = name;
 	this.loopNum = typeof loopNum == "number"?loopNum:-1;
 	this.curLoop = 0;
+	this.followUp = followUp;
 	
 	this.nextFrame = function() {
 		this.curFrame++;
@@ -116,6 +117,7 @@ function Animation(name,sheet,x,y,colSize,rowSize,startPos,length,frameInterval,
 			(this.length!=1?"' length='"+this.length:"")+
 			(this.frameInterval!=1?"' frameInterval='"+this.frameInterval:"")+
 			(this.loopNum!=-1?"' loopNum='"+this.loopNum:"")+
+			(this.followUp?"' followUp='"+this.followUp:"")+
 			"' />");
 		return output;
 	}

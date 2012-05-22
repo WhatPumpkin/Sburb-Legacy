@@ -32,7 +32,11 @@ function Sprite(name,x,y,width,height,dx,dy,depthing,collidable){
 	}
 	
 	this.update = function(gameTime){
-		this.animation.update(1);
+		if(this.animation.hasPlayed() && this.animation.followUp){
+			this.startAnimation(this.animation.followUp);
+		}else{
+			this.animation.update(1);
+		}
 	}
 	this.staticImg = function() {
 		return this.animation.staticImg();
@@ -104,9 +108,17 @@ function Sprite(name,x,y,width,height,dx,dy,depthing,collidable){
 		return this.animation.isVisuallyUnder(x-this.x,y-this.y);
 	}
 	
-	
 	this.addAction = function(action){
 		this.actions.push(action);
+	}
+	
+	this.removeAction = function(name){
+		for(var i=0;i<this.actions.length;i++){
+			if(this.actions[i].name==name){
+				this.actions.splice(i,1);
+				return;
+			}
+		}
 	}
 	
 	this.getActions = function(sprite){
@@ -120,6 +132,11 @@ function Sprite(name,x,y,width,height,dx,dy,depthing,collidable){
 	}
 	
 	this.serialize = function(output){
+		var animationCount = 0;
+		for(anim in this.animations){
+				animationCount++;
+		}
+	
 		output = output.concat("\n<Sprite name='"+
 			this.name+
 			(this.x?"' x='"+this.x:"")+
@@ -130,8 +147,9 @@ function Sprite(name,x,y,width,height,dx,dy,depthing,collidable){
 			("' height='"+this.height)+
 			(this.depthing?"' depthing='"+this.depthing:"")+
 			(this.collidable?"' collidable='"+this.collidable:"")+
-			(this.animations.length>1?"' state='"+this.state:"")+
+			(animationCount>1?"' state='"+this.state:"")+
 			"'>");
+
 		for(var anim in this.animations){
 			output = this.animations[anim].serialize(output);
 		}
