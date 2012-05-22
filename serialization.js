@@ -1,25 +1,24 @@
 function serialize(assets,effects,rooms,hud,dialoger,curRoom,char){
 	var out = document.getElementById("serialText");
-	var output = "<SBURB curRoom='"+curRoom.name+"' char='"+char.name+"'>";
+	var output = "<SBURB curRoom='"+curRoom.name+"' char='"+char.name+"'>\n";
 	output = serializeAssets(output,assets,effects);
 	output = serializeHud(output,hud,dialoger);
-	output = output.concat("<Rooms>");
+	output = output.concat("\n<Rooms>\n");
 	for(var room in rooms){
 		output = rooms[room].serialize(output);
 	}
-	output = output.concat("</Rooms>");
-	output = output.concat("</SBURB>");
+	output = output.concat("\n</Rooms>\n");
+	output = output.concat("\n</SBURB>");
 	out.value = output;
 	return output;
 }
 
 function serializeAssets(output,assets,effects){
-	output = output.concat("<Assets>");
+	output = output.concat("\n<Assets>");
 	for(var asset in assets){
 		var curAsset = assets[asset];
-		output = output.concat("<Asset name='"+curAsset.name+"' type='"+curAsset.type+"'>");
+		output = output.concat("\n<Asset name='"+curAsset.name+"' type='"+curAsset.type+"'>");
 		if(curAsset.type=="graphic"){
-			
 			output = output.concat(curAsset.src.substring(curAsset.src.indexOf("resources/"),curAsset.src.length));
 		}else if(curAsset.type=="audio"){
 			var sources = curAsset.innerHTML.split('"');
@@ -37,28 +36,28 @@ function serializeAssets(output,assets,effects){
 		}
 		output = output.concat("</Asset>");
 	}
-	output = output.concat("</Assets>");
-	output = output.concat("<Effects>");
+	output = output.concat("\n</Assets>\n");
+	output = output.concat("\n<Effects>");
 	for(var effect in effects){
 		var curEffect = effects[effect];
 		output = curEffect.serialize(output);
 	}
-	output = output.concat("</Effects>");
+	output = output.concat("\n</Effects>\n");
 	return output;
 }
 
 function serializeHud(output,hud,dialoger){
-	output = output.concat("<HUD>");
+	output = output.concat("\n<HUD>");
 	for(var content in hud){
 		output = hud[content].serialize(output);
 	}
 	var animations = dialoger.dialogSpriteLeft.animations;
-	output = output.concat("<DialogSprites>");
+	output = output.concat("\n<DialogSprites>");
 	for(var animation in animations){
 		output = animations[animation].serialize(output);
 	}
-	output = output.concat("</DialogSprites>");
-	output = output.concat("</HUD>");
+	output = output.concat("\n</DialogSprites>");
+	output = output.concat("\n</HUD>\n");
 	return output;
 }
 
@@ -94,7 +93,7 @@ function loadSerialFromXML(file, savedStateID) {
     } else {
 	var request = new XMLHttpRequest();
     }
-    request.open('GET', "levels/test1.xml", false);
+    request.open('GET', file, false);
     try {
 	request.send(null);
     } catch(err) {
@@ -184,22 +183,24 @@ function parseSerialAsset(curAsset) {
 }
 
 function parseSprite(spriteNode, assetFolder) {
-
   	var attributes = spriteNode.attributes;
  	var newSprite = new Sprite(attributes.getNamedItem("name").value,
-  				   parseInt(attributes.getNamedItem("x").value),
-  				   parseInt(attributes.getNamedItem("y").value),
+  				   attributes.getNamedItem("x")?parseInt(attributes.getNamedItem("x").value):0,
+  				   attributes.getNamedItem("y")?parseInt(attributes.getNamedItem("y").value):0,
   				   parseInt(attributes.getNamedItem("width").value),
   				   parseInt(attributes.getNamedItem("height").value),
-  				   parseInt(attributes.getNamedItem("dx").value),
-  				   parseInt(attributes.getNamedItem("dy").value),
-  				   parseInt(attributes.getNamedItem("depthing").value),
-  				   attributes.getNamedItem("collidable").value=="true");
-  	var state = attributes.getNamedItem("state").value;
+  				   attributes.getNamedItem("dx")?parseInt(attributes.getNamedItem("dx").value):0,
+  				   attributes.getNamedItem("dy")?parseInt(attributes.getNamedItem("dy").value):0,
+  				   attributes.getNamedItem("depthing")?parseInt(attributes.getNamedItem("depthing").value):0,
+  				   attributes.getNamedItem("collidable")?attributes.getNamedItem("collidable").value=="true":false);
+  	var state = attributes.getNamedItem("state")?attributes.getNamedItem("state").value:null;
   	var anims = spriteNode.getElementsByTagName("Animation");
   	for(var j=0;j<anims.length;j++){
   		var newAnim = parseAnimation(anims[j],assetFolder);
   		newSprite.addAnimation(newAnim);
+  		if(state==null){
+  			state = newAnim.name;
+  		}
   	}
   	newSprite.startAnimation(state);
 	return newSprite;
@@ -209,25 +210,25 @@ function parseAnimation(animationNode, assetFolder){
 	var attributes = animationNode.attributes;
 	return new Animation(attributes.getNamedItem("name").value,
   					    assetFolder[attributes.getNamedItem("sheet").value],
-  					    parseInt(attributes.getNamedItem("sx").value),
-  					    parseInt(attributes.getNamedItem("sy").value),
+  					    attributes.getNamedItem("x")?parseInt(attributes.getNamedItem("x").value):0,
+  					    attributes.getNamedItem("y")?parseInt(attributes.getNamedItem("y").value):0,
   					    parseInt(attributes.getNamedItem("colSize").value),
   					    parseInt(attributes.getNamedItem("rowSize").value),
-  					    parseInt(attributes.getNamedItem("startPos").value),
-  					    parseInt(attributes.getNamedItem("length").value),
-  					    parseInt(attributes.getNamedItem("frameInterval").value),
-  					    parseInt(attributes.getNamedItem("loopNum").value));
+  					    attributes.getNamedItem("startPos")?parseInt(attributes.getNamedItem("startPos").value):0,
+  					    attributes.getNamedItem("length")?parseInt(attributes.getNamedItem("length").value):1,
+  					    attributes.getNamedItem("frameInterval")?parseInt(attributes.getNamedItem("frameInterval").value):1,
+  					    attributes.getNamedItem("loopNum")?parseInt(attributes.getNamedItem("loopNum").value):-1);
 }
 
 function parseCharacter(charNode, assetFolder) {
   	var attributes = charNode.attributes;
   	var newChar = new Character(attributes.getNamedItem("name").value,
-  				    parseInt(attributes.getNamedItem("x").value),
-  				    parseInt(attributes.getNamedItem("y").value),
+  				    attributes.getNamedItem("x")?parseInt(attributes.getNamedItem("x").value):0,
+  				    attributes.getNamedItem("y")?parseInt(attributes.getNamedItem("y").value):0,
   				    parseInt(attributes.getNamedItem("width").value),
   				    parseInt(attributes.getNamedItem("height").value),
-  				    parseInt(attributes.getNamedItem("sx").value),
-  				    parseInt(attributes.getNamedItem("sy").value),
+  				    attributes.getNamedItem("sx")?parseInt(attributes.getNamedItem("sx").value):0,
+  				    attributes.getNamedItem("sy")?parseInt(attributes.getNamedItem("sy").value):0,
   				    parseInt(attributes.getNamedItem("sWidth").value),
   				    parseInt(attributes.getNamedItem("sHeight").value),
   				    assetFolder[attributes.getNamedItem("sheet").value]);
@@ -258,8 +259,8 @@ function loadSerialState(input) {
 		var curButton = newButtons[i];
 		var attributes = curButton.attributes;
 		var newButton = new SpriteButton(attributes.getNamedItem("name").value,
-  									parseInt(attributes.getNamedItem("x").value),
-  									parseInt(attributes.getNamedItem("y").value),
+  									attributes.getNamedItem("x")?parseInt(attributes.getNamedItem("x").value):0,
+  									attributes.getNamedItem("y")?parseInt(attributes.getNamedItem("y").value):0,
   									parseInt(attributes.getNamedItem("width").value),
   									parseInt(attributes.getNamedItem("height").value),
   									assets[attributes.getNamedItem("sheet").value]);
@@ -342,15 +343,17 @@ function serialLoadRoomSprites(newRoom, roomSprites, spriteFolder){
 		var curSprite = roomSprites[j];
 		var actualSprite = spriteFolder[curSprite.attributes.getNamedItem("name").value];
 		newRoom.addSprite(actualSprite);
-	        var newActions = curSprite.childNodes;
+	  var newActions = curSprite.childNodes;
 		for(var k=0;k<newActions.length;k++){
-		    if(newActions[k].nodeName == "#text") {
-			continue;
-		    }
-		    if(newActions[k].attributes.getNamedItem("command")){
-			var newAction = parseXMLAction(newActions[k]);
-			actualSprite.addAction(newAction);
-		    }
+	    if(newActions[k].nodeName == "#text") {
+				continue;
+	    }
+	    if(newActions[k].attributes.getNamedItem("command")){
+				var newAction = parseXMLAction(newActions[k]);
+				console.log(newAction);
+				actualSprite.addAction(newAction);
+				console.log(actualSprite.actions);
+	    }
 		}
 	}
 }

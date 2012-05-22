@@ -50,7 +50,7 @@ function initialize(){
 	pressed = new Array();
 	buildCommands();
 	
-    loadSerialFromXML("levels/test1.xml"); // comment out this line and
+    loadSerialFromXML("levels/test2.xml"); // comment out this line and
     //loadAssets();                        // uncomment these two lines, to do a standard hardcode load
     //_hardcode_load = 1;
 }

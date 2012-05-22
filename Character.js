@@ -181,18 +181,26 @@ function Character(name,x,y,width,height,sx,sy,sWidth,sHeight,sheet){
 	}
 	
 	this.serialize = function(output){
-		output = output.concat("<Character name='"+this.name+"' x='"+this.x+"' y='"+this.y+
-									"' sx='"+this.animations.walkFront.x+"' sy='"+this.animations.walkFront.y+
-									"' sWidth='"+this.animations.walkFront.colSize+ "' sHeight='"+this.animations.walkFront.rowSize+
-									"' width='"+this.width+"' height='"+this.height+
-									"' sheet='"+this.animations.walkFront.sheet.name+"' state='"+this.state+"' facing='"+this.facing+"'>");
+		output = output.concat("\n<Character name='"+this.name+
+			"' x='"+this.x+
+			"' y='"+this.y+
+			"' sx='"+this.animations.walkFront.x+
+			"' sy='"+this.animations.walkFront.y+
+			"' sWidth='"+this.animations.walkFront.colSize+
+			"' sHeight='"+this.animations.walkFront.rowSize+
+			"' width='"+this.width+
+			"' height='"+this.height+
+			"' sheet='"+this.animations.walkFront.sheet.name+
+			"' state='"+this.state+
+			"' facing='"+this.facing+
+			"'>");
 		//for(var anim in this.animations){
 		//	output = this.animations[anim].serialize(output);
 		//}
 		for(var action in this.actions){
 			output = this.actions[action].serialize(output);
 		}
-		output = output.concat("</Character>");
+		output = output.concat("\n</Character>");
 		return output;
 	}
 

@@ -38,9 +38,13 @@ function SpriteButton(name,x,y,width,height,sheet){
 	}
 	
 	this.serialize = function(output){
-		output = output.concat("<SpriteButton name='"+this.name+"' x='"+this.x+"' y='"+this.y+
-											"' width='"+this.width+"' height='"+this.height+
-											"' sheet='"+this.animation.sheet.name+"' />");
+		output = output.concat("\n<SpriteButton name='"+this.name+
+			(this.x?"' x='"+this.x:"")+
+			(this.y?"' y='"+this.y:"")+
+			"' width='"+this.width+
+			"' height='"+this.height+
+			"' sheet='"+this.animation.sheet.name+
+			"' />");
 		return output;
 	}
 }

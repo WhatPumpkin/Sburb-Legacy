@@ -120,16 +120,25 @@ function Sprite(name,x,y,width,height,dx,dy,depthing,collidable){
 	}
 	
 	this.serialize = function(output){
-		output = output.concat("<Sprite name='"+this.name+"' x='"+this.x+"' y='"+this.y+
-									"' dx='"+this.dx+"' dy='"+this.dy+"' width='"+this.width+"' height='"+this.height+
-									"' depthing='"+this.depthing+"' collidable='"+this.collidable+"' state='"+this.state+"'>");
+		output = output.concat("\n<Sprite name='"+
+			this.name+
+			(this.x?"' x='"+this.x:"")+
+			(this.y?"' y='"+this.y:"")+
+			(this.dx?"' dx='"+this.dx:"")+
+			(this.dy?"' dy='"+this.dy:"")+
+			("' width='"+this.width)+
+			("' height='"+this.height)+
+			(this.depthing?"' depthing='"+this.depthing:"")+
+			(this.collidable?"' collidable='"+this.collidable:"")+
+			(this.animations.length>1?"' state='"+this.state:"")+
+			"'>");
 		for(var anim in this.animations){
 			output = this.animations[anim].serialize(output);
 		}
 		for(var action in this.actions){
 			output = this.actions[action].serialize(output);
 		}
-		output = output.concat("</Sprite>");
+		output = output.concat("\n</Sprite>");
 		return output;
 	}
 	

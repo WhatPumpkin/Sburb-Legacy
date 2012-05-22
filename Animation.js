@@ -1,7 +1,7 @@
-function Animation(name,sheet,sx,sy,colSize,rowSize,startPos,length,frameInterval,loopNum){
+function Animation(name,sheet,x,y,colSize,rowSize,startPos,length,frameInterval,loopNum){
 	this.sheet = sheet;
-	this.x = sx;
-	this.y = sy;
+	this.x = x;
+	this.y = y;
 	this.rowSize = rowSize;
 	this.colSize = colSize;
 	this.startPos = startPos;
@@ -106,10 +106,17 @@ function Animation(name,sheet,sx,sy,colSize,rowSize,startPos,length,frameInterva
 	}
 	
 	this.serialize = function(output){
-		output = output.concat("<Animation name='"+this.name+"' sheet='"+this.sheet.name+
-								"' sx='"+this.x+"' sy='"+this.y+
-								"' rowSize='"+this.rowSize+"' colSize='"+this.colSize+"' startPos='"+this.startPos+
-								"' length='"+this.length+"' frameInterval='"+this.frameInterval+"' loopNum='"+this.loopNum+"' />");
+		output = output.concat("\n<Animation name='"+this.name+
+			"' sheet='"+this.sheet.name+
+			(this.x?"' x='"+this.x:"")+
+			(this.y?"' y='"+this.y:"")+
+			"' rowSize='"+this.rowSize+
+			"' colSize='"+this.colSize+
+			(this.startPos?"' startPos='"+this.startPos:"")+
+			(this.length!=1?"' length='"+this.length:"")+
+			(this.frameInterval!=1?"' frameInterval='"+this.frameInterval:"")+
+			(this.loopNum!=-1?"' loopNum='"+this.loopNum:"")+
+			"' />");
 		return output;
 	}
 }

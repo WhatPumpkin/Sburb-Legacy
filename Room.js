@@ -247,28 +247,28 @@ function Room(name,width,height){
 	}
     
 	this.serialize = function(output){
-		output = output.concat("<Room name='"+this.name+"' width='"+this.width+"' height='"+this.height+"'>");
-		output = output.concat("<Paths>");
+		output = output.concat("\n<Room name='"+this.name+"' width='"+this.width+"' height='"+this.height+"'>");
+		output = output.concat("\n<Paths>");
 		for(var i=0;i<this.walkables.length;i++){
 			var walkable = this.walkables[i];
-			output = output.concat("<Walkable path='"+walkable.name+"'/>");
+			output = output.concat("\n<Walkable path='"+walkable.name+"'/>");
 		}
 		for(var i=0;i<this.unwalkables.length;i++){
 			var unwalkable = this.unwalkables[i];
-			output = output.concat("<Unwalkable path='"+unwalkable.name+"'/>");
+			output = output.concat("\n<Unwalkable path='"+unwalkable.name+"'/>");
 		}
 		for(var i=0;i<this.motionPaths.length;i++){
 			var motionPath = this.motionPaths[i];
-			 output = output.concat("<MotionPath path='"+motionPath.path.name+"' xtox='"+motionPath.xtox+"' xtoy='"+motionPath.xtoy+
+			 output = output.concat("\n<MotionPath path='"+motionPath.path.name+"' xtox='"+motionPath.xtox+"' xtoy='"+motionPath.xtoy+
 			 "' ytox='"+motionPath.ytox+"' ytoy='"+motionPath.ytoy+"' dx='"+motionPath.dx+"' dy='"+motionPath.dy+"'/>");
 		}
-		output = output.concat("</Paths>");
+		output = output.concat("\n</Paths>");
 		
 		for(var sprite in this.sprites){
 			output = this.sprites[sprite].serialize(output);
 		}
 		
-		output = output.concat("</Room>");
+		output = output.concat("\n</Room>");
 		return output;
 	}
 	
