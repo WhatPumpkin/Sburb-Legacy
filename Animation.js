@@ -135,3 +135,18 @@ function stageSnapX(x){
 function stageSnapY(y){
 	return Math.round(y/Stage.scaleY)*Stage.scaleY;
 }
+
+function parseAnimation(animationNode, assetFolder){
+	var attributes = animationNode.attributes;
+	return new Animation(attributes.getNamedItem("name").value,
+  					    assetFolder[attributes.getNamedItem("sheet").value],
+  					    attributes.getNamedItem("x")?parseInt(attributes.getNamedItem("x").value):0,
+  					    attributes.getNamedItem("y")?parseInt(attributes.getNamedItem("y").value):0,
+  					    parseInt(attributes.getNamedItem("colSize").value),
+  					    parseInt(attributes.getNamedItem("rowSize").value),
+  					    attributes.getNamedItem("startPos")?parseInt(attributes.getNamedItem("startPos").value):0,
+  					    attributes.getNamedItem("length")?parseInt(attributes.getNamedItem("length").value):1,
+  					    attributes.getNamedItem("frameInterval")?parseInt(attributes.getNamedItem("frameInterval").value):1,
+  					    attributes.getNamedItem("loopNum")?parseInt(attributes.getNamedItem("loopNum").value):-1,
+  					    attributes.getNamedItem("followUp")?attributes.getNamedItem("followUp").value:null);
+}

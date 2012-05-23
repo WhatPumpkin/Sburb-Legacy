@@ -69,6 +69,8 @@
   	<Paths>
   		<Walkable path='compLabWalkable'/>
   	</Paths>
+  	<Triggers>
+  	</Triggers>
   	<Sprite class='chest' name='baseRoomChest1' x='600' y='400'>
 			<Action name='open' command='openChest'>baseRoomChest1,dollar</Action>
 		</Sprite>
@@ -111,15 +113,18 @@
   </Room>
 
   <Room name='stairRoom' width='999' height='2259'>
-  	<Sprite class='teleporter' name='stairRoomTeleporter' x='666' y='450' >
-      <Action name='teleport' command='teleport'>baseRoom,400,400</Action>
-    </Sprite>
+  	
   	<Paths>
   		<Walkable path="stairRoomWalkable"/>
   		<MotionPath path="stairRoomStairs1" xtox = '1' xtoy = '-1' ytox='0' ytoy = '1' dx='0' dy='0'/>
     	<MotionPath path="stairRoomStairs2" xtox = '1' xtoy = '1' ytox='0' ytoy = '1' dx='0' dy='0'/>
     	<MotionPath path="stairRoomStairs3" xtox = '1' xtoy = '1' ytox='0' ytoy = '1' dx='0' dy='0'/>
   	</Paths>
+  	<Triggers>
+  	</Triggers>
+  	<Sprite class='teleporter' name='stairRoomTeleporter' x='666' y='450' >
+      <Action name='teleport' command='teleport'>baseRoom,400,400</Action>
+    </Sprite>
     <Character name='sollux' x='360' y='1950' sx='-33' sy='-78' sWidth='63' sHeight='81' width='42' height='21'
     	 sheet='taSheet' state='walkFront' facing='Front'>
       <Action name='talk' command='talk'>@! blahblahblah</Action>

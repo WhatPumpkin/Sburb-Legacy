@@ -161,3 +161,60 @@ function Sprite(name,x,y,width,height,dx,dy,depthing,collidable){
 	}
 	
 }
+
+function parseSprite(spriteNode, assetFolder) {
+	var attributes = spriteNode.attributes;
+	var newName = null;
+	var newX = 0;
+	var newY = 0;
+	var newWidth = 0;
+	var newHeight = 0;
+	var newDx = 0;
+	var newDy = 0;
+	var newDepthing = 0;
+	var newCollidable = false;
+	var newState = null;
+	var newAnimations = {};
+	if(attributes.getNamedItem("class") && templateClasses[attributes.getNamedItem("class").value]){
+		console.log(attributes.getNamedItem("class").value);
+		var template = 	templateClasses[attributes.getNamedItem("class").value];
+		newName = template.name;
+		newX = template.x;
+		newY = template.y;
+		newWidth = template.width;
+		newHeight = template.height;
+		newDx = template.dx;
+		newDy = template.dy;
+		newDepthing = template.depthing;
+		newCollidable = template.collidable;
+		newState = template.state;
+		newAnimations = template.animations;
+	}
+	newName = attributes.getNamedItem("name")?attributes.getNamedItem("name").value:null;
+	newX = attributes.getNamedItem("x")?parseInt(attributes.getNamedItem("x").value):newX;
+	newY = attributes.getNamedItem("y")?parseInt(attributes.getNamedItem("y").value):newY;
+	newWidth = attributes.getNamedItem("width")?parseInt(attributes.getNamedItem("width").value):newWidth;
+	newHeight = attributes.getNamedItem("height")?parseInt(attributes.getNamedItem("height").value):newHeight;
+	newDx = attributes.getNamedItem("dx")?parseInt(attributes.getNamedItem("dx").value):newDx;
+	newDy = attributes.getNamedItem("dy")?parseInt(attributes.getNamedItem("dy").value):newDy;
+	newDepthing = attributes.getNamedItem("depthing")?parseInt(attributes.getNamedItem("depthing").value):newDepthing;
+	newCollidable = attributes.getNamedItem("collidable")?attributes.getNamedItem("collidable").value=="true":newCollidable;
+	newState = attributes.getNamedItem("state")?attributes.getNamedItem("state").value:newState;
+	
+ 	var newSprite = new Sprite(newName,newX,newY,newWidth,newHeight,newDx,newDy,newDepthing,newCollidable);
+	for(var newAnim in newAnimations){
+		newSprite.addAnimation(newAnimations[newAnim]);
+	}
+	
+	var anims = spriteNode.getElementsByTagName("Animation");
+	for(var j=0;j<anims.length;j++){
+		var newAnim = parseAnimation(anims[j],assetFolder);
+		newSprite.addAnimation(newAnim);
+		if(newState==null){
+			newState = newAnim.name;
+		}
+	}
+	newSprite.startAnimation(newState);
+	
+	return newSprite;
+}

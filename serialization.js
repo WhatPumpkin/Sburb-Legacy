@@ -194,106 +194,6 @@ function parseSerialAsset(curAsset) {
     return newAsset;
 }
 
-function parseSprite(spriteNode, assetFolder) {
-	var attributes = spriteNode.attributes;
-	var newName = null;
-	var newX = 0;
-	var newY = 0;
-	var newWidth = 0;
-	var newHeight = 0;
-	var newDx = 0;
-	var newDy = 0;
-	var newDepthing = 0;
-	var newCollidable = false;
-	var newState = null;
-	var newAnimations = {};
-	if(attributes.getNamedItem("class") && templateClasses[attributes.getNamedItem("class").value]){
-		console.log(attributes.getNamedItem("class").value);
-		var template = 	templateClasses[attributes.getNamedItem("class").value];
-		newName = template.name;
-		newX = template.x;
-		newY = template.y;
-		newWidth = template.width;
-		newHeight = template.height;
-		newDx = template.dx;
-		newDy = template.dy;
-		newDepthing = template.depthing;
-		newCollidable = template.collidable;
-		newState = template.state;
-		newAnimations = template.animations;
-	}
-	newName = attributes.getNamedItem("name")?attributes.getNamedItem("name").value:null;
-	newX = attributes.getNamedItem("x")?parseInt(attributes.getNamedItem("x").value):newX;
-	newY = attributes.getNamedItem("y")?parseInt(attributes.getNamedItem("y").value):newY;
-	newWidth = attributes.getNamedItem("width")?parseInt(attributes.getNamedItem("width").value):newWidth;
-	newHeight = attributes.getNamedItem("height")?parseInt(attributes.getNamedItem("height").value):newHeight;
-	newDx = attributes.getNamedItem("dx")?parseInt(attributes.getNamedItem("dx").value):newDx;
-	newDy = attributes.getNamedItem("dy")?parseInt(attributes.getNamedItem("dy").value):newDy;
-	newDepthing = attributes.getNamedItem("depthing")?parseInt(attributes.getNamedItem("depthing").value):newDepthing;
-	newCollidable = attributes.getNamedItem("collidable")?attributes.getNamedItem("collidable").value=="true":newCollidable;
-	newState = attributes.getNamedItem("state")?attributes.getNamedItem("state").value:newState;
-	
- 	var newSprite = new Sprite(newName,newX,newY,newWidth,newHeight,newDx,newDy,newDepthing,newCollidable);
-	console.log(newSprite);
-	for(var newAnim in newAnimations){
-		newSprite.addAnimation(newAnimations[newAnim]);
-	}
-	
-	var anims = spriteNode.getElementsByTagName("Animation");
-	for(var j=0;j<anims.length;j++){
-		var newAnim = parseAnimation(anims[j],assetFolder);
-		newSprite.addAnimation(newAnim);
-		if(newState==null){
-			newState = newAnim.name;
-		}
-	}
-	console.log(newState,newSprite.animations)
-	newSprite.startAnimation(newState);
-	
-	return newSprite;
-}
-
-function parseAnimation(animationNode, assetFolder){
-	var attributes = animationNode.attributes;
-	return new Animation(attributes.getNamedItem("name").value,
-  					    assetFolder[attributes.getNamedItem("sheet").value],
-  					    attributes.getNamedItem("x")?parseInt(attributes.getNamedItem("x").value):0,
-  					    attributes.getNamedItem("y")?parseInt(attributes.getNamedItem("y").value):0,
-  					    parseInt(attributes.getNamedItem("colSize").value),
-  					    parseInt(attributes.getNamedItem("rowSize").value),
-  					    attributes.getNamedItem("startPos")?parseInt(attributes.getNamedItem("startPos").value):0,
-  					    attributes.getNamedItem("length")?parseInt(attributes.getNamedItem("length").value):1,
-  					    attributes.getNamedItem("frameInterval")?parseInt(attributes.getNamedItem("frameInterval").value):1,
-  					    attributes.getNamedItem("loopNum")?parseInt(attributes.getNamedItem("loopNum").value):-1,
-  					    attributes.getNamedItem("followUp")?attributes.getNamedItem("followUp").value:null);
-}
-
-function parseCharacter(charNode, assetFolder) {
-  	var attributes = charNode.attributes;
-  	var newChar = new Character(attributes.getNamedItem("name").value,
-  				    attributes.getNamedItem("x")?parseInt(attributes.getNamedItem("x").value):0,
-  				    attributes.getNamedItem("y")?parseInt(attributes.getNamedItem("y").value):0,
-  				    parseInt(attributes.getNamedItem("width").value),
-  				    parseInt(attributes.getNamedItem("height").value),
-  				    attributes.getNamedItem("sx")?parseInt(attributes.getNamedItem("sx").value):0,
-  				    attributes.getNamedItem("sy")?parseInt(attributes.getNamedItem("sy").value):0,
-  				    parseInt(attributes.getNamedItem("sWidth").value),
-  				    parseInt(attributes.getNamedItem("sHeight").value),
-  				    assetFolder[attributes.getNamedItem("sheet").value]);
-  	newChar.startAnimation(attributes.getNamedItem("state").value);
-  	newChar.facing = attributes.getNamedItem("facing").value;
-	return newChar;
-}
-function parseRoom(roomNode, assetFolder, spriteFolder) {
-  	var attributes = roomNode.attributes;
-  	var newRoom = new Room(attributes.getNamedItem("name").value,
-  			       parseInt(attributes.getNamedItem("width").value),
-  			       parseInt(attributes.getNamedItem("height").value));
-  	serialLoadRoomSprites(newRoom,roomNode.getElementsByTagName("Sprite"), spriteFolder);
-  	serialLoadRoomSprites(newRoom,roomNode.getElementsByTagName("Character"), spriteFolder);
-	serialLoadRoomPaths(newRoom, roomNode.getElementsByTagName("Paths"), assetFolder);
-	return newRoom;
-}
 function loadSerialState(input) {
     // this is more or less this init function for a game
     if(!assetManager.finishedLoading()) {
@@ -391,15 +291,15 @@ function serialLoadRoomSprites(newRoom, roomSprites, spriteFolder){
 		var curSprite = roomSprites[j];
 		var actualSprite = spriteFolder[curSprite.attributes.getNamedItem("name").value];
 		newRoom.addSprite(actualSprite);
-	  var newActions = curSprite.childNodes;
+	  	var newActions = curSprite.childNodes;
 		for(var k=0;k<newActions.length;k++){
-	    if(newActions[k].nodeName == "#text") {
+			if(newActions[k].nodeName == "#text") {
 				continue;
-	    }
-	    if(newActions[k].attributes.getNamedItem("command")){
+			}
+			if(newActions[k].nodeName == "Action"){
 				var newAction = parseXMLAction(newActions[k]);
 				actualSprite.addAction(newAction);
-	    }
+			}
 		}
 	}
 }
@@ -430,5 +330,14 @@ function serialLoadRoomPaths(newRoom, paths, assetFolder) {
 				      parseInt(attributes.getNamedItem("ytoy").value), 
 				      parseInt(attributes.getNamedItem("dx").value), 
 				      parseInt(attributes.getNamedItem("dy").value));
+	}
+}
+
+function serialLoadRoomTriggers(newRoom, triggers){
+ 	var candidates = triggers[0].childNodes;
+	for(var i=0;i<candidates.length;i++){
+		if(candidates[i].nodeName=="Trigger"){
+			newRoom.addTrigger(parseTrigger(candidates[i]));
+		}
 	}
 }

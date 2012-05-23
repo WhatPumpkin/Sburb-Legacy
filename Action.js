@@ -20,37 +20,36 @@ function Action(name,command,info,sprite,followUp){
 	}
 }
 function parseXMLAction(node) {
-  var attributes = node.attributes;
-  var targSprite;
-  if(attributes.getNamedItem("sprite") && attributes.getNamedItem("sprite").value!="null"){
-		targSprite = sprites[attributes.getNamedItem("sprite").value];
-  } else {
-		targSprite = null;
-  }
-  
-  var newAction = new Action(
-  				 (attributes.getNamedItem("name")?attributes.getNamedItem("name").value:null),
-		       attributes.getNamedItem("command").value,
-		       node.firstChild.nodeValue.trim(),
-		       targSprite);
-  var curNode = node;
-  var curAction = newAction;
-  while(curNode.getElementsByTagName("Action").length>0){
-		var oldAction = curAction;
-		var subNode = curNode.getElementsByTagName("Action")[0];
-		var attributes = subNode.attributes;
-		var targSprite;
-		if(!attributes.getNamedItem("sprite") || attributes.getNamedItem("sprite").value=="null"){
-			  targSprite = null;
-		}else{
-			  targSprite = sprites[attributes.getNamedItem("sprite").value];
+	var targSprite = null;
+	var firstAction = null;
+	var oldAction = null;
+	do{
+	  	var attributes = node.attributes;
+		
+		if(attributes.getNamedItem("sprite") && attributes.getNamedItem("sprite").value!="null"){
+			targSprite = sprites[attributes.getNamedItem("sprite").value];
 		}
-		var curAction = new Action(attributes.getNamedItem("name")?attributes.getNamedItem("name").value:null,
-						 attributes.getNamedItem("command").value,
-						 subNode.firstChild.nodeValue.trim(),
-						 targSprite);
-		oldAction.followUp = curAction;
-		curNode = subNode;
-  }
-  return newAction;
+
+		var newAction = new Action(
+					 (attributes.getNamedItem("name")?attributes.getNamedItem("name").value:null),
+					 attributes.getNamedItem("command").value,
+					 node.firstChild.nodeValue.trim(),
+					 targSprite);
+					 
+		if(oldAction){
+			oldAction.followUp = newAction;
+		}
+		if(!firstAction){
+			firstAction = newAction;
+		}
+		oldAction = newAction;
+		var nodes = node.getElementsByTagName("Action");
+		if(nodes){
+			node = nodes[0];
+		}else{
+			break;
+		}
+	}while(node);
+	
+	return firstAction;
 }

@@ -7,10 +7,15 @@ function Room(name,width,height){
 	this.walkables = new Array();
 	this.unwalkables = new Array();
 	this.motionPaths = new Array();
+	this.triggers = new Array();
 	
-  this.addEffect = function(effect){
-  	this.effects.push(effect);
-  }
+	this.addEffect = function(effect){
+		this.effects.push(effect);
+	}
+	
+	this.addTrigger = function(trigger){
+		this.triggers.push(trigger);
+	}
 	
 	this.addSprite = function(sprite){
 		this.sprites.push(sprite);
@@ -66,6 +71,9 @@ function Room(name,width,height){
 	
 	this.update = function(gameTime){
 		var i;
+		for(i=0;i<this.triggers.length;i++){
+			this.triggers[i].tryToTrigger();
+		}
 		for(i=0;i<this.sprites.length;i++){
 			this.sprites[i].update(gameTime);
 		}
@@ -263,7 +271,11 @@ function Room(name,width,height){
 			 "' ytox='"+motionPath.ytox+"' ytoy='"+motionPath.ytoy+"' dx='"+motionPath.dx+"' dy='"+motionPath.dy+"'/>");
 		}
 		output = output.concat("\n</Paths>");
-		
+		output = output.concat("\n<Triggers>");
+		for(var i=0;i<this.triggers.length;i++){
+			otuput = this.triggers[i].serialize(output);
+		}
+		output = output.concat("\n</Triggers>");
 		for(var sprite in this.sprites){
 			output = this.sprites[sprite].serialize(output);
 		}
@@ -271,6 +283,16 @@ function Room(name,width,height){
 		output = output.concat("\n</Room>");
 		return output;
 	}
-	
-	
+}
+
+function parseRoom(roomNode, assetFolder, spriteFolder) {
+  	var attributes = roomNode.attributes;
+  	var newRoom = new Room(attributes.getNamedItem("name").value,
+  			       parseInt(attributes.getNamedItem("width").value),
+  			       parseInt(attributes.getNamedItem("height").value));
+  	serialLoadRoomSprites(newRoom,roomNode.getElementsByTagName("Sprite"), spriteFolder);
+  	serialLoadRoomSprites(newRoom,roomNode.getElementsByTagName("Character"), spriteFolder);
+	serialLoadRoomPaths(newRoom, roomNode.getElementsByTagName("Paths"), assetFolder);
+	serialLoadRoomTriggers(newRoom,roomNode.getElementsByTagName("Triggers"),spriteFolder);
+	return newRoom;
 }

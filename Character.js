@@ -207,3 +207,20 @@ function Character(name,x,y,width,height,sx,sy,sWidth,sHeight,sheet){
 	this.becomeNPC();
 
 }
+
+function parseCharacter(charNode, assetFolder) {
+  	var attributes = charNode.attributes;
+  	var newChar = new Character(attributes.getNamedItem("name").value,
+  				    attributes.getNamedItem("x")?parseInt(attributes.getNamedItem("x").value):0,
+  				    attributes.getNamedItem("y")?parseInt(attributes.getNamedItem("y").value):0,
+  				    parseInt(attributes.getNamedItem("width").value),
+  				    parseInt(attributes.getNamedItem("height").value),
+  				    attributes.getNamedItem("sx")?parseInt(attributes.getNamedItem("sx").value):0,
+  				    attributes.getNamedItem("sy")?parseInt(attributes.getNamedItem("sy").value):0,
+  				    parseInt(attributes.getNamedItem("sWidth").value),
+  				    parseInt(attributes.getNamedItem("sHeight").value),
+  				    assetFolder[attributes.getNamedItem("sheet").value]);
+  	newChar.startAnimation(attributes.getNamedItem("state").value);
+  	newChar.facing = attributes.getNamedItem("facing").value;
+	return newChar;
+}
