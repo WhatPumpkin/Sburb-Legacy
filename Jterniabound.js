@@ -104,8 +104,7 @@ var _onkeydown = function(e){
 			chooser.prevChoice();
 		}
 		if(e.keyCode == Keys.space && !pressed[Keys.space]){
-			curAction = chooser.choices[chooser.choice];
-			performAction(curAction);
+			performAction(chooser.choices[chooser.choice]);
 			chooser.choosing = false;
 		}
 	}else if(dialoger.talking){
@@ -206,7 +205,7 @@ function handleHud(){
 	}
 	if(hasControl){
 		if(hud.helpButton.clicked){
-			performAction(new Action("helpAction","talk","@! HELP!"));
+			performActionSilent(new Action("helpAction","talk","@! HELP!"));
 		}
 		if(hud.volumeButton.clicked){
 			if(globalVolume>=1){
@@ -234,7 +233,12 @@ function hasControl(){
 }
 
 function performAction(action){
-    commands[action.command.trim()](action.info.trim());
+	curAction = action;
+   performActionSilent(action);
+}
+
+function performActionSilent(action){
+	commands[action.command.trim()](action.info.trim());
 }
 
 function focusCamera(){
@@ -318,10 +322,9 @@ function playSound(sound){
 }
     
 function chainAction(){
-	if(hasControl()){
-		if(curAction && curAction.followUp){
-			curAction = curAction.followUp;
-			performAction(curAction);
+	if(curAction && curAction.followUp){
+		if(hasControl() || curAction.followUp.noWait){
+			performAction(curAction.followUp);
 		}
 	}
 }    

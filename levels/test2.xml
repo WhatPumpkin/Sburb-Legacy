@@ -70,6 +70,9 @@
   		<Walkable path='compLabWalkable'/>
   	</Paths>
   	<Triggers>
+  		<Trigger detonate='true'>spriteProperty,char,y>800
+  			<Action command='talk'>@! There's nothing over here!</Action>
+  		</Trigger>
   	</Triggers>
   	<Sprite class='chest' name='baseRoomChest1' x='600' y='400'>
 			<Action name='open' command='openChest'>baseRoomChest1,dollar</Action>

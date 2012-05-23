@@ -54,6 +54,41 @@ openChestCommand = function(info){
 	sprites[params[0]].removeAction(curAction.name);
 }
 
+deltaSpriteCommand = function(info){
+	var params = info.split(",");
+	var sprite = sprites[params[0]];
+	var dx = parseInt(params[1]);
+	var dy = parseInt(params[2]);
+	sprite.x+=dx;
+	sprite.y+=dy;
+}
+
+deltaForSpriteCommand = function(info){
+	var noWait = curAction.noWait;
+	var followUp = curAction.followUp;
+	var iterations = parseInt(info.substring(info.lastIndexOf(",")+1,info.length));
+	var oldAction = null;
+	var firstAction = null;
+	for(var i=0;i<iterations;i++){
+		var newAction = new Action(null,"deltaSprite",info,oldAction,noWait);
+		if(!firstAction){
+			firstAction = newAction;
+		}
+		oldAction = newAction;
+	}
+	oldAction.followUp = followUp;
+	performAction(firstAction);
+}
+
+moveSpriteCommand = function(info){
+	var params = info.split(",");
+	var sprite = sprites[params[0]];
+	var newX = parseInt(params[1]);
+	var newY = parseInt(params[2]);
+	sprite.x = newX;
+	sprite.y = newY;
+}
+
 waitForCommand = function(info){
 	waitFor = new Trigger(info);
 }
@@ -75,4 +110,7 @@ function buildCommands(){
 	commands.cancel = cancelCommand;
 	commands.openChest = openChestCommand;
 	commands.waitFor = waitForCommand;
+	commands.deltaSprite = deltaSpriteCommand;
+	commands.deltaForSprite = deltaForSpriteCommand;
+	commands.moveSprite = moveSpriteCommand;
 }

@@ -4,6 +4,7 @@ function serialize(assets,effects,rooms,hud,dialoger,curRoom,char){
 	var out = document.getElementById("serialText");
 	var output = "<SBURB curRoom='"+curRoom.name+"' char='"+char.name+"'>\n";
 	output = serializeAssets(output,assets,effects);
+	output = serializeTemplates(output,templateClasses);
 	output = serializeHud(output,hud,dialoger);
 	output = output.concat("\n<Rooms>\n");
 	for(var room in rooms){
@@ -45,6 +46,17 @@ function serializeAssets(output,assets,effects){
 		output = curEffect.serialize(output);
 	}
 	output = output.concat("\n</Effects>\n");
+	return output;
+}
+
+function serializeTemplates(output,templates){
+	output = output.concat("\n<Classes>");
+	for(var template in templates){
+		var tempOut = templates[template].serialize("");
+		var tempOut = tempOut.substring(0,tempOut.indexOf(" "))+" class='"+template+"' "+tempOut.substring(tempOut.indexOf(" "),tempOut.length);
+		output = output.concat(tempOut);
+	}
+	output = output.concat("\n</Classes>\n");
 	return output;
 }
 
@@ -261,8 +273,7 @@ function loadSerialState(input) {
 			}
     }
     if(initAction) {
-			curAction = initAction;
-			performAction(curAction);
+			performAction(initAction);
     }
 
     update(0);

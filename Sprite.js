@@ -176,7 +176,6 @@ function parseSprite(spriteNode, assetFolder) {
 	var newState = null;
 	var newAnimations = {};
 	if(attributes.getNamedItem("class") && templateClasses[attributes.getNamedItem("class").value]){
-		console.log(attributes.getNamedItem("class").value);
 		var template = 	templateClasses[attributes.getNamedItem("class").value];
 		newName = template.name;
 		newX = template.x;

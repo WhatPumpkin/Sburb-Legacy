@@ -71,9 +71,6 @@ function Room(name,width,height){
 	
 	this.update = function(gameTime){
 		var i;
-		for(i=0;i<this.triggers.length;i++){
-			this.triggers[i].tryToTrigger();
-		}
 		for(i=0;i<this.sprites.length;i++){
 			this.sprites[i].update(gameTime);
 		}
@@ -82,6 +79,11 @@ function Room(name,width,height){
 				this.effects.splice(i,1);
 			}else{
 				this.effects[i].update(1);
+			}
+		}
+		for(i=this.triggers.length-1;i>=0;i--){
+			if(this.triggers[i].tryToTrigger()){
+				this.triggers.splice(i,1);
 			}
 		}
 	}
