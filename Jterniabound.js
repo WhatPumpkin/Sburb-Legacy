@@ -21,6 +21,7 @@ var curAction; //the current action being performed
 var bgm; //the current background music
 var hud; //the hud; help and sound buttons
 var Mouse = {down:false,x:0,y:0}; //current recorded properties of the mouse
+var waitFor = null;
 
 var initFinished; //only used when _hardcode_load is true
 var _hardcode_load; //set to 1 when we don't want to load from XML: see initialize()
@@ -67,6 +68,7 @@ function update(gameTime){
 	chooser.update(gameTime);
 	dialoger.update(gameTime);
 	chainAction();
+	updateWait();
 	
 	//must be last
     
@@ -79,7 +81,6 @@ function draw(gameTime){
 	stage.fillRect(0,0,Stage.width,Stage.height);
 	
 	stage.save();
-	//stage.scale(Stage.scaleX,Stage.scaleY);
 	stage.translate(-Stage.x,-Stage.y);
 	
 	curRoom.draw();
@@ -144,7 +145,6 @@ function onMouseMove(e,canvas){
 	point = relMouseCoords(e,canvas);
 	Mouse.x = point.x;
 	Mouse.y = point.y;
-	//console.log(Mouse.x+" "+Mouse.y);
 }
 
 function onMouseDown(e,canvas){
@@ -178,7 +178,6 @@ function drawLoader(){
 	stage.fillRect(0,0,Stage.width,Stage.height);
 	stage.fillStyle = "rgb(200,0,0)"
 	stage.font="30px Arial";
-    // stage.fillText("Loading Assets: "+(assetLoadStack.totalAssets-assetLoadStack.length)+"/"+assetLoadStack.totalAssets,100,200);
     stage.fillText("Loading Assets: "+assetManager.totalLoaded+"/"+assetManager.totalAssets,100,200);
 }
 
@@ -231,7 +230,7 @@ function drawHud(){
 }
 
 function hasControl(){
-	return !dialoger.talking && !chooser.choosing && !destRoom;
+	return !dialoger.talking && !chooser.choosing && !destRoom && !waitFor;
 }
 
 function performAction(action){
@@ -306,7 +305,6 @@ function changeBGM(newSong) {
 		}
 		bgm = newSong;
 		bgm.play();
-		//setTimeout("checkBGMLoop()", 100);
     }
 }
 
@@ -318,17 +316,6 @@ function playSound(sound){
 	sound.stop();
 	sound.play();
 }
-
-/*
-function checkBGMLoop() {
-    // this is just until we can figure out if Chrome loops things
-    // or is just broken?
-    console.log(bgm,bgm.ended(),bgm.asset.ended);
-    if(bgm && bgm.ended()) {
-			//bgm.loop();
-    }
-    setTimeout("checkBGMLoop()", 100);
-}*/
     
 function chainAction(){
 	if(hasControl()){
@@ -339,5 +326,10 @@ function chainAction(){
 	}
 }    
 
+function updateWait(){
+	if(waitFor && waitFor.checkCompletion()){
+		waitFor = null;
+	}
+}
 
     

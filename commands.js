@@ -43,10 +43,19 @@ playEffectCommand = function(info){
 	playEffect(effects[params[0]],parseInt(params[1]),parseInt(params[2]));
 }
 
+playAnimationCommand = function(info){
+	var params = info.split(",");
+	sprites[params[0]].startAnimation(params[1]);
+}
+
 openChestCommand = function(info){
 	var params = info.split(",");
 	sprites[params[0]].startAnimation("open");
 	sprites[params[0]].removeAction(curAction.name);
+}
+
+waitForCommand = function(info){
+	waitFor = new Trigger(info);
 }
 
 cancelCommand = function(){
@@ -57,6 +66,7 @@ function buildCommands(){
 	commands = {};
 	commands.talk = talkCommand;
 	commands.changeRoom = changeRoomCommand;
+	commands.playAnimation = playAnimationCommand;
 	commands.changeChar = changeCharCommand;
 	commands.playSong = playSongCommand;
 	commands.playSound = playSoundCommand;
@@ -64,5 +74,5 @@ function buildCommands(){
 	commands.playEffect = playEffectCommand;
 	commands.cancel = cancelCommand;
 	commands.openChest = openChestCommand;
-	
+	commands.waitFor = waitForCommand;
 }
