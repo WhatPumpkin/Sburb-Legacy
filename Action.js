@@ -1,10 +1,11 @@
-function Action(name,command,info,sprite,followUp,noWait){
+function Action(command,info,name,sprite,followUp,noWait,noDelay){
 	this.sprite = sprite?sprite:null;
-	this.name = name;
+	this.name = name?name:null;
 	this.command = command
 	this.info = info;
 	this.followUp = followUp?followUp:null;
 	this.noWait = noWait?noWait:false;
+	this.noDelay = noDelay?noDelay:false;
 	
 	this.serialize = function(output){
 		output = output.concat("\n<Action "+
@@ -12,6 +13,7 @@ function Action(name,command,info,sprite,followUp,noWait){
 			(this.sprite?"sprite='"+this.sprite.name:"")+
 			(this.name?"' name='"+this.name:"")+
 			(this.noWait?"' noWait='"+this.noWait:"")+
+			(this.noDelay?"' noDelay='"+this.noDelay:"")+
 			"'>");
 		output = output.concat(info.trim());
 		if(this.followUp){
@@ -33,12 +35,13 @@ function parseXMLAction(node) {
 		}
 
 		var newAction = new Action(
-					 attributes.getNamedItem("name")?attributes.getNamedItem("name").value:null,
 					 attributes.getNamedItem("command").value,
 					 node.firstChild.nodeValue.trim(),
+					 attributes.getNamedItem("name")?attributes.getNamedItem("name").value:null,
 					 targSprite,
 					 null,
-					 attributes.getNamedItem("noWait")?attributes.getNamedItem("noWait").value=="true":false);
+					 attributes.getNamedItem("noWait")?attributes.getNamedItem("noWait").value=="true":false,
+					 attributes.getNamedItem("noDelay")?attributes.getNamedItem("noDelay").value=="true":false);
 					 
 		if(oldAction){
 			oldAction.followUp = newAction;

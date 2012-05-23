@@ -11,7 +11,7 @@ teleportCommand = function(info){
 	changeRoomCommand(info);
 	playEffect(effects["teleportEffect"],char.x,char.y);
 	var params = info.split(",");
-	curAction = new Action(curAction.name,curAction.command,curAction.info,curAction.sprite,new Action(null,"playEffect","teleportEffect,"+params[1]+","+params[2],null,curAction.followUp));
+	curAction = new Action(curAction.command,curAction.info,curAction.name,curAction.sprite,new Action(null,"playEffect","teleportEffect,"+params[1]+","+params[2],null,curAction.followUp));
 	//playSound(new BGM(assets["teleportSound"],0));
 }
 
@@ -45,18 +45,42 @@ playEffectCommand = function(info){
 
 playAnimationCommand = function(info){
 	var params = info.split(",");
-	sprites[params[0]].startAnimation(params[1]);
+	var sprite;
+	if(params[0]=="char"){
+		sprite = char;
+	}else{
+		sprite = sprites[params[0]];
+	}
+	sprite.startAnimation(params[1]);
 }
 
 openChestCommand = function(info){
 	var params = info.split(",");
-	sprites[params[0]].startAnimation("open");
-	sprites[params[0]].removeAction(curAction.name);
+	var chest = sprites[params[0]];
+	var item = sprites[params[1]];
+	chest.startAnimation("open");
+	chest.removeAction(curAction.name);
+	var lastAction;
+	var newAction = lastAction = new Action("waitFor","played,"+chest.name,null,null);
+	lastAction = lastAction.followUp = new Action("addSprite",item.name+","+curRoom.name);
+	lastAction = lastAction.followUp = new Action("moveSprite",item.name+","+chest.x+","+(chest.y-60),null,null,null,false,true);
+	lastAction = lastAction.followUp = new Action("deltaForSprite",item.name+",0,-3,10");
+	lastAction = lastAction.followUp = new Action("talk","@! "+params[2]);
+	lastAction = lastAction.followUp = new Action("removeSprite",item.name+","+curRoom.name);
+	lastAction.followUp = curAction.followUp;
+	console.log("aaaaa");
+	performAction(newAction);
+	console.log("bbbb");
 }
 
 deltaSpriteCommand = function(info){
 	var params = info.split(",");
-	var sprite = sprites[params[0]];
+	var sprite = null;
+	if(params[0]=="char"){
+		sprite = char;
+	}else{
+		sprite = sprites[params[0]];
+	}
 	var dx = parseInt(params[1]);
 	var dy = parseInt(params[2]);
 	sprite.x+=dx;
@@ -70,9 +94,12 @@ deltaForSpriteCommand = function(info){
 	var oldAction = null;
 	var firstAction = null;
 	for(var i=0;i<iterations;i++){
-		var newAction = new Action(null,"deltaSprite",info,oldAction,noWait);
+		var newAction = new Action("deltaSprite",info,null,null,oldAction,noWait);
 		if(!firstAction){
 			firstAction = newAction;
+		}
+		if(oldAction){
+			oldAction.followUp = newAction;
 		}
 		oldAction = newAction;
 	}
@@ -82,7 +109,12 @@ deltaForSpriteCommand = function(info){
 
 moveSpriteCommand = function(info){
 	var params = info.split(",");
-	var sprite = sprites[params[0]];
+	var sprite = null;
+	if(params[0]=="char"){
+		sprite = char;
+	}else{
+		sprite = sprites[params[0]];
+	}
 	var newX = parseInt(params[1]);
 	var newY = parseInt(params[2]);
 	sprite.x = newX;
@@ -91,6 +123,20 @@ moveSpriteCommand = function(info){
 
 waitForCommand = function(info){
 	waitFor = new Trigger(info);
+}
+
+addSpriteCommand = function(info){
+	params = info.split(",");
+	var sprite = sprites[params[0]];
+	var room = rooms[params[1]];
+	room.addSprite(sprite);
+}
+
+removeSpriteCommand = function(info){
+	params = info.split(",");
+	var sprite = sprites[params[0]];
+	var room = rooms[params[1]];
+	room.removeSprite(sprite);
 }
 
 cancelCommand = function(){
@@ -113,4 +159,6 @@ function buildCommands(){
 	commands.deltaSprite = deltaSpriteCommand;
 	commands.deltaForSprite = deltaForSpriteCommand;
 	commands.moveSprite = moveSpriteCommand;
+	commands.addSprite = addSpriteCommand;
+	commands.removeSprite = removeSpriteCommand;
 }

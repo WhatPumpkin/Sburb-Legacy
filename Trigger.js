@@ -56,9 +56,8 @@ function Trigger(info,action,followUp,restart,detonate){
 		
 		}else if(this.type=="played"){
 			this.entity = sprites[params[1]];
-		
 			this.checkCompletion = function(){
-				return entity.animation.hasPlayed();
+				return this.entity.animation.hasPlayed();
 			};
 		}
 	}

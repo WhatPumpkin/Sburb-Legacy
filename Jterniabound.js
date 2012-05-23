@@ -205,18 +205,20 @@ function handleHud(){
 	}
 	if(hasControl){
 		if(hud.helpButton.clicked){
-			performActionSilent(new Action("helpAction","talk","@! HELP!"));
+			performActionSilent(new Action("talk","@! HELP!","helpAction"));
 		}
-		if(hud.volumeButton.clicked){
-			if(globalVolume>=1){
-				globalVolume=0;
-			}else if(globalVolume>=0.6){
-				globalVolume = 1;
-			}else if(globalVolume>=0.3){
-				globalVolume = 0.66;
-			}else {
-				globalVolume = 0.33;
-			}
+	}
+	if(hud.volumeButton.clicked){
+		if(globalVolume>=1){
+			globalVolume=0;
+		}else if(globalVolume>=0.6){
+			globalVolume = 1;
+		}else if(globalVolume>=0.3){
+			globalVolume = 0.66;
+		}else {
+			globalVolume = 0.33;
+		}
+		if(bgm){
 			bgm.fixVolume();
 		}
 	}
@@ -235,6 +237,9 @@ function hasControl(){
 function performAction(action){
 	curAction = action;
    performActionSilent(action);
+   if(action.followUp && action.followUp.noDelay){
+   	performAction(action.followUp);
+   }
 }
 
 function performActionSilent(action){
@@ -330,8 +335,10 @@ function chainAction(){
 }    
 
 function updateWait(){
-	if(waitFor && waitFor.checkCompletion()){
-		waitFor = null;
+	if(waitFor){
+		if(waitFor.checkCompletion()){
+			waitFor = null;
+		}
 	}
 }
 

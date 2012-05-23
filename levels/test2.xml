@@ -60,9 +60,13 @@
   	</DialogSprites>
 </HUD>
   
-  <Action name='startGame' command='talk'>@! Let's do this!!!
-    <Action command='playSong'>karkatBGM, 6.7</Action>
-  </Action> 
+<Action name='startGame' command='talk'>@! Let's do this!!!
+ <Action command='playSong'>karkatBGM, 6.7</Action>
+</Action> 
+
+<Sprite name='dollar'>
+	<Animation name='image' sheet='dollar' colSize='75' rowSize='51' x='-36' y='-20'/>
+</Sprite>
 
 <Rooms>
   <Room name='baseRoom' width='861' height='909'>
@@ -70,12 +74,14 @@
   		<Walkable path='compLabWalkable'/>
   	</Paths>
   	<Triggers>
-  		<Trigger detonate='true'>spriteProperty,char,y>800
-  			<Action command='talk'>@! There's nothing over here!</Action>
+  		<Trigger>spriteProperty,char,y>800
+  				<Action command='deltaSprite'>char,0,-12
+  					<Action command='talk'>@! There's nothing over here!</Action>
+  			</Action>
   		</Trigger>
   	</Triggers>
   	<Sprite class='chest' name='baseRoomChest1' x='600' y='400'>
-			<Action name='open' command='openChest'>baseRoomChest1,dollar</Action>
+			<Action name='open' command='openChest'>baseRoomChest1,dollar,You got a boondollar!</Action>
 		</Sprite>
   	<Sprite class='teleporter' name='baseRoomTeleporter' x='400' y='400'>
       <Action name='teleport' command='teleport'>stairRoom,666,450</Action>
