@@ -157,15 +157,6 @@ function loadSerial(serialText, sburbID) {
 			}
     }
 
-    var templates = input.getElementsByTagName("Classes")[0].childNodes;
-    for(var i=0;i<templates.length;i++){
-    	var template = templates[i];
-    	if(template.nodeName=="Sprite"){
-    		var newSprite = parseSprite(template,assets);
-    		templateClasses[template.attributes.getNamedItem("class").value] = newSprite;
-    	}
-    }
-    input.removeChild(input.getElementsByTagName("Classes")[0]);
     setTimeout(function() { loadSerialState(input) }, 500);
 }
 
@@ -213,6 +204,15 @@ function loadSerialState(input) {
 		return;
     }
     
+    var templates = input.getElementsByTagName("Classes")[0].childNodes;
+    for(var i=0;i<templates.length;i++){
+    	var template = templates[i];
+    	if(template.nodeName=="Sprite"){
+    		var newSprite = parseSprite(template,assets);
+    		templateClasses[template.attributes.getNamedItem("class").value] = newSprite;
+    	}
+    }
+    input.removeChild(input.getElementsByTagName("Classes")[0]);
 	
 	var newButtons = input.getElementsByTagName("SpriteButton");
 	for(var i=0;i<newButtons.length;i++){

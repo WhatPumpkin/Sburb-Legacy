@@ -11,7 +11,7 @@ teleportCommand = function(info){
 	changeRoomCommand(info);
 	playEffect(effects["teleportEffect"],char.x,char.y);
 	var params = info.split(",");
-	curAction = new Action(curAction.command,curAction.info,curAction.name,curAction.sprite,new Action(null,"playEffect","teleportEffect,"+params[1]+","+params[2],null,curAction.followUp));
+	curAction = new Action(curAction.command,curAction.info,curAction.name,curAction.sprite,new Action("playEffect","teleportEffect,"+params[1]+","+params[2],null,null,curAction.followUp));
 	//playSound(new BGM(assets["teleportSound"],0));
 }
 
@@ -68,9 +68,7 @@ openChestCommand = function(info){
 	lastAction = lastAction.followUp = new Action("talk","@! "+params[2]);
 	lastAction = lastAction.followUp = new Action("removeSprite",item.name+","+curRoom.name);
 	lastAction.followUp = curAction.followUp;
-	console.log("aaaaa");
 	performAction(newAction);
-	console.log("bbbb");
 }
 
 deltaSpriteCommand = function(info){

@@ -175,8 +175,8 @@ function parseSprite(spriteNode, assetFolder) {
 	var newCollidable = false;
 	var newState = null;
 	var newAnimations = {};
-	if(attributes.getNamedItem("class") && templateClasses[attributes.getNamedItem("class").value]){
-		var template = 	templateClasses[attributes.getNamedItem("class").value];
+	if(attributes.getNamedItem("class") && templateClasses[attributes.getNamedItem("class").value.trim()]){
+		var template = templateClasses[attributes.getNamedItem("class").value.trim()];
 		newName = template.name;
 		newX = template.x;
 		newY = template.y;
@@ -201,6 +201,7 @@ function parseSprite(spriteNode, assetFolder) {
 	newState = attributes.getNamedItem("state")?attributes.getNamedItem("state").value:newState;
 	
  	var newSprite = new Sprite(newName,newX,newY,newWidth,newHeight,newDx,newDy,newDepthing,newCollidable);
+
 	for(var newAnim in newAnimations){
 		newSprite.addAnimation(newAnimations[newAnim]);
 	}

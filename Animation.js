@@ -51,6 +51,7 @@ function Animation(name,sheet,x,y,colSize,rowSize,startPos,length,frameInterval,
 	}
 	
 	this.draw = function(x,y){
+		
 		x+=this.x;
 		y+=this.y;
 		var colNum = (this.startPos+this.curFrame)%this.numCols;
