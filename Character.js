@@ -160,6 +160,7 @@ function Character(name,x,y,width,height,sx,sy,sWidth,sHeight,sheet){
 	
 	this.getActionQueries = function(){
 		var queries = new Array();
+		queries.push({x:this.x,y:this.y});
 		if(this.facing=="Front"){
 			queries.push({x:this.x,y:this.y+(this.height/2+15)});
 			queries.push({x:this.x-this.width/2,y:this.y+(this.height/2+15)});

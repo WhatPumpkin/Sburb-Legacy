@@ -44,7 +44,6 @@ function createAudioAsset(name) {
 }
 
 function createMovieAsset(name,path){
-	console.log(name,path);
 	var ret = {src:path};
 	ret.name = name;
 	ret.type = "movie";

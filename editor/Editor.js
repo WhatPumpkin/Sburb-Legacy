@@ -28,13 +28,14 @@ function editSerial(serialText, sburbID) {
     var inText = serialText; //document.getElementById("serialText");
     var parser=new DOMParser();
     var input=parser.parseFromString(inText,"text/xml");
-
+	
     if(sburbID) {
 		input = input.getElementById(sburbID);
     } else {
   		input = input.documentElement;
     }
     // add assets
+    input.removeChild(input.getElementsByTagName("Classes")[0]);
     assetsNodes = input.getElementsByTagName("Asset")
     console.log(assetsNodes.length);
     for(var i=0; i<assetsNodes.length; i++) {

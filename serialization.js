@@ -36,6 +36,8 @@ function serializeAssets(output,assets,effects){
 					output = output.concat(";");
 				}
 			}
+		}else if(curAsset.type=="movie"){
+			output = output.concat(curAsset.src);
 		}
 		output = output.concat("</Asset>");
 	}
@@ -329,12 +331,12 @@ function serialLoadRoomPaths(newRoom, paths, assetFolder) {
 		var node = motionPaths[j];
 		var attributes = node.attributes;
 		newRoom.addMotionPath(assetFolder[attributes.getNamedItem("path").value], 
-				      parseInt(attributes.getNamedItem("xtox").value), 
-				      parseInt(attributes.getNamedItem("xtoy").value), 
-				      parseInt(attributes.getNamedItem("ytox").value), 
-				      parseInt(attributes.getNamedItem("ytoy").value), 
-				      parseInt(attributes.getNamedItem("dx").value), 
-				      parseInt(attributes.getNamedItem("dy").value));
+				      parseFloat(attributes.getNamedItem("xtox").value), 
+				      parseFloat(attributes.getNamedItem("xtoy").value), 
+				      parseFloat(attributes.getNamedItem("ytox").value), 
+				      parseFloat(attributes.getNamedItem("ytoy").value), 
+				      parseFloat(attributes.getNamedItem("dx").value), 
+				      parseFloat(attributes.getNamedItem("dy").value));
 	}
 }
 

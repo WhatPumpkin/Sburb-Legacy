@@ -145,8 +145,9 @@ function Room(name,width,height){
 	this.queryActions = function(query,x,y){
 		var validActions = new Array();
 		for(var i=0;i<this.sprites.length;i++){
-			if(this.sprites[i].hitsPoint(x,y)){
-				validActions = validActions.concat(this.sprites[i].getActions(query));
+			var sprite = this.sprites[i];
+			if(sprite!=query && sprite.hitsPoint(x,y)){
+				validActions = validActions.concat(sprite.getActions(query));
 			}
 		}
 		return validActions;
@@ -158,9 +159,16 @@ function Room(name,width,height){
 		var queries = {upRight:{x:spriteX+sprite.width/2,y:spriteY-sprite.height/2},
 					 upLeft:{x:spriteX-sprite.width/2,y:spriteY-sprite.height/2},
 					 downLeft:{x:spriteX-sprite.width/2,y:spriteY+sprite.height/2},
-					 downRight:{x:spriteX+sprite.width/2,y:spriteY+sprite.height/2}}
+					 downRight:{x:spriteX+sprite.width/2,y:spriteY+sprite.height/2},
+					 downMid:{x:spriteX,y:spriteY+sprite.height/2},
+					 upMid:{x:spriteX,y:spriteY-sprite.height/2}}
 		var result = this.isInBoundsBatch(queries);
-		return result.upRight && result.upLeft && result.downRight && result.downLeft;
+		for(var point in result){
+			if(!result[point]){
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	this.isInBoundsBatch = function(queries,results){
@@ -232,8 +240,8 @@ function Room(name,width,height){
 			if(shouldMove) {
 				result = function(ax, ay) {
 					var fx,fy;
-					fx = Math.round((ax*motionPath.xtox + ay*motionPath.ytox + motionPath.dx)/3)*3;
-					fy = Math.round((ax*motionPath.xtoy + ay*motionPath.ytoy + motionPath.dy)/3)*3;
+					fx = (ax*motionPath.xtox + ay*motionPath.ytox + motionPath.dx);
+					fy = (ax*motionPath.xtoy + ay*motionPath.ytoy + motionPath.dy);
 					return {x:fx,y:fy};
 				};
 				stage.restore();

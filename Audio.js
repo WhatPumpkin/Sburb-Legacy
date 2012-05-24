@@ -46,5 +46,7 @@ function Sound(asset){
   }
   this.fixVolume = function(){
   	this.asset.volume = globalVolume;
+  	this.asset.pause();
+  	this.asset.play();
   }
 }
