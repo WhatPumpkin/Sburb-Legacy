@@ -1,5 +1,7 @@
 <SBURB curRoom='baseRoom' char='karkat' id='level1' startAction="startGame">
 <Assets>
+	<Asset name='testMovie' type='movie'>resources/cutscenetest.swf</Asset>
+
   <Asset name='volumeControl' type='graphic'>resources/volumeControl.png</Asset>
   <Asset name='helpControl' type='graphic'>resources/helpControl.png</Asset>
   <Asset name='aaSheet' type='graphic'>resources/AAsheetBig.png</Asset>
@@ -115,6 +117,7 @@
       <Action name='swap' command='changeChar'>terezi
 		    <Action command='playSong'>tereziBGM, 1.9</Action>
       </Action>
+      <Action name='play movie' command='playMovie'>testMovie</Action>
     </Character>
     <Sprite name='compLabBG' width='861' height='909' state='image'>
       <Animation name='image' sheet='compLabBG' rowSize='909' colSize='861'/>

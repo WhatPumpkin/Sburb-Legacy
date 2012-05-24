@@ -150,7 +150,7 @@ function loadSerial(serialText, sburbID) {
     var newAssets = input.getElementsByTagName("Asset");
     for(var i=0;i<newAssets.length;i++){
 			var curAsset = newAssets[i];
-	  	var attributes = curAsset.attributes;
+	  		var attributes = curAsset.attributes;
 			var name = attributes.getNamedItem("name").value;
 			if (!assetManager.isLoaded(name)) {
 				loadSerialAsset(curAsset);
@@ -163,38 +163,32 @@ function loadSerial(serialText, sburbID) {
 function loadSerialAsset(curAsset){
     var newAsset = parseSerialAsset(curAsset);
     assetManager.loadAsset(newAsset);
-/*
-    if(newAsset.type == "graphic") {
-	assetManager.loadGraphicAsset(newAsset);
-    } else if(newAsset.type == "audio") {
-	assetManager.loadAudioAsset(newAsset);
-    } else if(newAsset.type == "path") {
-	assetManager.loadPathAsset(newAsset);
-    }
-*/
 }
-function parseSerialAsset(curAsset) {
-    var attributes = curAsset.attributes;
-    var name = attributes.getNamedItem("name").value;
-    var type = attributes.getNamedItem("type").value;
-    var value = curAsset.firstChild.nodeValue;
 
-    var newAsset;
-    if(type=="graphic"){
-	newAsset = createGraphicAsset(name,value);
-    } else if(type=="audio"){
-  	var sources = value.split(";");
-	newAsset = createAudioAsset(name,sources[0],sources[1]);
-    } else if(type=="path"){
-  	var pts = value.split(";");
-  	var path = new Array();
-  	for(var j=0;j<pts.length;j++){
-  	    var point = pts[j].split(",");
-  	    path.push({x:parseInt(point[0]),y:parseInt(point[1])});
-  	}
-	newAsset = createPathAsset(name,path);
-    }
-    return newAsset;
+function parseSerialAsset(curAsset) {
+	var attributes = curAsset.attributes;
+	var name = attributes.getNamedItem("name").value;
+	var type = attributes.getNamedItem("type").value;
+	var value = curAsset.firstChild.nodeValue;
+
+	var newAsset;
+	if(type=="graphic"){
+		newAsset = createGraphicAsset(name,value);
+	} else if(type=="audio"){
+		var sources = value.split(";");
+		newAsset = createAudioAsset(name,sources[0],sources[1]);
+	} else if(type=="path"){
+		var pts = value.split(";");
+		var path = new Array();
+		for(var j=0;j<pts.length;j++){
+			 var point = pts[j].split(",");
+			 path.push({x:parseInt(point[0]),y:parseInt(point[1])});
+		}
+		newAsset = createPathAsset(name,path);
+	}else if(type=="movie"){
+		newAsset = createMovieAsset(name,value);
+	}
+	return newAsset;
 }
 
 function loadSerialState(input) {

@@ -119,6 +119,10 @@ moveSpriteCommand = function(info){
 	sprite.y = newY;
 }
 
+playMovieCommand = function(info){
+	playMovie(assets[info]);
+}
+
 waitForCommand = function(info){
 	waitFor = new Trigger(info);
 }
@@ -159,4 +163,5 @@ function buildCommands(){
 	commands.moveSprite = moveSpriteCommand;
 	commands.addSprite = addSpriteCommand;
 	commands.removeSprite = removeSpriteCommand;
+	commands.playMovie = playMovieCommand;
 }
