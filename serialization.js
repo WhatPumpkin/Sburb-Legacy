@@ -2,7 +2,11 @@ var templateClasses = {};
 
 function serialize(assets,effects,rooms,hud,dialoger,curRoom,char){
 	var out = document.getElementById("serialText");
-	var output = "<SBURB curRoom='"+curRoom.name+"' char='"+char.name+"'>\n";
+	var output = "<SBURB"+
+		" curRoom='"+curRoom.name+
+		"' char='"+char.name+
+		(bgm?"' bgm='"+bgm.asset.name:"")+
+		"'>\n";
 	output = serializeAssets(output,assets,effects);
 	output = serializeTemplates(output,templateClasses);
 	output = serializeHud(output,hud,dialoger);
@@ -213,13 +217,7 @@ function loadSerialState(input) {
 	var newButtons = input.getElementsByTagName("SpriteButton");
 	for(var i=0;i<newButtons.length;i++){
 		var curButton = newButtons[i];
-		var attributes = curButton.attributes;
-		var newButton = new SpriteButton(attributes.getNamedItem("name").value,
-  									attributes.getNamedItem("x")?parseInt(attributes.getNamedItem("x").value):0,
-  									attributes.getNamedItem("y")?parseInt(attributes.getNamedItem("y").value):0,
-  									parseInt(attributes.getNamedItem("width").value),
-  									parseInt(attributes.getNamedItem("height").value),
-  									assets[attributes.getNamedItem("sheet").value]);
+		var newButton = parseSpriteButton(curButton);
   		hud[newButton.name] = newButton;
 	}
   	
@@ -248,6 +246,10 @@ function loadSerialState(input) {
   	curRoom = rooms[rootInfo.getNamedItem("curRoom").value];
   	curRoom.initialize();
   	
+  	if(rootInfo.getNamedItem("bgm")){
+  		changeBGM(assets[rootInfo.getNamedItem("bgm").value]);
+  	}
+  	
   	sprites.dialogBox = new StaticSprite("dialogBox",Stage.width+1,1000,null,null,null,null,assets.dialogBox,FG_DEPTHING);
   	dialoger.setBox(sprites.dialogBox);
   	serialLoadDialogSprites(input.getElementsByTagName("HUD")[0].getElementsByTagName("DialogSprites")[0],assets);
@@ -264,7 +266,7 @@ function loadSerialState(input) {
     for(var i=0; i<input.childNodes.length; i++) {
 			var tmp = input.childNodes[i];
 			if(tmp.tagName=="Action" && tmp.attributes.getNamedItem("name").value == initActionName) {
-				initAction = parseXMLAction(tmp);
+				initAction = parseAction(tmp);
 				continue;
 			}
     }
@@ -304,7 +306,7 @@ function serialLoadRoomSprites(newRoom, roomSprites, spriteFolder){
 				continue;
 			}
 			if(newActions[k].nodeName == "Action"){
-				var newAction = parseXMLAction(newActions[k]);
+				var newAction = parseAction(newActions[k]);
 				actualSprite.addAction(newAction);
 			}
 		}

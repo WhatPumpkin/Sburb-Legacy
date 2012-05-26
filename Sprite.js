@@ -203,7 +203,7 @@ function parseSprite(spriteNode, assetFolder) {
  	var newSprite = new Sprite(newName,newX,newY,newWidth,newHeight,newDx,newDy,newDepthing,newCollidable);
 
 	for(var newAnim in newAnimations){
-		newSprite.addAnimation(newAnimations[newAnim]);
+		newSprite.addAnimation(newAnimations[newAnim].clone(0,0));
 	}
 	
 	var anims = spriteNode.getElementsByTagName("Animation");

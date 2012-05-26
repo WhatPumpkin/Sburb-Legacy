@@ -57,7 +57,11 @@ function Trigger(info,action,followUp,restart,detonate){
 		}else if(this.type=="played"){
 			this.entity = sprites[params[1]];
 			this.checkCompletion = function(){
-				return this.entity.animation.hasPlayed();
+				var entity = this.entity;
+				if(this.entity=="char"){
+					entity = char;
+				}
+				return entity.animation.hasPlayed();
 			};
 		}
 	}
@@ -110,7 +114,7 @@ function parseTrigger(triggerNode){
 		var restart = false;
 		var detonate = false;
 		
-		action = actions.length>0?parseXMLAction(actions[0]):action;
+		action = actions.length>0?parseAction(actions[0]):action;
 		restart = attributes.getNamedItem("restart")?attributes.getNamedItem("restart").value=="true":restart;
 		detonate = attributes.getNamedItem("detonate")?attributes.getNamedItem("detonate").value=="true":detonate;
 		

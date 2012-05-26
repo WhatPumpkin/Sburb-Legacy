@@ -15,11 +15,6 @@ teleportCommand = function(info){
 	//playSound(new BGM(assets["teleportSound"],0));
 }
 
-playEffectCommand = function(info){
-	var params = info.split(",");
-	playEffect(effects[params[0]],parseInt(params[1]),parseInt(params[2]));
-}
-
 changeCharCommand = function(info){
 	char.becomeNPC();
 	char.walk();
@@ -64,7 +59,7 @@ openChestCommand = function(info){
 	var newAction = lastAction = new Action("waitFor","played,"+chest.name,null,null);
 	lastAction = lastAction.followUp = new Action("addSprite",item.name+","+curRoom.name);
 	lastAction = lastAction.followUp = new Action("moveSprite",item.name+","+chest.x+","+(chest.y-60),null,null,null,false,true);
-	lastAction = lastAction.followUp = new Action("deltaForSprite",item.name+",0,-3,10");
+	lastAction = lastAction.followUp = new Action("deltaSprite",item.name+",0,-3",null,null,null,null,null,10);
 	lastAction = lastAction.followUp = new Action("talk","@! "+params[2]);
 	lastAction = lastAction.followUp = new Action("removeSprite",item.name+","+curRoom.name);
 	lastAction.followUp = curAction.followUp;
@@ -83,26 +78,6 @@ deltaSpriteCommand = function(info){
 	var dy = parseInt(params[2]);
 	sprite.x+=dx;
 	sprite.y+=dy;
-}
-
-deltaForSpriteCommand = function(info){
-	var noWait = curAction.noWait;
-	var followUp = curAction.followUp;
-	var iterations = parseInt(info.substring(info.lastIndexOf(",")+1,info.length));
-	var oldAction = null;
-	var firstAction = null;
-	for(var i=0;i<iterations;i++){
-		var newAction = new Action("deltaSprite",info,null,null,oldAction,noWait);
-		if(!firstAction){
-			firstAction = newAction;
-		}
-		if(oldAction){
-			oldAction.followUp = newAction;
-		}
-		oldAction = newAction;
-	}
-	oldAction.followUp = followUp;
-	performAction(firstAction);
 }
 
 moveSpriteCommand = function(info){
@@ -141,6 +116,21 @@ removeSpriteCommand = function(info){
 	room.removeSprite(sprite);
 }
 
+toggleVolumeCommand = function(){
+	if(globalVolume>=1){
+		globalVolume=0;
+	}else if(globalVolume>=0.6){
+		globalVolume = 1;
+	}else if(globalVolume>=0.3){
+		globalVolume = 0.66;
+	}else {
+		globalVolume = 0.33;
+	}
+	if(bgm){
+		bgm.fixVolume();
+	}
+}
+
 cancelCommand = function(){
 	//do nothing
 }
@@ -159,9 +149,9 @@ function buildCommands(){
 	commands.openChest = openChestCommand;
 	commands.waitFor = waitForCommand;
 	commands.deltaSprite = deltaSpriteCommand;
-	commands.deltaForSprite = deltaForSpriteCommand;
 	commands.moveSprite = moveSpriteCommand;
 	commands.addSprite = addSpriteCommand;
 	commands.removeSprite = removeSpriteCommand;
 	commands.playMovie = playMovieCommand;
+	commands.toggleVolume = toggleVolumeCommand;
 }

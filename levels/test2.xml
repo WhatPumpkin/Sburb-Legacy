@@ -54,8 +54,12 @@
 </Effects>
 
 <HUD>
-  	<SpriteButton name='volumeButton' x='9' y='9' width='54' height='36' sheet='volumeControl' />
-  	<SpriteButton name='helpButton' x='591' y='9' width='54' height='63' sheet='helpControl' />
+  	<SpriteButton name='volumeButton' x='9' y='9' width='54' height='36' sheet='volumeControl'>
+  		<Action command='toggleVolume'> </Action>
+  	</SpriteButton>
+  	<SpriteButton name='helpButton' x='591' y='9' width='54' height='63' sheet='helpControl'>
+  		<Action command='talk' soft='true'>@! HELP!</Action>
+  	</SpriteButton>
   	<DialogSprites>
   		<Animation name='vriska_idle' x='-142' y='-424' sheet='VriskaIdleSheet' rowSize='424' colSize='284'/>
   		<Animation name='nepeta_idle' x='-270' y='-450' sheet='NepetaIdleSheet' rowSize='450' colSize='456'/>

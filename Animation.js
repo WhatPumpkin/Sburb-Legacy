@@ -52,6 +52,65 @@ function Animation(name,sheet,x,y,colSize,rowSize,startPos,length,frameInterval,
 	
 	this.draw = function(x,y){
 		
+		var stageX = Stage.offset?Stage.x:0;
+		var stageY = Stage.offset?Stage.y:0;
+		var stageWidth = Stage.width;
+		var stageHeight = Stage.height;
+		
+		x=stageSnapX(this.x+x);
+		y=stageSnapY(this.y+y);
+	
+		var colNum = ((this.startPos+this.curFrame)%this.numCols);
+		var rowNum = (Math.floor((this.startPos+this.curFrame-colNum)/this.numRows));
+		var frameX = colNum*this.colSize;
+		var frameY = rowNum*this.rowSize;
+		var drawWidth = this.colSize;
+		var drawHeight = this.rowSize;
+		
+		var delta = x-stageX;
+		if(delta<0){
+			frameX-=delta;
+			drawWidth+=delta;
+			x=stageX;
+		}
+		
+		if(frameX>=this.sheet.width){
+			return;
+		}
+		
+		delta = y-stageY;
+		if(delta<0){
+			frameY-=delta;
+			drawHeight+=delta;
+			y=stageY;
+		}
+		
+		if(frameY>=this.sheet.height){
+			return;
+		}
+		
+		delta = drawWidth+x-stageX-stageWidth;
+		if(delta>0){
+			drawWidth-=delta;
+		}
+		if(drawWidth<=0){
+			return;
+		}
+		
+		delta = drawHeight+y-stageY-stageHeight;
+		if(delta>0){
+			drawHeight-=delta;
+		}
+		if(drawHeight<=0){
+			return;
+		}
+		
+		stage.drawImage(this.sheet,frameX,frameY,drawWidth,drawHeight,x,y,drawWidth,drawHeight);
+	}
+	/*
+	
+	this.draw = function(x,y){
+		
 		x+=this.x;
 		y+=this.y;
 		var colNum = (this.startPos+this.curFrame)%this.numCols;
@@ -63,7 +122,7 @@ function Animation(name,sheet,x,y,colSize,rowSize,startPos,length,frameInterval,
 
 		//sourcerect = frameX,frameY,colSize,rowSize
 		//destrect = x,y,colSize,rowSize
-	}
+	}*/
 	
 	this.reset = function(){
 		this.curFrame = 0;

@@ -1,4 +1,4 @@
-function Action(command,info,name,sprite,followUp,noWait,noDelay){
+function Action(command,info,name,sprite,followUp,noWait,noDelay,times,soft){
 	this.sprite = sprite?sprite:null;
 	this.name = name?name:null;
 	this.command = command
@@ -6,6 +6,8 @@ function Action(command,info,name,sprite,followUp,noWait,noDelay){
 	this.followUp = followUp?followUp:null;
 	this.noWait = noWait?noWait:false;
 	this.noDelay = noDelay?noDelay:false;
+	this.soft = soft?soft:false;
+	this.times = times?times:1;
 	
 	this.serialize = function(output){
 		output = output.concat("\n<Action "+
@@ -14,6 +16,8 @@ function Action(command,info,name,sprite,followUp,noWait,noDelay){
 			(this.name?"' name='"+this.name:"")+
 			(this.noWait?"' noWait='"+this.noWait:"")+
 			(this.noDelay?"' noDelay='"+this.noDelay:"")+
+			(this.soft?"' soft='"+this.soft:"")+
+			(this.times!=1?"' times='"+this.times:"")+
 			"'>");
 		output = output.concat(info.trim());
 		if(this.followUp){
@@ -22,8 +26,12 @@ function Action(command,info,name,sprite,followUp,noWait,noDelay){
 		output = output.concat("</Action>");
 		return output;
 	}
+	
+	this.clone = function(){
+		return new Action(this.command,this.info,this.name,this.sprite,this.followUp,this.noWait,this.noDelay,this.times,this.soft);
+	}
 }
-function parseXMLAction(node) {
+function parseAction(node) {
 	var targSprite = null;
 	var firstAction = null;
 	var oldAction = null;
@@ -36,12 +44,14 @@ function parseXMLAction(node) {
 
 		var newAction = new Action(
 					 attributes.getNamedItem("command").value,
-					 node.firstChild.nodeValue.trim(),
+					 node.firstChild?node.firstChild.nodeValue.trim():"",
 					 attributes.getNamedItem("name")?attributes.getNamedItem("name").value:null,
 					 targSprite,
 					 null,
 					 attributes.getNamedItem("noWait")?attributes.getNamedItem("noWait").value=="true":false,
-					 attributes.getNamedItem("noDelay")?attributes.getNamedItem("noDelay").value=="true":false);
+					 attributes.getNamedItem("noDelay")?attributes.getNamedItem("noDelay").value=="true":false,
+					 attributes.getNamedItem("times")?parseInt(attributes.getNamedItem("times").value):1,
+					 attributes.getNamedItem("soft")?attributes.getNamedItem("soft").value=="true":false);
 					 
 		if(oldAction){
 			oldAction.followUp = newAction;

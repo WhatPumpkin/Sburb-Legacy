@@ -77,20 +77,23 @@ function update(gameTime){
 }
 
 function draw(gameTime){
-	stage.fillStyle = "rgb(0,0,0)";
-	stage.fillRect(0,0,Stage.width,Stage.height);
+	//stage.clearRect(0,0,Stage.width,Stage.height);
 	
 	stage.save();
+	Stage.offset = true;
 	stage.translate(-Stage.x,-Stage.y);
 	
 	curRoom.draw();
 	chooser.draw();
 	
 	stage.restore();
+	Stage.offset = false;
 	dialoger.draw();
 	
-	stage.fillStyle = "rgba(0,0,0,"+Stage.fade+")";
-	stage.fillRect(0,0,Stage.width,Stage.height);
+	if(Stage.fade>0.1){
+		stage.fillStyle = "rgba(0,0,0,"+Stage.fade+")";
+		stage.fillRect(0,0,Stage.width,Stage.height);
+	}
 	
 	drawHud();
 }
@@ -198,28 +201,13 @@ function handleInputs(){
 
 function handleHud(){
 	for(var content in hud){
-		if(hud[content].updateMouse){
-			hud[content].updateMouse(Mouse.x,Mouse.y,Mouse.down);
-			hud[content].update(1);
-		}
-	}
-	if(hasControl){
-		if(hud.helpButton.clicked){
-			performActionSilent(new Action("talk","@! HELP!","helpAction"));
-		}
-	}
-	if(hud.volumeButton.clicked){
-		if(globalVolume>=1){
-			globalVolume=0;
-		}else if(globalVolume>=0.6){
-			globalVolume = 1;
-		}else if(globalVolume>=0.3){
-			globalVolume = 0.66;
-		}else {
-			globalVolume = 0.33;
-		}
-		if(bgm){
-			bgm.fixVolume();
+		var obj = hud[content];
+		if(obj.updateMouse){
+			obj.updateMouse(Mouse.x,Mouse.y,Mouse.down);
+			obj.update(1);
+			if(obj.clicked && obj.action){
+				performAction(obj.action);
+			}
 		}
 	}
 }
@@ -235,14 +223,24 @@ function hasControl(){
 }
 
 function performAction(action){
-	curAction = action;
-   performActionSilent(action);
-   if(action.followUp && action.followUp.noDelay){
-   	performAction(action.followUp);
-   }
+	
+	if(((curAction &&curAction.followUp!=action) || !hasControl()) && action.soft){
+		return;
+	}
+	var looped = false;
+	curAction = action.clone();
+	do{
+		if(looped){
+			curAction = curAction.followUp.clone();
+		}
+   	performActionSilent(curAction);
+   	looped = true;
+   }while(curAction.times<=0 && curAction.followUp && curAction.followUp.noDelay);
+   
 }
 
 function performActionSilent(action){
+	action.times--;
 	commands[action.command.trim()](action.info.trim());
 }
 
@@ -331,20 +329,28 @@ function playMovie(movie){
 	document.getElementById("movieBin").innerHTML = ('<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" id="'+name+'" width="550" height="400"><param name="allowScriptAccess" value="always" /\><param name="movie" value="'+name+'" /\><param name="quality" value="high" /\><param name="bgcolor" value="#ffffff" /\><embed src="'+name+'" quality="high" bgcolor="#ffffff" width="550" height="400" swLiveConnect=true id="'+name+'" name="'+name+'" allowScriptAccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /\></object>');
 	document.getElementById("gameDiv").style.display = "none";
 	waitFor = new Trigger("time,999999");
-	console.log("blah");
+	console.log("movie started");
 }
 
 function movieDone(){
 	document.getElementById("movieBin").innerHTML = "";
 	document.getElementById("gameDiv").style.display = "block";
 	waitFor = null;
-	console.log("halb");
+	console.log("movie done");
 }
     
 function chainAction(){
-	if(curAction && curAction.followUp){
-		if(hasControl() || curAction.followUp.noWait){
-			performAction(curAction.followUp);
+	if(curAction){
+		if(curAction.times<=0){
+			if(curAction.followUp){
+				if(hasControl() || curAction.followUp.noWait){
+					performAction(curAction.followUp);
+				}
+			}else{
+				curAction = null;
+			}
+		}else if(hasControl() || curAction.noWait){
+			performAction(curAction);
 		}
 	}
 }    
