@@ -195,12 +195,16 @@ function Character(name,x,y,width,height,sx,sy,sWidth,sHeight,sheet){
 			"' state='"+this.state+
 			"' facing='"+this.facing+
 			"'>");
-		//for(var anim in this.animations){
-		//	output = this.animations[anim].serialize(output);
-		//}
+		for(var animation in this.animations){
+			var anim = this.animations[animation];
+			if(anim.name.indexOf("idle")==-1 && anim.name.indexOf("walk")==-1){
+				output = anim.serialize(output);
+			}
+		}
 		for(var action in this.actions){
 			output = this.actions[action].serialize(output);
 		}
+		
 		output = output.concat("\n</Character>");
 		return output;
 	}
@@ -221,6 +225,12 @@ function parseCharacter(charNode, assetFolder) {
   				    parseInt(attributes.getNamedItem("sWidth").value),
   				    parseInt(attributes.getNamedItem("sHeight").value),
   				    assetFolder[attributes.getNamedItem("sheet").value]);
+  				    
+  	var anims = charNode.getElementsByTagName("Animation");
+	for(var j=0;j<anims.length;j++){
+		var newAnim = parseAnimation(anims[j],assetFolder);
+		newChar.addAnimation(newAnim); 
+	}
   	newChar.startAnimation(attributes.getNamedItem("state").value);
   	newChar.facing = attributes.getNamedItem("facing").value;
 	return newChar;
