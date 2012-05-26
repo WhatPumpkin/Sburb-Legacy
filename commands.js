@@ -11,7 +11,7 @@ teleportCommand = function(info){
 	changeRoomCommand(info);
 	playEffect(effects["teleportEffect"],char.x,char.y);
 	var params = info.split(",");
-	curAction = new Action(curAction.command,curAction.info,curAction.name,curAction.sprite,new Action("playEffect","teleportEffect,"+params[1]+","+params[2],null,null,curAction.followUp));
+	curAction.followUp = new Action("playEffect","teleportEffect,"+params[1]+","+params[2],null,null,curAction.followUp);
 	//playSound(new BGM(assets["teleportSound"],0));
 }
 

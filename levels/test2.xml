@@ -45,7 +45,7 @@
 			<Animation name='opened' sheet='chestSheet' x='-70' y='-60' rowSize='84' colSize='123' startPos='2'/>
 	</Sprite>
 	<Sprite class='teleporter' width='110' height='60'>
-      <Animation name='image' sheet='teleporterPad' x='-66' y='-120' rowSize='165' colSize='132'/>
+      <Animation sheet='teleporterPad' x='-66' y='-120'/>
   </Sprite>
 </Classes>
 
@@ -55,7 +55,7 @@
 
 <HUD>
   	<SpriteButton name='volumeButton' x='9' y='9' width='54' height='36' sheet='volumeControl'>
-  		<Action command='toggleVolume'> </Action>
+  		<Action command='toggleVolume' silent='true'> </Action>
   	</SpriteButton>
   	<SpriteButton name='helpButton' x='591' y='9' width='54' height='63' sheet='helpControl'>
   		<Action command='talk' soft='true'>@! HELP!</Action>
@@ -71,7 +71,7 @@
 </Action> 
 
 <Sprite name='dollar'>
-	<Animation name='image' sheet='dollar' colSize='75' rowSize='51' x='-36' y='-20'/>
+	<Animation sheet='dollar' x='-36' y='-20'/>
 </Sprite>
 
 <Rooms>
@@ -123,8 +123,8 @@
       </Action>
       <Action name='play movie' command='playMovie'>testMovie</Action>
     </Character>
-    <Sprite name='compLabBG' width='861' height='909' state='image'>
-      <Animation name='image' sheet='compLabBG' rowSize='909' colSize='861'/>
+    <Sprite name='compLabBG'>
+      <Animation sheet='compLabBG'/>
     </Sprite>
   </Room>
 
@@ -147,8 +147,8 @@
       <Action name='change room' command='changeRoom'>baseRoom,300,300</Action>
       <Action name='swap' command='changeChar'>sollux</Action>
     </Character>
-    <Sprite name='stairRoomBG' width='999' height='2259' state='image'>
-      <Animation name='image' sheet='stairRoomBG' rowSize='2259' colSize='999'/>
+    <Sprite name='stairRoomBG'>
+      <Animation sheet='stairRoomBG'/>
     </Sprite>
   </Room>
 </Rooms>

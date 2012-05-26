@@ -167,12 +167,13 @@ function Animation(name,sheet,x,y,colSize,rowSize,startPos,length,frameInterval,
 	}
 	
 	this.serialize = function(output){
-		output = output.concat("\n<Animation name='"+this.name+
-			"' sheet='"+this.sheet.name+
+		output = output.concat("\n<Animation "+
+			"sheet='"+this.sheet.name+
+			(this.name!="image"?"' name='"+this.name:"")+
 			(this.x?"' x='"+this.x:"")+
 			(this.y?"' y='"+this.y:"")+
-			"' rowSize='"+this.rowSize+
-			"' colSize='"+this.colSize+
+			(this.rowSize!=this.sheet.height?"' rowSize='"+this.rowSize:"")+
+			(this.colSize!=this.sheet.width?"' colSize='"+this.colSize:"")+
 			(this.startPos?"' startPos='"+this.startPos:"")+
 			(this.length!=1?"' length='"+this.length:"")+
 			(this.frameInterval!=1?"' frameInterval='"+this.frameInterval:"")+
@@ -198,15 +199,17 @@ function stageSnapY(y){
 
 function parseAnimation(animationNode, assetFolder){
 	var attributes = animationNode.attributes;
-	return new Animation(attributes.getNamedItem("name").value,
-  					    assetFolder[attributes.getNamedItem("sheet").value],
-  					    attributes.getNamedItem("x")?parseInt(attributes.getNamedItem("x").value):0,
-  					    attributes.getNamedItem("y")?parseInt(attributes.getNamedItem("y").value):0,
-  					    parseInt(attributes.getNamedItem("colSize").value),
-  					    parseInt(attributes.getNamedItem("rowSize").value),
-  					    attributes.getNamedItem("startPos")?parseInt(attributes.getNamedItem("startPos").value):0,
-  					    attributes.getNamedItem("length")?parseInt(attributes.getNamedItem("length").value):1,
-  					    attributes.getNamedItem("frameInterval")?parseInt(attributes.getNamedItem("frameInterval").value):1,
-  					    attributes.getNamedItem("loopNum")?parseInt(attributes.getNamedItem("loopNum").value):-1,
-  					    attributes.getNamedItem("followUp")?attributes.getNamedItem("followUp").value:null);
+	var temp;
+	var name = (temp = attributes.getNamedItem("name"))?temp.value:"image";
+	var sheet = assetFolder[attributes.getNamedItem("sheet").value];
+	var x = (temp = attributes.getNamedItem("x"))?parseInt(temp.value):0
+	var y = (temp = attributes.getNamedItem("y"))?parseInt(temp.value):0
+	var colSize = (temp = attributes.getNamedItem("colSize"))?parseInt(temp.value):sheet.width;
+	var rowSize = (temp = attributes.getNamedItem("rowSize"))?parseInt(temp.value):sheet.height;
+	var startPos = (temp = attributes.getNamedItem("startPos"))?parseInt(temp.value):0;
+	var length = (temp = attributes.getNamedItem("length"))?parseInt(temp.value):1;
+	var frameInterval = (temp = attributes.getNamedItem("frameInterval"))?parseInt(temp.value):1;
+	var loopNum = (temp = attributes.getNamedItem("loopNum"))?parseInt(temp.value):-1;
+	var followUp = (temp = attributes.getNamedItem("followUp"))?temp.value:null;
+	return new Animation(name,sheet,x,y,colSize,rowSize,startPos,length,frameInterval,loopNum,followUp);
 }

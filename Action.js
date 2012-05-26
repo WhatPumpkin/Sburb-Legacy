@@ -1,4 +1,4 @@
-function Action(command,info,name,sprite,followUp,noWait,noDelay,times,soft){
+function Action(command,info,name,sprite,followUp,noWait,noDelay,times,soft,silent){
 	this.sprite = sprite?sprite:null;
 	this.name = name?name:null;
 	this.command = command
@@ -7,6 +7,7 @@ function Action(command,info,name,sprite,followUp,noWait,noDelay,times,soft){
 	this.noWait = noWait?noWait:false;
 	this.noDelay = noDelay?noDelay:false;
 	this.soft = soft?soft:false;
+	this.silent = silent?silent:false;
 	this.times = times?times:1;
 	
 	this.serialize = function(output){
@@ -17,6 +18,7 @@ function Action(command,info,name,sprite,followUp,noWait,noDelay,times,soft){
 			(this.noWait?"' noWait='"+this.noWait:"")+
 			(this.noDelay?"' noDelay='"+this.noDelay:"")+
 			(this.soft?"' soft='"+this.soft:"")+
+			(this.silent?"' silent='"+this.silent:"")+
 			(this.times!=1?"' times='"+this.times:"")+
 			"'>");
 		output = output.concat(info.trim());
@@ -28,7 +30,7 @@ function Action(command,info,name,sprite,followUp,noWait,noDelay,times,soft){
 	}
 	
 	this.clone = function(){
-		return new Action(this.command,this.info,this.name,this.sprite,this.followUp,this.noWait,this.noDelay,this.times,this.soft);
+		return new Action(this.command,this.info,this.name,this.sprite,this.followUp,this.noWait,this.noDelay,this.times,this.soft,this.silent);
 	}
 }
 function parseAction(node) {
@@ -51,7 +53,8 @@ function parseAction(node) {
 					 attributes.getNamedItem("noWait")?attributes.getNamedItem("noWait").value=="true":false,
 					 attributes.getNamedItem("noDelay")?attributes.getNamedItem("noDelay").value=="true":false,
 					 attributes.getNamedItem("times")?parseInt(attributes.getNamedItem("times").value):1,
-					 attributes.getNamedItem("soft")?attributes.getNamedItem("soft").value=="true":false);
+					 attributes.getNamedItem("soft")?attributes.getNamedItem("soft").value=="true":false,
+					 attributes.getNamedItem("silent")?attributes.getNamedItem("silent").value=="true":false);
 					 
 		if(oldAction){
 			oldAction.followUp = newAction;

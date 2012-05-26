@@ -223,10 +223,14 @@ function hasControl(){
 }
 
 function performAction(action){
-	
+	if(action.silent){
+		performActionSilent(action);
+		return;
+	}
 	if(((curAction &&curAction.followUp!=action) || !hasControl()) && action.soft){
 		return;
 	}
+	
 	var looped = false;
 	curAction = action.clone();
 	do{
@@ -236,7 +240,6 @@ function performAction(action){
    	performActionSilent(curAction);
    	looped = true;
    }while(curAction.times<=0 && curAction.followUp && curAction.followUp.noDelay);
-   
 }
 
 function performActionSilent(action){
