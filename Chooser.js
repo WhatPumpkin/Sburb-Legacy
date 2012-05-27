@@ -25,8 +25,8 @@ function Chooser(){
 	}
 	
 	this.draw = function(){
-		stage.save();
 		if(this.choosing){
+			stage.save();
 			var x,y,width=160,height=0,i;
 			x = this.dialogs[0].x;
 			y = this.dialogs[0].y-1;
@@ -43,8 +43,8 @@ function Chooser(){
 			for(i=0;i<this.dialogs.length;i++){
 				this.dialogs[i].draw();
 			}
+			stage.restore();
 		}
-		stage.restore();
 	}
 	
 	this.update = function(gameTime){

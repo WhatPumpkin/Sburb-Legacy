@@ -185,7 +185,7 @@ function parseSerialAsset(curAsset) {
 		newAsset = createAudioAsset(name,sources[0],sources[1]);
 	} else if(type=="path"){
 		var pts = value.split(";");
-		var path = new Array();
+		var path = new Path();
 		for(var j=0;j<pts.length;j++){
 			 var point = pts[j].split(",");
 			 path.push({x:parseInt(point[0]),y:parseInt(point[1])});

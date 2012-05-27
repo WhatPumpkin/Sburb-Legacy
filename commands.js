@@ -57,10 +57,11 @@ openChestCommand = function(info){
 	chest.removeAction(curAction.name);
 	var lastAction;
 	var newAction = lastAction = new Action("waitFor","played,"+chest.name,null,null);
-	lastAction = lastAction.followUp = new Action("addSprite",item.name+","+curRoom.name);
-	lastAction = lastAction.followUp = new Action("moveSprite",item.name+","+chest.x+","+(chest.y-60),null,null,null,false,true);
-	lastAction = lastAction.followUp = new Action("deltaSprite",item.name+",0,-3",null,null,null,null,null,10);
-	lastAction = lastAction.followUp = new Action("talk","@! "+params[2]);
+	lastAction = lastAction.followUp = new Action("waitFor","time,13");
+	lastAction = lastAction.followUp = new Action("addSprite",item.name+","+curRoom.name,null,null,null,true);
+	lastAction = lastAction.followUp = new Action("moveSprite",item.name+","+chest.x+","+(chest.y-60),null,null,null,true,true);
+	lastAction = lastAction.followUp = new Action("deltaSprite",item.name+",0,-3",null,null,null,true,null,10);
+	lastAction = lastAction.followUp = new Action("talk","@! "+params[2],null,null,null,true);
 	lastAction = lastAction.followUp = new Action("removeSprite",item.name+","+curRoom.name);
 	lastAction.followUp = curAction.followUp;
 	performAction(newAction);

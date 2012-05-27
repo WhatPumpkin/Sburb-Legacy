@@ -98,7 +98,7 @@ function Room(name,width,height){
 			this.effects[i].draw(0,0);
 		}
 	}
-	
+	/*
 	this.drawMeta = function(){
 		stage.fillStyle = "rgba(50,200,50,0.2)";
 		for(var i=0;i<this.walkables.length;i++){
@@ -127,7 +127,7 @@ function Room(name,width,height){
 		for(var i=0;i<this.sprites.length;i++){
 			this.sprites[i].drawMeta();
 		}
-	}
+	}*/
 	
 	this.sortDepths = function(){
 		//insertion sort?!?
@@ -178,6 +178,7 @@ function Room(name,width,height){
 				results[queryName] = false;
 			}
 		}
+		/*
 		for(var i=0;i<this.walkables.length;i++){
 			this.buildPath(this.walkables[i]);
 			for(var queryName in queries){
@@ -193,6 +194,13 @@ function Room(name,width,height){
 				results[queryName] = results[queryName] && !stage.isPointInPath(query.x,query.y);
 			}
 			this.clearPath();
+		}
+		*/
+		for(var i=0;i<this.walkables.length;i++){
+			this.walkables[i].queryBatch(queries,results);
+		}
+		for(var i=0;i<this.unwalkables.length;i++){
+			this.unwalkables[i].queryBatch(queries,results);
 		}
 		return results;
 	}

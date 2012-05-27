@@ -4,11 +4,9 @@ TODO:
 
 Core engine:
 	General:
-		-properly test effects
-		-add "wait" commands to the list of commands; commands::waitForTimeCommand; commands::waitForAnimationCommand...?
-		-add transporter
+		Done~!
 	Strife:
-		-design Strife mode? (1px free motion, mouse click to interact)
+		-design Strife mode? (1px free motion, mouse click to interact, elliptical hit-regions)
 
 Editor:
 	General:
