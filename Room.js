@@ -178,73 +178,20 @@ function Room(name,width,height){
 				results[queryName] = false;
 			}
 		}
-		/*
 		for(var i=0;i<this.walkables.length;i++){
-			this.buildPath(this.walkables[i]);
-			for(var queryName in queries){
-				var query = queries[queryName];
-				results[queryName] = results[queryName] || stage.isPointInPath(query.x,query.y);
-			}
-			this.clearPath();
+			this.walkables[i].queryBatchPos(queries,results);
 		}
 		for(var i=0;i<this.unwalkables.length;i++){
-			this.buildPath(this.unwalkables[i]);
-			for(var queryName in queries){
-				var query = queries[queryName];
-				results[queryName] = results[queryName] && !stage.isPointInPath(query.x,query.y);
-			}
-			this.clearPath();
-		}
-		*/
-		for(var i=0;i<this.walkables.length;i++){
-			this.walkables[i].queryBatch(queries,results);
-		}
-		for(var i=0;i<this.unwalkables.length;i++){
-			this.unwalkables[i].queryBatch(queries,results);
+			this.unwalkables[i].queryBatchNeg(queries,results);
 		}
 		return results;
-	}
-	
-	this.isInPathsBatch = function(queries,paths){
-		var results = {};
-		for(var queryName in queries){
-			results[queryName] = false;
-		}
-		for(var i=0;i<paths.length;i++){
-			this.buildPath(paths[i]);
-			for(var queryName in queries){
-				var query = queries[queryName];
-				results[queryName] = results[queryName] || stage.isPointInPath(query.x,query.y);
-			}
-			this.clearPath();
-		}
-	}
-	
-	this.buildPath = function(path){
-		stage.save();
-		stage.beginPath();
-		stage.moveTo(path[0].x,path[0].y);
-		for(var i=1;i<path.length;i++){
-			stage.lineTo(path[i].x,path[i].y);
-		}
-	}
-	
-	this.clearPath = function(path){
-		stage.restore();
 	}
 	
 	this.getMoveFunction = function(sprite) {
 		var result;
 		for(i=0; i<this.motionPaths.length; i++) {
 			var motionPath = this.motionPaths[i];
-			var path = motionPath.path;
-			stage.save();
-			stage.beginPath();
-			stage.moveTo(path[0].x, path[0].y);
-			for(var j=1;j<path.length;j++) {
-				stage.lineTo(path[j].x, path[j].y);
-			}
-			var shouldMove = stage.isPointInPath(sprite.x,sprite.y);
+			var shouldMove = motionPath.path.query({x:sprite.x,y:sprite.y});
 			if(shouldMove) {
 				result = function(ax, ay) {
 					var fx,fy;
@@ -252,11 +199,8 @@ function Room(name,width,height){
 					fy = (ax*motionPath.xtoy + ay*motionPath.ytoy + motionPath.dy);
 					return {x:fx,y:fy};
 				};
-				stage.restore();
 				return result;
-
 			}
-			stage.restore();
 		}	
 	}
     
