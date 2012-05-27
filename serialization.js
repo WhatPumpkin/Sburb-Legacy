@@ -34,9 +34,9 @@ function serializeAssets(output,assets,effects){
 			output = output.concat(s1+";"+s2);
 
 		}else if(curAsset.type=="path"){
-			for(var i=0;i<curAsset.length;i++){
-				output = output.concat(curAsset[i].x+","+curAsset[i].y);
-				if(i!=curAsset.length-1){
+			for(var i=0;i<curAsset.points.length;i++){
+				output = output.concat(curAsset.points[i].x+","+curAsset.points[i].y);
+				if(i!=curAsset.points.length-1){
 					output = output.concat(";");
 				}
 			}
@@ -99,6 +99,7 @@ function purgeState(){
 		bgm.stop();
 		bgm = null;
 	}
+	globalVolume = 1;
 	hud = {};
 	sprites = {};
 	effects = {};
@@ -247,7 +248,7 @@ function loadSerialState(input) {
   	curRoom.initialize();
   	
   	if(rootInfo.getNamedItem("bgm")){
-  		changeBGM(assets[rootInfo.getNamedItem("bgm").value]);
+  		changeBGM(new BGM(assets[rootInfo.getNamedItem("bgm").value]));
   	}
   	
   	sprites.dialogBox = new StaticSprite("dialogBox",Stage.width+1,1000,null,null,null,null,assets.dialogBox,FG_DEPTHING);
