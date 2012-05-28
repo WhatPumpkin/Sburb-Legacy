@@ -351,3 +351,20 @@ function serialLoadRoomTriggers(newRoom, triggers){
 		}
 	}
 }
+
+function isTemplate(base,val){
+	return base.templateClass && base.templateClass[val] == base[val];
+}
+
+function serializeAttribute(base,val){
+	var sub;
+	return (base[val] && !isTemplate(base,val))?" "+val+"='"+base[val]+"' ":"";
+}
+
+function serializeAttributes(base){
+	str = "";
+	for(var i=1;i<arguments.length;i++){
+		str = str.concat(serializeAttribute(base[arguments[i]]));
+	}
+	return str;
+}

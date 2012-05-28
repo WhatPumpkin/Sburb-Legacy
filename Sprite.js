@@ -136,9 +136,10 @@ function Sprite(name,x,y,width,height,dx,dy,depthing,collidable){
 		for(anim in this.animations){
 				animationCount++;
 		}
-	
+		
 		output = output.concat("\n<Sprite name='"+
 			this.name+
+			(this.templateClass?"' class='"+this.templateClass.name:"")+
 			(this.x?"' x='"+this.x:"")+
 			(this.y?"' y='"+this.y:"")+
 			(this.dx?"' dx='"+this.dx:"")+
@@ -164,41 +165,44 @@ function Sprite(name,x,y,width,height,dx,dy,depthing,collidable){
 
 function parseSprite(spriteNode, assetFolder) {
 	var attributes = spriteNode.attributes;
-	var newName = null;
-	var newX = 0;
-	var newY = 0;
-	var newWidth = 0;
-	var newHeight = 0;
-	var newDx = 0;
-	var newDy = 0;
-	var newDepthing = 0;
-	var newCollidable = false;
-	var newState = null;
-	var newAnimations = {};
-	if(attributes.getNamedItem("class") && templateClasses[attributes.getNamedItem("class").value.trim()]){
-		var template = templateClasses[attributes.getNamedItem("class").value.trim()];
-		newName = template.name;
-		newX = template.x;
-		newY = template.y;
-		newWidth = template.width;
-		newHeight = template.height;
-		newDx = template.dx;
-		newDy = template.dy;
-		newDepthing = template.depthing;
-		newCollidable = template.collidable;
-		newState = template.state;
-		newAnimations = template.animations;
+	var tClass = attributes.getNamedItem("class");
+	if(tClass && templateClasses[tClass.value.trim()]){
+		var template = templateClasses[tClass.value.trim()];
+		var newName = template.name;
+		var newX = template.x;
+		var newY = template.y;
+		var newWidth = template.width;
+		var newHeight = template.height;
+		var newDx = template.dx;
+		var newDy = template.dy;
+		var newDepthing = template.depthing;
+		var newCollidable = template.collidable;
+		var newState = template.state;
+		var newAnimations = template.animations;
+	}else{
+		var newName = null;
+		var newX = 0;
+		var newY = 0;
+		var newWidth = 0;
+		var newHeight = 0;
+		var newDx = 0;
+		var newDy = 0;
+		var newDepthing = 0;
+		var newCollidable = false;
+		var newState = null;
+		var newAnimations = {};
 	}
-	newName = attributes.getNamedItem("name")?attributes.getNamedItem("name").value:null;
-	newX = attributes.getNamedItem("x")?parseInt(attributes.getNamedItem("x").value):newX;
-	newY = attributes.getNamedItem("y")?parseInt(attributes.getNamedItem("y").value):newY;
-	newWidth = attributes.getNamedItem("width")?parseInt(attributes.getNamedItem("width").value):newWidth;
-	newHeight = attributes.getNamedItem("height")?parseInt(attributes.getNamedItem("height").value):newHeight;
-	newDx = attributes.getNamedItem("dx")?parseInt(attributes.getNamedItem("dx").value):newDx;
-	newDy = attributes.getNamedItem("dy")?parseInt(attributes.getNamedItem("dy").value):newDy;
-	newDepthing = attributes.getNamedItem("depthing")?parseInt(attributes.getNamedItem("depthing").value):newDepthing;
-	newCollidable = attributes.getNamedItem("collidable")?attributes.getNamedItem("collidable").value=="true":newCollidable;
-	newState = attributes.getNamedItem("state")?attributes.getNamedItem("state").value:newState;
+	var temp;
+	newName = (temp=attributes.getNamedItem("name"))?temp.value:newName;
+	newX = (temp=attributes.getNamedItem("x"))?parseInt(temp.value):newX;
+	newY = (temp=attributes.getNamedItem("y"))?parseInt(temp.value):newY;
+	newWidth = (temp=attributes.getNamedItem("width"))?parseInt(temp.value):newWidth;
+	newHeight = (temp=attributes.getNamedItem("height"))?parseInt(temp.value):newHeight;
+	newDx = (temp=attributes.getNamedItem("dx"))?parseInt(temp.value):newDx;
+	newDy = (temp=attributes.getNamedItem("dy"))?parseInt(temp.value):newDy;
+	newDepthing = (temp=attributes.getNamedItem("depthing"))?parseInt(temp.value):newDepthing;
+	newCollidable = (temp=attributes.getNamedItem("collidable"))?temp.value!="false":newCollidable;
+	newState = (temp=attributes.getNamedItem("state"))?temp.value:newState;
 	
  	var newSprite = new Sprite(newName,newX,newY,newWidth,newHeight,newDx,newDy,newDepthing,newCollidable);
 
@@ -215,6 +219,10 @@ function parseSprite(spriteNode, assetFolder) {
 		}
 	}
 	newSprite.startAnimation(newState);
+	
+	if(template){
+		newSprite.templateClass = template;
+	}
 	
 	return newSprite;
 }
