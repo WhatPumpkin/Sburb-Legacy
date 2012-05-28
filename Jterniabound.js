@@ -329,17 +329,9 @@ function playSound(sound){
 
 function playMovie(movie){
 	var name = movie.src;
-	document.getElementById("movieBin").innerHTML = ('<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" id="'+name+'" width="550" height="400"><param name="allowScriptAccess" value="always" /\><param name="movie" value="'+name+'" /\><param name="quality" value="high" /\><param name="bgcolor" value="#ffffff" /\><embed src="'+name+'" quality="high" bgcolor="#ffffff" width="550" height="400" swLiveConnect=true id="'+name+'" name="'+name+'" allowScriptAccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /\></object>');
+	document.getElementById("movieBin").innerHTML = ('<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" id="movie" width="550" height="400"><param name="allowScriptAccess" value="always" /\><param name="movie" value="'+name+'" /\><param name="quality" value="high" /\><param name="bgcolor" value="#ffffff" /\><embed src="'+name+'" quality="high" bgcolor="#ffffff" width="550" height="400" swLiveConnect=true id="movie" name="movie" allowScriptAccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /\></object>');
 	document.getElementById("gameDiv").style.display = "none";
-	waitFor = new Trigger("time,999999");
-	console.log("movie started");
-}
-
-function movieDone(){
-	document.getElementById("movieBin").innerHTML = "";
-	document.getElementById("gameDiv").style.display = "block";
-	waitFor = null;
-	console.log("movie done");
+	waitFor = new Trigger("movie,"+name+",1");
 }
     
 function chainAction(){

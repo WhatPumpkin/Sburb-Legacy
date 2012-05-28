@@ -99,6 +99,11 @@ playMovieCommand = function(info){
 	playMovie(assets[info]);
 }
 
+removeMovieCommand = function(info){
+	document.getElementById("movieBin").innerHTML = "";
+	document.getElementById("gameDiv").style.display = "block";
+}
+
 waitForCommand = function(info){
 	waitFor = new Trigger(info);
 }
@@ -154,5 +159,6 @@ function buildCommands(){
 	commands.addSprite = addSpriteCommand;
 	commands.removeSprite = removeSpriteCommand;
 	commands.playMovie = playMovieCommand;
+	commands.removeMovie = removeMovieCommand;
 	commands.toggleVolume = toggleVolumeCommand;
 }
