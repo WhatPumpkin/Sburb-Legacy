@@ -137,22 +137,16 @@ function Sprite(name,x,y,width,height,dx,dy,depthing,collidable){
 				animationCount++;
 		}
 		
-		output = output.concat("\n<Sprite name='"+
-			this.name+
-			(this.templateClass?"' class='"+this.templateClass.name:"")+
-			(this.x?"' x='"+this.x:"")+
-			(this.y?"' y='"+this.y:"")+
-			(this.dx?"' dx='"+this.dx:"")+
-			(this.dy?"' dy='"+this.dy:"")+
-			("' width='"+this.width)+
-			("' height='"+this.height)+
-			(this.depthing?"' depthing='"+this.depthing:"")+
-			(this.collidable?"' collidable='"+this.collidable:"")+
-			(animationCount>1?"' state='"+this.state:"")+
-			"'>");
+		output = output.concat("\n<Sprite "+
+			(this.templateClass?"class='"+this.templateClass.templateName+"' ":"")+
+			serializeAttributes(this,"name","x","y","dx","dy","width","height","depthing","collidable")+
+			(animationCount>1 && !isTemplate(this,"state")?"state='"+this.state+"' ":"")+
+			">");
 
 		for(var anim in this.animations){
-			output = this.animations[anim].serialize(output);
+			if(!this.templateClass || !this.templateClass.animations[anim]){
+				output = this.animations[anim].serialize(output);
+			}
 		}
 		for(var action in this.actions){
 			output = this.actions[action].serialize(output);

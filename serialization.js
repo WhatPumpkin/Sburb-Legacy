@@ -208,10 +208,16 @@ function loadSerialState(input) {
     var templates = input.getElementsByTagName("Classes")[0].childNodes;
     for(var i=0;i<templates.length;i++){
     	var template = templates[i];
+    	var tClass;
     	if(template.nodeName=="Sprite"){
-    		var newSprite = parseSprite(template,assets);
-    		templateClasses[template.attributes.getNamedItem("class").value] = newSprite;
+    		tClass = parseSprite(template,assets);
+    	}else if(template.nodeName=="Animation"){
+    		tClass = parseAnimation(template,assets);
+    	}else{
+    		continue;
     	}
+	 	tClass.templateName = template.attributes.getNamedItem("class").value;
+	 	templateClasses[tClass.templateName] = tClass;
     }
     input.removeChild(input.getElementsByTagName("Classes")[0]);
 	
@@ -364,7 +370,7 @@ function serializeAttribute(base,val){
 function serializeAttributes(base){
 	str = "";
 	for(var i=1;i<arguments.length;i++){
-		str = str.concat(serializeAttribute(base[arguments[i]]));
+		str = str.concat(serializeAttribute(base,arguments[i]));
 	}
 	return str;
 }
