@@ -97,11 +97,13 @@ moveSpriteCommand = function(info){
 
 playMovieCommand = function(info){
 	playMovie(assets[info]);
+	bgm.pause();
 }
 
 removeMovieCommand = function(info){
-	document.getElementById("movieBin").innerHTML = "";
+	document.getElementById(info).style.display = "none";
 	document.getElementById("gameDiv").style.display = "block";
+	bgm.play();
 }
 
 waitForCommand = function(info){

@@ -45,16 +45,43 @@ function createAudioAsset(name) {
 
 function createMovieAsset(name,path){
 	var ret = {src:path};
+	document.getElementById("movieBin").innerHTML += '<div id="'+name+'"><object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" id="movie" width="550" height="400"><param name="allowScriptAccess" value="always" /\><param name="movie" value="'+name+'" /\><param name="quality" value="high" /\><param name="bgcolor" value="#ffffff" /\><embed src="'+path+'" quality="high" bgcolor="#ffffff" width="550" height="400" swLiveConnect=true id="movie'+name+'" name="movie'+name+'" allowScriptAccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /\></object></div>';
+	
+	
 	ret.name = name;
 	ret.type = "movie";
 	ret.instant = true;
 	
+	document.getElementById(name).style.display = "none";
+	
+	//ret.preload = true;
+	//ret.needsTimeout = true;
+	
+	/*
+	var movie = document.getElementById("movie"+name);
 	ret.assetOnLoadFunction = function(fn) {
-		if(fn) { fn(); }
-		return;
-    }
+		//console.log(movie);
+		if(movie.PercentLoaded()==100){
+			if(fn) { fn(); }
+			return true;
+		}else{
+			ret.checkLoaded = function(){
+    			if(movie.PercentLoaded()==100){
+    				document.getElementById(name).style.display = "none";
+					if(fn) { fn(); }
+					return true;
+				}
+    		}
+			return false;
+		}
+    }*/
+    
 	
 	return ret;
+	
+}
+
+function preloadSwf(){
 	
 }
 
@@ -104,7 +131,10 @@ function AssetManager() {
 	
 		var oThis = this;
 		this.assetAdded(name);	
-		loaded = this.assets[name].assetOnLoadFunction(function() { oThis.assetLoaded(name); });
+		var loadedAsset = this.assets[name].assetOnLoadFunction(function() { oThis.assetLoaded(name); });
+		if(!loadedAsset && assetObj.needsTimeout && assetObj.checkLoaded){
+			setTimeout(assetObj.checkLoaded,100);
+		}
 	}
 	
 	/*
