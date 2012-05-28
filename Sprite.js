@@ -138,15 +138,12 @@ function Sprite(name,x,y,width,height,dx,dy,depthing,collidable){
 		}
 		
 		output = output.concat("\n<Sprite "+
-			(this.templateClass?"class='"+this.templateClass.templateName+"' ":"")+
 			serializeAttributes(this,"name","x","y","dx","dy","width","height","depthing","collidable")+
-			(animationCount>1 && !isTemplate(this,"state")?"state='"+this.state+"' ":"")+
+			(animationCount>1?"state='"+this.state+"' ":"")+
 			">");
 
 		for(var anim in this.animations){
-			if(!this.templateClass || !this.templateClass.animations[anim]){
-				output = this.animations[anim].serialize(output);
-			}
+			output = this.animations[anim].serialize(output);
 		}
 		for(var action in this.actions){
 			output = this.actions[action].serialize(output);
@@ -159,33 +156,19 @@ function Sprite(name,x,y,width,height,dx,dy,depthing,collidable){
 
 function parseSprite(spriteNode, assetFolder) {
 	var attributes = spriteNode.attributes;
-	var tClass = attributes.getNamedItem("class");
-	if(tClass && templateClasses[tClass.value.trim()]){
-		var template = templateClasses[tClass.value.trim()];
-		var newName = template.name;
-		var newX = template.x;
-		var newY = template.y;
-		var newWidth = template.width;
-		var newHeight = template.height;
-		var newDx = template.dx;
-		var newDy = template.dy;
-		var newDepthing = template.depthing;
-		var newCollidable = template.collidable;
-		var newState = template.state;
-		var newAnimations = template.animations;
-	}else{
-		var newName = null;
-		var newX = 0;
-		var newY = 0;
-		var newWidth = 0;
-		var newHeight = 0;
-		var newDx = 0;
-		var newDy = 0;
-		var newDepthing = 0;
-		var newCollidable = false;
-		var newState = null;
-		var newAnimations = {};
-	}
+	
+	var newName = null;
+	var newX = 0;
+	var newY = 0;
+	var newWidth = 0;
+	var newHeight = 0;
+	var newDx = 0;
+	var newDy = 0;
+	var newDepthing = 0;
+	var newCollidable = false;
+	var newState = null;
+	var newAnimations = {};
+
 	var temp;
 	newName = (temp=attributes.getNamedItem("name"))?temp.value:newName;
 	newX = (temp=attributes.getNamedItem("x"))?parseInt(temp.value):newX;
@@ -199,10 +182,6 @@ function parseSprite(spriteNode, assetFolder) {
 	newState = (temp=attributes.getNamedItem("state"))?temp.value:newState;
 	
  	var newSprite = new Sprite(newName,newX,newY,newWidth,newHeight,newDx,newDy,newDepthing,newCollidable);
-
-	for(var newAnim in newAnimations){
-		newSprite.addAnimation(newAnimations[newAnim].clone(0,0));
-	}
 	
 	var anims = spriteNode.getElementsByTagName("Animation");
 	for(var j=0;j<anims.length;j++){
@@ -213,10 +192,6 @@ function parseSprite(spriteNode, assetFolder) {
 		}
 	}
 	newSprite.startAnimation(newState);
-	
-	if(template){
-		newSprite.templateClass = template;
-	}
 	
 	return newSprite;
 }

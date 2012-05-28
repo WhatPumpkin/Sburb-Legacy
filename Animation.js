@@ -168,16 +168,15 @@ function Animation(name,sheet,x,y,colSize,rowSize,startPos,length,frameInterval,
 	
 	this.serialize = function(output){
 		output = output.concat("\n<Animation "+
-			(this.templateClass?"class='"+this.templateClass.templateName+"'":"")+
-			(!isTemplate(this,"sheet")?"sheet='"+this.sheet.name+"' ":"")+
-			((this.name!="image" && !isTemplate(this,"name"))?"name='"+this.name+"' ":"")+
+			("sheet='"+this.sheet.name+"' ")+
+			((this.name!="image")?"name='"+this.name+"' ":"")+
 			serializeAttributes(this,"x","y")+
-			((this.rowSize!=this.sheet.height && !isTemplate(this,"rowSize"))?"rowSize='"+this.rowSize+"' ":"")+
-			((this.colSize!=this.sheet.width && !isTemplate(this,"colSize"))?"colSize='"+this.colSize+"' ":"")+
+			((this.rowSize!=this.sheet.height)?"rowSize='"+this.rowSize+"' ":"")+
+			((this.colSize!=this.sheet.width)?"colSize='"+this.colSize+"' ":"")+
 			serializeAttribute(this,"startPos")+
-			((this.length!=1 && !isTemplate(this,"length"))?"length='"+this.length+"' ":"")+
-			((this.frameInterval!=1 && !isTemplate(this,"frameInterval"))?"frameInterval='"+this.frameInterval+"' ":"")+
-			((this.loopNum!=-1 && !isTemplate(this,"loopNum"))?"loopNum='"+this.loopNum+"' ":"")+
+			((this.length!=1)?"length='"+this.length+"' ":"")+
+			((this.frameInterval!=1)?"frameInterval='"+this.frameInterval+"' ":"")+
+			((this.loopNum!=-1)?"loopNum='"+this.loopNum+"' ":"")+
 			serializeAttribute(this,"folowUp")+
 			" />");
 		return output;
@@ -199,42 +198,26 @@ function stageSnapY(y){
 
 function parseAnimation(animationNode, assetFolder){
 	var attributes = animationNode.attributes;
+
+	var name = "image";
+	var sheet = null;
+	var x = 0;
+	var y = 0;
+	var colSize = null;
+	var rowSize = null;
+	var startPos = 0;
+	var length = 1;
+	var frameInterval = 1;
+	var loopNum = -1;
+	var followUp = null;
 	
-	
-	var tClass = attributes.getNamedItem("class");
-	if(tClass && templateClasses[tClass.value.trim()]){
-		var template = templateClasses[tClass.value.trim()];
-		var name = template.name;
-		var sheet = template.sheet;
-		var x = template.x;
-		var y = template.y;
-		var colSize = template.colSize;
-		var rowSize = template.rowSize;
-		var startPos = template.startPos;
-		var length = template.length;
-		var frameInterval = tempalte.frameInterval;
-		var loopNum = template.loopNum;
-		var followUp = template.followUp;
-	}else{
-		var name = "image";
-		var sheet = null;
-		var x = 0;
-		var y = 0;
-		var colSize = null;
-		var rowSize = null;
-		var startPos = 0;
-		var length = 1;
-		var frameInterval = 1;
-		var loopNum = -1;
-		var followUp = null;
-	}
 	var temp;
 	name = (temp = attributes.getNamedItem("name"))?temp.value:name;
 	sheet = (temp = attributes.getNamedItem("sheet"))?assetFolder[temp.value]:sheet;
 	x = (temp = attributes.getNamedItem("x"))?parseInt(temp.value):x;
 	y = (temp = attributes.getNamedItem("y"))?parseInt(temp.value):y;
-	colSize = (temp = attributes.getNamedItem("colSize"))?parseInt(temp.value):(template?colSize:sheet.width);
-	rowSize = (temp = attributes.getNamedItem("rowSize"))?parseInt(temp.value):(template?rowSize:sheet.height);
+	colSize = (temp = attributes.getNamedItem("colSize"))?parseInt(temp.value):sheet.width;
+	rowSize = (temp = attributes.getNamedItem("rowSize"))?parseInt(temp.value):sheet.height;
 	startPos = (temp = attributes.getNamedItem("startPos"))?parseInt(temp.value):startPos;
 	length = (temp = attributes.getNamedItem("length"))?parseInt(temp.value):length;
 	frameInterval = (temp = attributes.getNamedItem("frameInterval"))?parseInt(temp.value):frameInterval;

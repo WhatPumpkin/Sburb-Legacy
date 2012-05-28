@@ -1,6 +1,6 @@
 var templateClasses = {};
 
-function serialize(assets,effects,rooms,hud,dialoger,curRoom,char){
+function serialize(assets,effects,rooms,sprites,hud,dialoger,curRoom,char){
 	var out = document.getElementById("serialText");
 	var output = "<SBURB"+
 		" curRoom='"+curRoom.name+
@@ -10,6 +10,7 @@ function serialize(assets,effects,rooms,hud,dialoger,curRoom,char){
 	output = serializeAssets(output,assets,effects);
 	output = serializeTemplates(output,templateClasses);
 	output = serializeHud(output,hud,dialoger);
+	output = serializeLooseObjects(output,rooms,sprites);
 	output = output.concat("\n<Rooms>\n");
 	for(var room in rooms){
 		output = rooms[room].serialize(output);
@@ -17,6 +18,23 @@ function serialize(assets,effects,rooms,hud,dialoger,curRoom,char){
 	output = output.concat("\n</Rooms>\n");
 	output = output.concat("\n</SBURB>");
 	out.value = output;
+	return output;
+}
+
+function serializeLooseObjects(output,rooms,sprites){
+	for(var sprite in sprites){
+		var theSprite = sprites[sprite];
+		var contained = false;
+		for(var room in rooms){
+			if(rooms[room].contains(theSprite)){
+				contained = true;
+				break;
+			}
+		}
+		if(!contained){
+			output = theSprite.serialize(output);
+		}
+	}
 	return output;
 }
 
@@ -57,10 +75,18 @@ function serializeAssets(output,assets,effects){
 
 function serializeTemplates(output,templates){
 	output = output.concat("\n<Classes>");
-	for(var template in templates){
-		var tempOut = templates[template].serialize("");
-		var tempOut = tempOut.substring(0,tempOut.indexOf(" "))+" class='"+template+"' "+tempOut.substring(tempOut.indexOf(" "),tempOut.length);
-		output = output.concat(tempOut);
+	var serialized;
+	try {
+		// XMLSerializer exists in current Mozilla browsers
+		serializer = new XMLSerializer();
+		for(var template in templates){
+			output = output.concat(serializer.serializeToString(templates[template]));
+		}
+	}catch (e) {
+		// Internet Explorer has a different approach to serializing XML
+		for(var template in templates){
+			output = output.concat(templates[template].xml);
+		}
 	}
 	output = output.concat("\n</Classes>\n");
 	return output;
@@ -207,17 +233,30 @@ function loadSerialState(input) {
     
     var templates = input.getElementsByTagName("Classes")[0].childNodes;
     for(var i=0;i<templates.length;i++){
-    	var template = templates[i];
-    	var tClass;
-    	if(template.nodeName=="Sprite"){
-    		tClass = parseSprite(template,assets);
-    	}else if(template.nodeName=="Animation"){
-    		tClass = parseAnimation(template,assets);
-    	}else{
-    		continue;
+    	var templateNode = templates[i];
+    	if(templateNode.nodeName!="#text"){
+		 	var tempAttributes = templateNode.attributes;
+		 	var tempChildren = templateNode.childNodes;
+		 	var candidates = input.getElementsByTagName(templateNode.nodeName);
+		 	for(var j=0;j<candidates.length;j++){
+		 		var candidate = candidates[j];
+		 		var candAttributes = candidate.attributes;
+		 		var candClass = candidate.attributes.getNamedItem("class");
+		 		var candChildren = candidate.childNodes;
+		 		if(candClass && candidate!=templateNode && candClass.value==tempAttributes.getNamedItem("class").value){
+		 			for(var k=0;k<tempAttributes.length;k++){
+		 				var tempAttribute = tempAttributes[k];
+		 				if(!candAttributes.getNamedItem(tempAttribute.name)){
+		 					candidate.setAttribute(tempAttribute.name,tempAttribute.value);
+		 				}
+		 			}
+		 			for(var k=0;k<tempChildren.length;k++){
+		 				candidate.appendChild(tempChildren[k].cloneNode(true));
+		 			}
+		 		}
+		 	}
+		 	templateClasses[tempAttributes.getNamedItem("class").value] = templateNode.cloneNode(true);
     	}
-	 	tClass.templateName = template.attributes.getNamedItem("class").value;
-	 	templateClasses[tClass.templateName] = tClass;
     }
     input.removeChild(input.getElementsByTagName("Classes")[0]);
 	
@@ -257,8 +296,8 @@ function loadSerialState(input) {
   		changeBGM(new BGM(assets[rootInfo.getNamedItem("bgm").value]));
   	}
   	
-  	sprites.dialogBox = new StaticSprite("dialogBox",Stage.width+1,1000,null,null,null,null,assets.dialogBox,FG_DEPTHING);
-  	dialoger.setBox(sprites.dialogBox);
+  	var dialogBox = new StaticSprite("dialogBox",Stage.width+1,1000,null,null,null,null,assets.dialogBox,FG_DEPTHING);
+  	dialoger.setBox(dialogBox);
   	serialLoadDialogSprites(input.getElementsByTagName("HUD")[0].getElementsByTagName("DialogSprites")[0],assets);
   	
   	serialLoadEffects(input.getElementsByTagName("Effects")[0],assets,effects);
@@ -358,13 +397,9 @@ function serialLoadRoomTriggers(newRoom, triggers){
 	}
 }
 
-function isTemplate(base,val){
-	return base.templateClass && base.templateClass[val] == base[val];
-}
-
 function serializeAttribute(base,val){
 	var sub;
-	return (base[val] && !isTemplate(base,val))?" "+val+"='"+base[val]+"' ":"";
+	return base[val]?" "+val+"='"+base[val]+"' ":"";
 }
 
 function serializeAttributes(base){
