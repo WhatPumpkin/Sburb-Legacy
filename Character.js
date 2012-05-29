@@ -64,6 +64,20 @@ function Character(name,x,y,width,height,sx,sy,sWidth,sHeight,sheet){
 		this.animations.walkRight.frameInterval = 4;
 	}
 	
+	this.handleInputs = function(pressed){
+		if(pressed[Keys.down] || pressed[Keys.s]){
+			this.moveDown(curRoom);
+		}else if(pressed[Keys.up] || pressed[Keys.w]){
+			this.moveUp(curRoom);
+		}else if(pressed[Keys.left] || pressed[Keys.a]){
+			this.moveLeft(curRoom);
+		}else if(pressed[Keys.right] || pressed[Keys.d]){
+			this.moveRight(curRoom);
+		}else{
+			this.idle();
+		}
+	}
+	
 	this.tryToMove = function(vx,vy,room){
 		var i;
 		var moveMap = room.getMoveFunction(this);
@@ -215,7 +229,7 @@ function Character(name,x,y,width,height,sx,sy,sWidth,sHeight,sheet){
 
 function parseCharacter(charNode, assetFolder) {
   	var attributes = charNode.attributes;
-  	var newChar = new Character(attributes.getNamedItem("name").value,
+  	var newChar = new Fighter(attributes.getNamedItem("name").value,
   				    attributes.getNamedItem("x")?parseInt(attributes.getNamedItem("x").value):0,
   				    attributes.getNamedItem("y")?parseInt(attributes.getNamedItem("y").value):0,
   				    parseInt(attributes.getNamedItem("width").value),

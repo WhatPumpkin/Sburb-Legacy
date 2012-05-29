@@ -185,17 +185,7 @@ function drawLoader(){
 
 function handleInputs(){
 	if(hasControl()){
-		if(pressed[Keys.down] || pressed[Keys.s]){
-			char.moveDown(curRoom);
-		}else if(pressed[Keys.up] || pressed[Keys.w]){
-			char.moveUp(curRoom);
-		}else if(pressed[Keys.left] || pressed[Keys.a]){
-			char.moveLeft(curRoom);
-		}else if(pressed[Keys.right] || pressed[Keys.d]){
-			char.moveRight(curRoom);
-		}else{
-			char.idle();
-		}
+		char.handleInputs(pressed);
 	}
 }
 

@@ -131,6 +131,19 @@ function Sprite(name,x,y,width,height,dx,dy,depthing,collidable){
 		return validActions;
 	}
 	
+	this.getBoundaryQueries = function(dx,dy){
+		var spriteX = this.x+(dx?dx:0);
+		var spriteY = this.y+(dy?dy:0);
+		var w = this.width/2;
+		var h = this.height/2;
+		return {upRight:{x:spriteX+w,y:spriteY-h},
+					 upLeft:{x:spriteX-w,y:spriteY-h},
+					 downLeft:{x:spriteX-w,y:spriteY+h},
+					 downRight:{x:spriteX+w,y:spriteY+h},
+					 downMid:{x:spriteX,y:spriteY+h},
+					 upMid:{x:spriteX,y:spriteY-h}};
+	}
+	
 	this.serialize = function(output){
 		var animationCount = 0;
 		for(anim in this.animations){

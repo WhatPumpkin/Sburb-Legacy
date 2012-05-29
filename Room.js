@@ -154,14 +154,8 @@ function Room(name,width,height){
 	}
 	
 	this.isInBounds = function(sprite,dx,dy){
-		spriteX = sprite.x+(dx?dx:0);
-		spriteY = sprite.y+(dy?dy:0);
-		var queries = {upRight:{x:spriteX+sprite.width/2,y:spriteY-sprite.height/2},
-					 upLeft:{x:spriteX-sprite.width/2,y:spriteY-sprite.height/2},
-					 downLeft:{x:spriteX-sprite.width/2,y:spriteY+sprite.height/2},
-					 downRight:{x:spriteX+sprite.width/2,y:spriteY+sprite.height/2},
-					 downMid:{x:spriteX,y:spriteY+sprite.height/2},
-					 upMid:{x:spriteX,y:spriteY-sprite.height/2}}
+		
+		var queries = sprite.getBoundaryQueries(dx,dy);
 		var result = this.isInBoundsBatch(queries);
 		for(var point in result){
 			if(!result[point]){
@@ -208,7 +202,7 @@ function Room(name,width,height){
 		for(var i=0;i<this.sprites.length;i++){
 			var theSprite = this.sprites[i];
 			if(theSprite.collidable && sprite!=theSprite){
-				if(theSprite.collides(sprite)){
+				if( sprite.collides(theSprite)){
 					return theSprite;
 				}
 			}
