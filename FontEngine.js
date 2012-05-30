@@ -194,6 +194,7 @@ function FontEngine(text){
 	}
 	
 	this.draw = function(){
+
 		var i;
 		var lenCount;
 		var linePos=0;

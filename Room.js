@@ -69,10 +69,10 @@ function Room(name,width,height){
 		return false;
 	}
 	
-	this.update = function(gameTime){
+	this.update = function(){
 		var i;
 		for(i=0;i<this.sprites.length;i++){
-			this.sprites[i].update(gameTime);
+			this.sprites[i].update(this);
 		}
 		for(i=this.effects.length-1;i>=0;i--){
 			if(this.effects[i].hasPlayed()){

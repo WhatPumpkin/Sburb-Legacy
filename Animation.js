@@ -57,8 +57,8 @@ function Animation(name,sheet,x,y,colSize,rowSize,startPos,length,frameInterval,
 		var stageWidth = Stage.width;
 		var stageHeight = Stage.height;
 		
-		x=stageSnapX(this.x+x);
-		y=stageSnapY(this.y+y);
+		x= Math.round((this.x+x)/Stage.scaleX)*Stage.scaleX;
+		y= Math.round((this.y+y)/Stage.scaleY)*Stage.scaleY;
 	
 		var colNum = ((this.startPos+this.curFrame)%this.numCols);
 		var rowNum = (Math.floor((this.startPos+this.curFrame-colNum)/this.numRows));
@@ -72,10 +72,9 @@ function Animation(name,sheet,x,y,colSize,rowSize,startPos,length,frameInterval,
 			frameX-=delta;
 			drawWidth+=delta;
 			x=stageX;
-		}
-		
-		if(frameX>=this.sheet.width){
-			return;
+			if(frameX>=this.sheet.width){
+				return;
+			}
 		}
 		
 		delta = y-stageY;
@@ -83,15 +82,16 @@ function Animation(name,sheet,x,y,colSize,rowSize,startPos,length,frameInterval,
 			frameY-=delta;
 			drawHeight+=delta;
 			y=stageY;
+			if(frameY>=this.sheet.height){
+				return;
+			}
 		}
 		
-		if(frameY>=this.sheet.height){
-			return;
-		}
 		
 		delta = drawWidth+x-stageX-stageWidth;
 		if(delta>0){
 			drawWidth-=delta;
+			
 		}
 		if(drawWidth<=0){
 			return;
@@ -181,19 +181,6 @@ function Animation(name,sheet,x,y,colSize,rowSize,startPos,length,frameInterval,
 			" />");
 		return output;
 	}
-}
-
-function stageSnap(object){
-	object.x = Math.round(object.x/Stage.scaleX)*Stage.scaleX;
-	object.y = Math.round(object.y/Stage.scaleY)*Stage.scaleY;
-}
-
-function stageSnapX(x){
-	return Math.round(x/Stage.scaleX)*Stage.scaleX;
-}
-
-function stageSnapY(y){
-	return Math.round(y/Stage.scaleY)*Stage.scaleY;
 }
 
 function parseAnimation(animationNode, assetFolder){

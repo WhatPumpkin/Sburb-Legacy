@@ -17,14 +17,14 @@ function Fighter(name,x,y,width,height,sx,sy,sWidth,sHeight,sheet){
 	this.handleInputs = function(pressed){
 		var moved = false;
 		if(pressed[Keys.down] || pressed[Keys.s]){
-			this.moveDown(curRoom); moved = true;
+			this.moveDown(); moved = true;
 		}else if(pressed[Keys.up] || pressed[Keys.w]){
-			this.moveUp(curRoom); moved = true;
+			this.moveUp(); moved = true;
 		}
 		if(pressed[Keys.left] || pressed[Keys.a]){
-			this.moveLeft(curRoom); moved = true;
+			this.moveLeft(); moved = true;
 		}else if(pressed[Keys.right] || pressed[Keys.d]){
-			this.moveRight(curRoom); moved = true;
+			this.moveRight(); moved = true;
 		}
 		if(!moved){
 			this.idle();

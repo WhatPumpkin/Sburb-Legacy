@@ -31,7 +31,7 @@ function Sprite(name,x,y,width,height,dx,dy,depthing,collidable){
 		}
 	}
 	
-	this.update = function(gameTime){
+	this.update = function(curRoom){
 		if(this.animation.hasPlayed() && this.animation.followUp){
 			this.startAnimation(this.animation.followUp);
 		}else{
