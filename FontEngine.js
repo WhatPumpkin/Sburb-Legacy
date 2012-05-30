@@ -203,14 +203,15 @@ function FontEngine(text){
 		var nextStop;
 		var curLine;
 		stage.save();
-		stage.textBaseline = "top";
+		if(stage.textBaseline != "top"){
+			stage.textBaseline = "top";
+		}
 		i=0;
 		lenCount=0;
-		
 		while(i<Math.floor(this.height/this.lineHeight) && i<this.lines.length){
 			curLine = this.lines[i];
-			stage.strokeStyle = stage.fillStyle = this.color;
-			stage.font = this.font;
+			var curFont = this.font;
+			var curColor = this.color;
 			var underlining = false;
 			
 			nextStop = curLine.length;
@@ -226,12 +227,12 @@ function FontEngine(text){
 			}
 			for(var k=0;k<currentFormats.length;k++){
 				if(currentFormats[k].type=="colour"){
-					stage.strokeStyle = stage.fillStyle = currentFormats[k].extra;
+					curColor = currentFormats[k].extra;
 					
 				}else if(currentFormats[k].type=="underline"){
 					underlining = true;
 				}else if(currentFormats[k].type=="italic"){
-					stage.font = "italic "+this.font;
+					curFont = "italic "+this.font;
 				}
 			}
 			if(currentFormat<this.formatQueue.length && this.formatQueue[currentFormat].minIndex<lenCount+curLine.length){
@@ -266,10 +267,20 @@ function FontEngine(text){
 			}
 			var startX = this.x+strStart*this.charWidth;
 			var startY = this.y+i*this.lineHeight;
+			if(stage.font != curFont){
+				stage.font = curFont;
+			}
+			if(stage.fillStyle!=curColor){
+				stage.strokeStyle = stage.fillStyle = curColor;
+			}
 			stage.fillText(curLine.substring(strStart,strEnd),startX,startY);
 			if(underlining){
-				stage.lineWidth = 0.6;
-				stage.lineCap = "square";
+				if(stage.lineWidth!=0.6){
+					stage.lineWidth = 0.6;
+				}
+				if(stage.lineCap!="square"){
+					stage.lineCap = "square";
+				}
 				stage.beginPath();
 				stage.moveTo(startX,startY+this.lineHeight-3);
 				stage.lineTo(startX+(strEnd-strStart)*this.charWidth,startY+this.lineHeight-3);
