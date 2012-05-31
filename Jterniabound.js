@@ -26,7 +26,7 @@ var waitFor = null;
 var initFinished; //only used when _hardcode_load is true
 var _hardcode_load; //set to 1 when we don't want to load from XML: see initialize()
 
-function initialize(){
+function initialize(levelName){
 	var gameDiv = document.getElementById("gameDiv");
 	gameDiv.onkeydown = _onkeydown;
 	gameDiv.onkeyup = _onkeyup;
@@ -51,7 +51,7 @@ function initialize(){
 	pressed = new Array();
 	buildCommands();
 	
-    loadSerialFromXML("levels/test2.xml"); // comment out this line and
+    loadSerialFromXML(levelName); // comment out this line and
     //loadAssets();                        // uncomment these two lines, to do a standard hardcode load
     //_hardcode_load = 1;
 }
