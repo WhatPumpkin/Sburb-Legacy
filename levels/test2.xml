@@ -1,35 +1,35 @@
 <SBURB curRoom='baseRoom' char='karkat' id='level1' startAction="startGame">
 <Assets>
-	<Asset name='testMovie' type='movie'>resources/cutscenetest.swf</Asset>
+	<Asset name='testMovie' type='movie'>resources/cutscenes/cutscenetest.swf</Asset>
 
-  <Asset name='volumeControl' type='graphic'>resources/volumeControl.png</Asset>
-  <Asset name='helpControl' type='graphic'>resources/helpControl.png</Asset>
-  <Asset name='aaSheet' type='graphic'>resources/AAsheetBig.png</Asset>
-  <Asset name='acSheet' type='graphic'>resources/ACsheetBig.png</Asset>
-  <Asset name='agSheet' type='graphic'>resources/AGsheetBig.png</Asset>
-  <Asset name='atSheet' type='graphic'>resources/ATsheetBig.png</Asset>
-  <Asset name='caSheet' type='graphic'>resources/CAsheetBig.png</Asset>
-  <Asset name='cgSheet' type='graphic'>resources/CGsheetBig.png</Asset>
-  <Asset name='ctSheet' type='graphic'>resources/CTsheetBig.png</Asset>
-  <Asset name='ccSheet' type='graphic'>resources/CCsheetBig.png</Asset>
-  <Asset name='gaSheet' type='graphic'>resources/GAsheetBig.png</Asset>
-  <Asset name='gcSheet' type='graphic'>resources/GCsheetBig.png</Asset>
-  <Asset name='taSheet' type='graphic'>resources/TAsheetBig.png</Asset>
-  <Asset name='tcSheet' type='graphic'>resources/TCsheetBig.png</Asset>
-  <Asset name='teleporterPad' type='graphic'>resources/teleporterpad.png</Asset>
-  <Asset name='teleportSheet' type='graphic'> resources/teleportSheet.png</Asset>
-  <Asset name='chestSheet' type='graphic'>resources/chestSheet.png</Asset>
-  <Asset name='dollar' type='graphic'>resources/dollar.png</Asset>
+  <Asset name='volumeControl' type='graphic'>resources/interface/volumeControl.png</Asset>
+  <Asset name='helpControl' type='graphic'>resources/interface/helpControl.png</Asset>
+  <Asset name='aaSheet' type='graphic'>resources/walkabout/chars/AAsheetBig.png</Asset>
+  <Asset name='acSheet' type='graphic'>resources/walkabout/chars/ACsheetBig.png</Asset>
+  <Asset name='agSheet' type='graphic'>resources/walkabout/chars/AGsheetBig.png</Asset>
+  <Asset name='atSheet' type='graphic'>resources/walkabout/chars/ATsheetBig.png</Asset>
+  <Asset name='caSheet' type='graphic'>resources/walkabout/chars/CAsheetBig.png</Asset>
+  <Asset name='cgSheet' type='graphic'>resources/walkabout/chars/CGsheetBig.png</Asset>
+  <Asset name='ctSheet' type='graphic'>resources/walkabout/chars/CTsheetBig.png</Asset>
+  <Asset name='ccSheet' type='graphic'>resources/walkabout/chars/CCsheetBig.png</Asset>
+  <Asset name='gaSheet' type='graphic'>resources/walkabout/chars/GAsheetBig.png</Asset>
+  <Asset name='gcSheet' type='graphic'>resources/walkabout/chars/GCsheetBig.png</Asset>
+  <Asset name='taSheet' type='graphic'>resources/walkabout/chars/TAsheetBig.png</Asset>
+  <Asset name='tcSheet' type='graphic'>resources/walkabout/chars/TCsheetBig.png</Asset>
+  <Asset name='teleporterPad' type='graphic'>resources/walkabout/objects/teleporterpad.png</Asset>
+  <Asset name='teleportSheet' type='graphic'> resources/walkabout/effects/teleportSheet.png</Asset>
+  <Asset name='chestSheet' type='graphic'>resources/walkabout/objects/chestSheet.png</Asset>
+  <Asset name='dollar' type='graphic'>resources/walkabout/objects/dollar.png</Asset>
   
-  <Asset name='VriskaIdleSheet' type='graphic'>resources/vriskaportrait.gif</Asset>
-  <Asset name='NepetaIdleSheet' type='graphic'>resources/nepetaDialog1.png</Asset>
+  <Asset name='VriskaIdleSheet' type='graphic'>resources/walkabout/dialogSprites/vriskaportrait.gif</Asset>
+  <Asset name='NepetaIdleSheet' type='graphic'>resources/walkabout/dialogSprites/nepetaDialog1.png</Asset>
     
-  <Asset name='compLabBG' type='graphic'>resources/comlab-background.gif</Asset>
-  <Asset name='stairRoomBG' type='graphic'>resources/stairRoom.png</Asset>
-  <Asset name='dialogBox' type='graphic'>resources/dialogBoxBig.png</Asset>
+  <Asset name='compLabBG' type='graphic'>resources/walkabout/backgrounds/comlab-background.gif</Asset>
+  <Asset name='stairRoomBG' type='graphic'>resources/walkabout/backgrounds/stairRoom.png</Asset>
+  <Asset name='dialogBox' type='graphic'>resources/interface/dialogBoxBig.png</Asset>
   
-  <Asset name='karkatBGM' type='audio'>resources/karkat.ogg;resources/karkat.mp3</Asset>
-  <Asset name='tereziBGM' type='audio'>resources/terezi.ogg;resources/terezi.mp3</Asset>
+  <Asset name='karkatBGM' type='audio'>resources/audio/karkat.ogg;resources/audio/karkat.mp3</Asset>
+  <Asset name='tereziBGM' type='audio'>resources/audio/terezi.ogg;resources/audio/terezi.mp3</Asset>
   
   <Asset name='compLabWalkable' type='path'>70,270;800,270;800,820;70,820</Asset>
   <Asset name='stairRoomWalkable' type='path'> 999,368;442,372;258,560;86,556;86,608;0,609;0,940;264,942;630,1318;813,1320;813,2070;222,2070;224,1510;250,1510;588,1888;588,1904;402,1904;402,1904; 237,1905;236,2049;801,2054;800,1706;591,1702;228,1323;142,1323; 140,1344;0,1344;0,2258;999,2258;999,1126;624,1124;260,754;260,740;441,552;999,552</Asset>
