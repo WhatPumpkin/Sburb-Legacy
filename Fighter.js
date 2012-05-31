@@ -1,5 +1,5 @@
 function Fighter(name,x,y,width,height,sx,sy,sWidth,sHeight,sheet){
-	inherit(this,new Character(name,x,y,width,height,sx,sy,sWidth,sHeight,sheet));
+	inherit(this,new Sprite(name,x,y,width,height,null,null,MG_DEPTHING,true));
 	
 	this.accel = 1.5;
 	this.decel = 1;
@@ -7,11 +7,14 @@ function Fighter(name,x,y,width,height,sx,sy,sWidth,sHeight,sheet){
 	this.vx = 0;
 	this.vy = 0;
 	
-	this.baseUpdate = this.update;
+	sWidth = typeof sWidth == "number" ? sWidth : width;
+	sHeight = typeof sHeight == "number" ? sHeight : height;
 	
-	this.update = function(){
+	this.spriteUpdate = this.update;
+	
+	this.update = function(curRoom){
 		this.tryToMove(curRoom);
-		this.baseUpdate();
+		this.spriteUpdate(curRoom);
 	}
 	
 	this.handleInputs = function(pressed){
@@ -67,12 +70,14 @@ function Fighter(name,x,y,width,height,sx,sy,sWidth,sHeight,sheet){
 		return Math.sqrt(xDiff*xDiff/w2/w1+yDiff*yDiff/h2/h1)<2;
 	}
 	
-	this.getBoundaryQueries = function(){
+	this.getBoundaryQueries = function(dx,dy){
+		var x = this.x+(dx?dx:0);
+		var y = this.y+(dy?dy:0);
 		var queries = {};
-		var queryCount = 10;
+		var queryCount = 8;
 		var angleDiff = 2*Math.PI/queryCount;
 		for(var i=0,theta=0;i<queryCount;i++,theta+=angleDiff){
-			queries["pt"+i] = {x:this.x+Math.cos(theta)*this.width/2 ,y:this.y+Math.sin(theta)*this.height/2};
+			queries[i] = {x:x+Math.cos(theta)*this.width/2 ,y:y+Math.sin(theta)*this.height/2};
 		}
 		return queries;
 	}
@@ -80,8 +85,15 @@ function Fighter(name,x,y,width,height,sx,sy,sWidth,sHeight,sheet){
 	this.tryToMove = function(room){
 		this.vx*=this.friction;
 		this.vy*=this.friction;
+		if(Math.abs(this.vx)<this.decel){
+			this.vx = 0;
+		}
+		if(Math.abs(this.vy)<this.decel){
+			this.vy = 0;
+		}
 		var vx = this.vx;
 		var vy = this.vy;
+		
 		var i;
 		var moveMap = room.getMoveFunction(this);
 		var wasShifted = false;
@@ -93,85 +105,82 @@ function Fighter(name,x,y,width,height,sx,sy,sWidth,sHeight,sheet){
 			vx = l.x;
 			vy = l.y;
 		}
-		var minX = Stage.scaleX;
-		var minY = Stage.scaleY;
-		while(Math.abs(vx)>=minX || Math.abs(vy)>=minY){
-			var dx = 0;
-			var dy = 0;
-			if(Math.abs(vx)>=minX){
-				dx=Math.round((minX)*vx/Math.abs(vx));
-				this.x+=dx;
-				vx-=dx;
+		var dx = vx;
+		var dy = vy;
+		this.x+=vx;
+		this.y+=vy;
+		
+		var collides = room.collides(this);
+		if(collides){
+			var tx = 0;
+			var ty = 0;
+			var theta = Math.atan2(this.y-collides.y,this.x-collides.x);
+			var xOff = Math.cos(theta);
+			var yOff = Math.sin(theta);
+			while(this.collides(collides,tx,ty)){
+				tx-=(dx-xOff)*0.1;
+				ty-=(dy-yOff)*0.1;
 			}
-			if(Math.abs(vy)>=minY){
-				dy=Math.round((minY)*vy/Math.abs(vy));
-				this.y+=dy;
-				vy-=dy;
+			if(room.collides(this,tx,ty)){
+				this.x-=dx;
+				this.y-=dy;
+				return false;
 			}
+			this.x+=tx;
+			this.y+=ty;
+			dx+=tx;
+			dy+=ty;
 			
-			var collision;
-			if(collision = room.collides(this)){
-				var fixed = false;
-				if(dx!=0){
-					if(!this.collides(collision,0,minY)){
-						dy+=minY;
-						this.y+=minY;
-						fixed = true;
-					}else if(!this.collides(collision,0,-minY)){
-						dy-=minY;
-						this.y-=minY;
-						fixed = true;
-					}
-				}
-				if(!fixed && dy!=0){
-					if(!this.collides(collision,minX,0)){
-						dx+=minX;
-						this.x+=minX;
-						fixed = true;
-					}else if(!this.collides(collision,-minX,0)){
-						dx-=minX;
-						this.x-=minX;
-						fixed = true;
-					}
-				}
-				if(!fixed || room.collides(this)){
-					this.x-=dx;
-					this.y-=dy;
-					return false;
-				}
+			var theta = Math.atan2(this.y-collides.y,this.x-collides.x);
+			this.vx += tx;
+			this.vy += ty;
+			this.vx*=0.9;
+			this.vy*=0.9;
+		}
+
+		var queries = room.isInBoundsBatch(this.getBoundaryQueries());
+		var queryCount = 8;
+		var collided = false;
+		var hitX = 0;
+		var hitY = 0;
+		var angleDiff = 2*Math.PI/queryCount;
+		for(var i=0,theta=0;i<queryCount;i++,theta+=angleDiff){
+			var query = queries[i];
+			if(!query){
+				hitX+=Math.cos(theta);
+				hitY+=Math.sin(theta);
+				collided = true;
 			}
+		}
+		
+		if(collided){
+			var tx = 0;
+			var ty = 0;
+			var theta = Math.atan2(hitY,hitX);
+			var xOff = Math.cos(theta);
+			var yOff = Math.sin(theta);
+			var timeout = 0;
+			while(!room.isInBounds(this,tx,ty) && timeout<20){
+				tx-=xOff*2;
+				ty-=yOff*2;
+				timeout++;
+			}
+			if(timeout>=20 || room.collides(this,tx,ty)){
+				console.log(tx,ty);
+				this.x-=dx;
+				this.y-=dy;
+				return false;
+			}
+			this.x+=tx;
+			this.y+=ty;
+			dx+=tx;
+			dy+=ty;
 			
-			if(!room.isInBounds(this)){
-				var fixed = false;
-				if(dx!=0){
-					if(room.isInBounds(this,0,minY)){
-						dy+=minY;
-						this.y+=minY;
-						fixed = true;
-					}else if(room.isInBounds(this,0,-minY)){
-						dy-=minY;
-						this.y-=minY;
-						fixed = true;
-					}
-				}
-				if(!fixed && dy!=0){
-					if(room.isInBounds(this,minX,0)){
-						dx+=minX;
-						this.x+=minX;
-						fixed = true;
-					}else if(room.isInBounds(this,-minX,0)){
-						dx-=minX;
-						this.x-=minX;
-						fixed = true;
-					}
-				}
-				if(!fixed){
-					this.x-=dx;
-					this.y-=dy;
-					return false;
-				}
-			}
-		}	
+			this.vx += tx;
+			this.vy += ty;
+			this.vx*=0.9;
+			this.vy*=0.9;
+		}
 		return true;
 	}
 }

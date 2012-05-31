@@ -175,7 +175,7 @@ function Character(name,x,y,width,height,sx,sy,sWidth,sHeight,sheet){
 						fixed = true;
 					}
 				}
-				if(!fixed){
+				if(!fixed || room.collides(this)){
 					this.x-=dx;
 					this.y-=dy;
 					return false;
@@ -242,7 +242,7 @@ function Character(name,x,y,width,height,sx,sy,sWidth,sHeight,sheet){
 
 function parseCharacter(charNode, assetFolder) {
   	var attributes = charNode.attributes;
-  	var newChar = new Character(attributes.getNamedItem("name").value,
+  	var newChar = new Fighter(attributes.getNamedItem("name").value,
   				    attributes.getNamedItem("x")?parseInt(attributes.getNamedItem("x").value):0,
   				    attributes.getNamedItem("y")?parseInt(attributes.getNamedItem("y").value):0,
   				    parseInt(attributes.getNamedItem("width").value),

@@ -198,11 +198,11 @@ function Room(name,width,height){
 		}	
 	}
     
-	this.collides = function(sprite){
+	this.collides = function(sprite,dx,dy){
 		for(var i=0;i<this.sprites.length;i++){
 			var theSprite = this.sprites[i];
 			if(theSprite.collidable && sprite!=theSprite){
-				if( sprite.collides(theSprite)){
+				if( sprite.collides(theSprite,dx,dy)){
 					return theSprite;
 				}
 			}
