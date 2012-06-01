@@ -11,7 +11,6 @@ var assets; //all images, sounds, paths
 var sprites; //all sprites that were Serial loaded
 var effects; //all effects that were Serial loaded
 var rooms; //all rooms
-var effects; //all effects 
 var char; //the player
 var curRoom,destRoom; //current room, the room we are transitioning to, if it exists.
 var destX,destY; //the desired location in the room we are transitioning to, if it exists.
