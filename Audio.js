@@ -21,7 +21,7 @@ function BGM(asset, startLoop, priority) {
 			this.asset.play();
     }
     
-    this.setLoopPoints(startLoop);
+    this.setLoopPoints(startLoop?startLoop:0);
     
 }
 
@@ -39,7 +39,7 @@ function Sound(asset){
   
   this.stop = function() {
 		this.pause();
-		this.asset.currentTime = 0;
+		this.asset.currentTime = this.startLoop;
   }
   this.ended = function() {
 		return this.asset.ended;

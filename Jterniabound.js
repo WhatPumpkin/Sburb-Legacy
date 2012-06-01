@@ -302,9 +302,6 @@ function setCurRoomOf(sprite){
 function changeBGM(newSong) {
     if(newSong){
 		if(bgm) {
-			if (bgm.priority > newSong.priority) {
-				return;
-			}
 			if (bgm == newSong) {
 				// maybe check for some kind of restart value
 				return;
@@ -312,6 +309,7 @@ function changeBGM(newSong) {
 			bgm.stop();
 		}
 		bgm = newSong;
+		bgm.stop();
 		bgm.play();
     }
 }

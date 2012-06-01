@@ -1,4 +1,4 @@
-<SBURB curRoom='baseRoom' char='dave' id='level1' bgm='tereziBGM' mode='strife'>
+<SBURB curRoom='baseRoom' char='dave' id='level1' bgm='tereziBGM,1.7' mode='strife'>
 <Assets>
   <Asset name='volumeControl' type='graphic'>resources/interface/volumeControl.png</Asset>
   <Asset name='helpControl' type='graphic'>resources/interface/helpControl.png</Asset>

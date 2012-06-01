@@ -5,7 +5,7 @@ function serialize(assets,effects,rooms,sprites,hud,dialoger,curRoom,char){
 	var output = "<SBURB"+
 		" curRoom='"+curRoom.name+
 		"' char='"+char.name+
-		(bgm?"' bgm='"+bgm.asset.name:"")+
+		(bgm?"' bgm='"+bgm.asset.name+(bgm.startLoop?","+bgm.startLoop:""):"")+
 		"'>\n";
 	output = serializeAssets(output,assets,effects);
 	output = serializeTemplates(output,templateClasses);
@@ -131,6 +131,7 @@ function purgeState(){
 	hud = {};
 	sprites = {};
 	effects = {};
+	curAction = null;
 	pressed = new Array();
 	chooser = new Chooser();
 	dialoger = new Dialoger();
@@ -312,7 +313,8 @@ function loadSerialState(input) {
   	curRoom.initialize();
   	
   	if(rootInfo.getNamedItem("bgm")){
-  		changeBGM(new BGM(assets[rootInfo.getNamedItem("bgm").value]));
+  		var params = rootInfo.getNamedItem("bgm").value.split(",");
+  		changeBGM(new BGM(assets[params[0]],parseFloat(params.length>1?params[1]:"0")));
   	}
   	
   	var dialogBox = new StaticSprite("dialogBox",Stage.width+1,1000,null,null,null,null,assets.dialogBox,FG_DEPTHING);
