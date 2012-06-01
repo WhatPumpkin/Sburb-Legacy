@@ -109,6 +109,7 @@ function serializeHud(output,hud,dialoger){
 
 function purgeAssets() {
     assetManager.purge();
+    assets = assetManager.assets;
 }
 function purgeState(){
 	if(updateLoop){
@@ -125,6 +126,7 @@ function purgeState(){
 		bgm.stop();
 		bgm = null;
 	}
+	document.getElementById("movieBin").innerHTML = "";
 	globalVolume = 1;
 	hud = {};
 	sprites = {};
@@ -174,10 +176,9 @@ function loadSerial(serialText, sburbID) {
     } else {
   		input = input.documentElement;
     }
-
     // should we assume that all assets with the same name
     // have the same data? if so we don't need this next line
-    // purgeAssets(); 
+    purgeAssets(); 
 
     purgeState();
     var newAssets = input.getElementsByTagName("Asset");

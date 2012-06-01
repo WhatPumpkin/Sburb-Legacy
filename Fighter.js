@@ -217,8 +217,12 @@ function Fighter(name,x,y,width,height){
 	}
 	
 	this.serialize = function(output){
+		var animationCount = 0;
+		for(anim in this.animations){
+				animationCount++;
+		}
 		output = output.concat("<Fighter "+
-			serializeAttributes(this,"name","x","y","width","height","state")+
+			serializeAttributes(this,"name","x","y","width","height","facing")+
 			(animationCount>1?"state='"+this.state+"' ":"")+
 			">");
 		for(animation in this.animations){
@@ -228,6 +232,7 @@ function Fighter(name,x,y,width,height){
 			output = this.actions[action].serialize(output);
 		}
 		output = output.concat("</Fighter>");
+		return output;
 	}
 }
 
@@ -248,9 +253,9 @@ function parseFighter(spriteNode, assetFolder) {
 	newWidth = (temp=attributes.getNamedItem("width"))?parseInt(temp.value):newWidth;
 	newHeight = (temp=attributes.getNamedItem("height"))?parseInt(temp.value):newHeight;
 	newState = (temp=attributes.getNamedItem("state"))?temp.value:newState;
-	
+	var newFacing = (temp=attributes.getNamedItem("facing"))?temp.value:"Right";
  	var newSprite = new Fighter(newName,newX,newY,newWidth,newHeight);
-	
+	newSprite.facing = newFacing;
 	var anims = spriteNode.getElementsByTagName("Animation");
 	for(var j=0;j<anims.length;j++){
 		var newAnim = parseAnimation(anims[j],assetFolder);

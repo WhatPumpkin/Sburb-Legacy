@@ -207,7 +207,7 @@ function Animation(name,sheet,x,y,colSize,rowSize,startPos,length,frameInterval,
 			((this.length!=1)?"length='"+this.length+"' ":"")+
 			((this.frameInterval!=1)?"frameInterval='"+this.frameInterval+"' ":"")+
 			((this.loopNum!=-1)?"loopNum='"+this.loopNum+"' ":"")+
-			serializeAttribute(this,"folowUp")+
+			serializeAttributes(this,"folowUp","flipX","flipY")+
 			" />");
 		return output;
 	}
@@ -241,6 +241,8 @@ function parseAnimation(animationNode, assetFolder){
 	frameInterval = (temp = attributes.getNamedItem("frameInterval"))?parseInt(temp.value):frameInterval;
 	loopNum = (temp = attributes.getNamedItem("loopNum"))?parseInt(temp.value):loopNum;
 	followUp = (temp = attributes.getNamedItem("followUp"))?temp.value:followUp;
+	var flipX = (temp = attributes.getNamedItem("flipX"))?temp.value!="false":false;
+	var flipY = (temp = attributes.getNamedItem("flipY"))?temp.value!="false":false;
 	
-	return new Animation(name,sheet,x,y,colSize,rowSize,startPos,length,frameInterval,loopNum,followUp);
+	return new Animation(name,sheet,x,y,colSize,rowSize,startPos,length,frameInterval,loopNum,followUp,flipX,flipY);
 }
