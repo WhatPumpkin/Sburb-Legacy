@@ -1,9 +1,9 @@
 <html>
 	<head>
-		<!-- <link rel= "stylesheet" href="style.css" type="text/css" media=screen/> -->
-		
+		<!-- imports -->
 		<script type="text/javascript" src="Jterniabound.js"></script>
 		<script type="text/javascript" src="inheritance.js"></script>
+		<script type="text/javascript" src="Fighter.js"></script>
 		<script type="text/javascript" src="Character.js"></script>
 		<script type="text/javascript" src="Sprite.js"></script>
 		<script type="text/javascript" src="SpriteButton.js"></script>
@@ -21,6 +21,7 @@
 		<script type="text/javascript" src="Assets.js"></script>
 		<script type="text/javascript" src="Path.js"></script>
 		
+		<!-- stage formatting -->
 		<style type="text/css">
 			canvas {
 				padding-left: 0;
@@ -31,36 +32,14 @@
 				width:650px;
 				height:450px;
 			}
-			textarea {
-				padding-left: 0;
-				padding-right: 0;
-				margin-left: auto;
-				margin-right: auto;
-				width:100%;
-				height:450px;
-				display: inline;
-				resize:none;
-			}
-		</style>
+		</style>	
 	</head>
-	<body onload="initialize()">
-		
-		<!-- Table! -->
-		<div style="display:table;height:450px;width:100%;"> 
-			<div style="display:table-row;width:100%;">
-				
-				<!-- Left cell, textfield 'n buttons -->
-				<div style="display:table-cell;width:33%;height:450px;min-width:0px;" >
-					<textarea id="serialText"></textarea><br/>
-					<button id="saveState" onclick="serialize(assets,effects,rooms,sprites,hud,dialoger,curRoom,char)">save state</button>
-					<button id="loadState" onclick="loadSerial(document.getElementById('serialText').value)">load state</button>
-					<br />
-					<input type="file" name="level" id="levelFile" />
-					<button id="loadLevelFile" onclick="loadLevelFile(document.getElementById('levelFile'))">load level</button>
-				</div>
-				
-				<!-- Center cell. Canvas -->
+	
+	<body onload="initialize('levels/wanderTest.xml');">
+		<div style="width:100%;align:middle;"> 
+			<div style="width:100%;margin: 0px auto;">
 				<div style="display:table-cell;width:33%;height:450px;"> 
+					<!-- the stage -->
 					<div id="gameDiv">
 						<canvas id="Stage" width="650" height="450" tabindex="0" 
 									onmousedown = "onMouseDown(event,this)"
@@ -68,14 +47,24 @@
 									onmouseup = "onMouseUp(event,this)">
 						</canvas>
 					</div>
-					<div id="movieBin">
-					</div>
-				</div>
-				<!-- Right cell. basically padding... FOR NOW............ -->
-				<div style="display:table-cell;width:33%;height:450px;" >
-				</div>
-				
+					<!-- cutscenes will be stored here -->
+					<div id="movieBin"></div>
+				</div>	
+				<!-- optional controls -->
+				</br>
+				<div style="text-align:center;maxwidth:33%; margin: 0px auto;"> 
+					<button id="saveState" onclick="serialize(assets,effects,rooms,sprites,hud,dialoger,curRoom,char)">save state</button>
+					<button id="loadState" onclick="loadSerial(document.getElementById('serialText').value)">load state</button>
+					<input type="file" name="level" id="levelFile" />
+					<button id="loadLevelFile" onclick="loadLevelFile(document.getElementById('levelFile'))">load level</button>
+					<button id="strifeTest" onclick="loadSerialFromXML('levels/strifeTest.xml')">strife test</button>
+					<button id="wanderTest" onclick="loadSerialFromXML('levels/wanderTest.xml')">wander test</button>
+					
+					</br>
+					<textarea id="serialText" style="display:inline; width:650; height:100;"></textarea><br/>
+				</div>			
 			</div>
+			
 		</div>
 	</body>
 </html>

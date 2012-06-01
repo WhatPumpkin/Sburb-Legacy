@@ -279,6 +279,12 @@ function loadSerialState(input) {
 		var newChar = parseCharacter(curChar, assets);
   		sprites[newChar.name] = newChar;
   	}
+  	var newFighters = input.getElementsByTagName("Fighter");
+  	for(var i=0;i<newFighters.length;i++){
+  		var curFighter = newFighters[i];
+		var newFighter = parseFighter(curFighter, assets);
+  		sprites[newFighter.name] = newFighter;
+  	}
   	var newRooms = input.getElementsByTagName("Room");
   	for(var i=0;i<newRooms.length;i++){
   		var currRoom = newRooms[i];
@@ -289,6 +295,18 @@ function loadSerialState(input) {
   	
   	focus = char = sprites[rootInfo.getNamedItem("char").value];
   	char.becomePlayer();
+  	
+  	var mode = rootInfo.getNamedItem("mode");
+  	if(mode){
+  		mode = mode.value;
+  		if(mode=="strife"){
+  			strifeMode();
+  		}else if(mode=="wander"){
+  			wanderMode();
+  		}
+  	}else{
+  		wanderMode();
+  	}
   	curRoom = rooms[rootInfo.getNamedItem("curRoom").value];
   	curRoom.initialize();
   	

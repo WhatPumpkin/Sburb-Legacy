@@ -1,4 +1,4 @@
-function Animation(name,sheet,x,y,colSize,rowSize,startPos,length,frameInterval,loopNum,followUp){
+function Animation(name,sheet,x,y,colSize,rowSize,startPos,length,frameInterval,loopNum,followUp,flipX,flipY){
 	this.sheet = sheet;
 	this.x = x;
 	this.y = y;
@@ -15,6 +15,8 @@ function Animation(name,sheet,x,y,colSize,rowSize,startPos,length,frameInterval,
 	this.loopNum = typeof loopNum == "number"?loopNum:-1;
 	this.curLoop = 0;
 	this.followUp = followUp;
+	this.flipX = flipX?true:false;
+	this.flipY = flipY?true:false;
 	
 	this.nextFrame = function() {
 		this.curFrame++;
@@ -51,14 +53,22 @@ function Animation(name,sheet,x,y,colSize,rowSize,startPos,length,frameInterval,
 	}
 	
 	this.draw = function(x,y){
-		
 		var stageX = Stage.offset?Stage.x:0;
 		var stageY = Stage.offset?Stage.y:0;
 		var stageWidth = Stage.width;
 		var stageHeight = Stage.height;
 		
-		x=stageSnapX(this.x+x);
-		y=stageSnapY(this.y+y);
+		if(this.flipX){
+			stageX = -stageX-stageWidth;
+			x = -x;
+		}
+		if(this.flipY){
+			stageY = -stageY-stageHeight;
+			y = -y;
+		}
+		
+		x= Math.round((this.x+x)/Stage.scaleX)*Stage.scaleX;
+		y= Math.round((this.y+y)/Stage.scaleY)*Stage.scaleY;
 	
 		var colNum = ((this.startPos+this.curFrame)%this.numCols);
 		var rowNum = (Math.floor((this.startPos+this.curFrame-colNum)/this.numRows));
@@ -67,15 +77,16 @@ function Animation(name,sheet,x,y,colSize,rowSize,startPos,length,frameInterval,
 		var drawWidth = this.colSize;
 		var drawHeight = this.rowSize;
 		
+		
+		
 		var delta = x-stageX;
 		if(delta<0){
 			frameX-=delta;
 			drawWidth+=delta;
 			x=stageX;
-		}
-		
-		if(frameX>=this.sheet.width){
-			return;
+			if(frameX>=this.sheet.width){
+				return;
+			}
 		}
 		
 		delta = y-stageY;
@@ -83,15 +94,18 @@ function Animation(name,sheet,x,y,colSize,rowSize,startPos,length,frameInterval,
 			frameY-=delta;
 			drawHeight+=delta;
 			y=stageY;
+			if(frameY>=this.sheet.height){
+				return;
+			}
 		}
 		
-		if(frameY>=this.sheet.height){
-			return;
-		}
+		
+		
 		
 		delta = drawWidth+x-stageX-stageWidth;
 		if(delta>0){
 			drawWidth-=delta;
+			
 		}
 		if(drawWidth<=0){
 			return;
@@ -105,8 +119,24 @@ function Animation(name,sheet,x,y,colSize,rowSize,startPos,length,frameInterval,
 			return;
 		}
 		
+		var scaleX = 1;
+		var scaleY = 1;
+		
+		if(this.flipX){
+			scaleX = -1;
+		}
+		if(this.flipY){
+			scaleY = -1;
+		}
+		if(scaleX!=1 || scaleY!=1){
+			stage.scale(scaleX,scaleY);
+		}
 		stage.drawImage(this.sheet,frameX,frameY,drawWidth,drawHeight,x,y,drawWidth,drawHeight);
+		if(scaleX!=1 || scaleY!=1){
+			stage.scale(scaleX,scaleY);
+		}
 	}
+	
 	/*
 	
 	this.draw = function(x,y){
@@ -183,19 +213,6 @@ function Animation(name,sheet,x,y,colSize,rowSize,startPos,length,frameInterval,
 	}
 }
 
-function stageSnap(object){
-	object.x = Math.round(object.x/Stage.scaleX)*Stage.scaleX;
-	object.y = Math.round(object.y/Stage.scaleY)*Stage.scaleY;
-}
-
-function stageSnapX(x){
-	return Math.round(x/Stage.scaleX)*Stage.scaleX;
-}
-
-function stageSnapY(y){
-	return Math.round(y/Stage.scaleY)*Stage.scaleY;
-}
-
 function parseAnimation(animationNode, assetFolder){
 	var attributes = animationNode.attributes;
 
@@ -216,10 +233,11 @@ function parseAnimation(animationNode, assetFolder){
 	sheet = (temp = attributes.getNamedItem("sheet"))?assetFolder[temp.value]:sheet;
 	x = (temp = attributes.getNamedItem("x"))?parseInt(temp.value):x;
 	y = (temp = attributes.getNamedItem("y"))?parseInt(temp.value):y;
-	colSize = (temp = attributes.getNamedItem("colSize"))?parseInt(temp.value):sheet.width;
+	length = (temp = attributes.getNamedItem("length"))?parseInt(temp.value):length;
+	colSize = (temp = attributes.getNamedItem("colSize"))?parseInt(temp.value):Math.round(sheet.width/length);
 	rowSize = (temp = attributes.getNamedItem("rowSize"))?parseInt(temp.value):sheet.height;
 	startPos = (temp = attributes.getNamedItem("startPos"))?parseInt(temp.value):startPos;
-	length = (temp = attributes.getNamedItem("length"))?parseInt(temp.value):length;
+	
 	frameInterval = (temp = attributes.getNamedItem("frameInterval"))?parseInt(temp.value):frameInterval;
 	loopNum = (temp = attributes.getNamedItem("loopNum"))?parseInt(temp.value):loopNum;
 	followUp = (temp = attributes.getNamedItem("followUp"))?temp.value:followUp;

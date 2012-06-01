@@ -69,10 +69,10 @@ function Room(name,width,height){
 		return false;
 	}
 	
-	this.update = function(gameTime){
+	this.update = function(){
 		var i;
 		for(i=0;i<this.sprites.length;i++){
-			this.sprites[i].update(gameTime);
+			this.sprites[i].update(this);
 		}
 		for(i=this.effects.length-1;i>=0;i--){
 			if(this.effects[i].hasPlayed()){
@@ -153,15 +153,20 @@ function Room(name,width,height){
 		return validActions;
 	}
 	
+	this.queryActionsVisual = function(query,x,y){
+		var validActions = new Array();
+		for(var i=0;i<this.sprites.length;i++){
+			var sprite = this.sprites[i];
+			if(sprite.isVisuallyUnder(x,y)){
+				validActions = validActions.concat(sprite.getActions(query));
+			}
+		}
+		return validActions;
+	}
+	
 	this.isInBounds = function(sprite,dx,dy){
-		spriteX = sprite.x+(dx?dx:0);
-		spriteY = sprite.y+(dy?dy:0);
-		var queries = {upRight:{x:spriteX+sprite.width/2,y:spriteY-sprite.height/2},
-					 upLeft:{x:spriteX-sprite.width/2,y:spriteY-sprite.height/2},
-					 downLeft:{x:spriteX-sprite.width/2,y:spriteY+sprite.height/2},
-					 downRight:{x:spriteX+sprite.width/2,y:spriteY+sprite.height/2},
-					 downMid:{x:spriteX,y:spriteY+sprite.height/2},
-					 upMid:{x:spriteX,y:spriteY-sprite.height/2}}
+		
+		var queries = sprite.getBoundaryQueries(dx,dy);
 		var result = this.isInBoundsBatch(queries);
 		for(var point in result){
 			if(!result[point]){
@@ -204,11 +209,11 @@ function Room(name,width,height){
 		}	
 	}
     
-	this.collides = function(sprite){
+	this.collides = function(sprite,dx,dy){
 		for(var i=0;i<this.sprites.length;i++){
 			var theSprite = this.sprites[i];
 			if(theSprite.collidable && sprite!=theSprite){
-				if(theSprite.collides(sprite)){
+				if( sprite.collides(theSprite,dx,dy)){
 					return theSprite;
 				}
 			}
@@ -254,6 +259,7 @@ function parseRoom(roomNode, assetFolder, spriteFolder) {
   			       parseInt(attributes.getNamedItem("height").value));
   	serialLoadRoomSprites(newRoom,roomNode.getElementsByTagName("Sprite"), spriteFolder);
   	serialLoadRoomSprites(newRoom,roomNode.getElementsByTagName("Character"), spriteFolder);
+  	serialLoadRoomSprites(newRoom,roomNode.getElementsByTagName("Fighter"), spriteFolder);
 	serialLoadRoomPaths(newRoom, roomNode.getElementsByTagName("Paths"), assetFolder);
 	serialLoadRoomTriggers(newRoom,roomNode.getElementsByTagName("Triggers"),spriteFolder);
 	return newRoom;

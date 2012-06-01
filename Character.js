@@ -4,6 +4,8 @@ function Character(name,x,y,width,height,sx,sy,sWidth,sHeight,sheet){
 	inherit(this,new Sprite(name,x,y,width,height,null,null,MG_DEPTHING,true));
 
 	this.speed = 9;
+	this.vx = 0;
+	this.vy = 0;
 	this.facing = "Front";
 	this.npc = true;
 	this.spriteType = "character";
@@ -21,26 +23,37 @@ function Character(name,x,y,width,height,sx,sy,sWidth,sHeight,sheet){
 	this.addAnimation(new Animation("walkLeft",sheet,sx,sy,sWidth,sHeight,10,2,4));
 
 	this.startAnimation("walkFront");
+	
+	this.spriteUpdate = this.update;
+	
+	this.update = function(curRoom){
+		this.tryToMove(this.vx,this.vy,curRoom);
+		this.spriteUpdate(curRoom);
+	}
 
-	this.moveUp = function(room){
+	this.moveUp = function(){
 		this.facing = "Back";
 		this.walk();
-		this.tryToMove(0,-this.speed,room);
+		this.vx = 0; this.vy = -this.speed;
 	}
-	this.moveDown = function(room){
+	this.moveDown = function(){
 		this.facing = "Front";
 		this.walk();
-		this.tryToMove(0,this.speed,room);
+		this.vx = 0; this.vy = this.speed;
 	}
-	this.moveLeft = function(room){
+	this.moveLeft = function(){
 		this.facing = "Left";
 		this.walk();
-		this.tryToMove(-this.speed,0,room);
+		this.vx = -this.speed; this.vy = 0;
 	}
-	this.moveRight = function(room){
+	this.moveRight = function(){
 		this.facing = "Right";
 		this.walk();
-		this.tryToMove(this.speed,0,room);
+		this.vx = this.speed; this.vy = 0;
+	}
+	this.moveNone = function(){
+		this.idle();
+		this.vx = 0; this.vy = 0;
 	}
 
 	this.walk = function(){
@@ -62,6 +75,20 @@ function Character(name,x,y,width,height,sx,sy,sWidth,sHeight,sheet){
 		this.animations.walkBack.frameInterval = 4;
 		this.animations.walkLeft.frameInterval = 4;
 		this.animations.walkRight.frameInterval = 4;
+	}
+	
+	this.handleInputs = function(pressed){
+		if(pressed[Keys.down] || pressed[Keys.s]){
+			this.moveDown();
+		}else if(pressed[Keys.up] || pressed[Keys.w]){
+			this.moveUp();
+		}else if(pressed[Keys.left] || pressed[Keys.a]){
+			this.moveLeft();
+		}else if(pressed[Keys.right] || pressed[Keys.d]){
+			this.moveRight();
+		}else{
+			this.moveNone();
+		}
 	}
 	
 	this.tryToMove = function(vx,vy,room){
@@ -148,7 +175,7 @@ function Character(name,x,y,width,height,sx,sy,sWidth,sHeight,sheet){
 						fixed = true;
 					}
 				}
-				if(!fixed){
+				if(!fixed || room.collides(this)){
 					this.x-=dx;
 					this.y-=dy;
 					return false;
