@@ -1,4 +1,4 @@
-function Animation(name,sheet,x,y,colSize,rowSize,startPos,length,frameInterval,loopNum,followUp){
+function Animation(name,sheet,x,y,colSize,rowSize,startPos,length,frameInterval,loopNum,followUp,flipX,flipY){
 	this.sheet = sheet;
 	this.x = x;
 	this.y = y;
@@ -15,6 +15,8 @@ function Animation(name,sheet,x,y,colSize,rowSize,startPos,length,frameInterval,
 	this.loopNum = typeof loopNum == "number"?loopNum:-1;
 	this.curLoop = 0;
 	this.followUp = followUp;
+	this.flipX = flipX?true:false;
+	this.flipY = flipY?true:false;
 	
 	this.nextFrame = function() {
 		this.curFrame++;
@@ -51,11 +53,19 @@ function Animation(name,sheet,x,y,colSize,rowSize,startPos,length,frameInterval,
 	}
 	
 	this.draw = function(x,y){
-		
 		var stageX = Stage.offset?Stage.x:0;
 		var stageY = Stage.offset?Stage.y:0;
 		var stageWidth = Stage.width;
 		var stageHeight = Stage.height;
+		
+		if(this.flipX){
+			stageX = -stageX-stageWidth;
+			x = -x;
+		}
+		if(this.flipY){
+			stageY = -stageY-stageHeight;
+			y = -y;
+		}
 		
 		x= Math.round((this.x+x)/Stage.scaleX)*Stage.scaleX;
 		y= Math.round((this.y+y)/Stage.scaleY)*Stage.scaleY;
@@ -66,6 +76,8 @@ function Animation(name,sheet,x,y,colSize,rowSize,startPos,length,frameInterval,
 		var frameY = rowNum*this.rowSize;
 		var drawWidth = this.colSize;
 		var drawHeight = this.rowSize;
+		
+		
 		
 		var delta = x-stageX;
 		if(delta<0){
@@ -88,6 +100,8 @@ function Animation(name,sheet,x,y,colSize,rowSize,startPos,length,frameInterval,
 		}
 		
 		
+		
+		
 		delta = drawWidth+x-stageX-stageWidth;
 		if(delta>0){
 			drawWidth-=delta;
@@ -105,8 +119,21 @@ function Animation(name,sheet,x,y,colSize,rowSize,startPos,length,frameInterval,
 			return;
 		}
 		
+		if(this.flipX){
+			if(this.flipY){
+				stage.scale(-1,-1);
+			}else{
+				stage.scale(-1,1);
+			}
+		}else if(this.flipY){
+			stage.scale(1,-1);
+		}
 		stage.drawImage(this.sheet,frameX,frameY,drawWidth,drawHeight,x,y,drawWidth,drawHeight);
+		if(flipX || flipY){
+			stage.scale(1,1);
+		}
 	}
+	
 	/*
 	
 	this.draw = function(x,y){
@@ -203,10 +230,11 @@ function parseAnimation(animationNode, assetFolder){
 	sheet = (temp = attributes.getNamedItem("sheet"))?assetFolder[temp.value]:sheet;
 	x = (temp = attributes.getNamedItem("x"))?parseInt(temp.value):x;
 	y = (temp = attributes.getNamedItem("y"))?parseInt(temp.value):y;
-	colSize = (temp = attributes.getNamedItem("colSize"))?parseInt(temp.value):sheet.width;
+	length = (temp = attributes.getNamedItem("length"))?parseInt(temp.value):length;
+	colSize = (temp = attributes.getNamedItem("colSize"))?parseInt(temp.value):Math.round(sheet.width/length);
 	rowSize = (temp = attributes.getNamedItem("rowSize"))?parseInt(temp.value):sheet.height;
 	startPos = (temp = attributes.getNamedItem("startPos"))?parseInt(temp.value):startPos;
-	length = (temp = attributes.getNamedItem("length"))?parseInt(temp.value):length;
+	
 	frameInterval = (temp = attributes.getNamedItem("frameInterval"))?parseInt(temp.value):frameInterval;
 	loopNum = (temp = attributes.getNamedItem("loopNum"))?parseInt(temp.value):loopNum;
 	followUp = (temp = attributes.getNamedItem("followUp"))?temp.value:followUp;

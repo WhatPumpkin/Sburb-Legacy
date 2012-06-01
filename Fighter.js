@@ -1,20 +1,19 @@
-function Fighter(name,x,y,width,height,sx,sy,sWidth,sHeight,sheet){
+function Fighter(name,x,y,width,height){
 	inherit(this,new Sprite(name,x,y,width,height,null,null,MG_DEPTHING,true));
 	
 	this.accel = 1.5;
 	this.decel = 1;
-	this.friction = 0.9;
+	this.friction = 0.87;
 	this.vx = 0;
 	this.vy = 0;
-	
-	sWidth = typeof sWidth == "number" ? sWidth : width;
-	sHeight = typeof sHeight == "number" ? sHeight : height;
+	this.facing = "Right";
 	
 	this.spriteUpdate = this.update;
 	
 	this.update = function(curRoom){
 		this.tryToMove(curRoom);
 		this.spriteUpdate(curRoom);
+		this.animation.flipX = (this.facing=="Left");
 	}
 	
 	this.handleInputs = function(pressed){
@@ -29,9 +28,28 @@ function Fighter(name,x,y,width,height,sx,sy,sWidth,sHeight,sheet){
 		}else if(pressed[Keys.right] || pressed[Keys.d]){
 			this.moveRight(); moved = true;
 		}
+		if(pressed[Keys.space]){
+			this.attack();
+		}
 		if(!moved){
 			this.idle();
 		}
+	}
+	
+	this.idle = function(){
+		if(this.state=="walk"){
+			this.startAnimation("idle");
+		}
+	}
+	
+	this.walk = function(){
+		if(this.state=="idle"){
+			this.startAnimation("walk");
+		}
+	}
+	
+	this.attack = function(){
+		this.startAnimation("attack");
 	}
 	
 	this.moveUp = function(room){
@@ -45,10 +63,24 @@ function Fighter(name,x,y,width,height,sx,sy,sWidth,sHeight,sheet){
 	this.moveLeft = function(room){
 		this.walk();
 		this.vx-=this.accel;
+		this.facing = "Left";
 	}
 	this.moveRight = function(room){
 		this.walk();
 		this.vx+=this.accel;
+		this.facing = "Right";
+	}
+	
+	this.becomePlayer = function(){
+	
+	}
+	
+	this.becomeNPC = function(){
+	}
+	
+	this.getActionQueries = function(){
+		var queries = new Array();
+		return queries;
 	}
 	
 	this.collides = function(sprite,dx,dy){
@@ -183,4 +215,52 @@ function Fighter(name,x,y,width,height,sx,sy,sWidth,sHeight,sheet){
 		}
 		return true;
 	}
+	
+	this.serialize = function(output){
+		output = output.concat("<Fighter "+
+			serializeAttributes(this,"name","x","y","width","height","state")+
+			(animationCount>1?"state='"+this.state+"' ":"")+
+			">");
+		for(animation in this.animations){
+			output = this.animations[animation].serialize(output);
+		}
+		for(action in this.actions){
+			output = this.actions[action].serialize(output);
+		}
+		output = output.concat("</Fighter>");
+	}
 }
+
+function parseFighter(spriteNode, assetFolder) {
+	var attributes = spriteNode.attributes;
+	
+	var newName = null;
+	var newX = 0;
+	var newY = 0;
+	var newWidth = 0;
+	var newHeight = 0;
+	var newState = null;
+
+	var temp;
+	newName = (temp=attributes.getNamedItem("name"))?temp.value:newName;
+	newX = (temp=attributes.getNamedItem("x"))?parseInt(temp.value):newX;
+	newY = (temp=attributes.getNamedItem("y"))?parseInt(temp.value):newY;
+	newWidth = (temp=attributes.getNamedItem("width"))?parseInt(temp.value):newWidth;
+	newHeight = (temp=attributes.getNamedItem("height"))?parseInt(temp.value):newHeight;
+	newState = (temp=attributes.getNamedItem("state"))?temp.value:newState;
+	
+ 	var newSprite = new Fighter(newName,newX,newY,newWidth,newHeight);
+	
+	var anims = spriteNode.getElementsByTagName("Animation");
+	for(var j=0;j<anims.length;j++){
+		var newAnim = parseAnimation(anims[j],assetFolder);
+		newSprite.addAnimation(newAnim);
+		if(newState==null){
+			newState = newAnim.name;
+		}
+	}
+	newSprite.startAnimation(newState);
+	
+	return newSprite;
+}
+

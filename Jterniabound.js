@@ -22,6 +22,7 @@ var bgm; //the current background music
 var hud; //the hud; help and sound buttons
 var Mouse = {down:false,x:0,y:0}; //current recorded properties of the mouse
 var waitFor = null;
+var engineMode = "wander";
 
 var initFinished; //only used when _hardcode_load is true
 var _hardcode_load; //set to 1 when we don't want to load from XML: see initialize()
@@ -114,8 +115,8 @@ var _onkeydown = function(e){
 		if(e.keyCode == Keys.space && !pressed[Keys.space]){
 			dialoger.nudge();
 		}
-	}else{
-		if(e.keyCode == Keys.space && !pressed[Keys.space]){
+	}else if(hasControl()){
+		if(e.keyCode == Keys.space && !pressed[Keys.space] && engineMode=="wander"){
 			chooser.choices = new Array();
 			var queries = char.getActionQueries();
 			for(var i=0;i<queries.length;i++){
@@ -150,7 +151,15 @@ function onMouseMove(e,canvas){
 }
 
 function onMouseDown(e,canvas){
+	if(engineMode=="strife" && hasControl()){
+		chooser.choices = curRoom.queryActionsVisual(char,Stage.x+Mouse.x,Stage.y+Mouse.y);
+		if(chooser.choices.length>0){
+			chooser.choices.push(new Action("cancel","cancel","cancel"));
+			beginChoosing();
+		}
+	}
 	Mouse.down = true;
+	
 }
 
 function onMouseUp(e,canvas){
@@ -346,6 +355,16 @@ function updateWait(){
 			waitFor = null;
 		}
 	}
+}
+
+function strifeMode(){
+	Stage.scaleX = Stage.scaleY = 1;
+	engineMode = "strife";
+}
+
+function wanderMode(){
+	Stage.scaleX = Stage.scaleY = 3;
+	engineMode = "wander";
 }
 
     

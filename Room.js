@@ -153,6 +153,18 @@ function Room(name,width,height){
 		return validActions;
 	}
 	
+	this.queryActionsVisual = function(query,x,y){
+		var validActions = new Array();
+		for(var i=0;i<this.sprites.length;i++){
+			var sprite = this.sprites[i];
+			if(sprite.isVisuallyUnder(x,y)){
+				console.log(sprite.name);
+				validActions = validActions.concat(sprite.getActions(query));
+			}
+		}
+		return validActions;
+	}
+	
 	this.isInBounds = function(sprite,dx,dy){
 		
 		var queries = sprite.getBoundaryQueries(dx,dy);
@@ -248,6 +260,7 @@ function parseRoom(roomNode, assetFolder, spriteFolder) {
   			       parseInt(attributes.getNamedItem("height").value));
   	serialLoadRoomSprites(newRoom,roomNode.getElementsByTagName("Sprite"), spriteFolder);
   	serialLoadRoomSprites(newRoom,roomNode.getElementsByTagName("Character"), spriteFolder);
+  	serialLoadRoomSprites(newRoom,roomNode.getElementsByTagName("Fighter"), spriteFolder);
 	serialLoadRoomPaths(newRoom, roomNode.getElementsByTagName("Paths"), assetFolder);
 	serialLoadRoomTriggers(newRoom,roomNode.getElementsByTagName("Triggers"),spriteFolder);
 	return newRoom;
