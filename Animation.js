@@ -119,18 +119,21 @@ function Animation(name,sheet,x,y,colSize,rowSize,startPos,length,frameInterval,
 			return;
 		}
 		
+		var scaleX = 1;
+		var scaleY = 1;
+		
 		if(this.flipX){
-			if(this.flipY){
-				stage.scale(-1,-1);
-			}else{
-				stage.scale(-1,1);
-			}
-		}else if(this.flipY){
-			stage.scale(1,-1);
+			scaleX = -1;
+		}
+		if(this.flipY){
+			scaleY = -1;
+		}
+		if(scaleX!=1 || scaleY!=1){
+			stage.scale(scaleX,scaleY);
 		}
 		stage.drawImage(this.sheet,frameX,frameY,drawWidth,drawHeight,x,y,drawWidth,drawHeight);
-		if(flipX || flipY){
-			stage.scale(1,1);
+		if(scaleX!=1 || scaleY!=1){
+			stage.scale(scaleX,scaleY);
 		}
 	}
 	

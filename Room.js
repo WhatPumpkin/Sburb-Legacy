@@ -158,7 +158,6 @@ function Room(name,width,height){
 		for(var i=0;i<this.sprites.length;i++){
 			var sprite = this.sprites[i];
 			if(sprite.isVisuallyUnder(x,y)){
-				console.log(sprite.name);
 				validActions = validActions.concat(sprite.getActions(query));
 			}
 		}

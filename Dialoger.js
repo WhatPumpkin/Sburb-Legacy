@@ -166,20 +166,11 @@ function Dialoger(){
 			this.dialog.draw();
 		}
 		if(this.actor!=null){
-			stage.save();
 			this.dialogSpriteLeft.draw();
-			stage.scale(-1,1);
-			Stage.x = -Stage.x-Stage.width;
-			var tempY = Stage.y;
-			Stage.y = 0;
-			Stage.offset = true;
-			this.dialogSpriteRight.x = -this.dialogSpriteRight.x;
+			if(this.dialogSpriteRight.animation){
+				this.dialogSpriteRight.animation.flipX=true;
+			}
 			this.dialogSpriteRight.draw();
-			this.dialogSpriteRight.x = -this.dialogSpriteRight.x;
-			Stage.x = -(Stage.x+Stage.width);
-			Stage.y = tempY;
-			Stage.offset = false;
-			stage.restore();
 		}
 	}
 	
