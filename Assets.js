@@ -28,17 +28,28 @@ function createAudioAsset(name) {
     ret.name = name
     ret.type = "audio";
     ret.preload = true;
+    //ret.needsTimeout = true;
     for (a=1; a < arguments.length; a++) {
 			var tmp = document.createElement("source")
 			tmp.src = arguments[a];
 			ret.appendChild(tmp);
     }
     ret.assetOnLoadFunction = function(fn) {
-			if (ret.readyState == 4) {
+			this.checkLoaded = function(){
+				//console.log("check!",ret.name);
+				if (ret.readyState==4) {
+					//console.log("good!");
 					if(fn) { fn(); }
 					return true;
+				}
+				return false;
 			}
-			ret.addEventListener('loadeddata', fn);
+			if(!this.checkLoaded()){
+				ret.addEventListener('loadeddata', fn);
+				return false;
+			}else{
+				return true;
+			}
     };
     return ret;
 }
@@ -101,6 +112,7 @@ function AssetManager() {
 	this.totalLoaded = 0;
 	this.assets = {};
 	this.loaded = {};
+	this.recurrences = {};
 	
 	this.totalAssetsRemaining = function() {
 		return this.totalAssets - this.totalLoaded;
@@ -133,35 +145,9 @@ function AssetManager() {
 		this.assetAdded(name);	
 		var loadedAsset = this.assets[name].assetOnLoadFunction(function() { oThis.assetLoaded(name); });
 		if(!loadedAsset && assetObj.needsTimeout && assetObj.checkLoaded){
-			setTimeout(assetObj.checkLoaded,100);
+			this.recurrences[assetObj.name] = assetObj.checkLoaded;
 		}
 	}
-	
-	/*
-	this.loadGraphicAsset = function(assetObj) {
-		var name = assetObj.name;
-		this.assets[name] = assetObj;
-		oThis = this;
-		this.assetAdded(name);
-		loaded = this.assets[name].assetOnLoadFunction(function () {
-			oThis.assetLoaded(name);
-		});
-	};
-
-	this.loadAudioAsset = function (assetObj) {
-		var name = assetObj.name;
-		this.assets[name] = assetObj;
-		// no builtin onload function for audio
-		oThis = this;
-		this.assetAdded(name);
-		loaded = this.assets[name].assetOnLoadFunction(function() { oThis.assetLoaded(name); });
-	};
-
-	this.loadPathAsset = function (assetObj){
-		var name = assetObj.name;
-		this.assets[name] = assetObj;
-	};
-	*/
 	
 	this.assetAdded = function(name) {
 		this.totalAssets++;
@@ -169,14 +155,25 @@ function AssetManager() {
 	}
 	
 	this.assetLoaded = function(name){
-		this.loaded[name] = true
-		this.totalLoaded++;
-
-		drawLoader(); // Jterniabound.js
-		if(this.finishedLoading() && _hardcode_load){
-			// only really here to work for old hard-loading
-			finishInit();
-			initFinished = true;
+		//console.log(name,this.loaded);
+		if(this.assets[name]){
+			if(!this.loaded[name]){
+				this.loaded[name] = true
+				this.totalLoaded++;
+				
+				// Jterniabound.js
+				drawLoader();
+				
+				if(this.finishedLoading() && _hardcode_load){
+					// only really here to work for old hard-loading
+					finishInit();
+					initFinished = true;
+					
+				}
+			}
 		}
+
+		 
+		
 	};
 }
