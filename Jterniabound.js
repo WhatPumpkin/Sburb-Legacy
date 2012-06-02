@@ -356,14 +356,4 @@ function updateWait(){
 	}
 }
 
-function strifeMode(){
-	Stage.scaleX = Stage.scaleY = 1;
-	engineMode = "strife";
-}
-
-function wanderMode(){
-	Stage.scaleX = Stage.scaleY = 3;
-	engineMode = "wander";
-}
-
     

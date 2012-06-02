@@ -139,6 +139,10 @@ toggleVolumeCommand = function(){
 	}
 }
 
+changeModeCommand = function(info){
+	engineMode = info.trim();
+}
+
 cancelCommand = function(){
 	//do nothing
 }
@@ -147,20 +151,26 @@ function buildCommands(){
 	commands = {};
 	commands.talk = talkCommand;
 	commands.changeRoom = changeRoomCommand;
+	
 	commands.playAnimation = playAnimationCommand;
-	commands.changeChar = changeCharCommand;
+	commands.playEffect = playEffectCommand;
 	commands.playSong = playSongCommand;
 	commands.playSound = playSoundCommand;
+	commands.playMovie = playMovieCommand;
+	commands.changeChar = changeCharCommand;
 	commands.teleport = teleportCommand;
-	commands.playEffect = playEffectCommand;
-	commands.cancel = cancelCommand;
+
 	commands.openChest = openChestCommand;
 	commands.waitFor = waitForCommand;
-	commands.deltaSprite = deltaSpriteCommand;
-	commands.moveSprite = moveSpriteCommand;
+	
 	commands.addSprite = addSpriteCommand;
 	commands.removeSprite = removeSpriteCommand;
-	commands.playMovie = playMovieCommand;
+	commands.deltaSprite = deltaSpriteCommand;
+	commands.moveSprite = moveSpriteCommand;
+	
+	commands.changeMode = changeModeCommand;
+	
 	commands.removeMovie = removeMovieCommand;
 	commands.toggleVolume = toggleVolumeCommand;
+	commands.cancel = cancelCommand;
 }
