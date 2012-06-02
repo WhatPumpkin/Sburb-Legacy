@@ -6,6 +6,7 @@ function serialize(assets,effects,rooms,sprites,hud,dialoger,curRoom,char){
 		" curRoom='"+curRoom.name+
 		"' char='"+char.name+
 		(bgm?"' bgm='"+bgm.asset.name+(bgm.startLoop?","+bgm.startLoop:""):"")+
+		(Stage.scaleX!=1?"' scale='"+Stage.scaleX:"")+
 		"'>\n";
 	output = serializeAssets(output,assets,effects);
 	output = serializeTemplates(output,templateClasses);
@@ -300,15 +301,18 @@ function loadSerialState(input) {
   	
   	var mode = rootInfo.getNamedItem("mode");
   	if(mode){
-  		mode = mode.value;
-  		if(mode=="strife"){
-  			strifeMode();
-  		}else if(mode=="wander"){
-  			wanderMode();
-  		}
+  		engineMode = mode.value;
   	}else{
-  		wanderMode();
+  		engineMode = "wander";
   	}
+  	
+  	var scale = rootInfo.getNamedItem("scale");
+  	if(scale){
+  		Stage.scaleX = Stage.scaleY = parseInt(scale.value);
+  	}else{
+  		Stage.scaleX = Stage.scaleY = 1;
+  	}
+  	
   	curRoom = rooms[rootInfo.getNamedItem("curRoom").value];
   	curRoom.initialize();
   	
