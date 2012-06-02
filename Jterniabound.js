@@ -194,6 +194,8 @@ function drawLoader(){
 function handleInputs(){
 	if(hasControl()){
 		char.handleInputs(pressed);
+	}else{
+		char.moveNone();
 	}
 }
 
