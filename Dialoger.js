@@ -123,7 +123,11 @@ function Dialoger(){
 					this.dialog.setDimensions(dialogDimensions.x,dialogDimensions.y,dialogDimensions.width,dialogDimensions.height);
 				}
 				this.dialog.showSubText(null,this.dialog.end+2);
+				if(this.actor){
+					this.dialogOnSide(this.dialogSide).update(1);
+				}
 			}
+			
 		}else {
 			if(this.box.x>this.hiddenPos.x){
 				this.box.x-=120;
