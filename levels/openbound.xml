@@ -4,18 +4,20 @@
 
   <Asset name='volumeControl' type='graphic'>resources/interface/volumeControl.png</Asset>
   <Asset name='helpControl' type='graphic'>resources/interface/helpControl.png</Asset>
-  <Asset name='aaSheet' type='graphic'>resources/walkabout/chars/AAsheetBig.png</Asset>
-  <Asset name='acSheet' type='graphic'>resources/walkabout/chars/ACsheetBig.png</Asset>
-  <Asset name='agSheet' type='graphic'>resources/walkabout/chars/AGsheetBig.png</Asset>
-  <Asset name='atSheet' type='graphic'>resources/walkabout/chars/ATsheetBig.png</Asset>
-  <Asset name='caSheet' type='graphic'>resources/walkabout/chars/CAsheetBig.png</Asset>
   <Asset name='meenahSheet' type='graphic'>resources/walkabout/chars/meenahSheet.gif</Asset>
-  <Asset name='ctSheet' type='graphic'>resources/walkabout/chars/CTsheetBig.png</Asset>
-  <Asset name='ccSheet' type='graphic'>resources/walkabout/chars/CCsheetBig.png</Asset>
-  <Asset name='gaSheet' type='graphic'>resources/walkabout/chars/GAsheetBig.png</Asset>
-  <Asset name='gcSheet' type='graphic'>resources/walkabout/chars/GCsheetBig.png</Asset>
-  <Asset name='taSheet' type='graphic'>resources/walkabout/chars/TAsheetBig.png</Asset>
-  <Asset name='tcSheet' type='graphic'>resources/walkabout/chars/TCsheetBig.png</Asset>
+  <Asset name='troll1sheet' type='graphic'>resources/walkabout/chars/newtrollsprite1.gif</Asset>
+  <Asset name='troll2sheet' type='graphic'>resources/walkabout/chars/newtrollsprite2.gif</Asset>
+  <Asset name='troll3sheet' type='graphic'>resources/walkabout/chars/newtrollsprite3.gif</Asset>
+  <Asset name='troll4sheet' type='graphic'>resources/walkabout/chars/newtrollsprite4.gif</Asset>
+  <Asset name='troll5sheet' type='graphic'>resources/walkabout/chars/newtrollsprite5.gif</Asset>
+  <Asset name='troll6sheet' type='graphic'>resources/walkabout/chars/newtrollsprite6.gif</Asset>
+  <Asset name='troll7sheet' type='graphic'>resources/walkabout/chars/newtrollsprite7.gif</Asset>
+  <Asset name='troll8sheet' type='graphic'>resources/walkabout/chars/newtrollsprite8.gif</Asset>
+  <Asset name='troll9sheet' type='graphic'>resources/walkabout/chars/newtrollsprite9.gif</Asset>
+  <Asset name='troll10sheet' type='graphic'>resources/walkabout/chars/newtrollsprite10.gif</Asset>
+  <Asset name='troll11sheet' type='graphic'>resources/walkabout/chars/newtrollsprite11.gif</Asset>
+  <Asset name='troll12sheet' type='graphic'>resources/walkabout/chars/newtrollsprite12.gif</Asset>
+  
   <Asset name='teleporterPad' type='graphic'>resources/walkabout/objects/teleporterpad.png</Asset>
   <Asset name='teleportSheet' type='graphic'> resources/walkabout/effects/teleportSheet.png</Asset>
   <Asset name='chestSheet' type='graphic'>resources/walkabout/objects/chestSheet.png</Asset>
@@ -98,31 +100,55 @@
       	<Action name='introMusic' command='playSong'>karkatBGM, 6.7</Action>
       </Action>
     </Character>
-    <Character name='tavros' x='600' y='501' sx='-51' sy='-75' sWidth='102' sHeight='84' width='55' height='21' 
-	       sheet='atSheet' state='walkFront' facing='Front'>
-      <Action name='swap' command='changeChar'>tavros</Action>
+    <Character name='troll1' x='400' y='501' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
+	       sheet='troll1sheet' state='walkFront' facing='Front'>
+      <Action name='swap' command='changeChar'>troll1</Action>
     </Character>
-    <Character name='vriska' x='600' y='666' sx='-36' sy='-75' sWidth='69' sHeight='87' width='48' height='21' 
-	       sheet='agSheet' state='walkRight' facing='Right'>
-      <Action name='swap' command='changeChar'>vriska</Action>
+    <Character name='troll2' x='500' y='501' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
+	       sheet='troll2sheet' state='walkFront' facing='Front'>
+      <Action name='swap' command='changeChar'>troll2</Action>
     </Character>
-    <Character name='aradia' x='300' y='666' sx='-36' sy='-75' sWidth='72' sHeight='87' width='48' height='21' 
-	       sheet='aaSheet' state='walkLeft' facing='Left'>
-      <Action name='swap' command='changeChar'>aradia</Action>
+    <Character name='troll3' x='600' y='501' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
+	       sheet='troll3sheet' state='walkFront' facing='Front'>
+      <Action name='swap' command='changeChar'>troll3</Action>
     </Character>
-    <Character name='terezi' x='201' y='402' sx='-45' sy='-72' sWidth='93' sHeight='93' width='55' height='21' 
-	       sheet='gcSheet' state='walkFront' facing='Front'>
-      <Action name='talk' command='talk'>
-      @vriska_idle HELLO I AM A PRETTY TEST DIALOG. DO YOU LIKE ME? WHY DON'T YOU LIKE ME???
-      @vriska_idle I'm sure you really do like me.
-      @nepeta_idle No I really don't like you. In fact I loathe you with to an unimaginable degree. I would rather you never existed at all!
-      @vriska_idle YES YOU DO.
-      </Action>
-      <Action name='swap' command='changeChar'>terezi
-		    <Action command='playSong'>tereziBGM,1.9</Action>
-      </Action>
-      <Action name='play movie' command='playMovie'>testMovie</Action>
+    <Character name='troll4' x='700' y='501' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
+	       sheet='troll4sheet' state='walkFront' facing='Front'>
+      <Action name='swap' command='changeChar'>troll4</Action>
     </Character>
+    <Character name='troll5' x='400' y='601' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
+	       sheet='troll5sheet' state='walkFront' facing='Front'>
+      <Action name='swap' command='changeChar'>troll5</Action>
+    </Character>
+    <Character name='troll6' x='500' y='601' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
+	       sheet='troll6sheet' state='walkFront' facing='Front'>
+      <Action name='swap' command='changeChar'>troll6</Action>
+    </Character>
+    <Character name='troll7' x='600' y='601' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
+	       sheet='troll7sheet' state='walkFront' facing='Front'>
+      <Action name='swap' command='changeChar'>troll7</Action>
+    </Character>
+    <Character name='troll8' x='700' y='601' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
+	       sheet='troll8sheet' state='walkFront' facing='Front'>
+      <Action name='swap' command='changeChar'>troll8</Action>
+    </Character>
+    <Character name='troll9' x='300' y='601' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
+	       sheet='troll9sheet' state='walkFront' facing='Front'>
+      <Action name='swap' command='changeChar'>troll9</Action>
+    </Character>
+    <Character name='troll10' x='400' y='701' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
+	       sheet='troll10sheet' state='walkFront' facing='Front'>
+      <Action name='swap' command='changeChar'>troll10</Action>
+    </Character>
+    <Character name='troll11' x='500' y='701' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
+	       sheet='troll11sheet' state='walkFront' facing='Front'>
+      <Action name='swap' command='changeChar'>troll11</Action>
+    </Character>
+    <Character name='troll12' x='700' y='701' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
+	       sheet='troll12sheet' state='walkFront' facing='Front'>
+      <Action name='swap' command='changeChar'>troll12</Action>
+    </Character>
+    
     <Sprite name='compLabBG'>
       <Animation sheet='compLabBG'/>
     </Sprite>
@@ -141,12 +167,7 @@
   	<Sprite class='teleporter' name='stairRoomTeleporter' x='666' y='450' >
       <Action name='teleport' command='teleport'>baseRoom,400,400</Action>
     </Sprite>
-    <Character name='sollux' x='360' y='1950' sx='-33' sy='-78' sWidth='63' sHeight='81' width='42' height='21'
-    	 sheet='taSheet' state='walkFront' facing='Front'>
-      <Action name='talk' command='talk'>@! blahblahblah</Action>
-      <Action name='change room' command='changeRoom'>baseRoom,300,300</Action>
-      <Action name='swap' command='changeChar'>sollux</Action>
-    </Character>
+
     <Sprite name='stairRoomBG'>
       <Animation sheet='stairRoomBG'/>
     </Sprite>
