@@ -16,21 +16,21 @@ Sburb.Path.prototype.push = function(point){
 }
 
 //Check if the given points are in the path, favouring positively
-Sburb.Path.queryBatchPos = function(queries,results){
+Sburb.Path.prototype.queryBatchPos = function(queries,results){
 	for(var query in queries){
 		results[query] = results[query] || this.query(queries[query]);
 	}
 }
 
 //Check if the given points are in the path, favouring negatively
-Sburb.Path.queryBatchNeg = function(queries,results){
+Sburb.Path.prototype.queryBatchNeg = function(queries,results){
 	for(var query in queries){
 		results[query] = results[query] && this.query(queries[query]);
 	}
 }
 
 //Check if the given point is in the path
-Sburb.Path.query = function(pt){
+Sburb.Path.prototype.query = function(pt){
 	for(var c = false, i = -1, l = this.points.length, j = l - 1; ++i < l; j = i){
 		var ptA = this.points[i];
 		var ptB = this.points[j];

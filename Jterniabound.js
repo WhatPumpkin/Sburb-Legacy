@@ -23,9 +23,9 @@ Sburb.Mouse = {down:false,x:0,y:0}; //current recorded properties of the mouse
 Sburb.waitFor = null;
 Sburb.engineMode = "wander";
 
-var updateLoop; //the main updateLoop, used to interrupt updating
-var initFinished; //only used when _hardcode_load is true
-var _hardcode_load; //set to 1 when we don't want to load from XML: see initialize()
+Sburb.updateLoop; //the main updateLoop, used to interrupt updating
+Sburb.initFinished; //only used when _hardcode_load is true
+Sburb._hardcode_load; //set to 1 when we don't want to load from XML: see initialize()
 
 Sburb.initialize = function(levelName){
 	var gameDiv = document.getElementById("gameDiv");
@@ -46,7 +46,6 @@ Sburb.initialize = function(levelName){
 	Sburb.assets = Sburb.assetManager.assets; // shortcut for raw asset access
 	Sburb.rooms = {};
 	Sburb.sprites = {};
-	Sburb.commands = {};
 	Sburb.effects = {};
 	Sburb.hud = {};
 	Sburb.pressed = new Array();
@@ -72,8 +71,8 @@ function update(){
 	
 	//must be last
     
-	updateLoop=setTimeout("update()",1000/Sburb.Stage.fps);
-	draw(gameTime);
+	Sburb.updateLoop=setTimeout(update,1000/Sburb.Stage.fps);
+	draw();
 }
 
 function draw(){
@@ -183,7 +182,7 @@ function relMouseCoords(event,canvas){
     return {x:canvasX,y:canvasY};
 }
 
-function drawLoader(){
+Sburb.drawLoader = function(){
 	Sburb.stage.fillStyle = "rgb(240,240,240)";
 	Sburb.stage.fillRect(0,0,Sburb.Stage.width,Sburb.Stage.height);
 	Sburb.stage.fillStyle = "rgb(200,0,0)"
@@ -203,7 +202,7 @@ function handleHud(){
 	for(var content in Sburb.hud){
 		var obj = Sburb.hud[content];
 		if(obj.updateMouse){
-			obj.updateMouse(Mouse.x,Mouse.y,Mouse.down);
+			obj.updateMouse(Sburb.Mouse.x,Sburb.Mouse.y,Sburb.Mouse.down);
 			obj.update();
 			if(obj.clicked && obj.action){
 				Sburb.performAction(obj.action);
@@ -231,20 +230,19 @@ function focusCamera(){
 }
 
 function handleRoomChange(){
-	if(destRoom){
-		if(Stage.fade<1){
-			Stage.fade=Math.min(1,Stage.fade+Stage.fadeRate);
+	if(Sburb.destRoom){
+		if(Sburb.Stage.fade<1){
+			Sburb.Stage.fade=Math.min(1,Sburb.Stage.fade+Sburb.Stage.fadeRate);
 		}else {
-			char.x = destX;
-			char.y = destY;
-			moveSprite(char,curRoom,destRoom);
-			curRoom.exit();
-			curRoom = destRoom;
-		    curRoom.initialize();
-			destRoom = null;
+			Sburb.char.x = Sburb.destX;
+			Sburb.char.y = Sburb.destY;
+			Sburb.moveSprite(Sburb.char,Sburb.curRoom,Sburb.destRoom);
+			Sburb.curRoom.exit();
+			Sburb.curRoom = Sburb.destRoom;
+			Sburb.destRoom = null;
 		}
-	}else if(Stage.fade>0.01){
-		Stage.fade=Math.max(0.01,Stage.fade-Stage.fadeRate);
+	}else if(Sburb.Stage.fade>0.01){
+		Sburb.Stage.fade=Math.max(0.01,Sburb.Stage.fade-Sburb.Stage.fadeRate);
 		//apparently alpha 0 is buggy?
 	}
 }

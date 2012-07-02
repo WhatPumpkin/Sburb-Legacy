@@ -238,9 +238,9 @@ Sburb.FontEngine.prototype.draw = function(){
 	var currentFormats = new Array();
 	var nextStop;
 	var curLine;
-	stage.save();
-	if(stage.textBaseline != "top"){
-		stage.textBaseline = "top";
+	Sburb.stage.save();
+	if(Sburb.stage.textBaseline != "top"){
+		Sburb.stage.textBaseline = "top";
 	}
 	i=0;
 	lenCount=0;

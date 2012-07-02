@@ -54,7 +54,7 @@ var playSoundCommand = function(info){
 //syntax: effectName, x, y
 var playEffectCommand = function(info){
 	var params = info.split(",");
-	playEffect(Sburb.effects[params[0]],parseInt(params[1]),parseInt(params[2]));
+	Sburb.playEffect(Sburb.effects[params[0]],parseInt(params[1]),parseInt(params[2]));
 }
 
 //Have the specified sprite play the specified animation
@@ -217,7 +217,6 @@ commands.toggleVolume = toggleVolumeCommand;
 commands.cancel = cancelCommand;
 
 Sburb.commands = commands;
-
 return Sburb;
 
 })(Sburb || {});

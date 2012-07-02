@@ -9,7 +9,7 @@ var Sburb = (function(Sburb){
 
 //Fighter
 Sburb.Fighter = function(name,x,y,width,height){
-	Sburb.Sprite.call(this,name,x,y,width,height,null,null,MG_DEPTHING,true);
+	Sburb.Sprite.call(this,name,x,y,width,height,null,null,Sburb.Sprite.prototype.MG_DEPTHING,true);
 	
 	this.accel = 1.5;
 	this.decel = 1;
@@ -19,12 +19,12 @@ Sburb.Fighter = function(name,x,y,width,height){
 	this.facing = "Right";
 }
 
-Sburb.Fighter.prototype = new Sprite();
+Sburb.Fighter.prototype = new Sburb.Sprite();
 
 //update the Fighter one frame
 Sburb.Fighter.prototype.update = function(curRoom){
 	this.tryToMove(curRoom);
-	this.prototype.update(curRoom);
+	Sburb.Sprite.prototype.update.call(this,curRoom);
 	this.animation.flipX = (this.facing=="Left");
 }
 
@@ -69,26 +69,29 @@ Sburb.Fighter.prototype.attack = function(){
 }
 
 //impulse fighter to move up
-Sburb.Fighter.prototype.moveUp = function(room){
+Sburb.Fighter.prototype.moveUp = function(){
 	this.walk();
 	this.vy-=this.accel;
 }
 //impulse fighter to move down
-Sburb.Fighter.prototype.moveDown = function(room){
+Sburb.Fighter.prototype.moveDown = function(){
 	this.walk();
 	this.vy+=this.accel;
 }
 //impulse fighter to move left
-Sburb.Fighter.prototype.moveLeft = function(room){
+Sburb.Fighter.prototype.moveLeft = function(){
 	this.walk();
 	this.vx-=this.accel;
 	this.facing = "Left";
 }
 //impulse fighter to move right
-Sburb.Fighter.prototype.moveRight = function(room){
+Sburb.Fighter.prototype.moveRight = function(){
 	this.walk();
 	this.vx+=this.accel;
 	this.facing = "Right";
+}
+Sburb.Fighter.prototype.moveNone = function(){
+
 }
 
 //behave as a PC

@@ -250,7 +250,7 @@ Sburb.parseAnimation = function(animationNode, assetFolder){
 	var flipX = (temp = attributes.getNamedItem("flipX"))?temp.value!="false":false;
 	var flipY = (temp = attributes.getNamedItem("flipY"))?temp.value!="false":false;
 	
-	return new Animation(name,sheet,x,y,colSize,rowSize,startPos,length,frameInterval,loopNum,followUp,flipX,flipY);
+	return new Sburb.Animation(name,sheet,x,y,colSize,rowSize,startPos,length,frameInterval,loopNum,followUp,flipX,flipY);
 }
 
 return Sburb;

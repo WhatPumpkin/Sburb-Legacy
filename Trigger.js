@@ -116,12 +116,12 @@ Sburb.Trigger.prototype.serialize = function(output){
 		(this.restart?" restart='true'":"")+
 		(this.detonate?" detonate='true'":"")+
 		">");
-	output = output.concat(info);
-	if(action){
-		output = action.serialize(output);
+	output = output.concat(this.info);
+	if(this.action){
+		output = this.action.serialize(output);
 	}
-	if(followUp){
-		output = followUp.serialize(output);
+	if(this.followUp){
+		output = this.followUp.serialize(output);
 	}
 	output = output.concat("\n</Trigger>");
 	return output;
@@ -138,7 +138,7 @@ Sburb.Trigger.prototype.serialize = function(output){
 ////////////////////////////////////////
 
 //Parse a Trigger from XML
-function parseTrigger(triggerNode){
+Sburb.parseTrigger = function(triggerNode){
 	var firstTrigger = null;
 	var oldTrigger = null;
 	do{

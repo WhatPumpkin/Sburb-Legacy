@@ -137,7 +137,7 @@ Sprite.prototype.serialize = function(output){
 	}
 	
 	output = output.concat("\n<Sprite "+
-		serializeAttributes(this,"name","x","y","dx","dy","width","height","depthing","collidable")+
+		Sburb.serializeAttributes(this,"name","x","y","dx","dy","width","height","depthing","collidable")+
 		(animationCount>1?"state='"+this.state+"' ":"")+
 		">");
 

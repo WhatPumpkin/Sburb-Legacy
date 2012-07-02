@@ -1,4 +1,4 @@
-var Sburb = function(Sburb){
+var Sburb = (function(Sburb){
 
 
 
@@ -23,7 +23,7 @@ Sburb.SpriteButton = function(name,x,y,width,height,sheet,action){
 	this.startAnimation("state0");
 }
 
-Sburb.SpriteButton.prototype = new Sprite();
+Sburb.SpriteButton.prototype = new Sburb.Sprite();
 
 //update button in relation to mouse state
 Sburb.SpriteButton.prototype.updateMouse = function(x,y,mouseDown){
@@ -83,7 +83,7 @@ Sburb.parseSpriteButton = function(button){
   									attributes.getNamedItem("y")?parseInt(attributes.getNamedItem("y").value):0,
   									parseInt(attributes.getNamedItem("width").value),
   									parseInt(attributes.getNamedItem("height").value),
-  									assets[attributes.getNamedItem("sheet").value]);
+  									Sburb.assets[attributes.getNamedItem("sheet").value]);
   	var curAction = button.getElementsByTagName("Action");
   	if(curAction){
   		var newAction = Sburb.parseAction(curAction[0]);

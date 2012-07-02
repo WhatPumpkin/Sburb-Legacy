@@ -73,7 +73,7 @@ Sburb.AssetManager.prototype.assetLoaded = function(name){
 			// Jterniabound.js
 			Sburb.drawLoader();
 			
-			if(this.finishedLoading() && _hardcode_load){
+			if(this.finishedLoading() && Sburb._hardcode_load){
 				// only really here to work for old hard-loading
 				Sburb.finishInit();
 				initFinished = true;

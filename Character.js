@@ -8,7 +8,7 @@ var Sburb = (function(Sburb){
 
 //constructor
 Sburb.Character = function(name,x,y,width,height,sx,sy,sWidth,sHeight,sheet,bootstrap){
-	Sburb.Sprite.call(this,name,x,y,width,height,null,null,MG_DEPTHING,true);
+	Sburb.Sprite.call(this,name,x,y,width,height,null,null,Sburb.Sprite.prototype.MG_DEPTHING,true);
 
 	this.speed = 9;
 	this.vx = 0;
@@ -21,14 +21,14 @@ Sburb.Character = function(name,x,y,width,height,sx,sy,sWidth,sHeight,sheet,boot
 		sWidth = typeof sWidth == "number" ? sWidth : width;
 		sHeight = typeof sHeight == "number" ? sHeight : height;
 
-		this.addAnimation(new Animation("idleFront",sheet,sx,sy,sWidth,sHeight,0,1,2));
-		this.addAnimation(new Animation("idleRight",sheet,sx,sy,sWidth,sHeight,1,1,2));
-		this.addAnimation(new Animation("idleBack",sheet,sx,sy,sWidth,sHeight,2,1,2));
-		this.addAnimation(new Animation("idleLeft",sheet,sx,sy,sWidth,sHeight,3,1,2));
-		this.addAnimation(new Animation("walkFront",sheet,sx,sy,sWidth,sHeight,4,2,4));
-		this.addAnimation(new Animation("walkRight",sheet,sx,sy,sWidth,sHeight,6,2,4));
-		this.addAnimation(new Animation("walkBack",sheet,sx,sy,sWidth,sHeight,8,2,4));
-		this.addAnimation(new Animation("walkLeft",sheet,sx,sy,sWidth,sHeight,10,2,4));
+		this.addAnimation(new Sburb.Animation("idleFront",sheet,sx,sy,sWidth,sHeight,0,1,2));
+		this.addAnimation(new Sburb.Animation("idleRight",sheet,sx,sy,sWidth,sHeight,1,1,2));
+		this.addAnimation(new Sburb.Animation("idleBack",sheet,sx,sy,sWidth,sHeight,2,1,2));
+		this.addAnimation(new Sburb.Animation("idleLeft",sheet,sx,sy,sWidth,sHeight,3,1,2));
+		this.addAnimation(new Sburb.Animation("walkFront",sheet,sx,sy,sWidth,sHeight,4,2,4));
+		this.addAnimation(new Sburb.Animation("walkRight",sheet,sx,sy,sWidth,sHeight,6,2,4));
+		this.addAnimation(new Sburb.Animation("walkBack",sheet,sx,sy,sWidth,sHeight,8,2,4));
+		this.addAnimation(new Sburb.Animation("walkLeft",sheet,sx,sy,sWidth,sHeight,10,2,4));
 	
 
 		this.startAnimation("walkFront");
@@ -40,12 +40,12 @@ Sburb.Character = function(name,x,y,width,height,sx,sy,sWidth,sHeight,sheet,boot
 
 }
 
-Sburb.Character.prototype = new Sprite();
+Sburb.Character.prototype = new Sburb.Sprite();
 
 //update as if one frame has passed
 Sburb.Character.prototype.update = function(curRoom){
 	this.tryToMove(this.vx,this.vy,curRoom);
-	this.prototype.update(curRoom);
+	Sburb.Sprite.prototype.update.call(this,curRoom);
 }
 
 //impulse character to move up
@@ -110,13 +110,13 @@ Sburb.Character.prototype.becomePlayer = function(){
 
 //parse key inputs into actions
 Sburb.Character.prototype.handleInputs = function(pressed){
-	if(pressed[Keys.down] || pressed[Keys.s]){
+	if(pressed[Sburb.Keys.down] || pressed[Sburb.Keys.s]){
 		this.moveDown();
-	}else if(pressed[Keys.up] || pressed[Keys.w]){
+	}else if(pressed[Sburb.Keys.up] || pressed[Sburb.Keys.w]){
 		this.moveUp();
-	}else if(pressed[Keys.left] || pressed[Keys.a]){
+	}else if(pressed[Sburb.Keys.left] || pressed[Sburb.Keys.a]){
 		this.moveLeft();
-	}else if(pressed[Keys.right] || pressed[Keys.d]){
+	}else if(pressed[Sburb.Keys.right] || pressed[Sburb.Keys.d]){
 		this.moveRight();
 	}else{
 		this.moveNone();

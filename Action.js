@@ -38,7 +38,7 @@ Sburb.Action.prototype.serialize = function(output){
 		(this.silent?"' silent='"+this.silent:"")+
 		(this.times!=1?"' times='"+this.times:"")+
 		"'>");
-	output = output.concat(info.trim());
+	output = output.concat(this.info.trim());
 	if(this.followUp){
 		output = this.followUp.serialize(output);
 	}
@@ -66,7 +66,7 @@ Sburb.parseAction = function(node) {
 			targSprite = sprites[attributes.getNamedItem("sprite").value];
 		}
 
-		var newAction = new Action(
+		var newAction = new Sburb.Action(
 					 attributes.getNamedItem("command").value,
 					 node.firstChild?node.firstChild.nodeValue.trim():"",
 					 attributes.getNamedItem("name")?attributes.getNamedItem("name").value:null,
