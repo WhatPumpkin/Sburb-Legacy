@@ -41,7 +41,7 @@ Sburb.Fighter.prototype.handleInputs = function(pressed){
 	}else if(pressed[Sburb.Keys.right] || pressed[Sburb.Keys.d]){
 		this.moveRight(); moved = true;
 	}
-	if(pressed[Sburb.Keys.space]){
+	if(pressed[Sburb.Keys.space] || pressed[Sburb.Keys.enter] || pressed[Sburb.Keys.ctrl]){
 		this.attack();
 	}
 	if(!moved){
