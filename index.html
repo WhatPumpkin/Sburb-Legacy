@@ -2,14 +2,14 @@
 	<head>
 		<!-- imports -->
 		<script type="text/javascript" src="Jterniabound.js"></script>
-		<script type="text/javascript" src="inheritance.js"></script>
+		
+		<script type="text/javascript" src="Sprite.js"></script>
 		<script type="text/javascript" src="Fighter.js"></script>
 		<script type="text/javascript" src="Character.js"></script>
-		<script type="text/javascript" src="Sprite.js"></script>
 		<script type="text/javascript" src="SpriteButton.js"></script>
+		
 		<script type="text/javascript" src="Animation.js"></script>
 		<script type="text/javascript" src="Room.js"></script>
-		<script type="text/javascript" src="StaticSprite.js"></script>
 		<script type="text/javascript" src="FontEngine.js"></script>
 		<script type="text/javascript" src="Action.js"></script>
 		<script type="text/javascript" src="Trigger.js"></script>
@@ -35,16 +35,16 @@
 		</style>	
 	</head>
 	
-	<body onload="initialize('levels/wanderTest.xml');">
+	<body onload="Sburb.initialize('levels/wanderTest.xml');">
 		<div style="width:100%;align:middle;"> 
 			<div style="width:100%;margin: 0px auto;">
 				<div style="display:table-cell;width:33%;height:450px;"> 
 					<!-- the stage -->
 					<div id="gameDiv">
 						<canvas id="Stage" width="650" height="450" tabindex="0" 
-									onmousedown = "onMouseDown(event,this)"
-									onmousemove = "onMouseMove(event,this)"
-									onmouseup = "onMouseUp(event,this)">
+									onmousedown = "Sburb.onMouseDown(event,this)"
+									onmousemove = "Sburb.onMouseMove(event,this)"
+									onmouseup = "Sburb.onMouseUp(event,this)">
 						</canvas>
 					</div>
 					<!-- cutscenes will be stored here -->
@@ -53,12 +53,12 @@
 				<!-- optional controls -->
 				</br>
 				<div style="text-align:center;maxwidth:33%; margin: 0px auto;"> 
-					<button id="saveState" onclick="serialize(assets,effects,rooms,sprites,hud,dialoger,curRoom,char)">save state</button>
-					<button id="loadState" onclick="loadSerial(document.getElementById('serialText').value)">load state</button>
+					<button id="saveState" onclick="Sburb.serialize(Sburb.assets, Sburb.effects, Sburb.rooms, Sburb.sprites, Sburb.hud, Sburb.dialoger, Sburb.curRoom, Sburb.char)">save state</button>
+					<button id="loadState" onclick="Sburb.loadSerial(document.getElementById('serialText').value)">load state</button>
 					<input type="file" name="level" id="levelFile" />
-					<button id="loadLevelFile" onclick="loadLevelFile(document.getElementById('levelFile'))">load level</button>
-					<button id="strifeTest" onclick="loadSerialFromXML('levels/strifeTest.xml')">strife test</button>
-					<button id="wanderTest" onclick="loadSerialFromXML('levels/wanderTest.xml')">wander test</button>
+					<button id="loadLevelFile" onclick="Sburb.loadLevelFile(document.getElementById('levelFile'))">load level</button>
+					<button id="strifeTest" onclick="Sburb.loadSerialFromXML('levels/strifeTest.xml')">strife test</button>
+					<button id="wanderTest" onclick="Sburb.loadSerialFromXML('levels/wanderTest.xml')">wander test</button>
 					
 					</br>
 					<textarea id="serialText" style="display:inline; width:650; height:100;"></textarea><br/>

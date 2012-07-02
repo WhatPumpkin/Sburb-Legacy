@@ -1,136 +1,136 @@
-//requires Character.js
+var Sburb = (function(Sburb){
 //650x450 screen
-var Keys = {backspace:8,tab:9,enter:13,shift:16,ctrl:17,alt:18,escape:27,space:32,left:37,up:38,right:39,down:40,w:87,a:65,s:83,d:68};
+Sburb.Keys = {backspace:8,tab:9,enter:13,shift:16,ctrl:17,alt:18,escape:27,space:32,left:37,up:38,right:39,down:40,w:87,a:65,s:83,d:68};
 
-var Stage; //the canvas, we're gonna load it up with a bunch of flash-like game data like fps and scale factors
-var stage; //its context
+Sburb.Stage; //the canvas, we're gonna load it up with a bunch of flash-like game data like fps and scale factors
+Sburb.stage; //its context
+Sburb.pressed; //the pressed keys
+Sburb.assetManager; //the asset loader
+Sburb.assets; //all images, sounds, paths
+Sburb.sprites; //all sprites that were Serial loaded
+Sburb.effects; //all effects that were Serial loaded
+Sburb.rooms; //all rooms
+Sburb.char; //the player
+Sburb.curRoom;
+Sburb.destRoom; //current room, the room we are transitioning to, if it exists.
+Sburb.destX, Sburb.destY; //the desired location in the room we are transitioning to, if it exists.
+Sburb.focus; //the focus of the camera (a sprite), usually just the char
+Sburb.chooser; //the option chooser
+Sburb.curAction; //the current action being performed
+Sburb.bgm; //the current background music
+Sburb.hud; //the hud; help and sound buttons
+Sburb.Mouse = {down:false,x:0,y:0}; //current recorded properties of the mouse
+Sburb.waitFor = null;
+Sburb.engineMode = "wander";
+
 var updateLoop; //the main updateLoop, used to interrupt updating
-var pressed; //the pressed keys
-var assetManager; //the asset loader
-var assets; //all images, sounds, paths
-var sprites; //all sprites that were Serial loaded
-var effects; //all effects that were Serial loaded
-var rooms; //all rooms
-var char; //the player
-var curRoom,destRoom; //current room, the room we are transitioning to, if it exists.
-var destX,destY; //the desired location in the room we are transitioning to, if it exists.
-var focus; //the focus of the camera (a sprite), usually just the char
-var chooser; //the option chooser
-var curAction; //the current action being performed
-var bgm; //the current background music
-var hud; //the hud; help and sound buttons
-var Mouse = {down:false,x:0,y:0}; //current recorded properties of the mouse
-var waitFor = null;
-var engineMode = "wander";
-
 var initFinished; //only used when _hardcode_load is true
 var _hardcode_load; //set to 1 when we don't want to load from XML: see initialize()
 
-function initialize(levelName){
+Sburb.initialize = function(levelName){
 	var gameDiv = document.getElementById("gameDiv");
 	gameDiv.onkeydown = _onkeydown;
 	gameDiv.onkeyup = _onkeyup;
-	Stage = document.getElementById("Stage");	
-	Stage.scaleX = Stage.scaleY = 3;
-	Stage.x = Stage.y = 0;
-	Stage.fps = 30;
-	Stage.fade = 0;
-	Stage.fadeRate = 0.1;
+	Sburb.Stage = document.getElementById("Stage");	
+	Sburb.Stage.scaleX = Sburb.Stage.scaleY = 3;
+	Sburb.Stage.x = Sburb.Stage.y = 0;
+	Sburb.Stage.fps = 30;
+	Sburb.Stage.fade = 0;
+	Sburb.Stage.fadeRate = 0.1;
 	
-	stage = Stage.getContext("2d");
+	Sburb.stage = Sburb.Stage.getContext("2d");
 	
-	chooser = new Chooser();
-	dialoger = new Dialoger();
-    assetManager = new AssetManager();
-	assets = assetManager.assets; // shortcut for raw asset access
-	rooms = {};
-	sprites = {};
-	commands = {};
-	effects = {};
-	hud = {};
-	pressed = new Array();
-	buildCommands();
+	Sburb.chooser = new Sburb.Chooser();
+	Sburb.dialoger = new Sburb.Dialoger();
+    Sburb.assetManager = new Sburb.AssetManager();
+	Sburb.assets = Sburb.assetManager.assets; // shortcut for raw asset access
+	Sburb.rooms = {};
+	Sburb.sprites = {};
+	Sburb.commands = {};
+	Sburb.effects = {};
+	Sburb.hud = {};
+	Sburb.pressed = new Array();
 	
-    loadSerialFromXML(levelName); // comment out this line and
+    Sburb.loadSerialFromXML(levelName); // comment out this line and
     //loadAssets();                        // uncomment these two lines, to do a standard hardcode load
     //_hardcode_load = 1;
 }
 
-function update(gameTime){
+function update(){
 	//update stuff
 	handleInputs();
 	handleHud();
 	
-	curRoom.update(gameTime);
+	Sburb.curRoom.update();
 	
 	focusCamera();
 	handleRoomChange();
-	chooser.update(gameTime);
-	dialoger.update(gameTime);
+	Sburb.chooser.update();
+	Sburb.dialoger.update();
 	chainAction();
 	updateWait();
 	
 	//must be last
     
-	updateLoop=setTimeout("update("+(gameTime+1)+")",1000/Stage.fps);
+	updateLoop=setTimeout("update()",1000/Sburb.Stage.fps);
 	draw(gameTime);
 }
 
-function draw(gameTime){
+function draw(){
 	//stage.clearRect(0,0,Stage.width,Stage.height);
 	
-	stage.save();
-	Stage.offset = true;
-	stage.translate(-Stage.x,-Stage.y);
+	Sburb.stage.save();
+	Sburb.Stage.offset = true;
+	Sburb.stage.translate(-Stage.x,-Stage.y);
 	
-	curRoom.draw();
-	chooser.draw();
+	Sburb.curRoom.draw();
+	Sburb.chooser.draw();
 	
-	stage.restore();
-	Stage.offset = false;
-	dialoger.draw();
+	Sburb.stage.restore();
+	Sburb.Stage.offset = false;
+	Sburb.dialoger.draw();
 	
-	if(Stage.fade>0.1){
-		stage.fillStyle = "rgba(0,0,0,"+Stage.fade+")";
-		stage.fillRect(0,0,Stage.width,Stage.height);
+	if(Sburb.Stage.fade>0.1){
+		Sburb.stage.fillStyle = "rgba(0,0,0,"+Sburb.Stage.fade+")";
+		Sburb.stage.fillRect(0,0,Sburb.Stage.width,Sburb.Stage.height);
 	}
 	
 	drawHud();
 }
 
 var _onkeydown = function(e){
-	if(chooser.choosing){
-		if(e.keyCode == Keys.down || e.keyCode==Keys.s){
-			chooser.nextChoice();
+	if(Sburb.chooser.choosing){
+		if(e.keyCode == Sburb.Keys.down || e.keyCode==Sburb.Keys.s){
+			Sburb.chooser.nextChoice();
 		}
-		if(e.keyCode == Keys.up || e.keyCode==Keys.w){
-			chooser.prevChoice();
+		if(e.keyCode == Sburb.Keys.up || e.keyCode==Sburb.Keys.w){
+			Sburb.chooser.prevChoice();
 		}
-		if(e.keyCode == Keys.space && !pressed[Keys.space]){
-			performAction(chooser.choices[chooser.choice]);
-			chooser.choosing = false;
+		if(e.keyCode == Sburb.Keys.space && !Sburb.pressed[Sburb.Keys.space]){
+			Sburb.performAction(Sburb.chooser.choices[Sburb.chooser.choice]);
+			Sburb.chooser.choosing = false;
 		}
-	}else if(dialoger.talking){
-		if(e.keyCode == Keys.space && !pressed[Keys.space]){
-			dialoger.nudge();
+	}else if(Sburb.dialoger.talking){
+		if(e.keyCode == Sburb.Keys.space && !Sburb.pressed[Sburb.Keys.space]){
+			Sburb.dialoger.nudge();
 		}
 	}else if(hasControl()){
-		if(e.keyCode == Keys.space && !pressed[Keys.space] && engineMode=="wander"){
-			chooser.choices = new Array();
-			var queries = char.getActionQueries();
+		if(e.keyCode == Sburb.Keys.space && !Sburb.pressed[Sburb.Keys.space] && Sburb.engineMode=="wander"){
+			Sburb.chooser.choices = new Array();
+			var queries = Sburb.char.getActionQueries();
 			for(var i=0;i<queries.length;i++){
-				chooser.choices = curRoom.queryActions(char,queries[i].x,queries[i].y);
-				if(chooser.choices.length>0){
+				Sburb.chooser.choices = Sburb.curRoom.queryActions(Sburb.char,queries[i].x,queries[i].y);
+				if(Sburb.chooser.choices.length>0){
 					break;
 				}
 			}
-			if(chooser.choices.length>0){
-				chooser.choices.push(new Action("cancel","cancel","cancel"));
+			if(Sburb.chooser.choices.length>0){
+				Sburb.chooser.choices.push(new Sburb.Action("cancel","cancel","cancel"));
 				beginChoosing();
 			}
 		}
 	}
-	pressed[e.keyCode] = true;
+	Sburb.pressed[e.keyCode] = true;
     // return true if we want to pass keys along to the browser, i.e. Ctrl-N for a new window
     if(e.altKey || e.ctrlKey || e.metaKey) {
 		// don't muck with system stuff
@@ -140,30 +140,30 @@ var _onkeydown = function(e){
 }
 
 var _onkeyup = function(e){
-	pressed[e.keyCode] = false;
+	Sburb.pressed[e.keyCode] = false;
 }
 
-function onMouseMove(e,canvas){
-	point = relMouseCoords(e,canvas);
-	Mouse.x = point.x;
-	Mouse.y = point.y;
+Sburb.onMouseMove = function(e,canvas){
+	var point = relMouseCoords(e,canvas);
+	Sburb.Mouse.x = point.x;
+	Sburb.Mouse.y = point.y;
 }
 
-function onMouseDown(e,canvas){
-	if(engineMode=="strife" && hasControl()){
-		chooser.choices = curRoom.queryActionsVisual(char,Stage.x+Mouse.x,Stage.y+Mouse.y);
-		if(chooser.choices.length>0){
-			chooser.choices.push(new Action("cancel","cancel","cancel"));
+Sburb.onMouseDown = function(e,canvas){
+	if(Sburb.engineMode=="strife" && hasControl()){
+		Sburb.chooser.choices = Sburb.curRoom.queryActionsVisual(Sburb.char,Sburb.Stage.x+Sburb.Mouse.x,Sburb.Stage.y+Sburb.Mouse.y);
+		if(Sburb.chooser.choices.length>0){
+			Sburb.chooser.choices.push(new Sburb.Action("cancel","cancel","cancel"));
 			beginChoosing();
 		}
 	}
-	Mouse.down = true;
+	Sburb.Mouse.down = true;
 	
 }
 
-function onMouseUp(e,canvas){
-	Mouse.down = false;
-	dialoger.nudge();
+Sburb.onMouseUp = function(e,canvas){
+	Sburb.Mouse.down = false;
+	Sburb.dialoger.nudge();
 }
 
 function relMouseCoords(event,canvas){
@@ -184,81 +184,50 @@ function relMouseCoords(event,canvas){
 }
 
 function drawLoader(){
-	stage.fillStyle = "rgb(240,240,240)";
-	stage.fillRect(0,0,Stage.width,Stage.height);
-	stage.fillStyle = "rgb(200,0,0)"
-	stage.font="30px Arial";
-    stage.fillText("Loading Assets: "+assetManager.totalLoaded+"/"+assetManager.totalAssets,100,200);
+	Sburb.stage.fillStyle = "rgb(240,240,240)";
+	Sburb.stage.fillRect(0,0,Sburb.Stage.width,Sburb.Stage.height);
+	Sburb.stage.fillStyle = "rgb(200,0,0)"
+	Sburb.stage.font="30px Arial";
+    Sburb.stage.fillText("Loading Assets: "+Sburb.assetManager.totalLoaded+"/"+Sburb.assetManager.totalAssets,100,200);
 }
 
 function handleInputs(){
 	if(hasControl()){
-		char.handleInputs(pressed);
+		Sburb.char.handleInputs(Sburb.pressed);
 	}else{
-		char.moveNone();
+		Sburb.char.moveNone();
 	}
 }
 
 function handleHud(){
-	for(var content in hud){
-		var obj = hud[content];
+	for(var content in Sburb.hud){
+		var obj = Sburb.hud[content];
 		if(obj.updateMouse){
 			obj.updateMouse(Mouse.x,Mouse.y,Mouse.down);
-			obj.update(1);
+			obj.update();
 			if(obj.clicked && obj.action){
-				performAction(obj.action);
+				Sburb.performAction(obj.action);
 			}
 		}
 	}
 }
 
 function drawHud(){
-	for(var content in hud){
-		hud[content].draw();
+	for(var content in Sburb.hud){
+		Sburb.hud[content].draw();
 	}
 }
 
 function hasControl(){
-	return !dialoger.talking && !chooser.choosing && !destRoom && !waitFor;
-}
-
-function performAction(action){
-	if(action.silent){
-		performActionSilent(action);
-		return;
-	}
-	if(((curAction &&curAction.followUp!=action) || !hasControl()) && action.soft){
-		return;
-	}
-	
-	var looped = false;
-	curAction = action.clone();
-	do{
-		if(looped){
-			curAction = curAction.followUp.clone();
-		}
-   	performActionSilent(curAction);
-   	looped = true;
-   }while(curAction.times<=0 && curAction.followUp && curAction.followUp.noDelay);
-}
-
-function performActionSilent(action){
-	action.times--;
-	commands[action.command.trim()](action.info.trim());
+	return !Sburb.dialoger.talking && !Sburb.chooser.choosing && !Sburb.destRoom && !Sburb.waitFor;
 }
 
 function focusCamera(){
 	//need to divide these by scaleX and scaleY if repurposed
-	Stage.x = Math.max(0,Math.min(focus.x-Stage.width/2,curRoom.width-Stage.width));
-	Stage.y = Math.max(0,Math.min(focus.y-Stage.height/2,curRoom.height-Stage.height));
-	Stage.x = Math.round(Stage.x/3)*3;
-	Stage.y = Math.round(Stage.y/3)*3;
-}
-
-function changeRoom(newRoom,newX,newY){
-	destRoom = newRoom;
-	destX = newX;
-	destY = newY;
+	Sburb.Stage.x = Math.max(0,Math.min(Sburb.focus.x-Sburb.Stage.width/2,Sburb.curRoom.width-Sburb.Stage.width));
+	Sburb.Stage.y = Math.max(0,Math.min(Sburb.focus.y-Sburb.Stage.height/2,Sburb.curRoom.height-Sburb.Stage.height));
+	Sburb.Stage.x = Math.round(Sburb.Stage.x/3)*3;
+	Sburb.Stage.y = Math.round(Sburb.Stage.y/3)*3;
 }
 
 function handleRoomChange(){
@@ -280,80 +249,125 @@ function handleRoomChange(){
 	}
 }
 
-function moveSprite(sprite,oldRoom,newRoom){
-	oldRoom.removeSprite(sprite);
-	newRoom.addSprite(sprite);
-}
-
 function beginChoosing(){
-	char.idle();
-	chooser.beginChoosing(char.x,char.y);
+	Sburb.char.idle();
+	Sburb.chooser.beginChoosing(Sburb.char.x,Sburb.char.y);
 }
 
-function setCurRoomOf(sprite){
-	if(!curRoom.contains(sprite)){
-		for(var room in rooms){
-			if(rooms[room].contains(sprite)){
-				changeRoom(rooms[room],char.x,char.y);
-				return;
-			}
-		}
-	}
-}
-
-function changeBGM(newSong) {
-    if(newSong){
-		if(bgm) {
-			if (bgm == newSong) {
-				// maybe check for some kind of restart value
-				return;
-			}
-			bgm.stop();
-		}
-		bgm = newSong;
-		bgm.stop();
-		bgm.play();
-    }
-}
-
-function playEffect(effect,x,y){
-	curRoom.addEffect(effect.clone(x,y));
-}
-
-function playSound(sound){
-	sound.stop();
-	sound.play();
-}
-
-function playMovie(movie){
-	var name = movie.name;
-	document.getElementById(name).style.display = "block";
-	document.getElementById("gameDiv").style.display = "none";
-	waitFor = new Trigger("movie,"+name+",1");
-}
-    
 function chainAction(){
-	if(curAction){
-		if(curAction.times<=0){
-			if(curAction.followUp){
-				if(hasControl() || curAction.followUp.noWait){
-					performAction(curAction.followUp);
+	if(Sburb.curAction){
+		if(Sburb.curAction.times<=0){
+			if(Sburb.curAction.followUp){
+				if(hasControl() || Sburb.curAction.followUp.noWait){
+					Sburb.performAction(Sburb.curAction.followUp);
 				}
 			}else{
-				curAction = null;
+				Sburb.curAction = null;
 			}
-		}else if(hasControl() || curAction.noWait){
-			performAction(curAction);
+		}else if(hasControl() || Sburb.curAction.noWait){
+			Sburb.performAction(curAction);
 		}
 	}
 }    
 
 function updateWait(){
-	if(waitFor){
-		if(waitFor.checkCompletion()){
-			waitFor = null;
+	if(Sburb.waitFor){
+		if(Sburb.waitFor.checkCompletion()){
+			Sburb.waitFor = null;
 		}
 	}
 }
+
+Sburb.performAction = function(action){
+	if(action.silent){
+		Sburb.performActionSilent(action);
+		return;
+	}
+	if(((Sburb.curAction && Sburb.curAction.followUp!=action) || !hasControl()) && action.soft){
+		return;
+	}
+	
+	var looped = false;
+	Sburb.curAction = action.clone();
+	do{
+		if(looped){
+			Sburb.curAction = Sburb.curAction.followUp.clone();
+		}
+   	Sburb.performActionSilent(Sburb.curAction);
+   	looped = true;
+   }while(Sburb.curAction.times<=0 && Sburb.curAction.followUp && Sburb.curAction.followUp.noDelay);
+}
+
+Sburb.performActionSilent = function(action){
+	action.times--;
+	Sburb.commands[action.command.trim()](action.info.trim());
+}
+
+
+
+Sburb.changeRoom = function(newRoom,newX,newY){
+	Sburb.destRoom = newRoom;
+	Sburb.destX = newX;
+	Sburb.destY = newY;
+}
+
+
+
+Sburb.moveSprite = function(sprite,oldRoom,newRoom){
+	oldRoom.removeSprite(sprite);
+	newRoom.addSprite(sprite);
+}
+
+
+
+Sburb.setCurRoomOf = function(sprite){
+	if(!Sburb.curRoom.contains(sprite)){
+		for(var room in Sburb.rooms){
+			if(Sburb.rooms[room].contains(sprite)){
+				Sburb.changeRoom(Sburb.rooms[room],Sburb.char.x,Sburb.char.y);
+				return;
+			}
+		}
+	}
+}
+
+Sburb.changeBGM = function(newSong) {
+    if(newSong){
+		if(Sburb.bgm) {
+			if (Sburb.bgm == newSong) {
+				// maybe check for some kind of restart value
+				return;
+			}
+			Sburb.bgm.stop();
+		}
+		Sburb.bgm = newSong;
+		Sburb.bgm.stop();
+		Sburb.bgm.play();
+    }
+}
+
+Sburb.playEffect = function(effect,x,y){
+	Sburb.curRoom.addEffect(effect.clone(x,y));
+}
+
+Sburb.playSound = function(sound){
+	sound.stop();
+	sound.play();
+}
+
+Sburb.playMovie = function(movie){
+	var name = movie.name;
+	document.getElementById(name).style.display = "block";
+	document.getElementById("gameDiv").style.display = "none";
+	Sburb.waitFor = new Sburb.Trigger("movie,"+name+",1");
+}
+
+
+
+
+Sburb.update = update;
+
+return Sburb;
+})(Sburb || {});
 
     
