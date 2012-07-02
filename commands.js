@@ -125,7 +125,7 @@ var moveSpriteCommand = function(info){
 //Play the specified flash movie
 //syntax: movieName
 var playMovieCommand = function(info){
-	Sburb.playMovie(assets[info]);
+	Sburb.playMovie(Sburb.assets[info]);
 	Sburb.bgm.pause();
 }
 

@@ -84,7 +84,7 @@ Sburb.Trigger.prototype.reset = function(){
 		this.threshold = parseInt(params[2]);
 		this.checkCompletion = function(){
 			if(this.movie && this.movie.TotalFrames()>0 && this.movie.TotalFrames()-1-this.movie.CurrentFrame()<=this.threshold){
-				removeMovieCommand(params[1]);
+				Sburb.commands.removeMovie(params[1]);
 				return true;
 			}
 			return false;

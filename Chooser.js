@@ -10,9 +10,9 @@ var Sburb = (function(Sburb){
 //constructor
 Sburb.Chooser = function(){
 	this.choosing = false;
-	this.choices = new Array();
+	this.choices = [];
 	this.choice = 0;
-	this.dialogs = new Array();
+	this.dialogs = [];
 }
 
 //go to the next choice
@@ -29,7 +29,7 @@ Sburb.Chooser.prototype.prevChoice = function(){
 Sburb.Chooser.prototype.beginChoosing = function(x,y){
 	this.choosing = true;
 	this.choice = 0;
-	this.dialogs = new Array();
+	this.dialogs = [];
 	for(var i=0;i<this.choices.length;i++){
 		var curEngine = new Sburb.FontEngine(" > "+this.choices[i].name);
 		curEngine.showSubText(0,1);

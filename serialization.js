@@ -135,7 +135,7 @@ function purgeState(){
 	Sburb.sprites = {};
 	Sburb.effects = {};
 	Sburb.curAction = null;
-	Sburb.pressed = new Array();
+	Sburb.pressed = [];
 	Sburb.chooser = new Sburb.Chooser();
 	Sburb.dialoger = new Sburb.Dialoger();
 	Sburb.curRoom = null;

@@ -20,51 +20,13 @@
 		<script type="text/javascript" src="Audio.js"></script>
 		<script type="text/javascript" src="Assets.js"></script>
 		<script type="text/javascript" src="Path.js"></script>
-		
-		<!-- stage formatting -->
-		<style type="text/css">
-			canvas {
-				padding-left: 0;
-				padding-right: 0;
-				margin-left: auto;
-				margin-right: auto;
-				display: block;
-				width:650px;
-				height:450px;
-			}
-		</style>	
 	</head>
 	
-	<body onload="Sburb.initialize('levels/wanderTest.xml');">
+	<body onload="Sburb.initialize('JterniaDeploy','levels/wanderTest.xml','true');">
 		<div style="width:100%;align:middle;"> 
-			<div style="width:100%;margin: 0px auto;">
-				<div style="display:table-cell;width:33%;height:450px;"> 
-					<!-- the stage -->
-					<div id="gameDiv">
-						<canvas id="Stage" width="650" height="450" tabindex="0" 
-									onmousedown = "Sburb.onMouseDown(event,this)"
-									onmousemove = "Sburb.onMouseMove(event,this)"
-									onmouseup = "Sburb.onMouseUp(event,this)">
-						</canvas>
-					</div>
-					<!-- cutscenes will be stored here -->
-					<div id="movieBin"></div>
-				</div>	
-				<!-- optional controls -->
-				</br>
-				<div style="text-align:center;maxwidth:33%; margin: 0px auto;"> 
-					<button id="saveState" onclick="Sburb.serialize(Sburb.assets, Sburb.effects, Sburb.rooms, Sburb.sprites, Sburb.hud, Sburb.dialoger, Sburb.curRoom, Sburb.char)">save state</button>
-					<button id="loadState" onclick="Sburb.loadSerial(document.getElementById('serialText').value)">load state</button>
-					<input type="file" name="level" id="levelFile" />
-					<button id="loadLevelFile" onclick="Sburb.loadLevelFile(document.getElementById('levelFile'))">load level</button>
-					<button id="strifeTest" onclick="Sburb.loadSerialFromXML('levels/strifeTest.xml')">strife test</button>
-					<button id="wanderTest" onclick="Sburb.loadSerialFromXML('levels/wanderTest.xml')">wander test</button>
-					
-					</br>
-					<textarea id="serialText" style="display:inline; width:650; height:100;"></textarea><br/>
-				</div>			
+			<div id="JterniaDeploy">
+						
 			</div>
-			
 		</div>
 	</body>
 </html>

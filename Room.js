@@ -13,12 +13,12 @@ Sburb.Room = function(name,width,height){
 	this.name = name;
 	this.width = width;
 	this.height = height;
-	this.sprites = new Array();
-	this.effects = new Array();
-	this.walkables = new Array();
-	this.unwalkables = new Array();
-	this.motionPaths = new Array();
-	this.triggers = new Array();
+	this.sprites = [];
+	this.effects = [];
+	this.walkables = [];
+	this.unwalkables = [];
+	this.motionPaths = [];
+	this.triggers = [];
 }
 
 //add an Effect to the room
@@ -71,7 +71,7 @@ Sburb.Room.prototype.addMotionPath = function(path, xtox,xtoy,ytox,ytoy,dx,dy) {
 
 //perform any exit activities necessary
 Sburb.Room.prototype.exit = function(){
-	this.effects = new Array();
+	this.effects = [];
 }
 
 //check if the room contains the sprite
@@ -132,7 +132,7 @@ Sburb.Room.prototype.sortDepths = function(){
 
 //query the room for an action based on actual collisions
 Sburb.Room.prototype.queryActions = function(query,x,y){
-	var validActions = new Array();
+	var validActions = [];
 	for(var i=0;i<this.sprites.length;i++){
 		var sprite = this.sprites[i];
 		if(sprite!=query && sprite.hitsPoint(x,y)){
@@ -144,7 +144,7 @@ Sburb.Room.prototype.queryActions = function(query,x,y){
 
 //query the room for an action based on visual collisions
 Sburb.Room.prototype.queryActionsVisual = function(query,x,y){
-	var validActions = new Array();
+	var validActions = [];
 	for(var i=0;i<this.sprites.length;i++){
 		var sprite = this.sprites[i];
 		if(sprite.isVisuallyUnder(x,y)){

@@ -40,11 +40,11 @@ Sburb.FontEngine = function(text){
 	this.height=999999;
 	this.start=0;
 	this.end=999999;
-	this.lines = new Array();
+	this.lines = [];
 	this.lineHeight = 17;
 	this.charWidth = 8;
 	
-	this.formatQueue = new Array();
+	this.formatQueue = [];
 }
 
 Sburb.FontEngine.prototype.prefixColours = {	
@@ -100,7 +100,7 @@ Sburb.FontEngine.prototype.parseEverything = function(){
 
 //parse the text
 Sburb.FontEngine.prototype.parseText = function(){ //break it up into lines
-	this.lines = new Array();
+	this.lines = [];
 	var i = 0;
 	var lastSpace = 0;
 	var lineStart = 0;
@@ -130,7 +130,7 @@ Sburb.FontEngine.prototype.parseText = function(){ //break it up into lines
 
 //parse the formatting of the text
 Sburb.FontEngine.prototype.parseFormatting = function(){
-	this.formatQueue = new Array();
+	this.formatQueue = [];
 	var prefix = this.text.substring(0,this.text.indexOf(" "));
 	var actor;
 	if(prefix!="!"){
@@ -235,7 +235,7 @@ Sburb.FontEngine.prototype.draw = function(){
 	var linePos=0;
 	var strStart,strEnd;
 	var currentFormat = 0;
-	var currentFormats = new Array();
+	var currentFormats = [];
 	var nextStop;
 	var curLine;
 	Sburb.stage.save();

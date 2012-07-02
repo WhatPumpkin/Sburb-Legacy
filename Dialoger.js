@@ -11,7 +11,7 @@ var Sburb = (function(Sburb){
 //Constructor
 Sburb.Dialoger = function(){
 	this.talking = false;
-	this.queue = new Array();
+	this.queue = [];
 	this.dialog = new Sburb.FontEngine();
 	this.colorMap = {CG:"#000000"};
 	this.dialogSpriteLeft = null;

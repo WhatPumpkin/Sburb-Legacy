@@ -20,7 +20,7 @@ function Sprite(name,x,y,width,height,dx,dy,depthing,collidable){
 	this.animation = null;
 	this.state = null;
 	this.lastTime = 0;
-	this.actions = new Array();
+	this.actions = [];
 	this.name = name;
 	
 }
@@ -108,7 +108,7 @@ Sprite.prototype.removeAction = function(name){
 }
 
 Sprite.prototype.getActions = function(sprite){
-	var validActions = new Array();
+	var validActions = [];
 	for(var i=0;i<this.actions.length;i++){
 		if(!this.actions[i].sprite || this.actions[i].sprite==sprite){
 			validActions.push(this.actions[i]);

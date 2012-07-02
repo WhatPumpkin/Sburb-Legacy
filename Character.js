@@ -220,7 +220,7 @@ Sburb.Character.prototype.tryToMove = function(vx,vy,room){
 
 //get locations character wishes to query for actions
 Sburb.Character.prototype.getActionQueries = function(){
-	var queries = new Array();
+	var queries = [];
 	queries.push({x:this.x,y:this.y});
 	if(this.facing=="Front"){
 		queries.push({x:this.x,y:this.y+(this.height/2+15)});

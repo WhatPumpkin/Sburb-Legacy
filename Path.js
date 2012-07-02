@@ -7,7 +7,7 @@ var Sburb = (function(Sburb){
 
 //constructor
 Sburb.Path = function(){
-	this.points = new Array();
+	this.points = [];
 }
 
 //add a point to the path

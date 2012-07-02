@@ -105,7 +105,7 @@ Sburb.Fighter.prototype.becomeNPC = function(){
 
 //get all the locations the Fighter would wich to query for actions
 Sburb.Fighter.prototype.getActionQueries = function(){
-	var queries = new Array();
+	var queries = [];
 	return queries;
 }
 

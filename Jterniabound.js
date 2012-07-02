@@ -8,32 +8,66 @@ var Sburb = (function(Sburb){
 //650x450 screen
 Sburb.Keys = {backspace:8,tab:9,enter:13,shift:16,ctrl:17,alt:18,escape:27,space:32,left:37,up:38,right:39,down:40,w:87,a:65,s:83,d:68};
 
-Sburb.Stage; //the canvas, we're gonna load it up with a bunch of flash-like game data like fps and scale factors
-Sburb.stage; //its context
-Sburb.pressed; //the pressed keys
-Sburb.assetManager; //the asset loader
-Sburb.assets; //all images, sounds, paths
-Sburb.sprites; //all sprites that were Serial loaded
-Sburb.effects; //all effects that were Serial loaded
-Sburb.rooms; //all rooms
-Sburb.char; //the player
-Sburb.curRoom;
-Sburb.destRoom; //current room, the room we are transitioning to, if it exists.
-Sburb.destX, Sburb.destY; //the desired location in the room we are transitioning to, if it exists.
-Sburb.focus; //the focus of the camera (a sprite), usually just the char
-Sburb.chooser; //the option chooser
-Sburb.curAction; //the current action being performed
-Sburb.bgm; //the current background music
-Sburb.hud; //the hud; help and sound buttons
+Sburb.Stage = null; //the canvas, we're gonna load it up with a bunch of flash-like game data like fps and scale factors
+Sburb.stage = null; //its context
+Sburb.pressed = null; //the pressed keys
+Sburb.assetManager = null; //the asset loader
+Sburb.assets = null; //all images, sounds, paths
+Sburb.sprites = null; //all sprites that were Serial loaded
+Sburb.effects = null; //all effects that were Serial loaded
+Sburb.rooms = null; //all rooms
+Sburb.char = null; //the player
+Sburb.curRoom = null;
+Sburb.destRoom = null; //current room, the room we are transitioning to, if it exists.
+Sburb.destX = null;
+Sburb.destY = null; //the desired location in the room we are transitioning to, if it exists.
+Sburb.focus = null; //the focus of the camera (a sprite), usually just the char
+Sburb.chooser = null; //the option chooser
+Sburb.curAction = null; //the current action being performed
+Sburb.bgm = null; //the current background music
+Sburb.hud = null; //the hud; help and sound buttons
 Sburb.Mouse = {down:false,x:0,y:0}; //current recorded properties of the mouse
 Sburb.waitFor = null;
 Sburb.engineMode = "wander";
 
-Sburb.updateLoop; //the main updateLoop, used to interrupt updating
-Sburb.initFinished; //only used when _hardcode_load is true
-Sburb._hardcode_load; //set to 1 when we don't want to load from XML: see initialize()
+Sburb.updateLoop = null; //the main updateLoop, used to interrupt updating
+Sburb.initFinished = null; //only used when _hardcode_load is true
+Sburb._hardcode_load = null; //set to 1 when we don't want to load from XML: see initialize()
 
-Sburb.initialize = function(levelName){
+Sburb.initialize = function(div,levelName,includeDevTools){
+	var deploy = ' \
+	<div style="padding-left: 0;\
+		padding-right: 0;\
+		margin-left: auto;\
+		margin-right: auto;\
+		display: block;\
+		width:650px;\
+		height:450px;"> \
+		<div id="gameDiv" >\
+			<canvas id="Stage" width="650" height="450" tabindex="0" \
+						onmousedown = "Sburb.onMouseDown(event,this)"\
+						onmousemove = "Sburb.onMouseMove(event,this)"\
+						onmouseup = "Sburb.onMouseUp(event,this)"\
+						>\
+			</canvas>\
+		</div>\
+		<div id="movieBin"></div>\
+		</br>';
+	if(includeDevTools){
+		deploy+='\
+		<div> \
+			<button id="saveState" onclick="Sburb.serialize(Sburb.assets, Sburb.effects, Sburb.rooms, Sburb.sprites, Sburb.hud, Sburb.dialoger, Sburb.curRoom, Sburb.char)">save state</button>\
+			<button id="loadState" onclick="Sburb.loadSerial(document.getElementById(\'serialText\').value)">load state</button>\
+			<input type="file" name="level" id="levelFile" />\
+			<button id="loadLevelFile" onclick="Sburb.loadLevelFile(document.getElementById(\'levelFile\'))">load level</button>\
+			<button id="strifeTest" onclick="Sburb.loadSerialFromXML(\'levels/strifeTest.xml\')">strife test</button>\
+			<button id="wanderTest" onclick="Sburb.loadSerialFromXML(\'levels/wanderTest.xml\')">wander test</button>\
+			</br>\
+			<textarea id="serialText" style="display:inline; width:650; height:100;"></textarea><br/>\
+		</div>';
+	}
+	deploy+='</div>';
+	document.getElementById(div).innerHTML = deploy;
 	var gameDiv = document.getElementById("gameDiv");
 	gameDiv.onkeydown = _onkeydown;
 	gameDiv.onkeyup = _onkeyup;
@@ -54,7 +88,7 @@ Sburb.initialize = function(levelName){
 	Sburb.sprites = {};
 	Sburb.effects = {};
 	Sburb.hud = {};
-	Sburb.pressed = new Array();
+	Sburb.pressed = [];
 	
     Sburb.loadSerialFromXML(levelName); // comment out this line and
     //loadAssets();                        // uncomment these two lines, to do a standard hardcode load
@@ -121,7 +155,7 @@ var _onkeydown = function(e){
 		}
 	}else if(hasControl()){
 		if(e.keyCode == Sburb.Keys.space && !Sburb.pressed[Sburb.Keys.space] && Sburb.engineMode=="wander"){
-			Sburb.chooser.choices = new Array();
+			Sburb.chooser.choices = [];
 			var queries = Sburb.char.getActionQueries();
 			for(var i=0;i<queries.length;i++){
 				Sburb.chooser.choices = Sburb.curRoom.queryActions(Sburb.char,queries[i].x,queries[i].y);
