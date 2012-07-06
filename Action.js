@@ -1,4 +1,14 @@
-function Action(command,info,name,sprite,followUp,noWait,noDelay,times,soft,silent){
+var Sburb = (function(Sburb){
+
+
+
+
+///////////////////////////////////////////////
+//Action Class
+///////////////////////////////////////////////
+
+//Constructor
+Sburb.Action = function(command,info,name,sprite,followUp,noWait,noDelay,times,soft,silent){
 	this.sprite = sprite?sprite:null;
 	this.name = name?name:null;
 	this.command = command
@@ -9,31 +19,43 @@ function Action(command,info,name,sprite,followUp,noWait,noDelay,times,soft,sile
 	this.soft = soft?soft:false;
 	this.silent = silent?silent:false;
 	this.times = times?times:1;
-	
-	this.serialize = function(output){
-		output = output.concat("\n<Action "+
-			"command='"+this.command+
-			(this.sprite?"sprite='"+this.sprite.name:"")+
-			(this.name?"' name='"+this.name:"")+
-			(this.noWait?"' noWait='"+this.noWait:"")+
-			(this.noDelay?"' noDelay='"+this.noDelay:"")+
-			(this.soft?"' soft='"+this.soft:"")+
-			(this.silent?"' silent='"+this.silent:"")+
-			(this.times!=1?"' times='"+this.times:"")+
-			"'>");
-		output = output.concat(info.trim());
-		if(this.followUp){
-			output = this.followUp.serialize(output);
-		}
-		output = output.concat("</Action>");
-		return output;
-	}
-	
-	this.clone = function(){
-		return new Action(this.command,this.info,this.name,this.sprite,this.followUp,this.noWait,this.noDelay,this.times,this.soft,this.silent);
-	}
 }
-function parseAction(node) {
+
+//Make an exact copy
+Sburb.Action.prototype.clone = function(){
+	return new Sburb.Action(this.command, this.info, this.name, this.sprite, this.followUp, this.noWait, this.noDelay, this.times, this.soft, this.silent);
+}
+
+//Serialize to XML (see serialization.js)
+Sburb.Action.prototype.serialize = function(output){
+	output = output.concat("\n<Action "+
+		"command='"+this.command+
+		(this.sprite?"sprite='"+this.sprite.name:"")+
+		(this.name?"' name='"+this.name:"")+
+		(this.noWait?"' noWait='"+this.noWait:"")+
+		(this.noDelay?"' noDelay='"+this.noDelay:"")+
+		(this.soft?"' soft='"+this.soft:"")+
+		(this.silent?"' silent='"+this.silent:"")+
+		(this.times!=1?"' times='"+this.times:"")+
+		"'>");
+	output = output.concat(this.info.trim());
+	if(this.followUp){
+		output = this.followUp.serialize(output);
+	}
+	output = output.concat("</Action>");
+	return output;
+}
+
+
+
+
+
+//////////////////////////////////////////////////
+//Related utility functions
+//////////////////////////////////////////////////
+
+//Parse a serialized Action from an XML DOM node
+Sburb.parseAction = function(node) {
 	var targSprite = null;
 	var firstAction = null;
 	var oldAction = null;
@@ -44,7 +66,7 @@ function parseAction(node) {
 			targSprite = sprites[attributes.getNamedItem("sprite").value];
 		}
 
-		var newAction = new Action(
+		var newAction = new Sburb.Action(
 					 attributes.getNamedItem("command").value,
 					 node.firstChild?node.firstChild.nodeValue.trim():"",
 					 attributes.getNamedItem("name")?attributes.getNamedItem("name").value:null,
@@ -73,3 +95,6 @@ function parseAction(node) {
 	
 	return firstAction;
 }
+
+return Sburb;
+})(Sburb || {});

@@ -2,14 +2,14 @@
 	<head>
 		<!-- imports -->
 		<script type="text/javascript" src="Jterniabound.js"></script>
-		<script type="text/javascript" src="inheritance.js"></script>
+		
+		<script type="text/javascript" src="Sprite.js"></script>
 		<script type="text/javascript" src="Fighter.js"></script>
 		<script type="text/javascript" src="Character.js"></script>
-		<script type="text/javascript" src="Sprite.js"></script>
 		<script type="text/javascript" src="SpriteButton.js"></script>
+		
 		<script type="text/javascript" src="Animation.js"></script>
 		<script type="text/javascript" src="Room.js"></script>
-		<script type="text/javascript" src="StaticSprite.js"></script>
 		<script type="text/javascript" src="FontEngine.js"></script>
 		<script type="text/javascript" src="Action.js"></script>
 		<script type="text/javascript" src="Trigger.js"></script>
@@ -20,49 +20,11 @@
 		<script type="text/javascript" src="Audio.js"></script>
 		<script type="text/javascript" src="Assets.js"></script>
 		<script type="text/javascript" src="Path.js"></script>
-		
-		<!-- stage formatting -->
-		<style type="text/css">
-			canvas {
-				padding-left: 0;
-				padding-right: 0;
-				margin-left: auto;
-				margin-right: auto;
-				display: block;
-				width:650px;
-				height:450px;
-			}
-		</style>	
 	</head>
-	
-	<body onload="initialize('levels/openbound.xml');">
+	<body onload="Sburb.initialize('JterniaDeploy','levels/openbound.xml','true');">
 		<div style="width:100%;align:middle;"> 
-			<div style="width:100%;margin: 0px auto;">
-				<div style="display:table-cell;width:33%;height:450px;"> 
-					<!-- the stage -->
-					<div id="gameDiv">
-						<canvas id="Stage" width="650" height="450" tabindex="0" 
-									onmousedown = "onMouseDown(event,this)"
-									onmousemove = "onMouseMove(event,this)"
-									onmouseup = "onMouseUp(event,this)">
-						</canvas>
-					</div>
-					<!-- cutscenes will be stored here -->
-					<div id="movieBin"></div>
-				</div>	
-				<!-- optional controls -->
-				</br>
-				<div style="text-align:center;maxwidth:33%; margin: 0px auto;"> 
-					<button id="saveState" onclick="serialize(assets,effects,rooms,sprites,hud,dialoger,curRoom,char)">save state</button>
-					<button id="loadState" onclick="loadSerial(document.getElementById('serialText').value)">load state</button>
-					<input type="file" name="level" id="levelFile" />
-					<button id="loadLevelFile" onclick="loadLevelFile(document.getElementById('levelFile'))">load level</button>
-					
-					</br>
-					<textarea id="serialText" style="display:inline; width:650; height:100;"></textarea><br/>
-				</div>			
+			<div id="JterniaDeploy">
 			</div>
-			
 		</div>
 	</body>
 </html>

@@ -1,12 +1,14 @@
+var Sburb = (function(Sburb){
+
 var templateClasses = {};
 
-function serialize(assets,effects,rooms,sprites,hud,dialoger,curRoom,char){
+Sburb.serialize = function(assets,effects,rooms,sprites,hud,dialoger,curRoom,char){
 	var out = document.getElementById("serialText");
 	var output = "<SBURB"+
 		" curRoom='"+curRoom.name+
 		"' char='"+char.name+
-		(bgm?"' bgm='"+bgm.asset.name+(bgm.startLoop?","+bgm.startLoop:""):"")+
-		(Stage.scaleX!=1?"' scale='"+Stage.scaleX:"")+
+		(Sburb.bgm?"' bgm='"+Sburb.bgm.asset.name+(Sburb.bgm.startLoop?","+Sburb.bgm.startLoop:""):"")+
+		(Sburb.Stage.scaleX!=1?"' scale='"+Sburb.Stage.scaleX:"")+
 		"'>\n";
 	output = serializeAssets(output,assets,effects);
 	output = serializeTemplates(output,templateClasses);
@@ -109,36 +111,36 @@ function serializeHud(output,hud,dialoger){
 }
 
 function purgeAssets() {
-    assetManager.purge();
-    assets = assetManager.assets;
+    Sburb.assetManager.purge();
+    Sburb.assets = Sburb.assetManager.assets;
 }
 function purgeState(){
-	if(updateLoop){
-		clearTimeout(updateLoop);
+	if(Sburb.updateLoop){
+		clearTimeout(Sburb.updateLoop);
 	}
-	if(rooms){
-		delete rooms;
+	if(Sburb.rooms){
+		delete Sburb.rooms;
 	}
-	if(sprites){
-		delete sprites;
+	if(Sburb.sprites){
+		delete Sburb.sprites;
 	}
-	rooms = {};
-	if(bgm){
-		bgm.stop();
-		bgm = null;
+	Sburb.rooms = {};
+	if(Sburb.bgm){
+		Sburb.bgm.stop();
+		Sburb.bgm = null;
 	}
 	document.getElementById("movieBin").innerHTML = "";
-	globalVolume = 1;
-	hud = {};
-	sprites = {};
-	effects = {};
-	curAction = null;
-	pressed = new Array();
-	chooser = new Chooser();
-	dialoger = new Dialoger();
-	curRoom = null;
+	Sburb.globalVolume = 1;
+	Sburb.hud = {};
+	Sburb.sprites = {};
+	Sburb.effects = {};
+	Sburb.curAction = null;
+	Sburb.pressed = [];
+	Sburb.chooser = new Sburb.Chooser();
+	Sburb.dialoger = new Sburb.Dialoger();
+	Sburb.curRoom = null;
 }
-function loadSerialFromXML(file, savedStateID) {
+Sburb.loadSerialFromXML = function(file, savedStateID) {
     if(window.ActiveXObject) {
 			var request = new ActiveXObject("MSXML2.XMLHTTP");
     } else {
@@ -188,7 +190,7 @@ function loadSerial(serialText, sburbID) {
 			var curAsset = newAssets[i];
 	  		var attributes = curAsset.attributes;
 			var name = attributes.getNamedItem("name").value;
-			if (!assetManager.isLoaded(name)) {
+			if (!Sburb.assetManager.isLoaded(name)) {
 				loadSerialAsset(curAsset);
 			}
     }
@@ -198,7 +200,7 @@ function loadSerial(serialText, sburbID) {
 
 function loadSerialAsset(curAsset){
     var newAsset = parseSerialAsset(curAsset);
-    assetManager.loadAsset(newAsset);
+    Sburb.assetManager.loadAsset(newAsset);
 }
 
 function parseSerialAsset(curAsset) {
@@ -209,27 +211,27 @@ function parseSerialAsset(curAsset) {
 
 	var newAsset;
 	if(type=="graphic"){
-		newAsset = createGraphicAsset(name,value);
+		newAsset = Sburb.createGraphicAsset(name,value);
 	} else if(type=="audio"){
 		var sources = value.split(";");
-		newAsset = createAudioAsset(name,sources[0],sources[1]);
+		newAsset = Sburb.createAudioAsset(name,sources[0],sources[1]);
 	} else if(type=="path"){
 		var pts = value.split(";");
-		var path = new Path();
+		var path = new Sburb.Path();
 		for(var j=0;j<pts.length;j++){
 			 var point = pts[j].split(",");
 			 path.push({x:parseInt(point[0]),y:parseInt(point[1])});
 		}
-		newAsset = createPathAsset(name,path);
+		newAsset = Sburb.createPathAsset(name,path);
 	}else if(type=="movie"){
-		newAsset = createMovieAsset(name,value);
+		newAsset = Sburb.createMovieAsset(name,value);
 	}
 	return newAsset;
 }
 
 function loadSerialState(input) {
     // this is more or less this init function for a game
-    if(!assetManager.finishedLoading()) {
+    if(!Sburb.assetManager.finishedLoading()) {
 		updateLoop=setTimeout(function() { loadSerialState(input); } ,500);
 		return;
     }
@@ -266,66 +268,69 @@ function loadSerialState(input) {
 	var newButtons = input.getElementsByTagName("SpriteButton");
 	for(var i=0;i<newButtons.length;i++){
 		var curButton = newButtons[i];
-		var newButton = parseSpriteButton(curButton);
-  		hud[newButton.name] = newButton;
+		var newButton = Sburb.parseSpriteButton(curButton);
+  		Sburb.hud[newButton.name] = newButton;
 	}
   	
   	var newSprites = input.getElementsByTagName("Sprite");
   	for(var i=0;i<newSprites.length;i++){
   		var curSprite = newSprites[i];
-		var newSprite = parseSprite(curSprite, assets);
-  		sprites[newSprite.name] = newSprite;
+		var newSprite = Sburb.parseSprite(curSprite, Sburb.assets);
+  		Sburb.sprites[newSprite.name] = newSprite;
   	}
   	var newChars = input.getElementsByTagName("Character");
   	for(var i=0;i<newChars.length;i++){
   		var curChar = newChars[i];
-		var newChar = parseCharacter(curChar, assets);
-  		sprites[newChar.name] = newChar;
+		var newChar = Sburb.parseCharacter(curChar, Sburb.assets);
+  		Sburb.sprites[newChar.name] = newChar;
   	}
   	var newFighters = input.getElementsByTagName("Fighter");
   	for(var i=0;i<newFighters.length;i++){
   		var curFighter = newFighters[i];
-		var newFighter = parseFighter(curFighter, assets);
-  		sprites[newFighter.name] = newFighter;
+		var newFighter = Sburb.parseFighter(curFighter, Sburb.assets);
+  		Sburb.sprites[newFighter.name] = newFighter;
   	}
   	var newRooms = input.getElementsByTagName("Room");
   	for(var i=0;i<newRooms.length;i++){
   		var currRoom = newRooms[i];
-		var newRoom = parseRoom(currRoom, assets, sprites);
-  		rooms[newRoom.name] = newRoom;
+		var newRoom = Sburb.parseRoom(currRoom, Sburb.assets, Sburb.sprites);
+  		Sburb.rooms[newRoom.name] = newRoom;
   	}
   	var rootInfo = input.attributes;
   	
-  	focus = char = sprites[rootInfo.getNamedItem("char").value];
-  	char.becomePlayer();
+  	Sburb.focus = Sburb.char = Sburb.sprites[rootInfo.getNamedItem("char").value];
+  	Sburb.char.becomePlayer();
   	
   	var mode = rootInfo.getNamedItem("mode");
   	if(mode){
-  		engineMode = mode.value;
+  		Sburb.engineMode = mode.value;
   	}else{
-  		engineMode = "wander";
+  		Sburb.engineMode = "wander";
   	}
   	
   	var scale = rootInfo.getNamedItem("scale");
   	if(scale){
-  		Stage.scaleX = Stage.scaleY = parseInt(scale.value);
+  		Sburb.Stage.scaleX = Sburb.Stage.scaleY = parseInt(scale.value);
   	}else{
-  		Stage.scaleX = Stage.scaleY = 1;
+  		Sburb.Stage.scaleX = Sburb.Stage.scaleY = 1;
   	}
   	
-  	curRoom = rooms[rootInfo.getNamedItem("curRoom").value];
-  	curRoom.initialize();
+  	Sburb.curRoom = Sburb.rooms[rootInfo.getNamedItem("curRoom").value];
   	
   	if(rootInfo.getNamedItem("bgm")){
   		var params = rootInfo.getNamedItem("bgm").value.split(",");
-  		changeBGM(new BGM(assets[params[0]],parseFloat(params.length>1?params[1]:"0")));
+  		Sburb.changeBGM(new Sburb.BGM(Sburb.assets[params[0]],parseFloat(params.length>1?params[1]:"0")));
   	}
   	
-  	var dialogBox = new StaticSprite("dialogBox",Stage.width+1,1000,null,null,null,null,assets.dialogBox,FG_DEPTHING);
-  	dialoger.setBox(dialogBox);
-  	serialLoadDialogSprites(input.getElementsByTagName("HUD")[0].getElementsByTagName("DialogSprites")[0],assets);
+  	var dialogBox = new Sburb.Sprite("dialogBox",Stage.width+1,1000,Sburb.assets.dialogBox.width,Sburb.assets.dialogBox.height, null,null,0);
+  	dialogBox.addAnimation(new Sburb.Animation("image",Sburb.assets.dialogBox,0,0,Sburb.assets.dialogBox.width,Sburb.assets.dialogBox.height,0,1,1));
+	dialogBox.startAnimation("image");
+  	Sburb.dialoger.setBox(dialogBox);
   	
-  	serialLoadEffects(input.getElementsByTagName("Effects")[0],assets,effects);
+	
+  	serialLoadDialogSprites(input.getElementsByTagName("HUD")[0].getElementsByTagName("DialogSprites")[0],Sburb.assets);
+  	
+  	serialLoadEffects(input.getElementsByTagName("Effects")[0],Sburb.assets,Sburb.effects);
   	
     var initAction;
     var initActionName;
@@ -337,31 +342,31 @@ function loadSerialState(input) {
     for(var i=0; i<input.childNodes.length; i++) {
 			var tmp = input.childNodes[i];
 			if(tmp.tagName=="Action" && tmp.attributes.getNamedItem("name").value == initActionName) {
-				initAction = parseAction(tmp);
+				initAction = Sburb.parseAction(tmp);
 				continue;
 			}
     }
     if(initAction) {
-			performAction(initAction);
+			Sburb.performAction(initAction);
     }
 
-    update(0);
+    Sburb.update();
 }
 
 function serialLoadDialogSprites(dialogSprites,assetFolder){
-	dialoger.dialogSpriteLeft = new Sprite("dialogSprite",-1000,Stage.height,0,0);
-	dialoger.dialogSpriteRight = new Sprite("dialogSprite",Stage.width+1000,Stage.height,0,0);
+	Sburb.dialoger.dialogSpriteLeft = new Sburb.Sprite("dialogSprite",-1000,Stage.height,0,0);
+	Sburb.dialoger.dialogSpriteRight = new Sburb.Sprite("dialogSprite",Stage.width+1000,Stage.height,0,0);
 	var animations = dialogSprites.getElementsByTagName("Animation");
 	for(var i=0;i<animations.length;i++){
-		dialoger.dialogSpriteLeft.addAnimation(parseAnimation(animations[i],assetFolder));
-		dialoger.dialogSpriteRight.addAnimation(parseAnimation(animations[i],assetFolder));
+		Sburb.dialoger.dialogSpriteLeft.addAnimation(Sburb.parseAnimation(animations[i],assetFolder));
+		Sburb.dialoger.dialogSpriteRight.addAnimation(Sburb.parseAnimation(animations[i],assetFolder));
 	}
 }
 
 function serialLoadEffects(effects,assetFolder,effectsFolder){
 	var animations = effects.getElementsByTagName("Animation");
 	for(var i=0;i<animations.length;i++){
-		var newEffect = parseAnimation(animations[i],assetFolder);
+		var newEffect = Sburb.parseAnimation(animations[i],assetFolder);
 		effectsFolder[newEffect.name] = newEffect;
 	}
 }
@@ -377,7 +382,7 @@ function serialLoadRoomSprites(newRoom, roomSprites, spriteFolder){
 				continue;
 			}
 			if(newActions[k].nodeName == "Action"){
-				var newAction = parseAction(newActions[k]);
+				var newAction = Sburb.parseAction(newActions[k]);
 				actualSprite.addAction(newAction);
 			}
 		}
@@ -417,20 +422,29 @@ function serialLoadRoomTriggers(newRoom, triggers){
  	var candidates = triggers[0].childNodes;
 	for(var i=0;i<candidates.length;i++){
 		if(candidates[i].nodeName=="Trigger"){
-			newRoom.addTrigger(parseTrigger(candidates[i]));
+			newRoom.addTrigger(Sburb.parseTrigger(candidates[i]));
 		}
 	}
 }
 
-function serializeAttribute(base,val){
+Sburb.serializeAttribute = function(base,val){
 	var sub;
 	return base[val]?" "+val+"='"+base[val]+"' ":"";
 }
 
-function serializeAttributes(base){
+Sburb.serializeAttributes = function(base){
 	str = "";
 	for(var i=1;i<arguments.length;i++){
-		str = str.concat(serializeAttribute(base,arguments[i]));
+		str = str.concat(Sburb.serializeAttribute(base,arguments[i]));
 	}
 	return str;
 }
+
+Sburb.serialLoadRoomSprites = serialLoadRoomSprites;
+Sburb.serialLoadRoomPaths = serialLoadRoomPaths;
+Sburb.serialLoadRoomTriggers = serialLoadRoomTriggers;
+Sburb.loadSerial = loadSerial;
+
+
+return Sburb;
+})(Sburb || {});
