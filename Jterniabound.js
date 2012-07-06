@@ -303,7 +303,7 @@ function chainAction(){
 				Sburb.curAction = null;
 			}
 		}else if(hasControl() || Sburb.curAction.noWait){
-			Sburb.performAction(curAction);
+			Sburb.performAction(Sburb.curAction);
 		}
 	}
 }    

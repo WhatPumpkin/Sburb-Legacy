@@ -27,6 +27,7 @@ Sburb.Dialoger = function(){
 	this.dialogRightEnd = Sburb.Stage.width-100;
 	this.actor = null;
 	this.dialogSide = "Left";
+	this.graphic = null;
 }
 
 //nudge the dialoger forward
@@ -63,6 +64,16 @@ Sburb.Dialoger.prototype.nextDialog = function(){
 	this.dialog.setText(nextDialog);
 	this.dialog.showSubText(0,0);
 	var prefix = nextDialog.substring(0,nextDialog.indexOf(" "));
+	if(prefix.indexOf("~")>=0){
+		var resource = prefix.substring(prefix.indexOf("~")+1,prefix.length);	
+		prefix = prefix.substring(0,prefix.indexOf("~"));	
+		var img = Sburb.assets[resource];
+		this.graphic = new Sburb.Sprite();
+		this.graphic.addAnimation(new Sburb.Animation("image",img,0,0,img.width,img.height,0,1,1));
+		this.graphic.startAnimation("image");
+	}else{
+		this.graphic = null;
+	}
 	if(prefix=="!"){
 		this.actor = null;
 		this.dialogSide = "Left";
@@ -147,7 +158,10 @@ Sburb.Dialoger.prototype.update = function(){
 				this.dialogOnSide(this.dialogSide).update(1);
 			}
 		}
-		
+		if(this.graphic){
+			this.graphic.x = this.box.x;
+			this.graphic.y = this.box.y;
+		}
 	}else {
 		if(this.box.x>this.hiddenPos.x){
 			this.box.x-=120;
@@ -189,6 +203,9 @@ Sburb.Dialoger.prototype.setBox = function(box,x,y){
 //draw the dialog box
 Sburb.Dialoger.prototype.draw = function(){
 	this.box.draw();
+	if(this.graphic){
+		this.graphic.draw();
+	}
 	if(this.talking){
 		this.dialog.draw();
 	}
