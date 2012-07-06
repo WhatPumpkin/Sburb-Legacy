@@ -77,7 +77,7 @@ var openChestCommand = function(info){
 	var chest = Sburb.sprites[params[0]];
 	var item = Sburb.sprites[params[1]];
 	chest.startAnimation("open");
-	chest.removeAction(curAction.name);
+	chest.removeAction(Sburb.curAction.name);
 	var lastAction;
 	var newAction = lastAction = new Sburb.Action("waitFor","played,"+chest.name,null,null);
 	lastAction = lastAction.followUp = new Sburb.Action("waitFor","time,13");
@@ -86,7 +86,7 @@ var openChestCommand = function(info){
 	lastAction = lastAction.followUp = new Sburb.Action("deltaSprite",item.name+",0,-3",null,null,null,true,null,10);
 	lastAction = lastAction.followUp = new Sburb.Action("talk","@! "+params[2],null,null,null,true);
 	lastAction = lastAction.followUp = new Sburb.Action("removeSprite",item.name+","+Sburb.curRoom.name);
-	lastAction.followUp = curAction.followUp;
+	lastAction.followUp = Sburb.curAction.followUp;
 	Sburb.performAction(newAction);
 }
 
