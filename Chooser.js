@@ -28,7 +28,7 @@ Sburb.Chooser.prototype.prevChoice = function(){
 //initialize chooser
 Sburb.Chooser.prototype.beginChoosing = function(x,y){
 	this.choosing = true;
-	this.choice = 0;
+	this.choice = this.choices.length-1;
 	this.dialogs = [];
 	for(var i=0;i<this.choices.length;i++){
 		var curEngine = new Sburb.FontEngine(" > "+this.choices[i].name);
