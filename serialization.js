@@ -1,6 +1,7 @@
 var Sburb = (function(Sburb){
 
 var templateClasses = {};
+Sburb.resourcePath = "";
 
 Sburb.serialize = function(assets,effects,rooms,sprites,hud,dialoger,curRoom,char){
 	var out = document.getElementById("serialText");
@@ -9,6 +10,7 @@ Sburb.serialize = function(assets,effects,rooms,sprites,hud,dialoger,curRoom,cha
 		"' char='"+char.name+
 		(Sburb.bgm?"' bgm='"+Sburb.bgm.asset.name+(Sburb.bgm.startLoop?","+Sburb.bgm.startLoop:""):"")+
 		(Sburb.Stage.scaleX!=1?"' scale='"+Sburb.Stage.scaleX:"")+
+		"' resourcePath='"+Sburb.resourcePath+
 		"'>\n";
 	output = serializeAssets(output,assets,effects);
 	output = serializeTemplates(output,templateClasses);
@@ -185,6 +187,15 @@ function loadSerial(serialText, sburbID) {
     purgeAssets(); 
 
     purgeState();
+    
+    var rootAttr = input.attributes;
+    var resourcePath = rootAttr.getNamedItem("resourcePath");
+    if(resourcePath){
+    	Sburb.resourcePath = resourcePath.value+"/";
+    }else{
+    	Sburb.resourcePath = "";
+    }
+    
     var newAssets = input.getElementsByTagName("Asset");
     for(var i=0;i<newAssets.length;i++){
 			var curAsset = newAssets[i];
@@ -207,14 +218,14 @@ function parseSerialAsset(curAsset) {
 	var attributes = curAsset.attributes;
 	var name = attributes.getNamedItem("name").value;
 	var type = attributes.getNamedItem("type").value;
-	var value = curAsset.firstChild.nodeValue;
+	var value = curAsset.firstChild.nodeValue.trim();
 
 	var newAsset;
 	if(type=="graphic"){
-		newAsset = Sburb.createGraphicAsset(name,value);
+		newAsset = Sburb.createGraphicAsset(name, Sburb.resourcePath+value);
 	} else if(type=="audio"){
 		var sources = value.split(";");
-		newAsset = Sburb.createAudioAsset(name,sources[0],sources[1]);
+		newAsset = Sburb.createAudioAsset(name, Sburb.resourcePath+sources[0], Sburb.resourcePath+sources[1]);
 	} else if(type=="path"){
 		var pts = value.split(";");
 		var path = new Sburb.Path();
@@ -224,7 +235,7 @@ function parseSerialAsset(curAsset) {
 		}
 		newAsset = Sburb.createPathAsset(name,path);
 	}else if(type=="movie"){
-		newAsset = Sburb.createMovieAsset(name,value);
+		newAsset = Sburb.createMovieAsset(name, Sburb.resourcePath+value);
 	}
 	return newAsset;
 }
