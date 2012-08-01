@@ -25,17 +25,13 @@
   <Asset name='NepetaIdleSheet' type='graphic'>walkabout/dialogSprites/nepetaDialog1.png</Asset>
     
   <Asset name='compLabBG' type='graphic'>walkabout/backgrounds/comlab-background.gif</Asset>
-  <Asset name='stairRoomBG' type='graphic'>walkabout/backgrounds/stairRoom.png</Asset>
+  
   <Asset name='dialogBox' type='graphic'>interface/dialogBoxBig.png</Asset>
   
   <Asset name='karkatBGM' type='audio'>audio/karkat.ogg;resources/audio/karkat.mp3</Asset>
   <Asset name='tereziBGM' type='audio'>audio/terezi.ogg;resources/audio/terezi.mp3</Asset>
   
   <Asset name='compLabWalkable' type='path'>70,270;800,270;800,820;70,820</Asset>
-  <Asset name='stairRoomWalkable' type='path'> 999,368;442,372;258,560;86,556;86,608;0,609;0,940;264,942;630,1318;813,1320;813,2070;222,2070;224,1510;250,1510;588,1888;588,1904;402,1904;402,1904; 237,1905;236,2049;801,2054;800,1706;591,1702;228,1323;142,1323; 140,1344;0,1344;0,2258;999,2258;999,1126;624,1124;260,754;260,740;441,552;999,552</Asset>
-  <Asset name='stairRoomStairs1' type='path'>449,369;258,560;260,740;449,552</Asset>
-  <Asset name='stairRoomStairs2' type='path'>264,942;630,1318;624,1124;260,754</Asset>
-  <Asset name='stairRoomStairs3' type='path'>224,1510;588,1888;591,1702;228,1323</Asset>
 </Assets>
 
 <Classes>
@@ -81,8 +77,10 @@
   	</Paths>
   	<Triggers>
   		<Trigger>spriteProperty,char,y>800
-  				<Action command='deltaSprite'>char,0,-12
-  					<Action command='talk'>@! There's nothing over here!</Action>
+  			<Action command='deltaSprite'>char,0,-12
+  				<Action command='loadStateFile'>levels/stairRoom.xml,true
+  					<Action command="changeRoom">stairRoom,750,450</Action>
+  				</Action>
   			</Action>
   		</Trigger>
   	</Triggers>
@@ -90,7 +88,9 @@
 			<Action name='open' command='openChest'>baseRoomChest1,dollar,You got a boondollar!</Action>
 		</Sprite>
   	<Sprite class='teleporter' name='baseRoomTeleporter' x='400' y='400'>
-      <Action name='teleport' command='teleport'>stairRoom,666,450</Action>
+  	   <Action name='teleport' command='loadStateFile'>levels/stairRoom.xml,true
+      	 <Action command='teleport'>stairRoom,666,450</Action>
+      </Action>
     </Sprite>
     <Character name='karkat' x='300' y='501' sx='-36' sy='-87' sWidth='66' sHeight='96' width='48' height='21' 
 	       sheet='cgSheet' state='walkFront' facing='Front'>
@@ -125,30 +125,6 @@
     </Character>
     <Sprite name='compLabBG'>
       <Animation sheet='compLabBG'/>
-    </Sprite>
-  </Room>
-
-  <Room name='stairRoom' width='999' height='2259'>
-  	
-  	<Paths>
-  		<Walkable path="stairRoomWalkable"/>
-  		<MotionPath path="stairRoomStairs1" xtox = '0.7' xtoy = '-0.7' ytox='0' ytoy = '1' dx='0' dy='0'/>
-    	<MotionPath path="stairRoomStairs2" xtox = '0.7' xtoy = '0.7' ytox='0' ytoy = '1' dx='0' dy='0'/>
-    	<MotionPath path="stairRoomStairs3" xtox = '0.7' xtoy = '0.7' ytox='0' ytoy = '1' dx='0' dy='0'/>
-  	</Paths>
-  	<Triggers>
-  	</Triggers>
-  	<Sprite class='teleporter' name='stairRoomTeleporter' x='666' y='450' >
-      <Action name='teleport' command='teleport'>baseRoom,400,400</Action>
-    </Sprite>
-    <Character name='sollux' x='360' y='1950' sx='-33' sy='-78' sWidth='63' sHeight='81' width='42' height='21'
-    	 sheet='taSheet' state='walkFront' facing='Front'>
-      <Action name='talk' command='talk'>@! blahblahblah</Action>
-      <Action name='change room' command='changeRoom'>baseRoom,300,300</Action>
-      <Action name='swap' command='changeChar'>sollux</Action>
-    </Character>
-    <Sprite name='stairRoomBG'>
-      <Animation sheet='stairRoomBG'/>
     </Sprite>
   </Room>
 </Rooms>

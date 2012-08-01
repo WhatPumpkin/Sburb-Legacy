@@ -1,8 +1,10 @@
 var Sburb = (function(Sburb){
 
 var templateClasses = {};
+var loadedFiles = {};
 Sburb.resourcePath = "";
 
+//Save the current state to xml
 Sburb.serialize = function(assets,effects,rooms,sprites,hud,dialoger,curRoom,char){
 	var out = document.getElementById("serialText");
 	var output = "<SBURB"+
@@ -22,10 +24,13 @@ Sburb.serialize = function(assets,effects,rooms,sprites,hud,dialoger,curRoom,cha
 	}
 	output = output.concat("\n</Rooms>\n");
 	output = output.concat("\n</SBURB>");
-	out.value = output;
+	if(out){
+		out.value = output;
+	}
 	return output;
 }
 
+//Serialize things that aren't actually in any room
 function serializeLooseObjects(output,rooms,sprites){
 	for(var sprite in sprites){
 		var theSprite = sprites[sprite];
@@ -43,6 +48,7 @@ function serializeLooseObjects(output,rooms,sprites){
 	return output;
 }
 
+//Serialize assets
 function serializeAssets(output,assets,effects){
 	output = output.concat("\n<Assets>");
 	for(var asset in assets){
@@ -78,6 +84,7 @@ function serializeAssets(output,assets,effects){
 	return output;
 }
 
+//Serialize template classes
 function serializeTemplates(output,templates){
 	output = output.concat("\n<Classes>");
 	var serialized;
@@ -97,6 +104,7 @@ function serializeTemplates(output,templates){
 	return output;
 }
 
+//Serialize Hud
 function serializeHud(output,hud,dialoger){
 	output = output.concat("\n<HUD>");
 	for(var content in hud){
@@ -112,14 +120,14 @@ function serializeHud(output,hud,dialoger){
 	return output;
 }
 
+//Purge all assets
 function purgeAssets() {
     Sburb.assetManager.purge();
     Sburb.assets = Sburb.assetManager.assets;
 }
+
+//Purge the game state
 function purgeState(){
-	if(Sburb.updateLoop){
-		clearTimeout(Sburb.updateLoop);
-	}
 	if(Sburb.rooms){
 		delete Sburb.rooms;
 	}
@@ -141,25 +149,42 @@ function purgeState(){
 	Sburb.chooser = new Sburb.Chooser();
 	Sburb.dialoger = new Sburb.Dialoger();
 	Sburb.curRoom = null;
+	Sburb.resourcePath = "";
+	
+	loadedFiles = {};
 }
-Sburb.loadSerialFromXML = function(file, savedStateID) {
+
+//Load state/assets from file
+Sburb.loadSerialFromXML = function(file,keepOld) {
+	Sburb.haltUpdateProcess();
+	if(keepOld && loadedFiles[file]){
+		Sburb.startUpdateProcess();
+		return;
+	}else{
+		loadedFiles[file] = true;
+	}
+	
+	
     if(window.ActiveXObject) {
-			var request = new ActiveXObject("MSXML2.XMLHTTP");
+		var request = new ActiveXObject("MSXML2.XMLHTTP");
     } else {
-			var request = new XMLHttpRequest();
+		var request = new XMLHttpRequest();
     }
     request.open('GET', file, false);
     try {
-			request.send(null);
+		request.send(null);
     } catch(err) {
-			console.log("If you are running Google Chrome, you need to run it with the -allow-file-access-from-files switch to load this.");
-			fi = document.getElementById("levelFile");
-			return;
+		console.log("If you are running Google Chrome, you need to run it with the -allow-file-access-from-files switch to load this.");
+		fi = document.getElementById("levelFile");
+		return;
     }
     if (request.status === 200 || request.status == 0) {  
-			loadSerial(request.responseText, savedStateID);
+		loadSerial(request.responseText, keepOld);
     }
 }
+
+//actually load a file from users file system?
+/*
 function loadLevelFile(node) {
     if (!window.FileReader) {
 		alert("This browser doesn't support reading files");
@@ -170,43 +195,41 @@ function loadLevelFile(node) {
     oFReader.onload = function() { loadSerial(this.result); };
     oFReader.onerror = function(e) {console.log(e); }; // this should pop up an alert if googlechrome
     oFReader.readAsText(oFile);
-}
+}*/
 
-function loadSerial(serialText, sburbID) {
+//main serial loading
+function loadSerial(serialText, keepOld) {
     var inText = serialText; //document.getElementById("serialText");
     var parser=new DOMParser();
-    var input=parser.parseFromString(inText,"text/xml");
-
-    if(sburbID) {
-			input = input.getElementById(sburbID);
-    } else {
-  		input = input.documentElement;
+    var input=parser.parseFromString(inText,"text/xml").documentElement;
+	
+	if(!keepOld){
+    	purgeAssets(); 
+    	purgeState();
     }
-    // should we assume that all assets with the same name
-    // have the same data? if so we don't need this next line
-    purgeAssets(); 
-
-    purgeState();
     
-    var rootAttr = input.attributes;
+    loadSerialAssets(input);
+
+    setTimeout(function() { loadSerialState(input) }, 500);
+}
+
+function loadSerialAssets(input){
+	var rootAttr = input.attributes;
+	
     var resourcePath = rootAttr.getNamedItem("resourcePath");
     if(resourcePath){
     	Sburb.resourcePath = resourcePath.value+"/";
-    }else{
-    	Sburb.resourcePath = "";
     }
     
     var newAssets = input.getElementsByTagName("Asset");
     for(var i=0;i<newAssets.length;i++){
-			var curAsset = newAssets[i];
-	  		var attributes = curAsset.attributes;
-			var name = attributes.getNamedItem("name").value;
-			if (!Sburb.assetManager.isLoaded(name)) {
-				loadSerialAsset(curAsset);
-			}
+		var curAsset = newAssets[i];
+  		var attributes = curAsset.attributes;
+		var name = attributes.getNamedItem("name").value;
+		if (!Sburb.assetManager.isLoaded(name)) {
+			loadSerialAsset(curAsset);
+		}
     }
-
-    setTimeout(function() { loadSerialState(input) }, 500);
 }
 
 function loadSerialAsset(curAsset){
@@ -240,14 +263,60 @@ function parseSerialAsset(curAsset) {
 	return newAsset;
 }
 
+
+
 function loadSerialState(input) {
-    // this is more or less this init function for a game
+    // don't load state until assets are all loaded
     if(!Sburb.assetManager.finishedLoading()) {
 		updateLoop=setTimeout(function() { loadSerialState(input); } ,500);
 		return;
     }
     
-    var templates = input.getElementsByTagName("Classes")[0].childNodes;
+    //This one has to be first
+   	parseTemplateClasses(input);
+	
+	parseButtons(input);
+  	
+  	parseSprites(input);
+  	
+  	parseCharacters(input);
+  	
+  	parseFighters(input);
+  	
+  	parseRooms(input);
+  	
+  	parseDialogBox(input);
+	
+	//needs to be after parseDialogBox
+  	parseDialogSprites(input);
+  	
+  	parseEffects(input);
+  	
+  	//should be last
+    parseState(input);
+
+    Sburb.startUpdateProcess();
+}
+
+function parseDialogSprites(input){
+	var hud = input.getElementsByTagName("HUD");
+	if(hud.length>0){
+		var dialogSprites = hud[0].getElementsByTagName("DialogSprites");
+		if(dialogSprites.length>0){
+			serialLoadDialogSprites(dialogSprites[0],Sburb.assets);
+		}
+	}
+}
+
+function parseEffects(input){
+	var effects = input.getElementsByTagName("Effects");
+	if(effects.length>0){
+		serialLoadEffects(effects[0],Sburb.assets,Sburb.effects);
+	}
+}
+
+function parseTemplateClasses(input){
+	var templates = input.getElementsByTagName("Classes")[0].childNodes;
     for(var i=0;i<templates.length;i++){
     	var templateNode = templates[i];
     	if(templateNode.nodeName!="#text"){
@@ -275,93 +344,105 @@ function loadSerialState(input) {
     	}
     }
     input.removeChild(input.getElementsByTagName("Classes")[0]);
-	
+}
+
+function parseButtons(input){
 	var newButtons = input.getElementsByTagName("SpriteButton");
 	for(var i=0;i<newButtons.length;i++){
 		var curButton = newButtons[i];
 		var newButton = Sburb.parseSpriteButton(curButton);
   		Sburb.hud[newButton.name] = newButton;
 	}
-  	
-  	var newSprites = input.getElementsByTagName("Sprite");
+}
+
+function parseSprites(input){
+	var newSprites = input.getElementsByTagName("Sprite");
   	for(var i=0;i<newSprites.length;i++){
   		var curSprite = newSprites[i];
 		var newSprite = Sburb.parseSprite(curSprite, Sburb.assets);
   		Sburb.sprites[newSprite.name] = newSprite;
   	}
-  	var newChars = input.getElementsByTagName("Character");
+}
+
+function parseCharacters(input){
+	var newChars = input.getElementsByTagName("Character");
   	for(var i=0;i<newChars.length;i++){
   		var curChar = newChars[i];
 		var newChar = Sburb.parseCharacter(curChar, Sburb.assets);
   		Sburb.sprites[newChar.name] = newChar;
   	}
-  	var newFighters = input.getElementsByTagName("Fighter");
+}
+
+function parseFighters(input){
+	var newFighters = input.getElementsByTagName("Fighter");
   	for(var i=0;i<newFighters.length;i++){
   		var curFighter = newFighters[i];
 		var newFighter = Sburb.parseFighter(curFighter, Sburb.assets);
   		Sburb.sprites[newFighter.name] = newFighter;
   	}
-  	var newRooms = input.getElementsByTagName("Room");
+}
+
+function parseRooms(input){
+	var newRooms = input.getElementsByTagName("Room");
   	for(var i=0;i<newRooms.length;i++){
   		var currRoom = newRooms[i];
 		var newRoom = Sburb.parseRoom(currRoom, Sburb.assets, Sburb.sprites);
   		Sburb.rooms[newRoom.name] = newRoom;
   	}
-  	var rootInfo = input.attributes;
+}
+
+function parseState(input){
+	var rootInfo = input.attributes;
   	
-  	Sburb.focus = Sburb.char = Sburb.sprites[rootInfo.getNamedItem("char").value];
-  	Sburb.char.becomePlayer();
+  	var char = rootInfo.getNamedItem("char");
+  	if(char){
+	  	Sburb.focus = Sburb.char = Sburb.sprites[char.value];
+	  	Sburb.char.becomePlayer();
+	}
   	
   	var mode = rootInfo.getNamedItem("mode");
   	if(mode){
   		Sburb.engineMode = mode.value;
-  	}else{
-  		Sburb.engineMode = "wander";
   	}
   	
   	var scale = rootInfo.getNamedItem("scale");
   	if(scale){
   		Sburb.Stage.scaleX = Sburb.Stage.scaleY = parseInt(scale.value);
-  	}else{
-  		Sburb.Stage.scaleX = Sburb.Stage.scaleY = 1;
   	}
   	
-  	Sburb.curRoom = Sburb.rooms[rootInfo.getNamedItem("curRoom").value];
+  	var curRoom = rootInfo.getNamedItem("curRoom");
+  	if(curRoom){
+  		Sburb.curRoom = Sburb.rooms[curRoom.value];
+  	}
   	
-  	if(rootInfo.getNamedItem("bgm")){
-  		var params = rootInfo.getNamedItem("bgm").value.split(",");
+  	var bgm = rootInfo.getNamedItem("bgm");
+  	if(bgm){
+  		var params = bgm.value.split(",");
   		Sburb.changeBGM(new Sburb.BGM(Sburb.assets[params[0]],parseFloat(params.length>1?params[1]:"0")));
   	}
   	
-  	var dialogBox = new Sburb.Sprite("dialogBox",Stage.width+1,1000,Sburb.assets.dialogBox.width,Sburb.assets.dialogBox.height, null,null,0);
-  	dialogBox.addAnimation(new Sburb.Animation("image",Sburb.assets.dialogBox,0,0,Sburb.assets.dialogBox.width,Sburb.assets.dialogBox.height,0,1,1));
-	dialogBox.startAnimation("image");
-  	Sburb.dialoger.setBox(dialogBox);
-  	
-	
-  	serialLoadDialogSprites(input.getElementsByTagName("HUD")[0].getElementsByTagName("DialogSprites")[0],Sburb.assets);
-  	
-  	serialLoadEffects(input.getElementsByTagName("Effects")[0],Sburb.assets,Sburb.effects);
-  	
-    var initAction;
+  	var initAction;
     var initActionName;
     if(rootInfo.getNamedItem("startAction")){
     	initActionName = rootInfo.getNamedItem("startAction").value;
-    }else{
-    	initActionName = "none";
-    }
-    for(var i=0; i<input.childNodes.length; i++) {
+		for(var i=0; i<input.childNodes.length; i++) {
 			var tmp = input.childNodes[i];
 			if(tmp.tagName=="Action" && tmp.attributes.getNamedItem("name").value == initActionName) {
 				initAction = Sburb.parseAction(tmp);
 				continue;
 			}
-    }
-    if(initAction) {
+		}
+		if(initAction) {
 			Sburb.performAction(initAction);
+		}
     }
+}
 
-    Sburb.update();
+function parseDialogBox(input){
+	var dialogBox = new Sburb.Sprite("dialogBox",Stage.width+1,1000,Sburb.assets.dialogBox.width,Sburb.assets.dialogBox.height, null,null,0);
+  	dialogBox.addAnimation(new Sburb.Animation("image",Sburb.assets.dialogBox,0,0,Sburb.assets.dialogBox.width,Sburb.assets.dialogBox.height,0,1,1));
+	dialogBox.startAnimation("image");
+  	Sburb.dialoger.setBox(dialogBox);
 }
 
 function serialLoadDialogSprites(dialogSprites,assetFolder){

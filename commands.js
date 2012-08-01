@@ -184,6 +184,15 @@ var changeModeCommand = function(info){
 	Sburb.engineMode = info.trim();
 }
 
+//load in an additional SBURBML file
+//syntax: path, keepOld
+var loadStateFileCommand = function(info){
+	var args = info.split(",");
+	var path = args[0];
+	var keepOld = args[1]=="true";
+	Sburb.loadSerialFromXML(path,keepOld);
+}
+
 //blank utlity function
 //syntax: none
 var cancelCommand = function(){
@@ -211,6 +220,7 @@ commands.deltaSprite = deltaSpriteCommand;
 commands.moveSprite = moveSpriteCommand;
 
 commands.changeMode = changeModeCommand;
+commands.loadStateFile = loadStateFileCommand;
 
 commands.removeMovie = removeMovieCommand;
 commands.toggleVolume = toggleVolumeCommand;
