@@ -149,8 +149,9 @@ Sburb.parseTrigger = function(triggerNode){
 		var action = null;
 		var restart = false;
 		var detonate = false;
-		
-		action = actions.length>0?Sburb.parseAction(actions[0]):action;
+		if(actions.length>0 && actions[0].parentNode==triggerNode){
+			action = Sburb.parseAction(actions[0]);
+		}
 		restart = attributes.getNamedItem("restart")?attributes.getNamedItem("restart").value=="true":restart;
 		detonate = attributes.getNamedItem("detonate")?attributes.getNamedItem("detonate").value=="true":detonate;
 		

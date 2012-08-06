@@ -13,6 +13,7 @@ Sburb.Chooser = function(){
 	this.choices = [];
 	this.choice = 0;
 	this.dialogs = [];
+	this.time = 0;
 }
 
 //go to the next choice
@@ -63,13 +64,14 @@ Sburb.Chooser.prototype.draw = function(){
 }
 
 //update the chooser one frame
-Sburb.Chooser.prototype.update = function(gameTime){
+Sburb.Chooser.prototype.update = function(){
 	if(this.choosing){
+		this.time++;
 		for(var i=0;i<this.dialogs.length;i++){
 			var curDialog = this.dialogs[i];
 			curDialog.showSubText(null,curDialog.end+1);
 			if(i==this.choice){
-				if(gameTime%Sburb.Stage.fps<Sburb.Stage.fps/2){
+				if(this.time%Sburb.Stage.fps<Sburb.Stage.fps/2){
 					curDialog.start = 2;
 				}else{
 					curDialog.start = 0;

@@ -17,7 +17,6 @@ Sburb.Animation = function(name,sheet,x,y,colSize,rowSize,startPos,length,frameI
 	this.colSize = colSize;
 	this.startPos = startPos;
 	this.length = length;
-	this.frameInterval = frameInterval;
 	this.curInterval = 0;
 	this.curFrame = 0;
 	this.numRows = sheet.height/rowSize;
@@ -28,6 +27,24 @@ Sburb.Animation = function(name,sheet,x,y,colSize,rowSize,startPos,length,frameI
 	this.followUp = followUp;
 	this.flipX = flipX?true:false;
 	this.flipY = flipY?true:false;
+	
+	if(typeof frameInterval == "string"){
+		if(frameInterval.indexOf(":")==-1){
+			this.frameInterval = parseInt(frameInterval);
+		}else{
+			var intervals = frameInterval.split(",");
+			this.frameIntervals = {};
+			for(var i=0; i<intervals.length; i++){
+				var pair = intervals[i].split(":");
+				this.frameIntervals[parseInt(pair[0])] = parseInt(pair[1]);
+			}
+			if(!frameIntervals[0]){
+				frameIntervals[0] = 1;
+			}
+		}
+	}else{
+		this.frameInterval = frameInterval;
+	}
 }
 
 
@@ -48,6 +65,9 @@ Sburb.Animation.prototype.nextFrame = function() {
 
 //update the animation as if a frame of time has elapsed
 Sburb.Animation.prototype.update = function(){
+	if(this.frameIntervals && this.frameIntervals[this.curFrame]){
+		this.frameInterval = this.frameIntervals[this.curFrame];
+	}
 	this.curInterval++;
 	while(this.curInterval>this.frameInterval){
 		this.curInterval-=this.frameInterval;
@@ -244,7 +264,7 @@ Sburb.parseAnimation = function(animationNode, assetFolder){
 	rowSize = (temp = attributes.getNamedItem("rowSize"))?parseInt(temp.value):sheet.height;
 	startPos = (temp = attributes.getNamedItem("startPos"))?parseInt(temp.value):startPos;
 	
-	frameInterval = (temp = attributes.getNamedItem("frameInterval"))?parseInt(temp.value):frameInterval;
+	frameInterval = (temp = attributes.getNamedItem("frameInterval"))?temp.value:frameInterval;
 	loopNum = (temp = attributes.getNamedItem("loopNum"))?parseInt(temp.value):loopNum;
 	followUp = (temp = attributes.getNamedItem("followUp"))?temp.value:followUp;
 	var flipX = (temp = attributes.getNamedItem("flipX"))?temp.value!="false":false;
