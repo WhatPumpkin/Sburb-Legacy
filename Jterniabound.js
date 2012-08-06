@@ -33,6 +33,8 @@ Sburb.engineMode = "wander";
 Sburb.updateLoop = null; //the main updateLoop, used to interrupt updating
 Sburb.initFinished = null; //only used when _hardcode_load is true
 Sburb._hardcode_load = null; //set to 1 when we don't want to load from XML: see initialize()
+Sburb._include_dev = false;
+var lastDrawTime = 0;
 
 Sburb.initialize = function(div,levelName,includeDevTools){
 	var deploy = ' \
@@ -54,6 +56,7 @@ Sburb.initialize = function(div,levelName,includeDevTools){
 		<div id="movieBin"></div>\
 		</br>';
 	if(includeDevTools){
+		Sburb._include_dev = true;
 		deploy+='\
 		<div> \
 			<button id="saveState" onclick="Sburb.serialize(Sburb.assets, Sburb.effects, Sburb.rooms, Sburb.sprites, Sburb.hud, Sburb.dialoger, Sburb.curRoom, Sburb.char)">save state</button>\
@@ -144,6 +147,7 @@ function draw(){
 	}
 	
 	drawHud();
+	
 }
 
 var _onkeydown = function(e){
