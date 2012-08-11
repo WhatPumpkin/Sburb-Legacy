@@ -183,20 +183,6 @@ Sburb.loadSerialFromXML = function(file,keepOld) {
     }
 }
 
-//actually load a file from users file system?
-/*
-function loadLevelFile(node) {
-    if (!window.FileReader) {
-		alert("This browser doesn't support reading files");
-    }
-    oFReader = new FileReader();
-    if (node.files.length === 0) { return; }  
-    var oFile = node.files[0];
-    oFReader.onload = function() { loadSerial(this.result); };
-    oFReader.onerror = function(e) {console.log(e); }; // this should pop up an alert if googlechrome
-    oFReader.readAsText(oFile);
-}*/
-
 //main serial loading
 function loadSerial(serialText, keepOld) {
     var inText = serialText; //document.getElementById("serialText");
@@ -272,21 +258,17 @@ function loadSerialState(input) {
 		return;
     }
     
-    //This one has to be first
+    //These two have to be first
    	parseTemplateClasses(input);
+	applyTemplateClasses(input);
 	
 	parseButtons(input);
-  	
   	parseSprites(input);
-  	
   	parseCharacters(input);
-  	
   	parseFighters(input);
-  	
   	parseRooms(input);
   	
   	parseDialogBox(input);
-	
 	//needs to be after parseDialogBox
   	parseDialogSprites(input);
   	
@@ -321,29 +303,41 @@ function parseTemplateClasses(input){
     	var templateNode = templates[i];
     	if(templateNode.nodeName!="#text"){
 		 	var tempAttributes = templateNode.attributes;
-		 	var tempChildren = templateNode.childNodes;
-		 	var candidates = input.getElementsByTagName(templateNode.nodeName);
-		 	for(var j=0;j<candidates.length;j++){
-		 		var candidate = candidates[j];
-		 		var candAttributes = candidate.attributes;
-		 		var candClass = candidate.attributes.getNamedItem("class");
-		 		var candChildren = candidate.childNodes;
-		 		if(candClass && candidate!=templateNode && candClass.value==tempAttributes.getNamedItem("class").value){
-		 			for(var k=0;k<tempAttributes.length;k++){
-		 				var tempAttribute = tempAttributes[k];
-		 				if(!candAttributes.getNamedItem(tempAttribute.name)){
-		 					candidate.setAttribute(tempAttribute.name,tempAttribute.value);
-		 				}
-		 			}
-		 			for(var k=0;k<tempChildren.length;k++){
-		 				candidate.appendChild(tempChildren[k].cloneNode(true));
-		 			}
-		 		}
-		 	}
-		 	templateClasses[tempAttributes.getNamedItem("class").value] = templateNode.cloneNode(true);
+		 	templateClasses[tempAttributes.getNamedItem("class").value] =
+		 		templateNode.cloneNode(true);
     	}
     }
     input.removeChild(input.getElementsByTagName("Classes")[0]);
+}
+
+function applyTemplateClasses(input){
+	for(var className in templateClasses){
+		var templateNode = templateClasses[className];
+		var tempAttributes = templateNode.attributes;
+	 	var tempChildren = templateNode.childNodes;
+	 	var candidates = input.getElementsByTagName(templateNode.nodeName);
+	 	templateClasses[tempAttributes.getNamedItem("class").value] =
+	 		templateNode.cloneNode(true);
+	 	for(var j=0;j<candidates.length;j++){
+	 		var candidate = candidates[j];
+	 		var candAttributes = candidate.attributes;
+	 		var candClass = candidate.attributes.getNamedItem("class");
+	 		var candChildren = candidate.childNodes;
+	 		if(candClass && candidate!=templateNode &&
+	 		 candClass.value==tempAttributes.getNamedItem("class").value){
+	 			for(var k=0;k<tempAttributes.length;k++){
+	 				var tempAttribute = tempAttributes[k];
+	 				if(!candAttributes.getNamedItem(tempAttribute.name)){
+	 					candidate.setAttribute(tempAttribute.name, 
+	 						tempAttribute.value);
+	 				}
+	 			}
+	 			for(var k=0;k<tempChildren.length;k++){
+	 				candidate.appendChild(tempChildren[k].cloneNode(true));
+	 			}
+	 		}
+	 	}
+	 }
 }
 
 function parseButtons(input){
