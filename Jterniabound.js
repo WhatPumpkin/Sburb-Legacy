@@ -51,7 +51,9 @@ Sburb.initialize = function(div,levelName,includeDevTools){
 						onmousemove = "Sburb.onMouseMove(event,this)"\
 						onmouseup = "Sburb.onMouseUp(event,this)"\
 						>\
+						ERROR: Your browser is too old to display this content!\
 			</canvas>\
+			<canvas id="SBURBMapCanvas" width="1" height="1" hidden="hidden"/> \
 		</div>\
 		<div id="movieBin"></div>\
 		</br>';
@@ -292,6 +294,7 @@ function handleRoomChange(){
 			Sburb.moveSprite(Sburb.char,Sburb.curRoom,Sburb.destRoom);
 			Sburb.curRoom.exit();
 			Sburb.curRoom = Sburb.destRoom;
+			Sburb.curRoom.enter();
 			Sburb.destRoom = null;
 		}
 	}else if(Sburb.Stage.fade>0.01){

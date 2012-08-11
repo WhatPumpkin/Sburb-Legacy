@@ -413,6 +413,7 @@ function parseState(input){
   	var curRoom = rootInfo.getNamedItem("curRoom");
   	if(curRoom){
   		Sburb.curRoom = Sburb.rooms[curRoom.value];
+  		Sburb.curRoom.enter();
   	}
   	
   	var bgm = rootInfo.getNamedItem("bgm");

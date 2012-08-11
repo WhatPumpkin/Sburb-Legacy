@@ -25,6 +25,7 @@
   <Asset name='NepetaIdleSheet' type='graphic'>walkabout/dialogSprites/nepetaDialog1.png</Asset>
     
   <Asset name='compLabBG' type='graphic'>walkabout/backgrounds/comlab-background.gif</Asset>
+  <Asset name='compLabWalkableMap' type='graphic'>walkabout/backgrounds/comlab-background-walkable.png</Asset>
   
   <Asset name='dialogBox' type='graphic'>interface/dialogBoxBig.png</Asset>
   
@@ -71,9 +72,9 @@
 </Sprite>
 
 <Rooms>
-  <Room name='baseRoom' width='861' height='909'>
+  <Room name='baseRoom' width='861' height='909' walkableMap='compLabWalkableMap'>
   	<Paths>
-  		<Walkable path='compLabWalkable'/>
+  		<!--<Walkable path='compLabWalkable'/>-->
   	</Paths>
   	<Triggers>
   		<Trigger>spriteProperty,char,y>800
