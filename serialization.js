@@ -156,7 +156,6 @@ function purgeState(){
 
 //Load state/assets from file
 Sburb.loadSerialFromXML = function(file,keepOld) {
-	console.log(file);
 	Sburb.haltUpdateProcess();
 	if(keepOld && loadedFiles[file]){
 		Sburb.startUpdateProcess();
@@ -203,12 +202,11 @@ function loadSerial(serialText, keepOld) {
 }
 
 function loadDependencies(input){
-	var dependenciesNode = input.getElementsByTagName("Depenedencies")[0];
+	var dependenciesNode = input.getElementsByTagName("Dependencies")[0];
 	if(dependenciesNode){
-		var dependencies = dependenciesNode.nodeValue.trim().split(",");
+		var dependencies = dependenciesNode.firstChild.nodeValue.trim().split(",");
 		for(var i=0; i<dependencies.length;i++){
 			var dependency = dependencies[i];
-			console.log(dependency);
 			Sburb.loadSerialFromXML(dependency,true);
 		}
 	}
@@ -326,10 +324,8 @@ function parseTemplateClasses(input){
 }
 
 function applyTemplateClasses(input){
-	console.log(templateClasses);
 	for(var className in templateClasses){
 		var templateNode = templateClasses[className];
-		console.log(templateNode);
 		var tempAttributes = templateNode.attributes;
 	 	var tempChildren = templateNode.childNodes;
 	 	var candidates = input.getElementsByTagName(templateNode.nodeName);
