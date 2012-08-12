@@ -19,7 +19,7 @@
   <Asset name='troll11sheet' type='graphic'>walkabout/chars/newtrollsprite11.gif</Asset>
   <Asset name='troll12sheet' type='graphic'>walkabout/chars/newtrollsprite12.gif</Asset>
   
-  
+  <Asset name='dollar' type='graphic'>walkabout/objects/dollar.png</Asset>
   
   <Asset name='VriskaIdleSheet' type='graphic'>walkabout/dialogSprites/vriskaportrait.gif</Asset>
   <Asset name='NepetaIdleSheet' type='graphic'>walkabout/dialogSprites/nepetaDialog1.png</Asset>

@@ -8,12 +8,6 @@
   <Asset name='stairRoomStairs3' type='path'>224,1510;588,1888;591,1702;228,1323</Asset>
 </Assets>
 
-<Classes>
-	<Sprite class='teleporter' width='110' height='60'>
-      <Animation sheet='teleporterPad' x='-66' y='-120'/>
-  </Sprite>
-</Classes>
-
 <Rooms>
   <Room name='stairRoom' width='999' height='2259'>
   	<Paths>
@@ -32,12 +26,6 @@
   	<Sprite class='teleporter' name='stairRoomTeleporter' x='666' y='450' >
       <Action name='teleport' command='teleport'>baseRoom,400,400</Action>
     </Sprite>
-    <Character name='sollux' x='360' y='1950' sx='-33' sy='-78' sWidth='63' sHeight='81' width='42' height='21'
-    	 sheet='taSheet' state='walkFront' facing='Front'>
-      <Action name='talk' command='talk'>@! blahblahblah</Action>
-      <Action name='change room' command='changeRoom'>baseRoom,300,300</Action>
-      <Action name='swap' command='changeChar'>sollux</Action>
-    </Character>
     <Sprite name='stairRoomBG'>
       <Animation sheet='stairRoomBG'/>
     </Sprite>

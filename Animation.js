@@ -19,6 +19,8 @@ Sburb.Animation = function(name,sheet,x,y,colSize,rowSize,startPos,length,frameI
 	this.length = length;
 	this.curInterval = 0;
 	this.curFrame = 0;
+	console.log(sheet);
+	console.log(name);
 	this.numRows = sheet.height/rowSize;
 	this.numCols = sheet.width/colSize;
 	this.name = name;
@@ -257,6 +259,7 @@ Sburb.parseAnimation = function(animationNode, assetFolder){
 	var temp;
 	name = (temp = attributes.getNamedItem("name"))?temp.value:name;
 	sheet = (temp = attributes.getNamedItem("sheet"))?assetFolder[temp.value]:sheet;
+	
 	x = (temp = attributes.getNamedItem("x"))?parseInt(temp.value):x;
 	y = (temp = attributes.getNamedItem("y"))?parseInt(temp.value):y;
 	length = (temp = attributes.getNamedItem("length"))?parseInt(temp.value):length;
