@@ -25,8 +25,16 @@ Sburb.SpriteButton = function(name,x,y,width,height,sheet,action){
 
 Sburb.SpriteButton.prototype = new Sburb.Sprite();
 
+Sburb.SpriteButton.prototype.update = function(){
+	Sburb.Sprite.prototype.update.call(this);
+	this.updateMouse();
+}
+
 //update button in relation to mouse state
-Sburb.SpriteButton.prototype.updateMouse = function(x,y,mouseDown){
+Sburb.SpriteButton.prototype.updateMouse = function(){
+	var x = Sburb.Mouse.x;
+	var y = Sburb.Mouse.y;
+	var mouseDown = Sburb.Mouse.down;
 	this.clicked = false;
 	if(mouseDown){
 		if(!this.mousePressed){
@@ -39,7 +47,7 @@ Sburb.SpriteButton.prototype.updateMouse = function(x,y,mouseDown){
 		if(this.pressed){
 			if(this.hitsPoint(x-this.width/2,y-this.height/2)){
 				this.clicked = true;
-				var nextState = "state"+(parseInt(this.animation.name.substr(5,1))+1);
+				var nextState = "state"+(parseInt(this.animation.name.substring(5,this.animation.name.length))+1);
 				if(this.animations[nextState]){
 					this.startAnimation(nextState);
 				}else{
@@ -50,6 +58,13 @@ Sburb.SpriteButton.prototype.updateMouse = function(x,y,mouseDown){
 		this.pressed = false;
 		this.mousePressed = false;
 	}
+	if(this.clicked && this.action){
+		Sburb.performAction(this.action);
+	}
+}
+
+Sburb.SpriteButton.prototype.setState = function(state){
+	this.startAnimation("state"+state);
 }
 
 //serialize this SpriteButton to XML

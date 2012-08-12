@@ -131,6 +131,46 @@ Sburb.FontEngine.prototype.parseText = function(){ //break it up into lines
 //parse the formatting of the text
 Sburb.FontEngine.prototype.parseFormatting = function(){
 	this.formatQueue = [];
+	this.escaped = {};
+	
+	this.parseEscapes();
+	
+	this.parsePrefixes();
+	
+	this.parseUnderlines();
+	
+	this.parseColors();
+}
+
+Sburb.FontEngine.prototype.parseEscapes = function(){
+	var index;
+	var escapeLocation = 0;
+	do{
+		index = this.text.indexOf("/",escapeLocation);
+		
+		if(index<this.text.length-1 && index>=0){
+			var character = this.text.charAt(index+1);
+			if(character=="/"){
+				escapeLocation=index+1;
+			}else{
+				var characterListing = this.escaped[character];
+				if(!characterListing){
+					characterListing = this.escaped[character] = {};
+				}
+				var count = 0;
+				for(var i=0;i<index;i++){
+					if(this.text.charAt(i)==character){
+						count++;			
+					}
+				}
+				characterListing[count+1] = true;
+			}
+		}
+		this.text = this.text.substring(0,index)+this.text.substring(index+1,this.text.length);
+	}while(index>=0);
+}
+
+Sburb.FontEngine.prototype.parsePrefixes = function(){
 	var prefix = this.text.substring(0,this.text.indexOf(" "));
 	var actor;
 	if(prefix!="!"){
@@ -142,9 +182,25 @@ Sburb.FontEngine.prototype.parseFormatting = function(){
 		this.parsePrefix(actor);
 	}
 	this.text = this.text.substring(this.text.indexOf(" ")+1,this.text.length);
-	
-	var index= this.text.indexOf("_");
-	while(index>=0){
+}
+
+Sburb.FontEngine.prototype.parseUnderlines = function(){
+	var escapePoint = 0;
+	var index = 0;
+	var count = 0;
+	while(true){
+		while(true){
+			count++;
+			index = this.text.indexOf("_",escapePoint);
+			if(this.escaped["_"] && this.escaped["_"][count]){
+				escapePoint = index+1;
+			}else{
+				break;
+			}
+		}
+		if(index==-1){
+			break;
+		}
 		var closing = false;
 		for(var i=this.formatQueue.length-1;i>=0;i--){
 			if(this.formatQueue[i].type=="underline" && this.formatQueue[i].maxIndex==999999){
@@ -158,26 +214,41 @@ Sburb.FontEngine.prototype.parseFormatting = function(){
 		}
 		this.text = this.text.substring(0,index)+this.text.substring(index+1,this.text.length);
 		this.realignFormatQueue(index,1);
-		index = this.text.indexOf("_");
 	}
-	index = this.text.indexOf("/0x");
-	while(index>=0){
-		if(this.text.indexOf("/0x/")==index){
+}
+
+Sburb.FontEngine.prototype.parseColors = function(){
+	var escapePoint = 0;
+	var index = 0;
+	var count = 0;
+	while(true){
+		while(true){
+			count++;
+			index = this.text.indexOf("#",escapePoint);
+			if(this.escaped["#"] && this.escaped["#"][count]){
+				escapePoint = index+1;
+			}else{
+				break;
+			}
+		}
+		if(index==-1){
+			break;
+		}
+		if(this.text.indexOf("##",escapePoint)==index){
 			for(var i=this.formatQueue.length-1;i>=0;i--){
 				if(this.formatQueue[i].type=="colour" && this.formatQueue[i].maxIndex==999999){
 					this.formatQueue[i].maxIndex=index;
 					break;
 				}
 			}
-			this.text = this.text.substring(0,index)+this.text.substring(index+4,this.text.length);
-			this.realignFormatQueue(index,4);
+			count++;
+			this.text = this.text.substring(0,index)+this.text.substring(index+2,this.text.length);
+			this.realignFormatQueue(index,2);
 		}else{
-			this.addToFormatQueue(new Sburb.FormatRange(index,999999,"colour","#"+this.text.substring(index+3,index+9)));
-			this.text = this.text.substring(0,index)+this.text.substring(index+9,this.text.length);
-			this.realignFormatQueue(index,9);
+			this.addToFormatQueue(new Sburb.FormatRange(index,999999,"colour","#"+this.text.substring(index+1,index+7)));
+			this.text = this.text.substring(0,index)+this.text.substring(index+7,this.text.length);
+			this.realignFormatQueue(index,7);
 		}
-		
-		index = this.text.indexOf("/0x");
 	}
 }
 
@@ -310,7 +381,7 @@ Sburb.FontEngine.prototype.draw = function(){
 			Sburb.stage.strokeStyle = Sburb.stage.fillStyle = curColor;
 		}
 		Sburb.stage.fillText(curLine.substring(strStart,strEnd),startX,startY);
-		if(underlining){
+		if(underlining && strStart<strEnd){
 			if(Sburb.stage.lineWidth!=0.6){
 				Sburb.stage.lineWidth = 0.6;
 			}

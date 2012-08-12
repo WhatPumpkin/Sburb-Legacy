@@ -31,7 +31,7 @@ Sburb.Path.prototype.queryBatchNeg = function(queries,results){
 
 //Check if the given point is in the path
 Sburb.Path.prototype.query = function(pt){
-	for(var c = false, i = -1, l = this.points.length, j = l - 1; ++i < l; j = i){
+	for(var c = false, i = -1, l = this.points.length, j = l-1; ++i < l;j=i){
 		var ptA = this.points[i];
 		var ptB = this.points[j];
 		((ptA.y <= pt.y && pt.y < ptB.y) || (ptB.y <= pt.y && pt.y < ptA.y))

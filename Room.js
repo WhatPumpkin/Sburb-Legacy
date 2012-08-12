@@ -19,7 +19,10 @@ Sburb.Room = function(name,width,height){
 	this.unwalkables = [];
 	this.motionPaths = [];
 	this.triggers = [];
+	this.walkableMap = null;
 }
+
+Sburb.Room.prototype.mapContext = null;
 
 //add an Effect to the room
 Sburb.Room.prototype.addEffect = function(effect){
@@ -67,6 +70,18 @@ Sburb.Room.prototype.addMotionPath = function(path, xtox,xtoy,ytox,ytoy,dx,dy) {
 		this.dx = dx; this.dy = dy;
 	};
 	this.motionPaths.push(motionPath);
+}
+//perform any intialization
+Sburb.Room.prototype.enter = function(){
+	if(this.walkableMap){
+		var mapCanvas = document.getElementById("SBURBMapCanvas");
+		
+		var drawWidth = mapCanvas.width = this.walkableMap.width;
+		var drawHeight = mapCanvas.height = this.walkableMap.height;
+		var ctx = mapCanvas.getContext("2d");
+		ctx.drawImage(this.walkableMap,0,0,drawWidth,drawHeight, 0,0,drawWidth,drawHeight);
+		this.mapContext = ctx;
+	}
 }
 
 //perform any exit activities necessary
@@ -175,11 +190,25 @@ Sburb.Room.prototype.isInBoundsBatch = function(queries,results){
 			results[queryName] = false;
 		}
 	}
-	for(var i=0;i<this.walkables.length;i++){
-		this.walkables[i].queryBatchPos(queries,results);
-	}
-	for(var i=0;i<this.unwalkables.length;i++){
-		this.unwalkables[i].queryBatchNeg(queries,results);
+	if(this.walkableMap){
+		for(var query in queries){
+			var pt = queries[query];
+			var pixel = this.mapContext.getImageData(pt.x,pt.y,1,1).data;
+			
+			if(pixel[0]==255 && pixel[1]==255 
+				&& pixel[2]==255 && pixel[3]==255){
+				results[query] = true;
+			}else{
+				results[query] = false;
+			}
+		}
+	}else{
+		for(var i=0;i<this.walkables.length;i++){
+			this.walkables[i].queryBatchPos(queries,results);
+		}
+		for(var i=0;i<this.unwalkables.length;i++){
+			this.unwalkables[i].queryBatchNeg(queries,results);
+		}
 	}
 	return results;
 }
@@ -217,7 +246,11 @@ Sburb.Room.prototype.collides = function(sprite,dx,dy){
 
 //serialize the room to XML
 Sburb.Room.prototype.serialize = function(output){
-	output = output.concat("\n<Room name='"+this.name+"' width='"+this.width+"' height='"+this.height+"'>");
+	output = output.concat("\n<Room name='"+this.name+
+	"' width='"+this.width+
+	"' height='"+this.height+
+	(this.walkableMap?("' walkableMap="+this.walkableMap.name):"")+
+	"' >");
 	output = output.concat("\n<Paths>");
 	for(var i=0;i<this.walkables.length;i++){
 		var walkable = this.walkables[i];
@@ -261,6 +294,10 @@ Sburb.parseRoom = function(roomNode, assetFolder, spriteFolder) {
   	var newRoom = new Sburb.Room(attributes.getNamedItem("name").value,
   			       parseInt(attributes.getNamedItem("width").value),
   			       parseInt(attributes.getNamedItem("height").value));
+  	var walkableMap = attributes.getNamedItem("walkableMap");
+  	if(walkableMap){
+  		newRoom.walkableMap = assetFolder[walkableMap.value];
+  	}
   	Sburb.serialLoadRoomSprites(newRoom,roomNode.getElementsByTagName("Sprite"), spriteFolder);
   	Sburb.serialLoadRoomSprites(newRoom,roomNode.getElementsByTagName("Character"), spriteFolder);
   	Sburb.serialLoadRoomSprites(newRoom,roomNode.getElementsByTagName("Fighter"), spriteFolder);

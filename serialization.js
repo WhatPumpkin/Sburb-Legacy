@@ -45,6 +45,12 @@ function serializeLooseObjects(output,rooms,sprites){
 			output = theSprite.serialize(output);
 		}
 	}
+	for(var buttons in buttons){
+		var theButton = buttons[button];
+		if(!hud[theButton.name]){
+			output = theButton.serialize(output);
+		}
+	}
 	return output;
 }
 
@@ -143,11 +149,12 @@ function purgeState(){
 	Sburb.globalVolume = 1;
 	Sburb.hud = {};
 	Sburb.sprites = {};
+	Sburb.buttons = {};
 	Sburb.effects = {};
 	Sburb.curAction = null;
 	Sburb.pressed = [];
 	Sburb.chooser = new Sburb.Chooser();
-	Sburb.dialoger = new Sburb.Dialoger();
+	Sburb.dialoger = null;
 	Sburb.curRoom = null;
 	Sburb.resourcePath = "";
 	
@@ -183,20 +190,6 @@ Sburb.loadSerialFromXML = function(file,keepOld) {
     }
 }
 
-//actually load a file from users file system?
-/*
-function loadLevelFile(node) {
-    if (!window.FileReader) {
-		alert("This browser doesn't support reading files");
-    }
-    oFReader = new FileReader();
-    if (node.files.length === 0) { return; }  
-    var oFile = node.files[0];
-    oFReader.onload = function() { loadSerial(this.result); };
-    oFReader.onerror = function(e) {console.log(e); }; // this should pop up an alert if googlechrome
-    oFReader.readAsText(oFile);
-}*/
-
 //main serial loading
 function loadSerial(serialText, keepOld) {
     var inText = serialText; //document.getElementById("serialText");
@@ -208,9 +201,22 @@ function loadSerial(serialText, keepOld) {
     	purgeState();
     }
     
+    loadDependencies(input);
+    
     loadSerialAssets(input);
 
     setTimeout(function() { loadSerialState(input) }, 500);
+}
+
+function loadDependencies(input){
+	var dependenciesNode = input.getElementsByTagName("Dependencies")[0];
+	if(dependenciesNode){
+		var dependencies = dependenciesNode.firstChild.nodeValue.trim().split(",");
+		for(var i=0; i<dependencies.length;i++){
+			var dependency = dependencies[i];
+			Sburb.loadSerialFromXML(dependency,true);
+		}
+	}
 }
 
 function loadSerialAssets(input){
@@ -272,23 +278,18 @@ function loadSerialState(input) {
 		return;
     }
     
-    //This one has to be first
+    //These two have to be first
    	parseTemplateClasses(input);
+	applyTemplateClasses(input);
 	
 	parseButtons(input);
-  	
   	parseSprites(input);
-  	
   	parseCharacters(input);
-  	
   	parseFighters(input);
-  	
   	parseRooms(input);
   	
-  	parseDialogBox(input);
-	
-	//needs to be after parseDialogBox
-  	parseDialogSprites(input);
+  	
+  	parseHud(input);
   	
   	parseEffects(input);
   	
@@ -316,34 +317,49 @@ function parseEffects(input){
 }
 
 function parseTemplateClasses(input){
-	var templates = input.getElementsByTagName("Classes")[0].childNodes;
-    for(var i=0;i<templates.length;i++){
-    	var templateNode = templates[i];
-    	if(templateNode.nodeName!="#text"){
-		 	var tempAttributes = templateNode.attributes;
-		 	var tempChildren = templateNode.childNodes;
-		 	var candidates = input.getElementsByTagName(templateNode.nodeName);
-		 	for(var j=0;j<candidates.length;j++){
-		 		var candidate = candidates[j];
-		 		var candAttributes = candidate.attributes;
-		 		var candClass = candidate.attributes.getNamedItem("class");
-		 		var candChildren = candidate.childNodes;
-		 		if(candClass && candidate!=templateNode && candClass.value==tempAttributes.getNamedItem("class").value){
-		 			for(var k=0;k<tempAttributes.length;k++){
-		 				var tempAttribute = tempAttributes[k];
-		 				if(!candAttributes.getNamedItem(tempAttribute.name)){
-		 					candidate.setAttribute(tempAttribute.name,tempAttribute.value);
-		 				}
-		 			}
-		 			for(var k=0;k<tempChildren.length;k++){
-		 				candidate.appendChild(tempChildren[k].cloneNode(true));
-		 			}
-		 		}
-		 	}
-		 	templateClasses[tempAttributes.getNamedItem("class").value] = templateNode.cloneNode(true);
-    	}
-    }
-    input.removeChild(input.getElementsByTagName("Classes")[0]);
+	var classes = input.getElementsByTagName("Classes");
+	if(classes.length>0){
+		var templates = classes[0].childNodes;
+		for(var i=0;i<templates.length;i++){
+			var templateNode = templates[i];
+			if(templateNode.nodeName!="#text"){
+			 	var tempAttributes = templateNode.attributes;
+			 	templateClasses[tempAttributes.getNamedItem("class").value] =
+			 		templateNode.cloneNode(true);
+			}
+		}
+		input.removeChild(input.getElementsByTagName("Classes")[0]);
+	}
+}
+
+function applyTemplateClasses(input){
+	for(var className in templateClasses){
+		var templateNode = templateClasses[className];
+		var tempAttributes = templateNode.attributes;
+	 	var tempChildren = templateNode.childNodes;
+	 	var candidates = input.getElementsByTagName(templateNode.nodeName);
+	 	templateClasses[tempAttributes.getNamedItem("class").value] =
+	 		templateNode.cloneNode(true);
+	 	for(var j=0;j<candidates.length;j++){
+	 		var candidate = candidates[j];
+	 		var candAttributes = candidate.attributes;
+	 		var candClass = candidate.attributes.getNamedItem("class");
+	 		var candChildren = candidate.childNodes;
+	 		if(candClass && candidate!=templateNode &&
+	 		 candClass.value==tempAttributes.getNamedItem("class").value){
+	 			for(var k=0;k<tempAttributes.length;k++){
+	 				var tempAttribute = tempAttributes[k];
+	 				if(!candAttributes.getNamedItem(tempAttribute.name)){
+	 					candidate.setAttribute(tempAttribute.name, 
+	 						tempAttribute.value);
+	 				}
+	 			}
+	 			for(var k=0;k<tempChildren.length;k++){
+	 				candidate.appendChild(tempChildren[k].cloneNode(true));
+	 			}
+	 		}
+	 	}
+	}
 }
 
 function parseButtons(input){
@@ -351,7 +367,7 @@ function parseButtons(input){
 	for(var i=0;i<newButtons.length;i++){
 		var curButton = newButtons[i];
 		var newButton = Sburb.parseSpriteButton(curButton);
-  		Sburb.hud[newButton.name] = newButton;
+  		Sburb.buttons[newButton.name] = newButton;
 	}
 }
 
@@ -413,6 +429,7 @@ function parseState(input){
   	var curRoom = rootInfo.getNamedItem("curRoom");
   	if(curRoom){
   		Sburb.curRoom = Sburb.rooms[curRoom.value];
+  		Sburb.curRoom.enter();
   	}
   	
   	var bgm = rootInfo.getNamedItem("bgm");
@@ -438,11 +455,28 @@ function parseState(input){
     }
 }
 
-function parseDialogBox(input){
-	var dialogBox = new Sburb.Sprite("dialogBox",Stage.width+1,1000,Sburb.assets.dialogBox.width,Sburb.assets.dialogBox.height, null,null,0);
-  	dialogBox.addAnimation(new Sburb.Animation("image",Sburb.assets.dialogBox,0,0,Sburb.assets.dialogBox.width,Sburb.assets.dialogBox.height,0,1,1));
-	dialogBox.startAnimation("image");
-  	Sburb.dialoger.setBox(dialogBox);
+function parseHud(input){
+	var hud = input.getElementsByTagName("HUD");
+	if(hud.length>0){
+		var children = hud[0].childNodes;
+		for(var i=0;i<children.length;i++){
+			var child = children[i];
+
+			if(child.nodeName == "SpriteButton"){
+				var name = child.attributes.getNamedItem("name").value;
+  				Sburb.hud[name] = Sburb.buttons[name];
+			}
+		}
+	}
+	parseDialoger(input);
+	parseDialogSprites(input);
+}
+
+function parseDialoger(input){
+	var dialoger = input.getElementsByTagName("Dialoger");
+	if(dialoger.length>0){
+		Sburb.dialoger = Sburb.parseDialoger(dialoger[0]);
+	}
 }
 
 function serialLoadDialogSprites(dialogSprites,assetFolder){
