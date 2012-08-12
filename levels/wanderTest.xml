@@ -56,7 +56,7 @@
 </HUD>
   
 <Action name='startGame' command='talk'>@! Let's do this!!!
- <Action command='playSong'>karkatBGM, 6.7</Action>
+ <Action command='playSong'>karkatBGM,6.7</Action>
 </Action> 
 
 <Sprite name='dollar'>

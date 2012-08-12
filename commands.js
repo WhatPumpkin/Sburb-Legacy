@@ -5,21 +5,21 @@ var Sburb = (function(Sburb){
 
 //Create a Dialog
 //syntax: dialog syntax
-var talkCommand = function(info){
+var talk = function(info){
 	Sburb.dialoger.startDialog(info);
 }
 
 //Change the room and move the character to a new location in that room
 //syntax: roomName, newCharacterX, newCharacterY
-var changeRoomCommand = function(info){
+var changeRoom = function(info){
 	var params = info.split(",");
 	Sburb.changeRoom(Sburb.rooms[params[0]],parseInt(params[1]),parseInt(params[2]));
 }
 
-//Perform changeRoomCommand, and also add teleport effects
-//syntax: see changeRoomCommand
-var teleportCommand = function(info){
-	changeRoomCommand(info);
+//Perform changeRoom, and also add teleport effects
+//syntax: see changeRoom
+var teleport = function(info){
+	changeRoom(info);
 	Sburb.playEffect(Sburb.effects["teleportEffect"],Sburb.char.x,Sburb.char.y);
 	var params = info.split(",");
 	Sburb.curAction.followUp = new Sburb.Action("playEffect","teleportEffect,"+params[1]+","+params[2],null,null,Sburb.curAction.followUp);
@@ -28,7 +28,7 @@ var teleportCommand = function(info){
 
 //Set a different Character as the player
 //syntax: newPlayerName
-var changeCharCommand = function(info){
+var changeChar = function(info){
 	Sburb.char.becomeNPC();
 	Sburb.char.walk();
 	Sburb.focus = Sburb.char = Sburb.sprites[info];
@@ -38,7 +38,7 @@ var changeCharCommand = function(info){
 
 //Set the given song as the new background music
 //syntax: songName, loopingStartPoint (seconds)
-var playSongCommand = function(info){
+var playSong = function(info){
 	var params = info.split(",");
 	params = params.map(function(s) { return s.trim(); });
 	Sburb.changeBGM(new Sburb.BGM(Sburb.assets[params[0]],parseFloat(params[1])));
@@ -46,20 +46,20 @@ var playSongCommand = function(info){
 
 //Play the given sound
 //syntax: soundName
-var playSoundCommand = function(info){
+var playSound = function(info){
 	Sburb.playSound(new Sburb.Sound(Sburb.assets[info.trim()]));
 }
 
 //Play the given effect and the given location
 //syntax: effectName, x, y
-var playEffectCommand = function(info){
+var playEffect = function(info){
 	var params = info.split(",");
 	Sburb.playEffect(Sburb.effects[params[0]],parseInt(params[1]),parseInt(params[2]));
 }
 
 //Have the specified sprite play the specified animation
 //syntax: spriteName, animationName
-var playAnimationCommand = function(info){
+var playAnimation = function(info){
 	var params = info.split(",");
 	var sprite;
 	if(params[0]=="char"){
@@ -72,7 +72,7 @@ var playAnimationCommand = function(info){
 
 //Open the specified chest, revealing the specified item, and with the specified text
 //Syntax: chestName, itemName, message
-var openChestCommand = function(info){
+var openChest = function(info){
 	var params = info.split(",");
 	var chest = Sburb.sprites[params[0]];
 	var item = Sburb.sprites[params[1]];
@@ -92,7 +92,7 @@ var openChestCommand = function(info){
 
 //Move the specified sprite by the specified amount
 //syntax: spriteName, dx, dy
-var deltaSpriteCommand = function(info){
+var deltaSprite = function(info){
 	var params = info.split(",");
 	var sprite = null;
 	if(params[0]=="char"){
@@ -108,7 +108,7 @@ var deltaSpriteCommand = function(info){
 
 //Move the specified sprite to the specified location
 //syntax: spriteName, x, y
-var moveSpriteCommand = function(info){
+var moveSprite = function(info){
 	var params = info.split(",");
 	var sprite = null;
 	if(params[0]=="char"){
@@ -124,14 +124,14 @@ var moveSpriteCommand = function(info){
 
 //Play the specified flash movie
 //syntax: movieName
-var playMovieCommand = function(info){
+var playMovie = function(info){
 	Sburb.playMovie(Sburb.assets[info]);
 	Sburb.bgm.pause();
 }
 
 //Remove the specified flash movie
 //syntax: movieName
-var removeMovieCommand = function(info){
+var removeMovie = function(info){
 	document.getElementById(info).style.display = "none";
 	document.getElementById("gameDiv").style.display = "block";
 	Sburb.bgm.play();
@@ -139,13 +139,13 @@ var removeMovieCommand = function(info){
 
 //Wait for the specified trigger to be satisfied
 //syntax: Trigger syntax
-var waitForCommand = function(info){
+var waitFor = function(info){
 	Sburb.waitFor = new Sburb.Trigger(info);
 }
 
 //Add the specified sprite to the specified room
 //syntax: spriteName, roomName
-var addSpriteCommand = function(info){
+var addSprite = function(info){
 	params = info.split(",");
 	var sprite = Sburb.sprites[params[0]];
 	var room = Sburb.rooms[params[1]];
@@ -154,7 +154,7 @@ var addSpriteCommand = function(info){
 
 //Remove the specified sprite from the specified room
 //syntax: spriteName, roomName
-var removeSpriteCommand = function(info){
+var removeSprite = function(info){
 	params = info.split(",");
 	var sprite = Sburb.sprites[params[0]];
 	var room = Sburb.rooms[params[1]];
@@ -163,7 +163,7 @@ var removeSpriteCommand = function(info){
 
 //Toggle the volume
 //syntax: none
-var toggleVolumeCommand = function(){
+var toggleVolume = function(){
 	if(Sburb.globalVolume>=1){
 		Sburb.globalVolume=0;
 	}else if(Sburb.globalVolume>=0.6){
@@ -180,13 +180,13 @@ var toggleVolumeCommand = function(){
 
 //change the engine mode
 //syntax: modeName
-var changeModeCommand = function(info){
+var changeMode = function(info){
 	Sburb.engineMode = info.trim();
 }
 
 //load in an additional SBURBML file
 //syntax: path, keepOld
-var loadStateFileCommand = function(info){
+var loadStateFile = function(info){
 	var args = info.split(",");
 	var path = args[0];
 	var keepOld = args[1]=="true";
@@ -195,13 +195,13 @@ var loadStateFileCommand = function(info){
 
 //fade out to black
 //syntax: node
-var fadeOutCommand = function(info){
+var fadeOut = function(info){
 	Sburb.fading = true;
 }
 
 //go to a room that may not have been loaded yet
-//syntax path, roomName, newCharacterX, newCharacterY
-var changeToRemoteRoomCommand = function(info){
+//syntax: filepath, roomName, newCharacterX, newCharacterY
+var changeToRemoteRoom = function(info){
 	var args = info.split(",");
 	var lastAction;
 	var newAction = lastAction = new Sburb.Action("fadeOut");
@@ -211,53 +211,63 @@ var changeToRemoteRoomCommand = function(info){
 	Sburb.performAction(newAction);
 }
 
-var teleportToRemoteRoomCommand = function(info){
-	changeToRemoteRoomCommand(info);
+//Teleport to a room which may not have been loaded yet
+//syntax: filepath, roomName, newCharacterX, newCharacterY
+var teleportToRemoteRoom = function(info){
+	changeToRemoteRoom(info);
 	
 	Sburb.playEffect(Sburb.effects["teleportEffect"],Sburb.char.x,Sburb.char.y);
 	
 	var params = info.split(",");
-	Sburb.curAction.followUp.followUp = new Sburb.Action("playEffect","teleportEffect,"+params[2]+","+params[3],null,null,Sburb.curAction.followUp.followUp);
+	Sburb.curAction.followUp.followUp.followUp = new Sburb.Action("playEffect","teleportEffect,"+params[2]+","+params[3],null,null,Sburb.curAction.followUp.followUp.followUp);
+}
+
+
+//Change the state of the specified button
+//syntax: buttonName, state
+var changeButtonState = function(info){
+	var params = info.split(",");
+	Sburb.buttons[info[0].trim()].setState(info[1].trim());
 }
 
 //blank utlity function
 //syntax: none
-var cancelCommand = function(){
+var cancel = function(){
 	//do nothing
 }
 
 var commands = {};
-commands.talk = talkCommand;
+commands.talk = talk;
 
-commands.changeRoom = changeRoomCommand;
-commands.teleport = teleportCommand;
+commands.changeRoom = changeRoom;
+commands.teleport = teleport;
 
-commands.changeToRemoteRoom = changeToRemoteRoomCommand;
-commands.teleportToRemoteRoom = teleportToRemoteRoomCommand;
+commands.changeToRemoteRoom = changeToRemoteRoom;
+commands.teleportToRemoteRoom = teleportToRemoteRoom;
 
-commands.playAnimation = playAnimationCommand;
-commands.playEffect = playEffectCommand;
-commands.playSong = playSongCommand;
-commands.playSound = playSoundCommand;
-commands.playMovie = playMovieCommand;
-commands.changeChar = changeCharCommand;
+commands.playAnimation = playAnimation;
+commands.playEffect = playEffect;
+commands.playSong = playSong;
+commands.playSound = playSound;
+commands.playMovie = playMovie;
+commands.changeChar = changeChar;
 
 
-commands.openChest = openChestCommand;
-commands.waitFor = waitForCommand;
+commands.openChest = openChest;
+commands.waitFor = waitFor;
 
-commands.addSprite = addSpriteCommand;
-commands.removeSprite = removeSpriteCommand;
-commands.deltaSprite = deltaSpriteCommand;
-commands.moveSprite = moveSpriteCommand;
+commands.addSprite = addSprite;
+commands.removeSprite = removeSprite;
+commands.deltaSprite = deltaSprite;
+commands.moveSprite = moveSprite;
 
-commands.changeMode = changeModeCommand;
-commands.loadStateFile = loadStateFileCommand;
+commands.changeMode = changeMode;
+commands.loadStateFile = loadStateFile;
 
-commands.fadeOut = fadeOutCommand;
-commands.removeMovie = removeMovieCommand;
-commands.toggleVolume = toggleVolumeCommand;
-commands.cancel = cancelCommand;
+commands.fadeOut = fadeOut;
+commands.removeMovie = removeMovie;
+commands.toggleVolume = toggleVolume;
+commands.cancel = cancel;
 
 Sburb.commands = commands;
 return Sburb;
