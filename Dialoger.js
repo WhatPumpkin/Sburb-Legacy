@@ -17,6 +17,7 @@ Sburb.Dialoger = function(hiddenPos, alertPos, talkPosLeft, talkPosRight,
 	
 	this.talking = false;
 	this.queue = [];
+	this.extraArgs = null;
 	this.dialog = new Sburb.FontEngine();
 	
 	this.hiddenPos = hiddenPos;
@@ -83,8 +84,19 @@ Sburb.Dialoger.prototype.nextDialog = function(){
 	this.dialog.showSubText(0,0);
 	var prefix = nextDialog.substring(0,nextDialog.indexOf(" "));
 	if(prefix.indexOf("~")>=0){
-		var resource = prefix.substring(prefix.indexOf("~")+1,prefix.length);	
-		prefix = prefix.substring(0,prefix.indexOf("~"));	
+		var firstIndex = prefix.indexOf("~");
+		var lastIndex = prefix.length;
+		var ampIndex = prefix.indexOf("&");
+		if(ampIndex>firstIndex){
+			lastIndex = ampIndex;
+		}
+		var colIndex = prefix.indexOf(":");
+		if(colIndex>=0 && colIndex<lastIndex){
+			lastIndex = colIndex;
+		}
+		var resource = prefix.substring(firstIndex+1,lastIndex);	
+		prefix = prefix.substring(0,firstIndex)+prefix.substring(lastIndex,prefix.length);	
+		
 		var img = Sburb.assets[resource];
 		this.graphic = new Sburb.Sprite();
 		this.graphic.addAnimation(new Sburb.Animation("image",img,0,0,img.width,img.height,0,1,1));
@@ -92,6 +104,35 @@ Sburb.Dialoger.prototype.nextDialog = function(){
 	}else{
 		this.graphic = null;
 	}
+	
+	if(prefix.indexOf("&")>=0){
+		var firstIndex = prefix.indexOf("&");
+		var lastIndex = prefix.length;
+
+		var colIndex = prefix.indexOf(":");
+		if(colIndex>=0 && colIndex<lastIndex){
+			lastIndex = colIndex;
+		}
+		var resource = prefix.substring(firstIndex+1,lastIndex);	
+		prefix = prefix.substring(0,firstIndex)+prefix.substring(lastIndex,prefix.length);
+			
+		this.setBox(resource);
+	}else{
+		this.box = this.defaultBox;
+	}
+	
+	if(prefix.indexOf(":")>=0){
+		var firstIndex = prefix.indexOf(":");
+		var lastIndex = prefix.length;
+
+		var resource = prefix.substring(firstIndex+1,lastIndex);	
+		prefix = prefix.substring(0,firstIndex)+prefix.substring(lastIndex,prefix.length);	
+		
+		this.extraArgs = resource;
+	}else{
+		this.extraArgs = null;
+	}
+	
 	if(prefix=="!"){
 		this.actor = null;
 		this.dialogSide = "Left";
@@ -230,10 +271,16 @@ Sburb.Dialoger.prototype.decideDialogDimensions = function(){
 
 //set the dialog box graphic
 Sburb.Dialoger.prototype.setBox = function(box){
+	var boxAsset = Sburb.assets[box];
+	
+	var dialogBox = new Sburb.Sprite("dialogBox",Stage.width+1,1000,boxAsset.width,boxAsset.height, null,null,0);
+  	dialogBox.addAnimation(new Sburb.Animation("image",boxAsset,0,0,boxAsset.width,boxAsset.height,0,1,1));
+	dialogBox.startAnimation("image");
+	
 	if(!this.box){
-		this.defaultBox = box;
+		this.defaultBox = dialogBox;
 	}
-	this.box = box;
+	this.box = dialogBox;
 }
 
 //draw the dialog box
@@ -274,12 +321,8 @@ Sburb.parseDialoger = function(dialoger){
 		spriteStartRight, spriteEndRight, spriteStartLeft, spriteEndLeft,
 		alertTextDimensions, leftTextDimensions, rightTextDimensions,type);
 	
-	var boxAsset = Sburb.assets[attributes.getNamedItem("box").value]
-	
-	var dialogBox = new Sburb.Sprite("dialogBox",Stage.width+1,1000,boxAsset.width,boxAsset.height, null,null,0);
-  	dialogBox.addAnimation(new Sburb.Animation("image",boxAsset,0,0,boxAsset.width,boxAsset.height,0,1,1));
-	dialogBox.startAnimation("image");
-  	newDialoger.setBox(dialogBox);
+	var box = attributes.getNamedItem("box").value;
+  	newDialoger.setBox(box);
 
   	return newDialoger;
   	

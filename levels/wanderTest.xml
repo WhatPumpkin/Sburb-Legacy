@@ -43,15 +43,15 @@
   		<Action command='talk' soft='true'>@! HELP!</Action>
   	</SpriteButton>
   	
-	<Dialoger alertPos="56,140" talkPosRight="0,140" talkPosLeft="112,140" hiddenPos="-1000,140"
+	<Dialoger alertPos="56,120" talkPosRight="20,120" talkPosLeft="90,120" hiddenPos="-1000,120"
 		spriteStartLeft="-300,450" spriteEndLeft="100,450" spriteStartRight="950,450" spriteEndRight="550,450"
 		alertTextDimensions="30,30,450,220" leftTextDimensions="150,30,350,220" rightTextDimensions="30,30,350,220"
 		box="dialogBox" type="standard">
 	</Dialoger>
   	
   	<DialogSprites>
-  		<Animation name='vriska_idle' x='-142' y='-424' sheet='VriskaIdleSheet' rowSize='424' colSize='284'/>
-  		<Animation name='nepeta_idle' x='-270' y='-450' sheet='NepetaIdleSheet' rowSize='450' colSize='456'/>
+  		<Animation name='vriska_idle' x='-150' y='-424' sheet='VriskaIdleSheet' rowSize='424' colSize='284'/>
+  		<Animation name='nepeta_idle' x='-280' y='-450' sheet='NepetaIdleSheet' rowSize='450' colSize='456'/>
   	</DialogSprites>
 </HUD>
   
