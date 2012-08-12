@@ -246,7 +246,11 @@ Sburb.Room.prototype.collides = function(sprite,dx,dy){
 
 //serialize the room to XML
 Sburb.Room.prototype.serialize = function(output){
-	output = output.concat("\n<Room name='"+this.name+"' width='"+this.width+"' height='"+this.height+"'>");
+	output = output.concat("\n<Room name='"+this.name+
+	"' width='"+this.width+
+	"' height='"+this.height+
+	(this.walkableMap?("' walkableMap="+this.walkableMap.name):"")+
+	"' >");
 	output = output.concat("\n<Paths>");
 	for(var i=0;i<this.walkables.length;i++){
 		var walkable = this.walkables[i];

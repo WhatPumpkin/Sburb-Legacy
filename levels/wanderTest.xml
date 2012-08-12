@@ -1,12 +1,11 @@
-<SBURB curRoom='baseRoom' char='karkat' id='level1' startAction="startGame" scale='3' resourcePath="resources">
+<SBURB curRoom='baseRoom' char='karkat' id='level1' startAction="startGame" scale='3' resourcePath="resources" desc="Main Content">
 
 <Dependencies>levels/standardTemplates.xml</Dependencies>
 
 <Assets>
 	<Asset name='testMovie' type='movie'>cutscenes/cutscenetest.swf</Asset>
 
-  <Asset name='volumeControl' type='graphic'>interface/volumeControl.png</Asset>
-  <Asset name='helpControl' type='graphic'>interface/helpControl.png</Asset>
+  
   <Asset name='aaSheet' type='graphic'>walkabout/chars/AAsheetBig.png</Asset>
   <Asset name='acSheet' type='graphic'>walkabout/chars/ACsheetBig.png</Asset>
   <Asset name='agSheet' type='graphic'>walkabout/chars/AGsheetBig.png</Asset>
@@ -19,9 +18,7 @@
   <Asset name='gcSheet' type='graphic'>walkabout/chars/GCsheetBig.png</Asset>
   <Asset name='taSheet' type='graphic'>walkabout/chars/TAsheetBig.png</Asset>
   <Asset name='tcSheet' type='graphic'>walkabout/chars/TCsheetBig.png</Asset>
-  <Asset name='teleporterPad' type='graphic'>walkabout/objects/teleporterpad.png</Asset>
-  <Asset name='teleportSheet' type='graphic'>walkabout/effects/teleportSheet.png</Asset>
-  <Asset name='chestSheet' type='graphic'>walkabout/objects/chestSheet.png</Asset>
+  
   <Asset name='dollar' type='graphic'>walkabout/objects/dollar.png</Asset>
   
   <Asset name='VriskaIdleSheet' type='graphic'>walkabout/dialogSprites/vriskaportrait.gif</Asset>
@@ -38,13 +35,6 @@
   <Asset name='compLabWalkable' type='path'>70,270;800,270;800,820;70,820</Asset>
 </Assets>
 
-<Classes>
-</Classes>
-
-<Effects>
-  <Animation name='teleportEffect' x='-66' y='-110' sheet='teleportSheet' colSize='132' rowSize='165' length='6' frameInterval='2' loopNum='0'/>
-</Effects>
-
 <HUD>
   	<SpriteButton name='volumeButton' x='9' y='9' width='54' height='36' sheet='volumeControl'>
   		<Action command='toggleVolume' silent='true'> </Action>
@@ -52,13 +42,20 @@
   	<SpriteButton name='helpButton' x='591' y='9' width='54' height='63' sheet='helpControl'>
   		<Action command='talk' soft='true'>@! HELP!</Action>
   	</SpriteButton>
+  	
+	<Dialoger alertPos="56,140" talkPosRight="0,140" talkPosLeft="112,140" hiddenPos="-1000,140"
+		spriteStartLeft="-300,450" spriteEndLeft="100,450" spriteStartRight="950,450" spriteEndRight="550,450"
+		alertTextDimensions="30,30,450,220" leftTextDimensions="150,30,350,220" rightTextDimensions="30,30,350,220"
+		box="dialogBox" type="standard">
+	</Dialoger>
+  	
   	<DialogSprites>
   		<Animation name='vriska_idle' x='-142' y='-424' sheet='VriskaIdleSheet' rowSize='424' colSize='284'/>
   		<Animation name='nepeta_idle' x='-270' y='-450' sheet='NepetaIdleSheet' rowSize='450' colSize='456'/>
   	</DialogSprites>
 </HUD>
   
-<Action name='startGame' command='talk'>@! _Let's #ffff00do## this!!! /////#/__ 
+<Action name='startGame' command='talk'>@! Let's do this!!!
  <Action command='playSong'>karkatBGM, 6.7</Action>
 </Action> 
 
@@ -74,9 +71,7 @@
   	<Triggers>
   		<Trigger>spriteProperty,char,y>800
   			<Action command='deltaSprite'>char,0,-12
-  				<Action command='loadStateFile'>levels/stairRoom.xml,true
-  					<Action command="changeRoom">stairRoom,750,450</Action>
-  				</Action>
+  				<Action command='changeToRemoteRoom'>levels/stairRoom.xml,stairRoom,750,450</Action>
   			</Action>
   		</Trigger>
   	</Triggers>
@@ -84,9 +79,7 @@
 			<Action name='open' command='openChest'>baseRoomChest1,dollar,You got a boondollar!</Action>
 		</Sprite>
   	<Sprite class='teleporter' name='baseRoomTeleporter' x='400' y='400'>
-  	   <Action name='teleport' command='loadStateFile'>levels/stairRoom.xml,true
-      	 <Action command='teleport'>stairRoom,666,450</Action>
-      </Action>
+  	   <Action command='teleportToRemoteRoom' name="teleport">levels/stairRoom.xml,stairRoom,666,450</Action>
     </Sprite>
     <Character name='karkat' x='300' y='501' sx='-36' sy='-87' sWidth='66' sHeight='96' width='48' height='21' 
 	       sheet='cgSheet' state='walkFront' facing='Front'>

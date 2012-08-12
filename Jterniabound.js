@@ -15,7 +15,8 @@ Sburb.assetManager = null; //the asset loader
 Sburb.assets = null; //all images, sounds, paths
 Sburb.sprites = null; //all sprites that were Serial loaded
 Sburb.effects = null; //all effects that were Serial loaded
-Sburb.rooms = null; //all rooms
+Sburb.buttons = null; //all buttons that were Serial loaded
+Sburb.rooms = null; //all rooms 
 Sburb.char = null; //the player
 Sburb.curRoom = null;
 Sburb.destRoom = null; //current room, the room we are transitioning to, if it exists.
@@ -29,6 +30,7 @@ Sburb.hud = null; //the hud; help and sound buttons
 Sburb.Mouse = {down:false,x:0,y:0}; //current recorded properties of the mouse
 Sburb.waitFor = null;
 Sburb.engineMode = "wander";
+Sburb.fading = false;
 
 Sburb.updateLoop = null; //the main updateLoop, used to interrupt updating
 Sburb.initFinished = null; //only used when _hardcode_load is true
@@ -86,12 +88,13 @@ Sburb.initialize = function(div,levelName,includeDevTools){
 	Sburb.stage = Sburb.Stage.getContext("2d");
 	
 	Sburb.chooser = new Sburb.Chooser();
-	Sburb.dialoger = new Sburb.Dialoger();
+	Sburb.dialoger = null;
     Sburb.assetManager = new Sburb.AssetManager();
 	Sburb.assets = Sburb.assetManager.assets; // shortcut for raw asset access
 	Sburb.rooms = {};
 	Sburb.sprites = {};
 	Sburb.effects = {};
+	Sburb.buttons = {};
 	Sburb.hud = {};
 	Sburb.pressed = [];
 	
@@ -217,7 +220,9 @@ Sburb.onMouseDown = function(e,canvas){
 
 Sburb.onMouseUp = function(e,canvas){
 	Sburb.Mouse.down = false;
-	Sburb.dialoger.nudge();
+	if(Sburb.dialoger){
+		Sburb.dialoger.nudge();
+	}
 }
 
 function relMouseCoords(event,canvas){
@@ -256,13 +261,7 @@ function handleInputs(){
 function handleHud(){
 	for(var content in Sburb.hud){
 		var obj = Sburb.hud[content];
-		if(obj.updateMouse){
-			obj.updateMouse(Sburb.Mouse.x,Sburb.Mouse.y,Sburb.Mouse.down);
-			obj.update();
-			if(obj.clicked && obj.action){
-				Sburb.performAction(obj.action);
-			}
-		}
+		obj.update();
 	}
 }
 
@@ -273,7 +272,7 @@ function drawHud(){
 }
 
 function hasControl(){
-	return !Sburb.dialoger.talking && !Sburb.chooser.choosing && !Sburb.destRoom && !Sburb.waitFor;
+	return !Sburb.dialoger.talking && !Sburb.chooser.choosing && !Sburb.destRoom && !Sburb.waitFor && !Sburb.fading;
 }
 
 function focusCamera(){
@@ -285,10 +284,10 @@ function focusCamera(){
 }
 
 function handleRoomChange(){
-	if(Sburb.destRoom){
-		if(Sburb.Stage.fade<1){
-			Sburb.Stage.fade=Math.min(1,Sburb.Stage.fade+Sburb.Stage.fadeRate);
-		}else {
+	if(Sburb.destRoom || Sburb.fading){
+		if(Sburb.Stage.fade<1.1){
+			Sburb.Stage.fade=Math.min(1.1,Sburb.Stage.fade+Sburb.Stage.fadeRate);
+		}else if(Sburb.destRoom){
 			Sburb.char.x = Sburb.destX;
 			Sburb.char.y = Sburb.destY;
 			Sburb.moveSprite(Sburb.char,Sburb.curRoom,Sburb.destRoom);
@@ -296,8 +295,10 @@ function handleRoomChange(){
 			Sburb.curRoom = Sburb.destRoom;
 			Sburb.curRoom.enter();
 			Sburb.destRoom = null;
+		}else{
+			Sburb.fading = false;
 		}
-	}else if(Sburb.Stage.fade>0.01){
+	}else if(hasControl() && Sburb.Stage.fade>0.01){
 		Sburb.Stage.fade=Math.max(0.01,Sburb.Stage.fade-Sburb.Stage.fadeRate);
 		//apparently alpha 0 is buggy?
 	}
@@ -354,7 +355,11 @@ Sburb.performAction = function(action){
 
 Sburb.performActionSilent = function(action){
 	action.times--;
-	Sburb.commands[action.command.trim()](action.info.trim());
+	var info = action.info;
+	if(info){
+		info = info.trim();
+	}
+	Sburb.commands[action.command.trim()](info);
 }
 
 

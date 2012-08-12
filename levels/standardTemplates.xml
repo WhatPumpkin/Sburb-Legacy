@@ -1,5 +1,11 @@
-<SBURB>
-	<Assets></Assets>
+<SBURB resourcePath="resources" desc="Standard Template Resources">
+	<Assets>
+		<Asset name='volumeControl' type='graphic'>interface/volumeControl.png</Asset>
+  		<Asset name='helpControl' type='graphic'>interface/helpControl.png</Asset>
+  		<Asset name='teleporterPad' type='graphic'>walkabout/objects/teleporterpad.png</Asset>
+  		<Asset name='teleportSheet' type='graphic'>walkabout/effects/teleportSheet.png</Asset>
+  		<Asset name='chestSheet' type='graphic'>walkabout/objects/chestSheet.png</Asset>
+	</Assets>
 
 	<Classes>
 		<Sprite class='chest' width='80' height='30' depthing='1' collidable='true'>
@@ -13,10 +19,8 @@
 	  	</Sprite>
 	  
 	</Classes>
-
-	<Effects></Effects>
-
-	<HUD></HUD>
-
-	<Rooms></Rooms>
+	
+	<Effects>
+  		<Animation name='teleportEffect' x='-66' y='-110' sheet='teleportSheet' colSize='132' rowSize='165' length='6' frameInterval='2' loopNum='0'/>
+	</Effects>
 </SBURB>

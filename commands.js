@@ -193,6 +193,33 @@ var loadStateFileCommand = function(info){
 	Sburb.loadSerialFromXML(path,keepOld);
 }
 
+//fade out to black
+//syntax: node
+var fadeOutCommand = function(info){
+	Sburb.fading = true;
+}
+
+//go to a room that may not have been loaded yet
+//syntax path, roomName, newCharacterX, newCharacterY
+var changeToRemoteRoomCommand = function(info){
+	var args = info.split(",");
+	var lastAction;
+	var newAction = lastAction = new Sburb.Action("fadeOut");
+	lastAction = lastAction.followUp = new Sburb.Action("loadStateFile",args[0]+","+true);
+	lastAction = lastAction.followUp = new Sburb.Action("changeRoom",args[1]+","+args[2]+","+args[3]);
+	lastAction.followUp = Sburb.curAction.followUp;
+	Sburb.performAction(newAction);
+}
+
+var teleportToRemoteRoomCommand = function(info){
+	changeToRemoteRoomCommand(info);
+	
+	Sburb.playEffect(Sburb.effects["teleportEffect"],Sburb.char.x,Sburb.char.y);
+	
+	var params = info.split(",");
+	Sburb.curAction.followUp.followUp = new Sburb.Action("playEffect","teleportEffect,"+params[2]+","+params[3],null,null,Sburb.curAction.followUp.followUp);
+}
+
 //blank utlity function
 //syntax: none
 var cancelCommand = function(){
@@ -201,7 +228,12 @@ var cancelCommand = function(){
 
 var commands = {};
 commands.talk = talkCommand;
+
 commands.changeRoom = changeRoomCommand;
+commands.teleport = teleportCommand;
+
+commands.changeToRemoteRoom = changeToRemoteRoomCommand;
+commands.teleportToRemoteRoom = teleportToRemoteRoomCommand;
 
 commands.playAnimation = playAnimationCommand;
 commands.playEffect = playEffectCommand;
@@ -209,7 +241,7 @@ commands.playSong = playSongCommand;
 commands.playSound = playSoundCommand;
 commands.playMovie = playMovieCommand;
 commands.changeChar = changeCharCommand;
-commands.teleport = teleportCommand;
+
 
 commands.openChest = openChestCommand;
 commands.waitFor = waitForCommand;
@@ -222,6 +254,7 @@ commands.moveSprite = moveSpriteCommand;
 commands.changeMode = changeModeCommand;
 commands.loadStateFile = loadStateFileCommand;
 
+commands.fadeOut = fadeOutCommand;
 commands.removeMovie = removeMovieCommand;
 commands.toggleVolume = toggleVolumeCommand;
 commands.cancel = cancelCommand;

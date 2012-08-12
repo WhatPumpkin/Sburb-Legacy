@@ -45,6 +45,12 @@ function serializeLooseObjects(output,rooms,sprites){
 			output = theSprite.serialize(output);
 		}
 	}
+	for(var buttons in buttons){
+		var theButton = buttons[button];
+		if(!hud[theButton.name]){
+			output = theButton.serialize(output);
+		}
+	}
 	return output;
 }
 
@@ -143,11 +149,12 @@ function purgeState(){
 	Sburb.globalVolume = 1;
 	Sburb.hud = {};
 	Sburb.sprites = {};
+	Sburb.buttons = {};
 	Sburb.effects = {};
 	Sburb.curAction = null;
 	Sburb.pressed = [];
 	Sburb.chooser = new Sburb.Chooser();
-	Sburb.dialoger = new Sburb.Dialoger();
+	Sburb.dialoger = null;
 	Sburb.curRoom = null;
 	Sburb.resourcePath = "";
 	
@@ -281,9 +288,8 @@ function loadSerialState(input) {
   	parseFighters(input);
   	parseRooms(input);
   	
-  	parseDialogBox(input);
-	//needs to be after parseDialogBox
-  	parseDialogSprites(input);
+  	
+  	parseHud(input);
   	
   	parseEffects(input);
   	
@@ -311,16 +317,19 @@ function parseEffects(input){
 }
 
 function parseTemplateClasses(input){
-	var templates = input.getElementsByTagName("Classes")[0].childNodes;
-    for(var i=0;i<templates.length;i++){
-    	var templateNode = templates[i];
-    	if(templateNode.nodeName!="#text"){
-		 	var tempAttributes = templateNode.attributes;
-		 	templateClasses[tempAttributes.getNamedItem("class").value] =
-		 		templateNode.cloneNode(true);
-    	}
-    }
-    input.removeChild(input.getElementsByTagName("Classes")[0]);
+	var classes = input.getElementsByTagName("Classes");
+	if(classes.length>0){
+		var templates = classes[0].childNodes;
+		for(var i=0;i<templates.length;i++){
+			var templateNode = templates[i];
+			if(templateNode.nodeName!="#text"){
+			 	var tempAttributes = templateNode.attributes;
+			 	templateClasses[tempAttributes.getNamedItem("class").value] =
+			 		templateNode.cloneNode(true);
+			}
+		}
+		input.removeChild(input.getElementsByTagName("Classes")[0]);
+	}
 }
 
 function applyTemplateClasses(input){
@@ -358,7 +367,7 @@ function parseButtons(input){
 	for(var i=0;i<newButtons.length;i++){
 		var curButton = newButtons[i];
 		var newButton = Sburb.parseSpriteButton(curButton);
-  		Sburb.hud[newButton.name] = newButton;
+  		Sburb.buttons[newButton.name] = newButton;
 	}
 }
 
@@ -446,11 +455,28 @@ function parseState(input){
     }
 }
 
-function parseDialogBox(input){
-	var dialogBox = new Sburb.Sprite("dialogBox",Stage.width+1,1000,Sburb.assets.dialogBox.width,Sburb.assets.dialogBox.height, null,null,0);
-  	dialogBox.addAnimation(new Sburb.Animation("image",Sburb.assets.dialogBox,0,0,Sburb.assets.dialogBox.width,Sburb.assets.dialogBox.height,0,1,1));
-	dialogBox.startAnimation("image");
-  	Sburb.dialoger.setBox(dialogBox);
+function parseHud(input){
+	var hud = input.getElementsByTagName("HUD");
+	if(hud.length>0){
+		var children = hud[0].childNodes;
+		for(var i=0;i<children.length;i++){
+			var child = children[i];
+
+			if(child.nodeName == "SpriteButton"){
+				var name = child.attributes.getNamedItem("name").value;
+  				Sburb.hud[name] = Sburb.buttons[name];
+			}
+		}
+	}
+	parseDialoger(input);
+	parseDialogSprites(input);
+}
+
+function parseDialoger(input){
+	var dialoger = input.getElementsByTagName("Dialoger");
+	if(dialoger.length>0){
+		Sburb.dialoger = Sburb.parseDialoger(dialoger[0]);
+	}
 }
 
 function serialLoadDialogSprites(dialogSprites,assetFolder){
