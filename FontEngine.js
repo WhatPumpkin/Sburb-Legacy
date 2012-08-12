@@ -381,7 +381,7 @@ Sburb.FontEngine.prototype.draw = function(){
 			Sburb.stage.strokeStyle = Sburb.stage.fillStyle = curColor;
 		}
 		Sburb.stage.fillText(curLine.substring(strStart,strEnd),startX,startY);
-		if(underlining){
+		if(underlining && strStart<strEnd){
 			if(Sburb.stage.lineWidth!=0.6){
 				Sburb.stage.lineWidth = 0.6;
 			}

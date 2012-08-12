@@ -70,6 +70,19 @@ Sburb.Dialoger.prototype.nudge = function(){
 Sburb.Dialoger.prototype.startDialog = function(info){
 	this.actor = null;
 	this.queue = info.split("@");
+	for(var i=this.queue.length-2;i>=0;i--){
+		var line = this.queue[i];
+		var escapeCount = 0;
+		var index = line.length-1;
+		while(index>=0 && line.charAt(index)=="/"){
+			escapeCount++;
+			index--;
+		}
+		if(escapeCount%2==1){
+			this.queue[i] += "@"+this.queue[i+1];
+			this.queue.splice(i+1,1);
+		}
+	}
 	this.queue.reverse();
 	this.queue.pop();
 	this.nextDialog();
