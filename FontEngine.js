@@ -245,7 +245,7 @@ Sburb.FontEngine.prototype.parseColors = function(){
 			this.text = this.text.substring(0,index)+this.text.substring(index+2,this.text.length);
 			this.realignFormatQueue(index,2);
 		}else{
-			this.addToFormatQueue(new Sburb.FormatRange(index,999999,"colour","#"+this.text.substring(index+3,index+9)));
+			this.addToFormatQueue(new Sburb.FormatRange(index,999999,"colour","#"+this.text.substring(index+1,index+7)));
 			this.text = this.text.substring(0,index)+this.text.substring(index+7,this.text.length);
 			this.realignFormatQueue(index,7);
 		}
