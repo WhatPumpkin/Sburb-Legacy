@@ -58,7 +58,7 @@
   	</DialogSprites>
 </HUD>
   
-<Action name='startGame' command='talk'>@! Let's do this!!!
+<Action name='startGame' command='talk'>@! _Let's #ffff00do## this!!! /////#/__ 
  <Action command='playSong'>karkatBGM, 6.7</Action>
 </Action> 
 
