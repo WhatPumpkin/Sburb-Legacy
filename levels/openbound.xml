@@ -1,59 +1,36 @@
-<SBURB curRoom='baseRoom' char='meenah' id='level1' startAction="startGame" scale='3'>
+<SBURB curRoom='baseRoom' char='meenah' id='level1' startAction="startGame" scale='3' resourcePath='resources'>
+
+<Dependencies>levels/standardTemplates.xml</Dependencies>
+
 <Assets>
-	<Asset name='testMovie' type='movie'>resources/cutscenes/cutscenetest.swf</Asset>
+  <Asset name='dialogBox' type='graphic'>interface/dialogBoxBig.png</Asset>
 
-  <Asset name='volumeControl' type='graphic'>resources/interface/volumeControl.png</Asset>
-  <Asset name='helpControl' type='graphic'>resources/interface/helpControl.png</Asset>
-  <Asset name='meenahSheet' type='graphic'>resources/walkabout/chars/meenahSheet.gif</Asset>
-  <Asset name='troll1sheet' type='graphic'>resources/walkabout/chars/newtrollsprite1.gif</Asset>
-  <Asset name='troll2sheet' type='graphic'>resources/walkabout/chars/newtrollsprite2.gif</Asset>
-  <Asset name='troll3sheet' type='graphic'>resources/walkabout/chars/newtrollsprite3.gif</Asset>
-  <Asset name='troll4sheet' type='graphic'>resources/walkabout/chars/newtrollsprite4.gif</Asset>
-  <Asset name='troll5sheet' type='graphic'>resources/walkabout/chars/newtrollsprite5.gif</Asset>
-  <Asset name='troll6sheet' type='graphic'>resources/walkabout/chars/newtrollsprite6.gif</Asset>
-  <Asset name='troll7sheet' type='graphic'>resources/walkabout/chars/newtrollsprite7.gif</Asset>
-  <Asset name='troll8sheet' type='graphic'>resources/walkabout/chars/newtrollsprite8.gif</Asset>
-  <Asset name='troll9sheet' type='graphic'>resources/walkabout/chars/newtrollsprite9.gif</Asset>
-  <Asset name='troll10sheet' type='graphic'>resources/walkabout/chars/newtrollsprite10.gif</Asset>
-  <Asset name='troll11sheet' type='graphic'>resources/walkabout/chars/newtrollsprite11.gif</Asset>
-  <Asset name='troll12sheet' type='graphic'>resources/walkabout/chars/newtrollsprite12.gif</Asset>
+  <Asset name='meenahSheet' type='graphic'>walkabout/chars/meenahSheet.gif</Asset>
+  <Asset name='troll1sheet' type='graphic'>walkabout/chars/newtrollsprite1.gif</Asset>
+  <Asset name='troll2sheet' type='graphic'>walkabout/chars/newtrollsprite2.gif</Asset>
+  <Asset name='troll3sheet' type='graphic'>walkabout/chars/newtrollsprite3.gif</Asset>
+  <Asset name='troll4sheet' type='graphic'>walkabout/chars/newtrollsprite4.gif</Asset>
+  <Asset name='troll5sheet' type='graphic'>walkabout/chars/newtrollsprite5.gif</Asset>
+  <Asset name='troll6sheet' type='graphic'>walkabout/chars/newtrollsprite6.gif</Asset>
+  <Asset name='troll7sheet' type='graphic'>walkabout/chars/newtrollsprite7.gif</Asset>
+  <Asset name='troll8sheet' type='graphic'>walkabout/chars/newtrollsprite8.gif</Asset>
+  <Asset name='troll9sheet' type='graphic'>walkabout/chars/newtrollsprite9.gif</Asset>
+  <Asset name='troll10sheet' type='graphic'>walkabout/chars/newtrollsprite10.gif</Asset>
+  <Asset name='troll11sheet' type='graphic'>walkabout/chars/newtrollsprite11.gif</Asset>
+  <Asset name='troll12sheet' type='graphic'>walkabout/chars/newtrollsprite12.gif</Asset>
   
-  <Asset name='teleporterPad' type='graphic'>resources/walkabout/objects/teleporterpad.png</Asset>
-  <Asset name='teleportSheet' type='graphic'> resources/walkabout/effects/teleportSheet.png</Asset>
-  <Asset name='chestSheet' type='graphic'>resources/walkabout/objects/chestSheet.png</Asset>
-  <Asset name='dollar' type='graphic'>resources/walkabout/objects/dollar.png</Asset>
   
-  <Asset name='VriskaIdleSheet' type='graphic'>resources/walkabout/dialogSprites/vriskaportrait.gif</Asset>
-  <Asset name='NepetaIdleSheet' type='graphic'>resources/walkabout/dialogSprites/nepetaDialog1.png</Asset>
+  
+  <Asset name='VriskaIdleSheet' type='graphic'>walkabout/dialogSprites/vriskaportrait.gif</Asset>
+  <Asset name='NepetaIdleSheet' type='graphic'>walkabout/dialogSprites/nepetaDialog1.png</Asset>
     
-  <Asset name='compLabBG' type='graphic'>resources/walkabout/backgrounds/comlab-background.gif</Asset>
-  <Asset name='stairRoomBG' type='graphic'>resources/walkabout/backgrounds/stairRoom.png</Asset>
-  <Asset name='dialogBox' type='graphic'>resources/interface/dialogBoxBig.png</Asset>
   
-  <Asset name='karkatBGM' type='audio'>resources/audio/karkat.ogg;resources/audio/karkat.mp3</Asset>
-  <Asset name='tereziBGM' type='audio'>resources/audio/terezi.ogg;resources/audio/terezi.mp3</Asset>
   
-  <Asset name='compLabWalkable' type='path'>70,270;800,270;800,820;70,820</Asset>
-  <Asset name='stairRoomWalkable' type='path'> 999,368;442,372;258,560;86,556;86,608;0,609;0,940;264,942;630,1318;813,1320;813,2070;222,2070;224,1510;250,1510;588,1888;588,1904;402,1904;402,1904; 237,1905;236,2049;801,2054;800,1706;591,1702;228,1323;142,1323; 140,1344;0,1344;0,2258;999,2258;999,1126;624,1124;260,754;260,740;441,552;999,552</Asset>
-  <Asset name='stairRoomStairs1' type='path'>449,369;258,560;260,740;449,552</Asset>
-  <Asset name='stairRoomStairs2' type='path'>264,942;630,1318;624,1124;260,754</Asset>
-  <Asset name='stairRoomStairs3' type='path'>224,1510;588,1888;591,1702;228,1323</Asset>
+  <Asset name='karkatBGM' type='audio'>audio/karkat.ogg;audio/karkat.mp3</Asset>
+  
+  <Asset name='compLabWalkableMap' type='graphic'>walkabout/backgrounds/comlab-background-walkable.png</Asset>
+  <Asset name='compLabBG' type='graphic'>walkabout/backgrounds/comlab-background.gif</Asset>
 </Assets>
-
-<Classes>
-	<Sprite class='chest' width='80' height='30' depthing='1' collidable='true'>
-			<Animation name='closed' sheet='chestSheet' x='-70' y='-60' rowSize='84' colSize='123'/>
-			<Animation name='open' sheet='chestSheet' x='-70' y='-60' rowSize='84' colSize='123' length='3' loopNum='0' followUp='opened'/>
-			<Animation name='opened' sheet='chestSheet' x='-70' y='-60' rowSize='84' colSize='123' startPos='2'/>
-	</Sprite>
-	<Sprite class='teleporter' width='110' height='60'>
-      <Animation sheet='teleporterPad' x='-66' y='-120'/>
-  </Sprite>
-</Classes>
-
-<Effects>
-  <Animation name='teleportEffect' x='-66' y='-110' sheet='teleportSheet' colSize='132' rowSize='165' length='6' frameInterval='2' loopNum='0'/>
-</Effects>
 
 <HUD>
   	<SpriteButton name='volumeButton' x='9' y='9' width='54' height='36' sheet='volumeControl'>
@@ -62,9 +39,16 @@
   	<SpriteButton name='helpButton' x='591' y='9' width='54' height='63' sheet='helpControl'>
   		<Action command='talk' soft='true'>@! HELP!</Action>
   	</SpriteButton>
+  	
+	<Dialoger alertPos="56,120" talkPosRight="20,120" talkPosLeft="90,120" hiddenPos="-1000,120"
+		spriteStartLeft="-300,450" spriteEndLeft="100,450" spriteStartRight="950,450" spriteEndRight="550,450"
+		alertTextDimensions="30,30,450,220" leftTextDimensions="150,30,350,220" rightTextDimensions="30,30,350,220"
+		box="dialogBox" type="standard">
+	</Dialoger>
+  	
   	<DialogSprites>
-  		<Animation name='vriska_idle' x='-142' y='-424' sheet='VriskaIdleSheet' rowSize='424' colSize='284'/>
-  		<Animation name='nepeta_idle' x='-270' y='-450' sheet='NepetaIdleSheet' rowSize='450' colSize='456'/>
+  		<Animation name='vriska_idle' x='-150' y='-424' sheet='VriskaIdleSheet' rowSize='424' colSize='284'/>
+  		<Animation name='nepeta_idle' x='-280' y='-450' sheet='NepetaIdleSheet' rowSize='450' colSize='456'/>
   	</DialogSprites>
 </HUD>
   
@@ -77,9 +61,8 @@
 </Sprite>
 
 <Rooms>
-  <Room name='baseRoom' width='861' height='909'>
+  <Room name='baseRoom' width='861' height='909' walkableMap='compLabWalkableMap'>
   	<Paths>
-  		<Walkable path='compLabWalkable'/>
   	</Paths>
   	<Triggers>
   		<Trigger>spriteProperty,char,y>800
@@ -92,7 +75,7 @@
 			<Action name='open' command='openChest'>baseRoomChest1,dollar,You got a boondollar!</Action>
 		</Sprite>
   	<Sprite class='teleporter' name='baseRoomTeleporter' x='400' y='400'>
-      <Action name='teleport' command='teleport'>stairRoom,666,450</Action>
+      <Action name='teleport' command='teleportToRemoteRoom'>levels/stairRoom.xml,stairRoom,666,450</Action>
     </Sprite>
     <Character name='meenah' x='300' y='501' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
 	       sheet='meenahSheet' state='walkFront' facing='Front'>
@@ -151,25 +134,6 @@
     
     <Sprite name='compLabBG'>
       <Animation sheet='compLabBG'/>
-    </Sprite>
-  </Room>
-
-  <Room name='stairRoom' width='999' height='2259'>
-  	
-  	<Paths>
-  		<Walkable path="stairRoomWalkable"/>
-  		<MotionPath path="stairRoomStairs1" xtox = '0.7' xtoy = '-0.7' ytox='0' ytoy = '1' dx='0' dy='0'/>
-    	<MotionPath path="stairRoomStairs2" xtox = '0.7' xtoy = '0.7' ytox='0' ytoy = '1' dx='0' dy='0'/>
-    	<MotionPath path="stairRoomStairs3" xtox = '0.7' xtoy = '0.7' ytox='0' ytoy = '1' dx='0' dy='0'/>
-  	</Paths>
-  	<Triggers>
-  	</Triggers>
-  	<Sprite class='teleporter' name='stairRoomTeleporter' x='666' y='450' >
-      <Action name='teleport' command='teleport'>baseRoom,400,400</Action>
-    </Sprite>
-
-    <Sprite name='stairRoomBG'>
-      <Animation sheet='stairRoomBG'/>
     </Sprite>
   </Room>
 </Rooms>
