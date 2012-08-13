@@ -44,10 +44,19 @@ Sburb.Dialoger = function(hiddenPos, alertPos, talkPosLeft, talkPosRight,
 	this.defaultBox = null;
 	
 	this.type = type;
+	this.handleType();
 }
 
 Sburb.Dialoger.prototype.dialogSpriteLeft = null;
 Sburb.Dialoger.prototype.dialogSpriteRight = null;
+
+//handle the dialoger type
+Sburb.Dialoger.prototype.handleType = function(){
+	if(this.type == "social"){
+		this.hashes = new Sburb.FontEngine();
+		this.hashes.setFormatted(false);
+	}
+}
 
 //nudge the dialoger forward
 Sburb.Dialoger.prototype.nudge = function(){
@@ -64,6 +73,10 @@ Sburb.Dialoger.prototype.nudge = function(){
 	}else{
 		this.dialog.showAll();
 	}
+}
+
+Sburb.Dialoger.prototype.skipAll = function(){
+	this.talking = false; 
 }
 
 //start the provided dialog
@@ -83,11 +96,17 @@ Sburb.Dialoger.prototype.startDialog = function(info){
 			this.queue.splice(i+1,1);
 		}
 	}
+	
+	if(this.type=="social"){
+		this.hashes.setText("");
+	}
+	
 	this.queue.reverse();
 	this.queue.pop();
 	this.nextDialog();
 	this.box.x=-this.box.width;
 	this.talking = true;
+	
 }
 
 //start the next dialog
@@ -142,8 +161,14 @@ Sburb.Dialoger.prototype.nextDialog = function(){
 		prefix = prefix.substring(0,firstIndex)+prefix.substring(lastIndex,prefix.length);	
 		
 		this.extraArgs = resource;
+		if(this.type=="social"){
+			this.hashes.setText(this.extraArgs.replace(/#/g," #").trim());
+		}
 	}else{
 		this.extraArgs = null;
+		if(this.type=="social"){
+			this.hashes.setText("");
+		}
 	}
 	
 	if(prefix=="!"){
@@ -221,6 +246,13 @@ Sburb.Dialoger.prototype.moveToward = function(sprite,pos,speed){
 
 //update the Dialoger one frame
 Sburb.Dialoger.prototype.update = function(){
+	if(this.type=="social"){
+		var closeButton = Sburb.buttons.closeButton;
+		var spadeButton = Sburb.buttons.spadeButton;
+		var heartButton = Sburb.buttons.heartButton;
+		var bubbleButton = Sburb.buttons.bubbleButton;
+		var hashTagBar = Sburb.sprites.hashTagBar;
+	}
 	if(this.talking){
 		var desiredPos;
 		var ready = true;
@@ -231,15 +263,25 @@ Sburb.Dialoger.prototype.update = function(){
 			ready = this.moveToward(this.dialogOnSide(this.dialogSide),this.endOnSide(this.dialogSide));
 			this.moveToward(this.dialogOnSide(this.oppositeSide(this.dialogSide)),this.startOnSide(this.oppositeSide(this.dialogSide)));
 		}
-			
+		var init = false;
 		if(this.moveToward(this.pos,desiredPos,110) && ready){
 			if(this.dialog.start==this.dialog.end){
 				var dialogDimensions = this.decideDialogDimensions();
 				this.dialog.setDimensions(dialogDimensions.x,dialogDimensions.y,dialogDimensions.width,dialogDimensions.height);
+				init = true;
 			}
 			this.dialog.showSubText(null,this.dialog.end+2);
 			if(this.actor){
 				this.dialogOnSide(this.dialogSide).update();
+			}
+			if(this.type=="social"){
+				closeButton.update();
+				if(this.queue.length==0){
+					spadeButton.update();
+					heartButton.update();
+					bubbleButton.update();
+				}
+				hashTagBar.update();
 			}
 		}
 		
@@ -259,6 +301,33 @@ Sburb.Dialoger.prototype.update = function(){
 	}
 	this.box.x = this.pos.x;
 	this.box.y = this.pos.y;
+	if(this.type=="social"){
+		hashTagBar.x = this.pos.x;
+		hashTagBar.y = this.pos.y+this.box.height;
+		if(this.dialogSide=="Right"){
+			spadeButton.x = hashTagBar.x+40;
+			heartButton.x = hashTagBar.x+80;
+			bubbleButton.x = hashTagBar.x+120;
+		}else{
+			spadeButton.x = hashTagBar.x+hashTagBar.animation.colSize-120;
+			heartButton.x = hashTagBar.x+hashTagBar.animation.colSize-80;
+			bubbleButton.x = hashTagBar.x+hashTagBar.animation.colSize-40;		
+		}
+		spadeButton.y = hashTagBar.y+9;
+		heartButton.y = hashTagBar.y+9;
+		bubbleButton.y = hashTagBar.y+9;
+		
+		if(init){
+			if(this.dialogSide=="Right"){
+				this.hashes.setDimensions(hashTagBar.x+160,hashTagBar.y+10, 
+					hashTagBar.animation.colSize-140, hashTagBar.animation.rowSize-10);
+			}else{
+				this.hashes.setDimensions(hashTagBar.x+20,hashTagBar.y+10, 
+					hashTagBar.animation.colSize-140, hashTagBar.animation.rowSize-10);
+			}
+			this.hashes.showAll();
+		}
+	}
 	this.box.update();
 }
 
@@ -298,12 +367,27 @@ Sburb.Dialoger.prototype.setBox = function(box){
 
 //draw the dialog box
 Sburb.Dialoger.prototype.draw = function(){
+	if(this.type=="social"){
+		Sburb.sprites.hashTagBar.draw();
+		
+	}
 	this.box.draw();
 	if(this.graphic){
 		this.graphic.draw();
 	}
 	if(this.talking){
 		this.dialog.draw();
+		if(this.type=="social"){
+			Sburb.buttons.closeButton.draw();
+			if(this.dialog.start!=this.dialog.end){
+				this.hashes.draw();
+				if(this.queue.length==0){
+					Sburb.buttons.spadeButton.draw();
+					Sburb.buttons.heartButton.draw();
+					Sburb.buttons.bubbleButton.draw();
+				}
+			}
+		}
 	}
 	if(this.actor!=null){
 		this.dialogSpriteLeft.draw();

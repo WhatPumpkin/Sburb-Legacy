@@ -220,7 +220,7 @@ Sburb.onMouseDown = function(e,canvas){
 
 Sburb.onMouseUp = function(e,canvas){
 	Sburb.Mouse.down = false;
-	if(Sburb.dialoger){
+	if(Sburb.dialoger && Sburb.dialoger.box && Sburb.dialoger.box.isVisuallyUnder(Sburb.Mouse.x,Sburb.Mouse.y)){
 		Sburb.dialoger.nudge();
 	}
 }

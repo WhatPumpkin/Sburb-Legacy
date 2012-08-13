@@ -22,7 +22,8 @@ Sburb.Room = function(name,width,height){
 	this.walkableMap = null;
 }
 
-Sburb.Room.prototype.mapContext = null;
+Sburb.Room.prototype.mapCanvas = null;
+Sburb.Room.prototype.mapData = null;
 
 //add an Effect to the room
 Sburb.Room.prototype.addEffect = function(effect){
@@ -80,7 +81,8 @@ Sburb.Room.prototype.enter = function(){
 		var drawHeight = mapCanvas.height = this.walkableMap.height;
 		var ctx = mapCanvas.getContext("2d");
 		ctx.drawImage(this.walkableMap,0,0,drawWidth,drawHeight, 0,0,drawWidth,drawHeight);
-		this.mapContext = ctx;
+		this.mapCanvas = mapCanvas;
+		this.mapData = ctx.getImageData(0,0,drawWidth,drawHeight).data
 	}
 }
 
@@ -191,12 +193,17 @@ Sburb.Room.prototype.isInBoundsBatch = function(queries,results){
 		}
 	}
 	if(this.walkableMap){
+		
 		for(var query in queries){
-			var pt = queries[query];
-			var pixel = this.mapContext.getImageData(pt.x,pt.y,1,1).data;
 			
-			if(pixel[0]==255 && pixel[1]==255 
-				&& pixel[2]==255 && pixel[3]==255){
+			var pt = queries[query];
+			var data = this.mapData;
+			var width = this.mapCanvas.width;
+			var height = this.mapCanvas.height;
+			
+			var imgPt = (Math.round(pt.x)+Math.round(pt.y)*width)*4;
+			if(data[imgPt]==255 && data[imgPt+1]==255 
+				&& data[imgPt+2]==255 && data[imgPt+3]==255){
 				results[query] = true;
 			}else{
 				results[query] = false;

@@ -475,9 +475,7 @@ function parseHud(input){
 function parseDialoger(input){
 	var dialoger = input.getElementsByTagName("Dialoger");
 	if(dialoger.length>0){
-		console.log(dialoger);
 		Sburb.dialoger = Sburb.parseDialoger(dialoger[0]);
-		console.log(Sburb.dialoger);
 	}
 }
 

@@ -4,6 +4,11 @@
 
 <Assets>
   <Asset name='dialogBox' type='graphic'>interface/dialogBoxBig.png</Asset>
+  <Asset name='hashTagBarSheet' type='graphic'>interface/hashtagbar.gif</Asset>
+  <Asset name='heartButtonSheet' type='graphic'>interface/icons_heart.png</Asset>
+  <Asset name='spadeButtonSheet' type='graphic'>interface/icons_spade.png</Asset>
+  <Asset name='bubbleButtonSheet' type='graphic'>interface/icons_bub.png</Asset>
+  <Asset name='closeButtonSheet' type='graphic'>interface/closeconversation.gif</Asset>
 
   <Asset name='meenahSheet' type='graphic'>walkabout/chars/meenahSheet.gif</Asset>
   <Asset name='troll1sheet' type='graphic'>walkabout/chars/newtrollsprite1.gif</Asset>
@@ -23,8 +28,6 @@
   
   <Asset name='VriskaIdleSheet' type='graphic'>walkabout/dialogSprites/vriskaportrait.gif</Asset>
   <Asset name='NepetaIdleSheet' type='graphic'>walkabout/dialogSprites/nepetaDialog1.png</Asset>
-    
-  
   
   <Asset name='karkatBGM' type='audio'>audio/karkat.ogg;audio/karkat.mp3</Asset>
   
@@ -40,10 +43,11 @@
   		<Action command='talk' soft='true'>@! HELP!</Action>
   	</SpriteButton>
   	
+  	
 	<Dialoger alertPos="56,120" talkPosRight="20,120" talkPosLeft="90,120" hiddenPos="-1000,120"
 		spriteStartLeft="-300,450" spriteEndLeft="100,450" spriteStartRight="950,450" spriteEndRight="550,450"
 		alertTextDimensions="30,30,450,220" leftTextDimensions="150,30,350,220" rightTextDimensions="30,30,350,220"
-		box="dialogBox" type="standard">
+		box="dialogBox" type="social">
 	</Dialoger>
   	
   	<DialogSprites>
@@ -52,13 +56,35 @@
   	</DialogSprites>
 </HUD>
   
-<Action name='startGame' command='talk'>@! Let's do this!!!
- <Action command='playSong'>karkatBGM, 6.7</Action>
+<Action name='startGame' command='talk'>
+@!:#lets#fucking#do#this Let's do this!!!
+@! Okay?	
+	<Action command='playSong'>karkatBGM, 6.7</Action>
 </Action> 
 
 <Sprite name='dollar'>
 	<Animation sheet='dollar' x='-36' y='-20'/>
 </Sprite>
+
+<Sprite name='hashTagBar'>
+	<Animation sheet='hashTagBarSheet'/>
+</Sprite>
+
+<SpriteButton name='spadeButton' x='440' y='300' width='30' height='26' sheet='spadeButtonSheet'>
+	<Action command='setButtonState' silent='true'>heartButton,0</Action>
+</SpriteButton>
+
+<SpriteButton name='heartButton' x='480' y='300' width='30' height='26' sheet='heartButtonSheet'>
+	<Action command='setButtonState' silent='true'>spadeButton,0</Action>
+</SpriteButton>
+
+<SpriteButton name='closeButton' x='220' y='60' width='203' height='37' sheet='closeButtonSheet'>
+	<Action command='skipDialog' silent='true'> </Action>
+</SpriteButton>
+
+<SpriteButton name='bubbleButton' x='510' y='300' width='30' height='26' sheet='bubbleButtonSheet'>
+</SpriteButton>
+  	
 
 <Rooms>
   <Room name='baseRoom' width='861' height='909' walkableMap='compLabWalkableMap'>
@@ -66,8 +92,8 @@
   	</Paths>
   	<Triggers>
   		<Trigger>spriteProperty,char,y>800
-  				<Action command='deltaSprite'>char,0,-12
-  					<Action command='talk'>@! There's nothing over here!</Action>
+			<Action command='deltaSprite'>char,0,-9
+				<Action command='talk'>@! There's nothing over here!</Action>
   			</Action>
   		</Trigger>
   	</Triggers>

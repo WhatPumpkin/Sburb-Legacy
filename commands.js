@@ -225,16 +225,24 @@ var teleportToRemoteRoom = function(info){
 
 //Change the state of the specified button
 //syntax: buttonName, state
-var changeButtonState = function(info){
+var setButtonState = function(info){
 	var params = info.split(",");
-	Sburb.buttons[info[0].trim()].setState(info[1].trim());
+	Sburb.buttons[params[0].trim()].setState(params[1].trim());
 }
+
+//Skip the current conversation
+//syntax: none
+var skipDialog = function(info){
+	Sburb.dialoger.skipAll();
+}
+
 
 //blank utlity function
 //syntax: none
 var cancel = function(){
 	//do nothing
 }
+
 
 var commands = {};
 commands.talk = talk;
@@ -267,6 +275,9 @@ commands.loadStateFile = loadStateFile;
 commands.fadeOut = fadeOut;
 commands.removeMovie = removeMovie;
 commands.toggleVolume = toggleVolume;
+commands.setButtonState = setButtonState;
+
+commands.skipDialog = skipDialog
 commands.cancel = cancel;
 
 Sburb.commands = commands;

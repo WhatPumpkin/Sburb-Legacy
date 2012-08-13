@@ -19,8 +19,6 @@ Sburb.Animation = function(name,sheet,x,y,colSize,rowSize,startPos,length,frameI
 	this.length = length;
 	this.curInterval = 0;
 	this.curFrame = 0;
-	console.log(sheet);
-	console.log(name);
 	this.numRows = sheet.height/rowSize;
 	this.numCols = sheet.width/colSize;
 	this.name = name;

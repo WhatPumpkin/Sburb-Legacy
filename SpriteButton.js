@@ -100,7 +100,7 @@ Sburb.parseSpriteButton = function(button){
   									parseInt(attributes.getNamedItem("height").value),
   									Sburb.assets[attributes.getNamedItem("sheet").value]);
   	var curAction = button.getElementsByTagName("Action");
-  	if(curAction){
+  	if(curAction.length>0){
   		var newAction = Sburb.parseAction(curAction[0]);
   		newButton.action = newAction;
   	}

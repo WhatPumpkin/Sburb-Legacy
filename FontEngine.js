@@ -44,6 +44,8 @@ Sburb.FontEngine = function(text){
 	this.lineHeight = 17;
 	this.charWidth = 8;
 	
+	this.formatted = true;
+	
 	this.formatQueue = [];
 }
 
@@ -69,6 +71,11 @@ Sburb.FontEngine.prototype.setStyle = function(font,color,lineHeight,charWidth){
 	this.lineHeight = typeof lineHeight == "number" ? lineHeight:this.lineHeight;
 	this.charWidth = typeof charWidth == "number" ? charWidth:this.charWidth;
 	this.parseText();
+}
+
+//set formatted
+Sburb.FontEngine.prototype.setFormatted = function(formatted){
+	this.formatted = formatted;
 }
 
 //set the text
@@ -100,6 +107,7 @@ Sburb.FontEngine.prototype.parseEverything = function(){
 
 //parse the text
 Sburb.FontEngine.prototype.parseText = function(){ //break it up into lines
+	
 	this.lines = [];
 	var i = 0;
 	var lastSpace = 0;
@@ -131,15 +139,18 @@ Sburb.FontEngine.prototype.parseText = function(){ //break it up into lines
 //parse the formatting of the text
 Sburb.FontEngine.prototype.parseFormatting = function(){
 	this.formatQueue = [];
-	this.escaped = {};
+	if(this.formatted){
+		
+		this.escaped = {};
 	
-	this.parseEscapes();
+		this.parseEscapes();
 	
-	this.parsePrefixes();
+		this.parsePrefixes();
 	
-	this.parseUnderlines();
+		this.parseUnderlines();
 	
-	this.parseColors();
+		this.parseColors();
+	}
 }
 
 Sburb.FontEngine.prototype.parseEscapes = function(){
