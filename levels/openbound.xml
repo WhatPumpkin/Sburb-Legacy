@@ -24,6 +24,12 @@
   <Asset name='troll11sheet' type='graphic'>walkabout/chars/newtrollsprite11.gif</Asset>
   <Asset name='troll12sheet' type='graphic'>walkabout/chars/newtrollsprite12.gif</Asset>
   
+  <Asset name='davesheet' type='graphic'>walkabout/chars/dave.gif</Asset>
+  <Asset name='rosesheet' type='graphic'>walkabout/chars/rose.gif</Asset>
+  <Asset name='karkatsheet' type='graphic'>walkabout/chars/karkat.gif</Asset>
+  <Asset name='terezisheet' type='graphic'>walkabout/chars/terezi.gif</Asset>
+  <Asset name='kanayasheet' type='graphic'>walkabout/chars/kanaya.gif</Asset>
+  
   <Asset name='dollar' type='graphic'>walkabout/objects/dollar.png</Asset>
   
   <Asset name='VriskaIdleSheet' type='graphic'>walkabout/dialogSprites/vriskaportrait.gif</Asset>
@@ -156,6 +162,26 @@
     <Character name='troll12' x='700' y='701' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
 	       sheet='troll12sheet' state='walkFront' facing='Front'>
       <Action name='swap' command='changeChar'>troll12</Action>
+    </Character>
+    <Character name='dave' x='200' y='300' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
+	       sheet='davesheet' state='walkFront' facing='Front'>
+      <Action name='swap' command='changeChar'>dave</Action>
+    </Character>
+    <Character name='rose' x='200' y='400' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
+	       sheet='rosesheet' state='walkFront' facing='Front'>
+      <Action name='swap' command='changeChar'>rose</Action>
+    </Character>
+    <Character name='karkat' x='200' y='500' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
+	       sheet='karkatsheet' state='walkFront' facing='Front'>
+      <Action name='swap' command='changeChar'>karkat</Action>
+    </Character>
+    <Character name='terezi' x='200' y='600' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
+	       sheet='terezisheet' state='walkFront' facing='Front'>
+      <Action name='swap' command='changeChar'>terezi</Action>
+    </Character>
+    <Character name='kanaya' x='200' y='700' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
+	       sheet='kanayasheet' state='walkFront' facing='Front'>
+      <Action name='swap' command='changeChar'>kanaya</Action>
     </Character>
     
     <Sprite name='compLabBG'>

@@ -251,6 +251,9 @@ Sburb.drawLoader = function(){
 }
 
 function handleInputs(){
+	if(Sburb.Stage){
+		Sburb.Stage.style.cursor = "default";
+	}
 	if(hasControl()){
 		Sburb.char.handleInputs(Sburb.pressed);
 	}else{
