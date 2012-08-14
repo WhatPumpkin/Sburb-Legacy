@@ -2,7 +2,6 @@ var Sburb = (function(Sburb){
 
 var templateClasses = {};
 var loadedFiles = {};
-Sburb.resourcePath = "";
 
 //Save the current state to xml
 Sburb.serialize = function(assets,effects,rooms,sprites,hud,dialoger,curRoom,char){
@@ -157,7 +156,6 @@ function purgeState(){
 	Sburb.chooser = new Sburb.Chooser();
 	Sburb.dialoger = null;
 	Sburb.curRoom = null;
-	Sburb.resourcePath = "";
 	
 	loadedFiles = {};
 }
@@ -203,6 +201,17 @@ function loadSerial(serialText, keepOld) {
     	purgeState();
     }
     
+    var rootAttr = input.attributes;
+	var levelPath = rootAttr.getNamedItem("levelPath");
+    if(levelPath){
+    	Sburb.assetManager.levelPath = levelPath.value+"/";
+    }
+    
+    var resourcePath = rootAttr.getNamedItem("resourcePath");
+    if(resourcePath){
+    	Sburb.assetManager.resourcePath = resourcePath.value+"/";
+    }
+    
     loadDependencies(input);
     
     loadSerialAssets(input);
@@ -211,11 +220,6 @@ function loadSerial(serialText, keepOld) {
 }
 
 function loadDependencies(input){
-	var rootAttr = input.attributes;
-	var levelPath = rootAttr.getNamedItem("levelPath");
-    if(levelPath){
-    	Sburb.assetManager.levelPath = levelPath.value+"/";
-    }
     
 	var dependenciesNode = input.getElementsByTagName("Dependencies")[0];
 	if(dependenciesNode){
@@ -229,11 +233,6 @@ function loadDependencies(input){
 
 function loadSerialAssets(input){
 	var rootAttr = input.attributes;
-	
-    var resourcePath = rootAttr.getNamedItem("resourcePath");
-    if(resourcePath){
-    	Sburb.assetManager.resourcePath = resourcePath.value+"/";
-    }
     
     var description = rootAttr.getNamedItem("description");
     if(description){
