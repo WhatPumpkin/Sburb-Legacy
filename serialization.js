@@ -223,9 +223,9 @@ function loadDependencies(input){
     
 	var dependenciesNode = input.getElementsByTagName("Dependencies")[0];
 	if(dependenciesNode){
-		var dependencies = dependenciesNode.firstChild.nodeValue.trim().split(",");
+		var dependencies = dependenciesNode.getElementsByTagName("Dependency");
 		for(var i=0; i<dependencies.length;i++){
-			var dependency = dependencies[i];
+			var dependency = dependencies[i].firstChild.nodeValue.trim();
 			Sburb.loadSerialFromXML(dependency,true);
 		}
 	}

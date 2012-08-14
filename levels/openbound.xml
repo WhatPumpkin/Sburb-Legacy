@@ -1,6 +1,8 @@
 <SBURB curRoom='baseRoom' char='meenah' description="first area" startAction="startGame" scale='3' levelPath='levels' resourcePath='resources'>
 
-<Dependencies>standardTemplates.xml</Dependencies>
+<Dependencies>
+	<Dependency>standardTemplates.xml</Dependency>
+</Dependencies>
 
 <Assets>
   <Asset name='dialogBox' type='graphic'>interface/dialogBoxBig.png</Asset>
