@@ -33,6 +33,7 @@
   <Asset name='kanayasheet' type='graphic'>walkabout/chars/kanaya.gif</Asset>
   
   <Asset name='dollar' type='graphic'>walkabout/objects/dollar.png</Asset>
+  <Asset name='redBubbleSheet' type='graphic'>walkabout/objects/redbubble.png</Asset>
   
   <Asset name='VriskaIdleSheet' type='graphic'>walkabout/dialogSprites/vriskaportrait.gif</Asset>
   <Asset name='NepetaIdleSheet' type='graphic'>walkabout/dialogSprites/nepetaDialog1.png</Asset>
@@ -103,6 +104,15 @@
   			</Action>
   		</Trigger>
   	</Triggers>
+  	<Sprite name='redBubble' x='700' y='400' width='20' height='20' depthing='1' collidable='true'>
+  		<Animation name='image' sheet='redBubbleSheet' x='-20' y='-40' />
+		<Action name="talk" command='randomTalk'>
+			@! test1
+			@! test2
+			@! test3
+			@! test4
+		</Action>
+	</Sprite>
   	<Sprite class='chest' name='baseRoomChest1' x='600' y='400'>
 		<Action name='open' command='openChest'>baseRoomChest1,dollar,You got a boondollar!</Action>
 	</Sprite>

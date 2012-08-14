@@ -9,6 +9,19 @@ var talk = function(info){
 	Sburb.dialoger.startDialog(info);
 }
 
+//Pick a random line of dialog
+//syntax: dialog syntax
+var randomTalk = function(info){
+	Sburb.dialoger.startDialog(info);
+	var randomNum = Math.floor(Math.random()*(Sburb.dialoger.queue.length+1));
+	if(randomNum){
+		Sburb.dialoger.queue = [Sburb.dialoger.queue[randomNum-1]];
+		Sburb.dialoger.nextDialog();
+	}else{
+		Sburb.dialoger.queue = [];
+	}
+}
+
 //Change the room and move the character to a new location in that room
 //syntax: roomName, newCharacterX, newCharacterY
 var changeRoom = function(info){
@@ -246,6 +259,7 @@ var cancel = function(){
 
 var commands = {};
 commands.talk = talk;
+commands.randomTalk = randomTalk;
 
 commands.changeRoom = changeRoom;
 commands.teleport = teleport;
