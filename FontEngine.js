@@ -43,6 +43,7 @@ Sburb.FontEngine = function(text){
 	this.lines = [];
 	this.lineHeight = 17;
 	this.charWidth = 8;
+	this.align = "left";
 	
 	this.formatted = true;
 	
@@ -82,6 +83,10 @@ Sburb.FontEngine.prototype.setFormatted = function(formatted){
 Sburb.FontEngine.prototype.setText = function(text){
 	this.text = text;
 	this.parseEverything();
+}
+
+Sburb.FontEngine.prototype.setAlign = function(align){
+	this.align = align;
 }
 
 //show a substring of the text
@@ -323,6 +328,9 @@ Sburb.FontEngine.prototype.draw = function(){
 	Sburb.stage.save();
 	if(Sburb.stage.textBaseline != "top"){
 		Sburb.stage.textBaseline = "top";
+	}
+	if(Sburb.stage.textAlign!=this.align){
+		Sburb.stage.textAlign = this.align;
 	}
 	i=0;
 	lenCount=0;

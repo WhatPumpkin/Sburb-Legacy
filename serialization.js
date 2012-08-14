@@ -227,6 +227,13 @@ function loadSerialAssets(input){
     	Sburb.resourcePath = resourcePath.value+"/";
     }
     
+    var description = rootAttr.getNamedItem("description");
+    if(description){
+    	Sburb.assetManager.description = description.value;
+    }else{
+    	Sburb.assetManager.description = "assets"
+    }
+    
     var newAssets = input.getElementsByTagName("Asset");
     for(var i=0;i<newAssets.length;i++){
 		var curAsset = newAssets[i];

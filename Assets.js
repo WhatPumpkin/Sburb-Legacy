@@ -14,6 +14,7 @@ Sburb.AssetManager = function() {
 	this.assets = {};
 	this.loaded = {};
 	this.recurrences = {};
+	this.description = "";
 }
 
 //get the remaining assets to be loaded
@@ -24,6 +25,16 @@ Sburb.AssetManager.prototype.totalAssetsRemaining = function() {
 //have all the assets been loaded
 Sburb.AssetManager.prototype.finishedLoading = function() {
 	return (this.totalAssets && (this.totalAssets == this.totalLoaded));
+}
+
+Sburb.AssetManager.prototype.draw = function(){
+	Sburb.stage.fillStyle = "rgb(0,0,0)";
+	Sburb.stage.fillRect(-3,-3,Sburb.Stage.width+6,Sburb.Stage.height+6);
+	Sburb.stage.fillStyle = "rgb(255,255,255)"
+	Sburb.stage.font="30px Arial";
+	Sburb.stage.textAlign = "center";
+    Sburb.stage.fillText("Loading "+this.description,Stage.width/2,Stage.height-80);
+    Sburb.stage.fillText(this.totalLoaded+"/"+this.totalAssets,Stage.width/2,Stage.height-50);
 }
 
 //check if a specific asset has been loaded
@@ -70,8 +81,7 @@ Sburb.AssetManager.prototype.assetLoaded = function(name){
 			this.loaded[name] = true
 			this.totalLoaded++;
 			
-			// Jterniabound.js
-			Sburb.drawLoader();
+			this.draw();
 			
 			if(this.finishedLoading() && Sburb._hardcode_load){
 				// only really here to work for old hard-loading

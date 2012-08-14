@@ -1,4 +1,4 @@
-<SBURB curRoom='baseRoom' char='meenah' id='level1' startAction="startGame" scale='3' resourcePath='resources'>
+<SBURB curRoom='baseRoom' char='meenah' description="first area" startAction="startGame" scale='3' resourcePath='resources'>
 
 <Dependencies>levels/standardTemplates.xml</Dependencies>
 
@@ -94,8 +94,6 @@
 
 <Rooms>
   <Room name='baseRoom' width='861' height='909' walkableMap='compLabWalkableMap'>
-  	<Paths>
-  	</Paths>
   	<Triggers>
   		<Trigger>spriteProperty,char,y>800
 			<Action command='deltaSprite'>char,0,-9
@@ -104,8 +102,11 @@
   		</Trigger>
   	</Triggers>
   	<Sprite class='chest' name='baseRoomChest1' x='600' y='400'>
-			<Action name='open' command='openChest'>baseRoomChest1,dollar,You got a boondollar!</Action>
-		</Sprite>
+		<Action name='open' command='openChest'>baseRoomChest1,dollar,You got a boondollar!</Action>
+	</Sprite>
+	<Sprite class='chest' name='baseRoomChest2' x='500' y='400'>
+		<Action name='????' command='teleportToRemoteRoom'>levels/trickster.xml,secretRoom,666,450</Action>
+	</Sprite>
   	<Sprite class='teleporter' name='baseRoomTeleporter' x='400' y='400'>
       <Action name='teleport' command='teleportToRemoteRoom'>levels/stairRoom.xml,stairRoom,666,450</Action>
     </Sprite>
@@ -183,6 +184,7 @@
 	       sheet='kanayasheet' state='walkFront' facing='Front'>
       <Action name='swap' command='changeChar'>kanaya</Action>
     </Character>
+    
     
     <Sprite name='compLabBG'>
       <Animation sheet='compLabBG'/>

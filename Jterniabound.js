@@ -242,14 +242,6 @@ function relMouseCoords(event,canvas){
     return {x:canvasX,y:canvasY};
 }
 
-Sburb.drawLoader = function(){
-	Sburb.stage.fillStyle = "rgb(240,240,240)";
-	Sburb.stage.fillRect(0,0,Sburb.Stage.width,Sburb.Stage.height);
-	Sburb.stage.fillStyle = "rgb(200,0,0)"
-	Sburb.stage.font="30px Arial";
-    Sburb.stage.fillText("Loading Assets: "+Sburb.assetManager.totalLoaded+"/"+Sburb.assetManager.totalAssets,100,200);
-}
-
 function handleInputs(){
 	if(Sburb.Stage){
 		Sburb.Stage.style.cursor = "default";

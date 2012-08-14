@@ -308,8 +308,14 @@ Sburb.parseRoom = function(roomNode, assetFolder, spriteFolder) {
   	Sburb.serialLoadRoomSprites(newRoom,roomNode.getElementsByTagName("Sprite"), spriteFolder);
   	Sburb.serialLoadRoomSprites(newRoom,roomNode.getElementsByTagName("Character"), spriteFolder);
   	Sburb.serialLoadRoomSprites(newRoom,roomNode.getElementsByTagName("Fighter"), spriteFolder);
-	Sburb.serialLoadRoomPaths(newRoom, roomNode.getElementsByTagName("Paths"), assetFolder);
-	Sburb.serialLoadRoomTriggers(newRoom,roomNode.getElementsByTagName("Triggers"),spriteFolder);
+  	var paths = roomNode.getElementsByTagName("Paths");
+  	if(paths.length>0){
+		Sburb.serialLoadRoomPaths(newRoom, paths, assetFolder);
+	}
+	var triggers = roomNode.getElementsByTagName("Triggers")
+	if(triggers.length>0){
+		Sburb.serialLoadRoomTriggers(newRoom,triggers,spriteFolder);
+	}
 	return newRoom;
 }
 
