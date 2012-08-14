@@ -1,6 +1,6 @@
-<SBURB curRoom='baseRoom' char='meenah' description="first area" startAction="startGame" scale='3' resourcePath='resources'>
+<SBURB curRoom='baseRoom' char='meenah' description="first area" startAction="startGame" scale='3' levelPath='levels' resourcePath='resources'>
 
-<Dependencies>levels/standardTemplates.xml</Dependencies>
+<Dependencies>standardTemplates.xml</Dependencies>
 
 <Assets>
   <Asset name='dialogBox' type='graphic'>interface/dialogBoxBig.png</Asset>
@@ -105,10 +105,10 @@
 		<Action name='open' command='openChest'>baseRoomChest1,dollar,You got a boondollar!</Action>
 	</Sprite>
 	<Sprite class='chest' name='baseRoomChest2' x='500' y='400'>
-		<Action name='????' command='teleportToRemoteRoom'>levels/trickster.xml,secretRoom,666,450</Action>
+		<Action name='????' command='teleportToRemoteRoom'>trickster.xml,secretRoom,666,450</Action>
 	</Sprite>
   	<Sprite class='teleporter' name='baseRoomTeleporter' x='400' y='400'>
-      <Action name='teleport' command='teleportToRemoteRoom'>levels/stairRoom.xml,stairRoom,666,450</Action>
+      <Action name='teleport' command='teleportToRemoteRoom'>stairRoom.xml,stairRoom,666,450</Action>
     </Sprite>
     <Character name='meenah' x='300' y='501' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
 	       sheet='meenahSheet' state='walkFront' facing='Front'>

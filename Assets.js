@@ -15,6 +15,8 @@ Sburb.AssetManager = function() {
 	this.loaded = {};
 	this.recurrences = {};
 	this.description = "";
+	this.resourcePath = "";
+	this.levelPath = "";
 }
 
 //get the remaining assets to be loaded

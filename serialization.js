@@ -12,7 +12,8 @@ Sburb.serialize = function(assets,effects,rooms,sprites,hud,dialoger,curRoom,cha
 		"' char='"+char.name+
 		(Sburb.bgm?"' bgm='"+Sburb.bgm.asset.name+(Sburb.bgm.startLoop?","+Sburb.bgm.startLoop:""):"")+
 		(Sburb.Stage.scaleX!=1?"' scale='"+Sburb.Stage.scaleX:"")+
-		"' resourcePath='"+Sburb.resourcePath+
+		(Sburb.assetManager.resourcePath?("' resourcePath='"+Sburb.assetManager.resourcePath):"")+
+		(Sburb.assetManager.levelPath?("' levelPath='"+Sburb.assetManager.levelPath):"")+
 		"'>\n";
 	output = serializeAssets(output,assets,effects);
 	output = serializeTemplates(output,templateClasses);
@@ -163,6 +164,7 @@ function purgeState(){
 
 //Load state/assets from file
 Sburb.loadSerialFromXML = function(file,keepOld) {
+	file = Sburb.assetManager.levelPath+file;
 	Sburb.haltUpdateProcess();
 	if(keepOld && loadedFiles[file]){
 		Sburb.startUpdateProcess();
@@ -209,6 +211,12 @@ function loadSerial(serialText, keepOld) {
 }
 
 function loadDependencies(input){
+	var rootAttr = input.attributes;
+	var levelPath = rootAttr.getNamedItem("levelPath");
+    if(levelPath){
+    	Sburb.assetManager.levelPath = levelPath.value+"/";
+    }
+    
 	var dependenciesNode = input.getElementsByTagName("Dependencies")[0];
 	if(dependenciesNode){
 		var dependencies = dependenciesNode.firstChild.nodeValue.trim().split(",");
@@ -224,7 +232,7 @@ function loadSerialAssets(input){
 	
     var resourcePath = rootAttr.getNamedItem("resourcePath");
     if(resourcePath){
-    	Sburb.resourcePath = resourcePath.value+"/";
+    	Sburb.assetManager.resourcePath = resourcePath.value+"/";
     }
     
     var description = rootAttr.getNamedItem("description");
@@ -258,10 +266,10 @@ function parseSerialAsset(curAsset) {
 
 	var newAsset;
 	if(type=="graphic"){
-		newAsset = Sburb.createGraphicAsset(name, Sburb.resourcePath+value);
+		newAsset = Sburb.createGraphicAsset(name, Sburb.assetManager.resourcePath+value);
 	} else if(type=="audio"){
 		var sources = value.split(";");
-		newAsset = Sburb.createAudioAsset(name, Sburb.resourcePath+sources[0], Sburb.resourcePath+sources[1]);
+		newAsset = Sburb.createAudioAsset(name, Sburb.assetManager.resourcePath+sources[0], Sburb.assetManager.resourcePath+sources[1]);
 	} else if(type=="path"){
 		var pts = value.split(";");
 		var path = new Sburb.Path();
@@ -271,7 +279,7 @@ function parseSerialAsset(curAsset) {
 		}
 		newAsset = Sburb.createPathAsset(name,path);
 	}else if(type=="movie"){
-		newAsset = Sburb.createMovieAsset(name, Sburb.resourcePath+value);
+		newAsset = Sburb.createMovieAsset(name, Sburb.assetManager.resourcePath+value);
 	}
 	return newAsset;
 }
