@@ -1,4 +1,4 @@
-<SBURB curRoom='baseRoom' char='meenah' description="first area" startAction="startGame" scale='3' levelPath='levels' resourcePath='resources'>
+<SBURB curRoom='baseRoom' char='meenah' description="first area" scale='3' bgm='karkatBGM, 6.7' levelPath='levels' resourcePath='resources'>
 
 <Dependencies>
 	<Dependency>standardTemplates.xml</Dependency>
@@ -6,6 +6,7 @@
 
 <Assets>
   <Asset name='dialogBox' type='graphic'>interface/dialogBoxBig.png</Asset>
+  <Asset name='alttextbox_twitter' type='graphic'>interface/alttextbox_twitter.gif</Asset>
   <Asset name='hashTagBarSheet' type='graphic'>interface/hashtagbar.gif</Asset>
   <Asset name='heartButtonSheet' type='graphic'>interface/icons_heart.png</Asset>
   <Asset name='spadeButtonSheet' type='graphic'>interface/icons_spade.png</Asset>
@@ -33,7 +34,7 @@
   <Asset name='kanayasheet' type='graphic'>walkabout/chars/kanaya.gif</Asset>
   
   <Asset name='dollar' type='graphic'>walkabout/objects/dollar.png</Asset>
-  <Asset name='redBubbleSheet' type='graphic'>walkabout/objects/redbubble.png</Asset>
+  
   
   <Asset name='VriskaIdleSheet' type='graphic'>walkabout/dialogSprites/vriskaportrait.gif</Asset>
   <Asset name='NepetaIdleSheet' type='graphic'>walkabout/dialogSprites/nepetaDialog1.png</Asset>
@@ -60,16 +61,11 @@
 	</Dialoger>
   	
   	<DialogSprites>
+  		<Animation name='dave_idle' x='-150' y='-424' sheet='VriskaIdleSheet' rowSize='424' colSize='284'/>
   		<Animation name='vriska_idle' x='-150' y='-424' sheet='VriskaIdleSheet' rowSize='424' colSize='284'/>
   		<Animation name='nepeta_idle' x='-280' y='-450' sheet='NepetaIdleSheet' rowSize='450' colSize='456'/>
   	</DialogSprites>
 </HUD>
-  
-<Action name='startGame' command='talk'>
-@!:#lets#fucking#do#this Let's do this!!!
-@! Okay?	
-	<Action command='playSong'>karkatBGM, 6.7</Action>
-</Action> 
 
 <Sprite name='dollar'>
 	<Animation sheet='dollar' x='-36' y='-20'/>
@@ -104,15 +100,8 @@
   			</Action>
   		</Trigger>
   	</Triggers>
-  	<Sprite name='redBubble' x='700' y='400' width='20' height='20' depthing='1' collidable='true'>
-  		<Animation name='image' sheet='redBubbleSheet' x='-20' y='-40' />
-		<Action name="talk" command='randomTalk'>
-			@! test1
-			@! test2
-			@! test3
-			@! test4
-		</Action>
-	</Sprite>
+  	<Sprite class='redBubble' name='redBubble1' x='700' y='400'> </Sprite>
+
   	<Sprite class='chest' name='baseRoomChest1' x='600' y='400'>
 		<Action name='open' command='openChest'>baseRoomChest1,dollar,You got a boondollar!</Action>
 	</Sprite>

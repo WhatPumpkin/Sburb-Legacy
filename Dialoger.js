@@ -140,7 +140,7 @@ Sburb.Dialoger.prototype.nextDialog = function(){
 	if(prefix.indexOf("~")>=0){
 		var firstIndex = prefix.indexOf("~");
 		var lastIndex = prefix.length;
-		var ampIndex = prefix.indexOf("&");
+		var ampIndex = prefix.indexOf("%");
 		if(ampIndex>firstIndex){
 			lastIndex = ampIndex;
 		}
@@ -159,8 +159,8 @@ Sburb.Dialoger.prototype.nextDialog = function(){
 		this.graphic = null;
 	}
 	
-	if(prefix.indexOf("&")>=0){
-		var firstIndex = prefix.indexOf("&");
+	if(prefix.indexOf("%")>=0){
+		var firstIndex = prefix.indexOf("%");
 		var lastIndex = prefix.length;
 
 		var colIndex = prefix.indexOf(":");

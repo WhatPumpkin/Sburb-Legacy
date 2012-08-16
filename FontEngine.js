@@ -30,8 +30,10 @@ Insterting /0x/ ends the previously specified behaviour.
 
 //constructor
 Sburb.FontEngine = function(text){
+
 	//This is intended for monospace fonts
-	this.font = "bold 14px Courier New";
+	//this.font-family 
+	this.font = "bold 14px Courier";
 	this.color = "#000000";
 	this.text = typeof text == "string"?text:"";
 	this.x=0;
@@ -62,7 +64,8 @@ Sburb.FontEngine.prototype.prefixColours = {
 	ga : "#008141",kanaya : "#008141",
 	gc : "#008282",terezi : "#008282",
 	ta : "#a1a100",sollux : "#a1a100",
-	tc : "#2b0057",gamzee : "#2b0057"
+	tc : "#2b0057",gamzee : "#2b0057",
+	dave:"#e00707"
 };
 
 //set the style
@@ -147,10 +150,12 @@ Sburb.FontEngine.prototype.parseFormatting = function(){
 	if(this.formatted){
 		
 		this.escaped = {};
+		
+		this.parsePrefixes();
 	
 		this.parseEscapes();
 	
-		this.parsePrefixes();
+		
 	
 		this.parseUnderlines();
 	
