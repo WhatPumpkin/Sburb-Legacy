@@ -193,30 +193,24 @@ Sburb.Room.prototype.isInBoundsBatch = function(queries,results){
 		}
 	}
 	if(this.walkableMap){
-		
 		for(var query in queries){
-			
 			var pt = queries[query];
 			var data = this.mapData;
 			var width = this.mapCanvas.width;
 			var height = this.mapCanvas.height;
 			
 			var imgPt = (Math.round(pt.x)+Math.round(pt.y)*width)*4;
-			if(data[imgPt]==255 && data[imgPt+1]==255 
-				&& data[imgPt+2]==255 && data[imgPt+3]==255){
-				results[query] = true;
-			}else{
-				results[query] = false;
-			}
-		}
-	}else{
-		for(var i=0;i<this.walkables.length;i++){
-			this.walkables[i].queryBatchPos(queries,results);
-		}
-		for(var i=0;i<this.unwalkables.length;i++){
-			this.unwalkables[i].queryBatchNeg(queries,results);
+			results[query] = (data[imgPt]==255 && data[imgPt+1]==255 
+				&& data[imgPt+2]==255 && data[imgPt+3]==255);
 		}
 	}
+	for(var i=0;i<this.walkables.length;i++){
+		this.walkables[i].queryBatchPos(queries,results);
+	}
+	for(var i=0;i<this.unwalkables.length;i++){
+		this.unwalkables[i].queryBatchNeg(queries,results);
+	}
+	
 	return results;
 }
 
@@ -256,7 +250,7 @@ Sburb.Room.prototype.serialize = function(output){
 	output = output.concat("\n<Room name='"+this.name+
 	"' width='"+this.width+
 	"' height='"+this.height+
-	(this.walkableMap?("' walkableMap="+this.walkableMap.name):"")+
+	(this.walkableMap?("' walkableMap='"+this.walkableMap.name):"")+
 	"' >");
 	output = output.concat("\n<Paths>");
 	for(var i=0;i<this.walkables.length;i++){

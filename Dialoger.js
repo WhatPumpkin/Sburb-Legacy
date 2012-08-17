@@ -454,13 +454,34 @@ Sburb.parseDialoger = function(dialoger){
 }
 
 Sburb.Dialoger.prototype.serialize = function(input){
-	input+="<Dialoger "+Sburb.serializeAttributes(this,"hiddenPos", "alertPos", "talkPosLeft", "talkPosRight",
+	input+="\n<Dialoger "+ serializeDimensions(this,"hiddenPos", "alertPos", "talkPosLeft", "talkPosRight",
 		"spriteStartRight", "spriteEndRight", "spriteStartLeft", "spriteEndLeft",
-		"alertTextDimensions", "leftTextDimensions", "rightTextDimensions","type");
-	input+="box='"+box.animation.sheet.name+"' ";
+		"alertTextDimensions", "leftTextDimensions", "rightTextDimensions");
+	input+= Sburb.serializeAttribute(this,"type");
+	input+="box='"+this.box.animation.sheet.name+"' ";
 	input+=">";
 	input+="</Dialoger>";
 	return input;
+}
+
+function serializeDimensions(base){
+	str = "";
+	for(var i=1;i<arguments.length;i++){
+		str = str.concat(serializeDimension(base,arguments[i]));
+	}
+	return str;
+}
+
+function serializeDimension(base,val){	
+	var dim = base[val];
+	var sub = " "+val+"='";
+	sub+=(dim.hasOwnProperty("x"))?dim.x+",":"";
+	sub+=(dim.hasOwnProperty("y"))?dim.y+",":"";
+	sub+=(dim.hasOwnProperty("width"))?dim.width+",":"";
+	sub+=(dim.hasOwnProperty("height"))?dim.height+",":"";
+	sub = sub.substring(0,sub.length-1);
+	sub += "' ";
+	return sub;
 }
 
 function parseDimensions(input){

@@ -68,7 +68,7 @@ Sburb.parseAction = function(node) {
 
 		var newAction = new Sburb.Action(
 					 attributes.getNamedItem("command").value,
-					 node.firstChild?node.firstChild.nodeValue.trim():"",
+					 node.firstChild?getNodeText(node).trim():"",
 					 attributes.getNamedItem("name")?attributes.getNamedItem("name").value:null,
 					 targSprite,
 					 null,
@@ -95,6 +95,14 @@ Sburb.parseAction = function(node) {
 	
 	return firstAction;
 }
+
+function getNodeText(xmlNode){
+    if(!xmlNode) return '';
+    if(typeof(xmlNode.textContent) != "undefined") return xmlNode.textContent;
+    return xmlNode.firstChild.nodeValue;
+}
+
+
 
 return Sburb;
 })(Sburb || {});

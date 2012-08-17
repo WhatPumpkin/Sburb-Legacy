@@ -28,7 +28,7 @@ Sburb.Sound.prototype.pause = function() {
 //stop this sound
 Sburb.Sound.prototype.stop = function() {
 	this.pause();
-	this.asset.currentTime = this.startLoop;
+	this.asset.currentTime = 0;
 }
 
 //has the sound stopped

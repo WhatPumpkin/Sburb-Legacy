@@ -113,7 +113,7 @@ function haltUpdateProcess(){
 	if(Sburb.updateLoop){
 		clearInterval(Sburb.updateLoop);
 		clearInterval(Sburb.drawLoop);
-		Sburb.updateLoop = null;
+		Sburb.updateLoop = Sburb.drawLoop = null;
 	}
 }
 

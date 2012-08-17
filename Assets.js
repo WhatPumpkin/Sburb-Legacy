@@ -19,6 +19,15 @@ Sburb.AssetManager = function() {
 	this.levelPath = "";
 }
 
+Sburb.AssetManager.prototype.resolvePath = function(path){
+	if(path.indexOf(this.resourcePath)==-1){
+		return this.resourcePath+"/"+path;
+	}else{
+		return path;
+		
+	}
+}
+
 //get the remaining assets to be loaded
 Sburb.AssetManager.prototype.totalAssetsRemaining = function() {
 	return this.totalAssets - this.totalLoaded;
@@ -111,7 +120,7 @@ Sburb.createGraphicAsset = function(name, path) {
     ret.onload = function() {
 		ret.loaded = true;
     }
-    ret.src = path;
+    ret.src = Sburb.assetManager.resolvePath(path);
     ret.type = "graphic";
     ret.name = name;
     ret.assetOnLoadFunction = function(fn) {
@@ -130,15 +139,15 @@ Sburb.createGraphicAsset = function(name, path) {
 }
 
 //create an audio Asset
-Sburb.createAudioAsset = function(name) {
+Sburb.createAudioAsset = function(name,sources) {
     var ret = new Audio();
     ret.name = name
     ret.type = "audio";
     ret.preload = true;
     //ret.needsTimeout = true;
-    for (a=1; a < arguments.length; a++) {
-		var tmp = document.createElement("source")
-		tmp.src = arguments[a];
+    for (var a=0; a < sources.length; a++) {
+		var tmp = document.createElement("source");
+		tmp.src = Sburb.assetManager.resolvePath(sources[a]);
 		ret.appendChild(tmp);
     }
     ret.assetOnLoadFunction = function(fn) {
@@ -163,7 +172,7 @@ Sburb.createAudioAsset = function(name) {
 
 //create a flash movie Asset
 Sburb.createMovieAsset = function(name,path){
-	var ret = {src:path};
+	var ret = {src:Sburb.assetManager.resolvePath(path)};
 	document.getElementById("movieBin").innerHTML += '<div id="'+name+'"><object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" id="movie" width="550" height="400"><param name="allowScriptAccess" value="always" /\><param name="movie" value="'+name+'" /\><param name="quality" value="high" /\><param name="bgcolor" value="#ffffff" /\><embed src="'+path+'" quality="high" bgcolor="#ffffff" width="550" height="400" swLiveConnect=true id="movie'+name+'" name="movie'+name+'" allowScriptAccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /\></object></div>';
 	
 	
@@ -184,6 +193,19 @@ Sburb.createPathAsset = function(name, path) {
     ret.type = "path";
     ret.instant = true;
     ret.assetOnLoadFunction = function(fn) {
+		if(fn) { fn(); }
+		return;
+    }
+    return ret
+}
+
+Sburb.createFontAsset = function(name, sources){
+	var ret = {font:sources[0]};
+	ret.name = name;
+	ret.originalVals = sources;
+	ret.type = "font";
+	ret.instant = true;
+	ret.assetOnLoadFunction = function(fn) {
 		if(fn) { fn(); }
 		return;
     }
