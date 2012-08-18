@@ -81,12 +81,12 @@ Sburb.AssetManager.prototype.loadAsset = function(assetObj) {
 //log that the asset was added
 Sburb.AssetManager.prototype.assetAdded = function(name) {
 	this.totalAssets++;
+	console.log("in:"+name);
 	this.loaded[name] = false;
 }
 
 //log that the asset was loaded
 Sburb.AssetManager.prototype.assetLoaded = function(name){
-	//console.log(name,this.loaded);
 	if(this.assets[name]){
 		if(!this.loaded[name]){
 			this.loaded[name] = true

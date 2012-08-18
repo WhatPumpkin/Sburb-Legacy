@@ -39,9 +39,9 @@
   <Asset name='NepetaIdleSheet' type='graphic'>walkabout/dialogSprites/nepetaDialog1.png</Asset>
 
   -->
-  <Asset name='firstRoomMap' type='graphic'>backgrounds/firstRoomWalkable.gif</Asset>
-  <Asset name='firstRoomBG' type='graphic'>backgrounds/firstRoomBG.gif</Asset>
-  <Asset name='firstRoomFG' type='graphic'>backgrounds/firstRoomFG.gif</Asset>
+  <Asset name='firstRoomMap' type='graphic'>backgrounds/firstRoomWalkable.png</Asset>
+  <Asset name='firstRoomBG' type='graphic'>backgrounds/firstRoomBG.png</Asset>
+  <Asset name='firstRoomFG' type='graphic'>backgrounds/firstRoomFG.png</Asset>
   <Asset name='fusciaRuler' type='audio'>audio/FuchsiaRulerCut.mp3;audio/FuchsiaRulerCut.ogg</Asset>
   
   <Asset name='firstRoomStairs1' type='path'>1574,1372;1990,1696;1980,1760;1580,1448</Asset>
