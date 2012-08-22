@@ -81,7 +81,6 @@ Sburb.AssetManager.prototype.loadAsset = function(assetObj) {
 //log that the asset was added
 Sburb.AssetManager.prototype.assetAdded = function(name) {
 	this.totalAssets++;
-	console.log("in:"+name);
 	this.loaded[name] = false;
 }
 
@@ -205,6 +204,43 @@ Sburb.createFontAsset = function(name, sources){
 	ret.originalVals = sources;
 	ret.type = "font";
 	ret.instant = true;
+	
+	var source = "";
+	var sourceList = sources.split(',');
+	for(var i=0;i<sourceList.length;i++){
+		var result = "";
+		var values = sourceList[i].split(':');
+		var location = values[0].trim();
+		var path = values[1].trim();
+		if(location == "url"){
+			var extension = path.substring(path.indexOf(".")+1,path.length);
+			var format = "";
+			if(extension=="ttf"){
+				format = "truetype";
+			}else if(extension=="woff"){
+				format = "woff";
+			}else if(extension=="svg"){
+				format = "svg";
+			}
+			path = Sburb.assetManager.resolvePath(path);
+			result = "url('"+path+"') format('"+format+"')";
+		}else if(location == "local"){
+			result = "local("+path+")";
+		}
+		
+		source+=result;
+		if(i+1<sourceList.length){
+			source+=",";
+		}
+
+	}
+	var style = 
+	'<style type="text/css">'+
+		'@font-face{ font-family: '+name+'; src: '+source+'}'+
+	'</style>';
+
+	document.getElementById("fontBin").innerHTML += style;
+	//document.write(;
 	ret.assetOnLoadFunction = function(fn) {
 		if(fn) { fn(); }
 		return;

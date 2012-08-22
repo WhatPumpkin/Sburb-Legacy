@@ -63,7 +63,7 @@ Sburb.Room.prototype.addUnwalkable = function(path){
 }
 
 //add a motionPath to the room
-Sburb.Room.prototype.addMotionPath = function(path, xtox,xtoy,ytox,ytoy,dx,dy) {
+Sburb.Room.prototype.addMotionPath = function(path,xtox,xtoy,ytox,ytoy,dx,dy) {
 	var motionPath = new function (){
 		this.path = path;
 		this.xtox = xtox; this.xtoy = xtoy;
@@ -72,6 +72,28 @@ Sburb.Room.prototype.addMotionPath = function(path, xtox,xtoy,ytox,ytoy,dx,dy) {
 	};
 	this.motionPaths.push(motionPath);
 }
+
+//remove a walkable from the room
+Sburb.Room.prototype.removeWalkable = function(path){
+	this.walkables.splice(this.walkables.indexOf(path),1);
+}
+
+//remove an unwalkable to the room
+Sburb.Room.prototype.removeUnwalkable = function(path){
+	this.unwalkables.splice(this.unwalkables.indexOf(path),1);
+}
+
+//remove a motionPath from the room
+Sburb.Room.prototype.removeMotionPath = function(path) {
+	for(var i=0;i<this.motionPaths.length;i++){
+		var mpath = this.motionPaths[i];
+		if(mpath.name == path.name){
+			this.motionPaths.splice(i,1);
+			return;
+		}
+	}
+}
+
 //perform any intialization
 Sburb.Room.prototype.enter = function(){
 	if(this.walkableMap){

@@ -77,7 +77,7 @@ Sburb.parseAction = function(node) {
 					 attributes.getNamedItem("times")?parseInt(attributes.getNamedItem("times").value):1,
 					 attributes.getNamedItem("soft")?attributes.getNamedItem("soft").value=="true":false,
 					 attributes.getNamedItem("silent")?attributes.getNamedItem("silent").value=="true":false);
-					 
+
 		if(oldAction){
 			oldAction.followUp = newAction;
 		}
@@ -98,7 +98,13 @@ Sburb.parseAction = function(node) {
 
 function getNodeText(xmlNode){
     if(!xmlNode) return '';
-    if(typeof(xmlNode.textContent) != "undefined") return xmlNode.textContent;
+    var big = xmlNode.getElementsByTagName("big");
+    if(big.length>0){
+    	if(typeof(xmlNode.textContent) != "undefined"){
+    		return big[0].textContent;
+    	}
+    	return big[0].firstChild.nodeValue;
+    }
     return xmlNode.firstChild.nodeValue;
 }
 

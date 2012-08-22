@@ -86,14 +86,7 @@ function serializeAssets(output,assets,effects){
 		}else if(curAsset.type=="movie"){
 			output = output.concat(curAsset.src);
 		}else if(curAsset.type=="font"){
-			var vals = "";
-			for(var i=0;i<curAsset.originalVals.length;i++){
-				vals+=curAsset.originalVals[i];
-				if(i+1<sources.length){
-					vals+=";";
-				}
-			}
-			output += vals;
+			output += curAsset.originalVals;
 		}
 		output = output.concat("</Asset>");
 	}
@@ -213,6 +206,7 @@ Sburb.loadSerialFromXML = function(file,keepOld) {
 //main serial loading
 function loadSerial(serialText, keepOld) {
 	Sburb.haltUpdateProcess();
+
     var inText = serialText; //document.getElementById("serialText");
     var parser=new DOMParser();
     var input=parser.parseFromString(inText,"text/xml").documentElement;
@@ -301,8 +295,8 @@ function parseSerialAsset(curAsset) {
 	}else if(type=="movie"){
 		newAsset = Sburb.createMovieAsset(name, value);
 	}else if(type=="font"){
-		var sources = value.split(";");
-		newAsset = Sburb.createFontAsset(name,sources);
+		//var sources = value.split(";");
+		newAsset = Sburb.createFontAsset(name,value);
 	}
 	return newAsset;
 }
@@ -361,7 +355,9 @@ function parseTemplateClasses(input){
 		var templates = classes[0].childNodes;
 		for(var i=0;i<templates.length;i++){
 			var templateNode = templates[i];
+			
 			if(templateNode.nodeName!="#text"){
+				applyTemplateClasses(templateNode);
 			 	var tempAttributes = templateNode.attributes;
 			 	templateClasses[tempAttributes.getNamedItem("class").value] =
 			 		templateNode.cloneNode(true);
@@ -374,30 +370,35 @@ function parseTemplateClasses(input){
 function applyTemplateClasses(input){
 	for(var className in templateClasses){
 		var templateNode = templateClasses[className];
-		var tempAttributes = templateNode.attributes;
-	 	var tempChildren = templateNode.childNodes;
 	 	var candidates = input.getElementsByTagName(templateNode.nodeName);
-	 	templateClasses[tempAttributes.getNamedItem("class").value] =
-	 		templateNode.cloneNode(true);
 	 	for(var j=0;j<candidates.length;j++){
 	 		var candidate = candidates[j];
-	 		var candAttributes = candidate.attributes;
-	 		var candClass = candidate.attributes.getNamedItem("class");
-	 		var candChildren = candidate.childNodes;
-	 		if(candClass && candidate!=templateNode &&
-	 		 candClass.value==tempAttributes.getNamedItem("class").value){
-	 			for(var k=0;k<tempAttributes.length;k++){
-	 				var tempAttribute = tempAttributes[k];
-	 				if(!candAttributes.getNamedItem(tempAttribute.name)){
-	 					candidate.setAttribute(tempAttribute.name, 
-	 						tempAttribute.value);
-	 				}
-	 			}
-	 			for(var k=0;k<tempChildren.length;k++){
-	 				candidate.appendChild(tempChildren[k].cloneNode(true));
-	 			}
-	 		}
+	 		tryToApplyTemplate(templateNode,candidate);
 	 	}
+	}
+}
+
+function tryToApplyTemplate(templateNode,candidate){
+	var templateClass = templateNode.attributes.getNamedItem("class").value;
+	var candClass = candidate.attributes.getNamedItem("class");
+	if(candClass && candClass.value==templateClass){
+		applyTemplate(templateNode,candidate);
+	}
+}
+
+function applyTemplate(templateNode,candidate){
+	var tempAttributes = templateNode.attributes;
+	var tempChildren = templateNode.childNodes;
+	var candAttributes = candidate.attributes;
+	var candChildren = candidate.childNodes;
+	for(var k=0;k<tempAttributes.length;k++){
+		var tempAttribute = tempAttributes[k];
+		if(!candAttributes.getNamedItem(tempAttribute.name)){
+			candidate.setAttribute(tempAttribute.name, tempAttribute.value);
+		}
+	}
+	for(var k=0;k<tempChildren.length;k++){
+		candidate.appendChild(tempChildren[k].cloneNode(true));
 	}
 }
 
@@ -411,6 +412,7 @@ function parseButtons(input){
 }
 
 function parseSprites(input){
+	
 	var newSprites = input.getElementsByTagName("Sprite");
   	for(var i=0;i<newSprites.length;i++){
   		var curSprite = newSprites[i];
@@ -566,7 +568,7 @@ function serialLoadRoomPaths(newRoom, paths, assetFolder) {
 	for(var j=0;j<unwalkables.length;j++){
 		var node = unwalkables[j];
 		var attributes = node.attributes;
-		newRoom.addUnWalkable(assetFolder[attributes.getNamedItem("path").value]);
+		newRoom.addUnwalkable(assetFolder[attributes.getNamedItem("path").value]);
 	}
 	
 	var motionPaths = paths[0].getElementsByTagName("MotionPath");

@@ -261,6 +261,7 @@ Sburb.parseAnimation = function(animationNode, assetFolder){
 	x = (temp = attributes.getNamedItem("x"))?parseInt(temp.value):x;
 	y = (temp = attributes.getNamedItem("y"))?parseInt(temp.value):y;
 	length = (temp = attributes.getNamedItem("length"))?parseInt(temp.value):length;
+	
 	colSize = (temp = attributes.getNamedItem("colSize"))?parseInt(temp.value):Math.round(sheet.width/length);
 	rowSize = (temp = attributes.getNamedItem("rowSize"))?parseInt(temp.value):sheet.height;
 	startPos = (temp = attributes.getNamedItem("startPos"))?parseInt(temp.value):startPos;

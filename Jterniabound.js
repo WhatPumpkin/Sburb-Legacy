@@ -39,7 +39,7 @@ Sburb._include_dev = false;
 var lastDrawTime = 0;
 
 Sburb.initialize = function(div,levelName,includeDevTools){
-	var deploy = ' \
+	var deploy = '   \
 	<div style="padding-left: 0;\
 		padding-right: 0;\
 		margin-left: auto;\
@@ -58,6 +58,7 @@ Sburb.initialize = function(div,levelName,includeDevTools){
 			<canvas id="SBURBMapCanvas" width="1" height="1" style="display:none"/> \
 		</div>\
 		<div id="movieBin"></div>\
+		<div id="fontBin"></div>\
 		</br>';
 	if(includeDevTools){
 		Sburb._include_dev = true;

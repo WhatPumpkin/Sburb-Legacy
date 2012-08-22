@@ -25,7 +25,7 @@ Sburb.Path.prototype.queryBatchPos = function(queries,results){
 //Check if the given points are in the path, favouring negatively
 Sburb.Path.prototype.queryBatchNeg = function(queries,results){
 	for(var query in queries){
-		results[query] = results[query] && this.query(queries[query]);
+		results[query] = results[query] && !this.query(queries[query]);
 	}
 }
 

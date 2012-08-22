@@ -193,6 +193,7 @@ Sburb.Dialoger.prototype.nextDialog = function(){
 		}
 	}
 	
+	
 	if(prefix=="!"){
 		this.actor = null;
 		this.dialogSide = "Left";
