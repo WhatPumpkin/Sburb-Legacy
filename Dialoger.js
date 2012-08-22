@@ -455,13 +455,13 @@ Sburb.parseDialoger = function(dialoger){
 }
 
 Sburb.Dialoger.prototype.serialize = function(input){
-	input+="\n<Dialoger "+ serializeDimensions(this,"hiddenPos", "alertPos", "talkPosLeft", "talkPosRight",
+	input+="\n<dialoger "+ serializeDimensions(this,"hiddenPos", "alertPos", "talkPosLeft", "talkPosRight",
 		"spriteStartRight", "spriteEndRight", "spriteStartLeft", "spriteEndLeft",
 		"alertTextDimensions", "leftTextDimensions", "rightTextDimensions");
 	input+= Sburb.serializeAttribute(this,"type");
 	input+="box='"+this.box.animation.sheet.name+"' ";
 	input+=">";
-	input+="</Dialoger>";
+	input+="</dialoger>";
 	return input;
 }
 

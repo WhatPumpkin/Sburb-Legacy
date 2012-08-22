@@ -28,7 +28,7 @@ Sburb.Action.prototype.clone = function(){
 
 //Serialize to XML (see serialization.js)
 Sburb.Action.prototype.serialize = function(output){
-	output = output.concat("\n<Action "+
+	output = output.concat("\n<action "+
 		"command='"+this.command+
 		(this.sprite?"sprite='"+this.sprite.name:"")+
 		(this.name?"' name='"+this.name:"")+
@@ -42,7 +42,7 @@ Sburb.Action.prototype.serialize = function(output){
 	if(this.followUp){
 		output = this.followUp.serialize(output);
 	}
-	output = output.concat("</Action>");
+	output = output.concat("</action>");
 	return output;
 }
 
@@ -85,7 +85,7 @@ Sburb.parseAction = function(node) {
 			firstAction = newAction;
 		}
 		oldAction = newAction;
-		var nodes = node.getElementsByTagName("Action");
+		var nodes = node.getElementsByTagName("action");
 		if(nodes){
 			node = nodes[0];
 		}else{
@@ -98,7 +98,7 @@ Sburb.parseAction = function(node) {
 
 function getNodeText(xmlNode){
     if(!xmlNode) return '';
-    var big = xmlNode.getElementsByTagName("big");
+    var big = xmlNode.getElementsByTagName("args");
     if(big.length>0){
     	if(typeof(xmlNode.textContent) != "undefined"){
     		return big[0].textContent;

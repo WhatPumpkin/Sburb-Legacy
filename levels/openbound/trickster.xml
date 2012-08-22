@@ -1,21 +1,21 @@
-<SBURB description='secrets'>
+<sburb description='secrets'>
 
-<Assets>
-  <Asset name='andrewsheet' type='graphic'>walkabout/chars/a_h.gif</Asset>
-</Assets>  	
+<assets>
+  <asset name='andrewsheet' type='graphic'>walkabout/chars/a_h.gif</asset>
+</assets>  	
 
-<Rooms>
-  <Room name='secretRoom' width='861' height='909' walkableMap='compLabWalkableMap'>
+<rooms>
+  <room name='secretRoom' width='861' height='909' walkableMap='compLabWalkableMap'>
   	
-  	<Character name='andrew' x='300' y='300' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
+  	<character name='andrew' x='300' y='300' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
 		   sheet='andrewsheet' state='walkFront' facing='Front'>
-	  <Action name='swap' command='changeChar'>andrew</Action>
-	</Character>
+	  <action name='swap' command='changeChar'>andrew</action>
+	</character>
 
-    <Sprite name='compLabBG'>
-      <Animation sheet='compLabBG'/>
-    </Sprite>
+    <sprite name='compLabBG'>
+      <animation sheet='compLabBG'/>
+    </sprite>
   
-  </Room>
-</Rooms>
-</SBURB>
+  </room>
+</rooms>
+</sburb>

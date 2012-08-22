@@ -72,7 +72,7 @@ Sburb.SpriteButton.prototype.setState = function(state){
 
 //serialize this SpriteButton to XML
 Sburb.SpriteButton.prototype.serialize = function(output){
-	output = output.concat("\n<SpriteButton name='"+this.name+
+	output = output.concat("\n<spritebutton name='"+this.name+
 		(this.x?"' x='"+this.x:"")+
 		(this.y?"' y='"+this.y:"")+
 		"' width='"+this.width+
@@ -82,7 +82,7 @@ Sburb.SpriteButton.prototype.serialize = function(output){
 	if(this.action){
 		output = this.action.serialize(output);
 	}
-	output = output.concat("</SpriteButton>");
+	output = output.concat("</spritebutton>");
 	return output;
 }
 
@@ -102,7 +102,7 @@ Sburb.parseSpriteButton = function(button){
   									parseInt(attributes.getNamedItem("width").value),
   									parseInt(attributes.getNamedItem("height").value),
   									Sburb.assets[attributes.getNamedItem("sheet").value]);
-  	var curAction = button.getElementsByTagName("Action");
+  	var curAction = button.getElementsByTagName("action");
   	if(curAction.length>0){
   		var newAction = Sburb.parseAction(curAction[0]);
   		newButton.action = newAction;

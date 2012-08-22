@@ -7,7 +7,7 @@ var loadingDepth = 0;
 //Save the current state to xml
 Sburb.serialize = function(assets,effects,rooms,sprites,hud,dialoger,curRoom,char){
 	var out = document.getElementById("serialText");
-	var output = "<SBURB"+
+	var output = "<sburb"+
 		" curRoom='"+curRoom.name+
 		"' char='"+char.name+
 		(Sburb.bgm?"' bgm='"+Sburb.bgm.asset.name+(Sburb.bgm.startLoop?","+Sburb.bgm.startLoop:""):"")+
@@ -19,12 +19,12 @@ Sburb.serialize = function(assets,effects,rooms,sprites,hud,dialoger,curRoom,cha
 	//output = serializeTemplates(output,templateClasses);
 	output = serializeHud(output,hud,dialoger);
 	output = serializeLooseObjects(output,rooms,sprites);
-	output = output.concat("\n<Rooms>\n");
+	output = output.concat("\n<rooms>\n");
 	for(var room in rooms){
 		output = rooms[room].serialize(output);
 	}
-	output = output.concat("\n</Rooms>\n");
-	output = output.concat("\n</SBURB>");
+	output = output.concat("\n</rooms>\n");
+	output = output.concat("\n</sburb>");
 	if(out){
 		out.value = output;
 	}
@@ -59,10 +59,10 @@ function serializeLooseObjects(output,rooms,sprites){
 
 //Serialize assets
 function serializeAssets(output,assets,effects){
-	output = output.concat("\n<Assets>");
+	output = output.concat("\n<assets>");
 	for(var asset in assets){
 		var curAsset = assets[asset];
-		output = output.concat("\n<Asset name='"+curAsset.name+"' type='"+curAsset.type+"'>");
+		output = output.concat("\n<asset name='"+curAsset.name+"' type='"+curAsset.type+"'>");
 		if(curAsset.type=="graphic"){
 			output = output.concat(curAsset.src);
 		}else if(curAsset.type=="audio"){
@@ -88,21 +88,21 @@ function serializeAssets(output,assets,effects){
 		}else if(curAsset.type=="font"){
 			output += curAsset.originalVals;
 		}
-		output = output.concat("</Asset>");
+		output = output.concat("</asset>");
 	}
-	output = output.concat("\n</Assets>\n");
-	output = output.concat("\n<Effects>");
+	output = output.concat("\n</assets>\n");
+	output = output.concat("\n<effects>");
 	for(var effect in effects){
 		var curEffect = effects[effect];
 		output = curEffect.serialize(output);
 	}
-	output = output.concat("\n</Effects>\n");
+	output = output.concat("\n</effects>\n");
 	return output;
 }
 
 //Serialize template classes
 function serializeTemplates(output,templates){
-	output = output.concat("\n<Classes>");
+	output = output.concat("\n<classes>");
 	var serialized;
 	try {
 		// XMLSerializer exists in current Mozilla browsers
@@ -116,24 +116,24 @@ function serializeTemplates(output,templates){
 			output = output.concat(templates[template].xml);
 		}
 	}
-	output = output.concat("\n</Classes>\n");
+	output = output.concat("\n</classes>\n");
 	return output;
 }
 
 //Serialize Hud
 function serializeHud(output,hud,dialoger){
-	output = output.concat("\n<HUD>");
+	output = output.concat("\n<hud>");
 	for(var content in hud){
 		output = hud[content].serialize(output);
 	}
 	output = Sburb.dialoger.serialize(output);
 	var animations = dialoger.dialogSpriteLeft.animations;
-	output = output.concat("\n<DialogSprites>");
+	output = output.concat("\n<dialogsprites>");
 	for(var animation in animations){
 		output = animations[animation].serialize(output);
 	}
-	output = output.concat("\n</DialogSprites>");
-	output = output.concat("\n</HUD>\n");
+	output = output.concat("\n</dialogsprites>");
+	output = output.concat("\n</hud>\n");
 	return output;
 }
 
@@ -236,9 +236,9 @@ function loadSerial(serialText, keepOld) {
 
 function loadDependencies(input){
     
-	var dependenciesNode = input.getElementsByTagName("Dependencies")[0];
+	var dependenciesNode = input.getElementsByTagName("dependencies")[0];
 	if(dependenciesNode){
-		var dependencies = dependenciesNode.getElementsByTagName("Dependency");
+		var dependencies = dependenciesNode.getElementsByTagName("dependency");
 		for(var i=0; i<dependencies.length;i++){
 			var dependency = dependencies[i].firstChild.nodeValue.trim();
 			Sburb.loadSerialFromXML(dependency,true);
@@ -256,7 +256,7 @@ function loadSerialAssets(input){
     	Sburb.assetManager.description = "assets"
     }
     
-    var newAssets = input.getElementsByTagName("Asset");
+    var newAssets = input.getElementsByTagName("asset");
     for(var i=0;i<newAssets.length;i++){
 		var curAsset = newAssets[i];
   		var attributes = curAsset.attributes;
@@ -333,9 +333,11 @@ function loadSerialState(input) {
 }
 
 function parseDialogSprites(input){
-	var hud = input.getElementsByTagName("HUD");
+	var hud = input.getElementsByTagName("hud");
+
 	if(hud.length>0){
-		var dialogSprites = hud[0].getElementsByTagName("DialogSprites");
+		var dialogSprites = hud[0].getElementsByTagName("dialogsprites");
+
 		if(dialogSprites.length>0){
 			serialLoadDialogSprites(dialogSprites[0],Sburb.assets);
 		}
@@ -343,14 +345,16 @@ function parseDialogSprites(input){
 }
 
 function parseEffects(input){
-	var effects = input.getElementsByTagName("Effects");
+	var effects = input.getElementsByTagName("effects");
+
 	if(effects.length>0){
 		serialLoadEffects(effects[0],Sburb.assets,Sburb.effects);
 	}
 }
 
 function parseTemplateClasses(input){
-	var classes = input.getElementsByTagName("Classes");
+	var classes = input.getElementsByTagName("classes");
+
 	if(classes.length>0){
 		var templates = classes[0].childNodes;
 		for(var i=0;i<templates.length;i++){
@@ -363,7 +367,7 @@ function parseTemplateClasses(input){
 			 		templateNode.cloneNode(true);
 			}
 		}
-		input.removeChild(input.getElementsByTagName("Classes")[0]);
+		input.removeChild(input.getElementsByTagName("classes")[0]);
 	}
 }
 
@@ -403,7 +407,7 @@ function applyTemplate(templateNode,candidate){
 }
 
 function parseButtons(input){
-	var newButtons = input.getElementsByTagName("SpriteButton");
+	var newButtons = input.getElementsByTagName("spritebutton");
 	for(var i=0;i<newButtons.length;i++){
 		var curButton = newButtons[i];
 		var newButton = Sburb.parseSpriteButton(curButton);
@@ -413,7 +417,7 @@ function parseButtons(input){
 
 function parseSprites(input){
 	
-	var newSprites = input.getElementsByTagName("Sprite");
+	var newSprites = input.getElementsByTagName("sprite");
   	for(var i=0;i<newSprites.length;i++){
   		var curSprite = newSprites[i];
 		var newSprite = Sburb.parseSprite(curSprite, Sburb.assets);
@@ -422,7 +426,7 @@ function parseSprites(input){
 }
 
 function parseCharacters(input){
-	var newChars = input.getElementsByTagName("Character");
+	var newChars = input.getElementsByTagName("character");
   	for(var i=0;i<newChars.length;i++){
   		var curChar = newChars[i];
 		var newChar = Sburb.parseCharacter(curChar, Sburb.assets);
@@ -431,7 +435,7 @@ function parseCharacters(input){
 }
 
 function parseFighters(input){
-	var newFighters = input.getElementsByTagName("Fighter");
+	var newFighters = input.getElementsByTagName("fighter");
   	for(var i=0;i<newFighters.length;i++){
   		var curFighter = newFighters[i];
 		var newFighter = Sburb.parseFighter(curFighter, Sburb.assets);
@@ -440,7 +444,7 @@ function parseFighters(input){
 }
 
 function parseRooms(input){
-	var newRooms = input.getElementsByTagName("Room");
+	var newRooms = input.getElementsByTagName("room");
   	for(var i=0;i<newRooms.length;i++){
   		var currRoom = newRooms[i];
 		var newRoom = Sburb.parseRoom(currRoom, Sburb.assets, Sburb.sprites);
@@ -485,7 +489,7 @@ function parseState(input){
     	initActionName = rootInfo.getNamedItem("startAction").value;
 		for(var i=0; i<input.childNodes.length; i++) {
 			var tmp = input.childNodes[i];
-			if(tmp.tagName=="Action" && tmp.attributes.getNamedItem("name").value == initActionName) {
+			if(tmp.tagName=="action" && tmp.attributes.getNamedItem("name").value == initActionName) {
 				initAction = Sburb.parseAction(tmp);
 				continue;
 			}
@@ -497,13 +501,13 @@ function parseState(input){
 }
 
 function parseHud(input){
-	var hud = input.getElementsByTagName("HUD");
+	var hud = input.getElementsByTagName("hud");
 	if(hud.length>0){
 		var children = hud[0].childNodes;
 		for(var i=0;i<children.length;i++){
 			var child = children[i];
 
-			if(child.nodeName == "SpriteButton"){
+			if(child.nodeName == "spritebutton"){
 				var name = child.attributes.getNamedItem("name").value;
   				Sburb.hud[name] = Sburb.buttons[name];
 			}
@@ -514,7 +518,7 @@ function parseHud(input){
 }
 
 function parseDialoger(input){
-	var dialoger = input.getElementsByTagName("Dialoger");
+	var dialoger = input.getElementsByTagName("dialoger");
 	if(dialoger.length>0){
 		Sburb.dialoger = Sburb.parseDialoger(dialoger[0]);
 	}
@@ -523,7 +527,7 @@ function parseDialoger(input){
 function serialLoadDialogSprites(dialogSprites,assetFolder){
 	Sburb.dialoger.dialogSpriteLeft = new Sburb.Sprite("dialogSprite",-1000,Stage.height,0,0);
 	Sburb.dialoger.dialogSpriteRight = new Sburb.Sprite("dialogSprite",Stage.width+1000,Stage.height,0,0);
-	var animations = dialogSprites.getElementsByTagName("Animation");
+	var animations = dialogSprites.getElementsByTagName("animation");
 	for(var i=0;i<animations.length;i++){
 		Sburb.dialoger.dialogSpriteLeft.addAnimation(Sburb.parseAnimation(animations[i],assetFolder));
 		Sburb.dialoger.dialogSpriteRight.addAnimation(Sburb.parseAnimation(animations[i],assetFolder));
@@ -531,7 +535,7 @@ function serialLoadDialogSprites(dialogSprites,assetFolder){
 }
 
 function serialLoadEffects(effects,assetFolder,effectsFolder){
-	var animations = effects.getElementsByTagName("Animation");
+	var animations = effects.getElementsByTagName("animation");
 	for(var i=0;i<animations.length;i++){
 		var newEffect = Sburb.parseAnimation(animations[i],assetFolder);
 		effectsFolder[newEffect.name] = newEffect;
@@ -548,7 +552,7 @@ function serialLoadRoomSprites(newRoom, roomSprites, spriteFolder){
 			if(newActions[k].nodeName == "#text") {
 				continue;
 			}
-			if(newActions[k].nodeName == "Action"){
+			if(newActions[k].nodeName == "action"){
 				var newAction = Sburb.parseAction(newActions[k]);
 				actualSprite.addAction(newAction);
 			}
@@ -557,21 +561,21 @@ function serialLoadRoomSprites(newRoom, roomSprites, spriteFolder){
 }
 
 function serialLoadRoomPaths(newRoom, paths, assetFolder) {
-	var walkables = paths[0].getElementsByTagName("Walkable");
+	var walkables = paths[0].getElementsByTagName("walkable");
 	for(var j=0;j<walkables.length;j++){
 		var node = walkables[j];
 		var attributes = node.attributes;
 		newRoom.addWalkable(assetFolder[attributes.getNamedItem("path").value]);
 	}
 	
-	var unwalkables = paths[0].getElementsByTagName("Unwalkable");
+	var unwalkables = paths[0].getElementsByTagName("unwalkable");
 	for(var j=0;j<unwalkables.length;j++){
 		var node = unwalkables[j];
 		var attributes = node.attributes;
 		newRoom.addUnwalkable(assetFolder[attributes.getNamedItem("path").value]);
 	}
 	
-	var motionPaths = paths[0].getElementsByTagName("MotionPath");
+	var motionPaths = paths[0].getElementsByTagName("motionpath");
 	for(var j=0;j<motionPaths.length;j++) {
 		var node = motionPaths[j];
 		var attributes = node.attributes;
@@ -588,7 +592,7 @@ function serialLoadRoomPaths(newRoom, paths, assetFolder) {
 function serialLoadRoomTriggers(newRoom, triggers){
  	var candidates = triggers[0].childNodes;
 	for(var i=0;i<candidates.length;i++){
-		if(candidates[i].nodeName=="Trigger"){
+		if(candidates[i].nodeName=="trigger"){
 			newRoom.addTrigger(Sburb.parseTrigger(candidates[i]));
 		}
 	}

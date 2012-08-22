@@ -244,7 +244,7 @@ Sburb.Character.prototype.getActionQueries = function(){
 
 //serialize character to XML
 Sburb.Character.prototype.serialize = function(output){
-	output = output.concat("\n<Character name='"+this.name+
+	output = output.concat("\n<character name='"+this.name+
 		"' x='"+this.x+
 		"' y='"+this.y+
 		"' width='"+this.width+
@@ -271,7 +271,7 @@ Sburb.Character.prototype.serialize = function(output){
 		output = this.actions[action].serialize(output);
 	}
 	
-	output = output.concat("\n</Character>");
+	output = output.concat("\n</character>");
 	return output;
 }
 
@@ -301,7 +301,7 @@ Sburb.parseCharacter = function(charNode, assetFolder) {
   				    parseInt(attributes.getNamedItem("sHeight").value),
   				    assetFolder[attributes.getNamedItem("sheet").value]);
   				    
-  	var anims = charNode.getElementsByTagName("Animation");
+  	var anims = charNode.getElementsByTagName("animation");
 	for(var j=0;j<anims.length;j++){
 		var newAnim = Sburb.parseAnimation(anims[j],assetFolder);
 		newChar.addAnimation(newAnim); 

@@ -1,6 +1,6 @@
-<SBURB>
-<Classes>
-<Action class='redBubbleText'><big>
+<sburb>
+<classes>
+<action class='redBubbleText'><args>
 @dave_idle%alttextbox_twitter DAVE/_EBUBBLES: hey so what sort of insane loot did you rake in today
 @dave_idle%alttextbox_twitter DAVE/_EBUBBLES: i just found an unopened container of apple juice in my closet it is like fucking christmas up in here
 @dave_idle%alttextbox_twitter DAVE/_EBUBBLES: are you suggesting someone put piss in my apple juice at the factory
@@ -1515,7 +1515,7 @@
 @dave_idle%alttextbox_twitter DAVE/_EBUBBLES: (she is like literally the only one on the ball here this is embarrassing) 
 @dave_idle%alttextbox_twitter DAVE/_EBUBBLES: oh shit grandpa egbert juniordad totally snapped 
 @dave_idle%alttextbox_twitter DAVE/_EBUBBLES: juggalos
-				</big>
-			</Action>
-</Classes>
-</SBURB>
+				</args>
+			</action>
+</classes>
+</sburb>

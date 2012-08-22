@@ -251,7 +251,7 @@ Sburb.Fighter.prototype.serialize = function(output){
 	for(anim in this.animations){
 			animationCount++;
 	}
-	output = output.concat("<Fighter "+
+	output = output.concat("<fighter "+
 		Sburb.serializeAttributes(this,"name","x","y","width","height","facing")+
 		(animationCount>1?"state='"+this.state+"' ":"")+
 		">");
@@ -261,7 +261,7 @@ Sburb.Fighter.prototype.serialize = function(output){
 	for(action in this.actions){
 		output = this.actions[action].serialize(output);
 	}
-	output = output.concat("</Fighter>");
+	output = output.concat("</fighter>");
 	return output;
 }
 
@@ -296,7 +296,7 @@ Sburb.parseFighter = function(spriteNode, assetFolder) {
 	var newFacing = (temp=attributes.getNamedItem("facing"))?temp.value:"Right";
  	var newSprite = new Sburb.Fighter(newName,newX,newY,newWidth,newHeight);
 	newSprite.facing = newFacing;
-	var anims = spriteNode.getElementsByTagName("Animation");
+	var anims = spriteNode.getElementsByTagName("animation");
 	for(var j=0;j<anims.length;j++){
 		var newAnim = Sburb.parseAnimation(anims[j],assetFolder);
 		newSprite.addAnimation(newAnim);

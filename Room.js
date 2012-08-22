@@ -269,36 +269,36 @@ Sburb.Room.prototype.collides = function(sprite,dx,dy){
 
 //serialize the room to XML
 Sburb.Room.prototype.serialize = function(output){
-	output = output.concat("\n<Room name='"+this.name+
+	output = output.concat("\n<room name='"+this.name+
 	"' width='"+this.width+
 	"' height='"+this.height+
 	(this.walkableMap?("' walkableMap='"+this.walkableMap.name):"")+
 	"' >");
-	output = output.concat("\n<Paths>");
+	output = output.concat("\n<paths>");
 	for(var i=0;i<this.walkables.length;i++){
 		var walkable = this.walkables[i];
-		output = output.concat("\n<Walkable path='"+walkable.name+"'/>");
+		output = output.concat("\n<walkable path='"+walkable.name+"'/>");
 	}
 	for(var i=0;i<this.unwalkables.length;i++){
 		var unwalkable = this.unwalkables[i];
-		output = output.concat("\n<Unwalkable path='"+unwalkable.name+"'/>");
+		output = output.concat("\n<unwalkable path='"+unwalkable.name+"'/>");
 	}
 	for(var i=0;i<this.motionPaths.length;i++){
 		var motionPath = this.motionPaths[i];
-		 output = output.concat("\n<MotionPath path='"+motionPath.path.name+"' xtox='"+motionPath.xtox+"' xtoy='"+motionPath.xtoy+
+		 output = output.concat("\n<motionpath path='"+motionPath.path.name+"' xtox='"+motionPath.xtox+"' xtoy='"+motionPath.xtoy+
 		 "' ytox='"+motionPath.ytox+"' ytoy='"+motionPath.ytoy+"' dx='"+motionPath.dx+"' dy='"+motionPath.dy+"'/>");
 	}
-	output = output.concat("\n</Paths>");
-	output = output.concat("\n<Triggers>");
+	output = output.concat("\n</paths>");
+	output = output.concat("\n<triggers>");
 	for(var i=0;i<this.triggers.length;i++){
 		otuput = this.triggers[i].serialize(output);
 	}
-	output = output.concat("\n</Triggers>");
+	output = output.concat("\n</triggers>");
 	for(var sprite in this.sprites){
 		output = this.sprites[sprite].serialize(output);
 	}
 	
-	output = output.concat("\n</Room>");
+	output = output.concat("\n</room>");
 	return output;
 }
 
@@ -321,14 +321,14 @@ Sburb.parseRoom = function(roomNode, assetFolder, spriteFolder) {
   	if(walkableMap){
   		newRoom.walkableMap = assetFolder[walkableMap.value];
   	}
-  	Sburb.serialLoadRoomSprites(newRoom,roomNode.getElementsByTagName("Sprite"), spriteFolder);
-  	Sburb.serialLoadRoomSprites(newRoom,roomNode.getElementsByTagName("Character"), spriteFolder);
-  	Sburb.serialLoadRoomSprites(newRoom,roomNode.getElementsByTagName("Fighter"), spriteFolder);
-  	var paths = roomNode.getElementsByTagName("Paths");
+  	Sburb.serialLoadRoomSprites(newRoom,roomNode.getElementsByTagName("sprite"), spriteFolder);
+  	Sburb.serialLoadRoomSprites(newRoom,roomNode.getElementsByTagName("character"), spriteFolder);
+  	Sburb.serialLoadRoomSprites(newRoom,roomNode.getElementsByTagName("fighter"), spriteFolder);
+  	var paths = roomNode.getElementsByTagName("paths");
   	if(paths.length>0){
 		Sburb.serialLoadRoomPaths(newRoom, paths, assetFolder);
 	}
-	var triggers = roomNode.getElementsByTagName("Triggers")
+	var triggers = roomNode.getElementsByTagName("triggers")
 	if(triggers.length>0){
 		Sburb.serialLoadRoomTriggers(newRoom,triggers,spriteFolder);
 	}

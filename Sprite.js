@@ -136,7 +136,7 @@ Sprite.prototype.serialize = function(output){
 			animationCount++;
 	}
 	
-	output = output.concat("\n<Sprite "+
+	output = output.concat("\n<sprite "+
 		Sburb.serializeAttributes(this,"name","x","y","dx","dy","width","height","depthing","collidable")+
 		(animationCount>1?"state='"+this.state+"' ":"")+
 		">");
@@ -147,7 +147,7 @@ Sprite.prototype.serialize = function(output){
 	for(var action in this.actions){
 		output = this.actions[action].serialize(output);
 	}
-	output = output.concat("\n</Sprite>");
+	output = output.concat("\n</sprite>");
 	return output;
 }
 
@@ -189,7 +189,7 @@ Sburb.parseSprite = function(spriteNode, assetFolder) {
 	
  	var newSprite = new Sprite(newName,newX,newY,newWidth,newHeight,newDx,newDy,newDepthing,newCollidable);
 	
-	var anims = spriteNode.getElementsByTagName("Animation");
+	var anims = spriteNode.getElementsByTagName("animation");
 	for(var j=0;j<anims.length;j++){
 		var newAnim = Sburb.parseAnimation(anims[j],assetFolder);
 		newSprite.addAnimation(newAnim);

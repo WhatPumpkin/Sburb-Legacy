@@ -1,36 +1,36 @@
-<SBURB desc="Standard Template Resources">
-	<Dependencies>
-		<Dependency>redBubbleText.xml</Dependency>
-	</Dependencies>
-	<Assets>
-		<Asset name='volumeControl' type='graphic'>interface/volumeControl.png</Asset>
-  		<Asset name='helpControl' type='graphic'>interface/helpControl.png</Asset>
-  		<Asset name='teleporterPad' type='graphic'>objects/teleporterpad.png</Asset>
-  		<Asset name='teleportSheet' type='graphic'>effects/teleportSheet.png</Asset>
-  		<Asset name='chest1OpenSheet' type='graphic'>objects/chest1_open.png</Asset>
-  		<Asset name='chest1ClosedSheet' type='graphic'>objects/chest1_closed.png</Asset>
-  		<Asset name='redBubbleSheet' type='graphic'>objects/redbubble.png</Asset>
-	</Assets>
+<sburb desc="Standard Template Resources">
+	<dependencies>
+		<dependency>redBubbleText.xml</dependency>
+	</dependencies>
+	<assets>
+		<asset name='volumeControl' type='graphic'>interface/volumeControl.png</asset>
+  		<asset name='helpControl' type='graphic'>interface/helpControl.png</asset>
+  		<asset name='teleporterPad' type='graphic'>objects/teleporterpad.png</asset>
+  		<asset name='teleportSheet' type='graphic'>effects/teleportSheet.png</asset>
+  		<asset name='chest1OpenSheet' type='graphic'>objects/chest1_open.png</asset>
+  		<asset name='chest1ClosedSheet' type='graphic'>objects/chest1_closed.png</asset>
+  		<asset name='redBubbleSheet' type='graphic'>objects/redbubble.png</asset>
+	</assets>
 
-	<Classes>
-		<Sprite class='chest' width='80' height='30' depthing='1' collidable='true'>
-				<Animation name='closed' sheet='chest1ClosedSheet' x='-70' y='-60' rowSize='84' colSize='123'/>
-				<Animation name='open' sheet='chest1OpenSheet' x='-70' y='-60' rowSize='84' colSize='123' length='3' loopNum='0' followUp='opened'/>
-				<Animation name='opened' sheet='chest1OpenSheet' x='-70' y='-60' rowSize='84' colSize='123' startPos='2'/>
-		</Sprite>
+	<classes>
+		<sprite class='chest' width='80' height='30' depthing='1' collidable='true'>
+				<animation name='closed' sheet='chest1ClosedSheet' x='-70' y='-60' rowSize='84' colSize='123'/>
+				<animation name='open' sheet='chest1OpenSheet' x='-70' y='-60' rowSize='84' colSize='123' length='3' loopNum='0' followUp='opened'/>
+				<animation name='opened' sheet='chest1OpenSheet' x='-70' y='-60' rowSize='84' colSize='123' startPos='2'/>
+		</sprite>
 	
-		<Sprite class='teleporter' width='110' height='60'>
-		  <Animation sheet='teleporterPad' x='-66' y='-120'/>
-	  	</Sprite>
+		<sprite class='teleporter' width='110' height='60'>
+		  <animation sheet='teleporterPad' x='-66' y='-120'/>
+	  	</sprite>
 	  	
-	  	<Sprite class='redBubble' width='20' height='20' depthing='1' collidable='true'>
-	  		<Animation name='image' sheet='redBubbleSheet' x='-20' y='-40' />
-			<Action class='redBubbleText' name="talk" command='randomTalk'> </Action>
-		</Sprite>
+	  	<sprite class='redBubble' width='20' height='20' depthing='1' collidable='true'>
+	  		<animation name='image' sheet='redBubbleSheet' x='-20' y='-40' />
+			<action class='redBubbleText' name="talk" command='randomTalk'> </action>
+		</sprite>
 	  
-	</Classes>
+	</classes>
 	
-	<Effects>
-  		<Animation name='teleportEffect' x='-66' y='-110' sheet='teleportSheet' colSize='132' rowSize='165' length='6' frameInterval='2' loopNum='0'/>
-	</Effects>
-</SBURB>
+	<effects>
+  		<animation name='teleportEffect' x='-66' y='-110' sheet='teleportSheet' colSize='132' rowSize='165' length='6' frameInterval='2' loopNum='0'/>
+	</effects>
+</sburb>

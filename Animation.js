@@ -214,7 +214,7 @@ Sburb.Animation.prototype.clone = function(x,y){
 
 //serialize this Animation to XML
 Sburb.Animation.prototype.serialize = function(output){
-	output = output.concat("\n<Animation "+
+	output = output.concat("\n<animation "+
 		("sheet='"+this.sheet.name+"' ")+
 		((this.name!="image")?"name='"+this.name+"' ":"")+
 		Sburb.serializeAttributes(this,"x","y")+

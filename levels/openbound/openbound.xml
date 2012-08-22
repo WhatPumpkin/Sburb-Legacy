@@ -1,89 +1,89 @@
-<SBURB  curRoom='thirdRoom' char='meenah' description="first area" scale='3' bgm='fusciaRuler, 32.0830' levelPath='levels/openbound' resourcePath='resources/openbound'>
+<sburb  curRoom='thirdRoom' char='meenah' description="first area" scale='3' bgm='fusciaRuler, 32.0830' levelPath='levels/openbound' resourcePath='resources/openbound'>
 
-<Dependencies>
-	<Dependency>standardTemplates.xml</Dependency>
-	<Dependency>firstRoom.xml</Dependency>
-	<Dependency>secondRoom.xml</Dependency>
-	<Dependency>thirdRoom.xml</Dependency>
-</Dependencies>
+<dependencies>
+	<dependency>standardTemplates.xml</dependency>
+	<dependency>firstRoom.xml</dependency>
+	<dependency>secondRoom.xml</dependency>
+	<dependency>thirdRoom.xml</dependency>
+</dependencies>
 
-<Classes>
-	<Animation class='meenahDialog' frameInterval='6' x='-180' y='-524'/>
-</Classes>
+<classes>
+	<animation class='meenahDialog' frameInterval='6' x='-180' y='-524'/>
+</classes>
 
-<Assets>
-  <Asset name='SburbFont' type='font'>
+<assets>
+  <asset name='SburbFont' type='font'>
   local:Courier New,
   local:Courier,
   url:fonts/Courier.woff,
   url:fonts/Courier.ttf
-  </Asset>
+  </asset>
 
-  <Asset name='dialogBox' type='graphic'>interface/dialogBoxBig.png</Asset>
-  <Asset name='alttextbox_twitter' type='graphic'>interface/alttextbox_twitter.png</Asset>
-  <Asset name='hashTagBarSheet' type='graphic'>interface/hashtagbar.png</Asset>
-  <Asset name='heartButtonSheet' type='graphic'>interface/icons_heart.png</Asset>
-  <Asset name='spadeButtonSheet' type='graphic'>interface/icons_spade.png</Asset>
-  <Asset name='bubbleButtonSheet' type='graphic'>interface/icons_bub.png</Asset>
-  <Asset name='closeButtonSheet' type='graphic'>interface/closeconversation.png</Asset>
+  <asset name='dialogBox' type='graphic'>interface/dialogBoxBig.png</asset>
+  <asset name='alttextbox_twitter' type='graphic'>interface/alttextbox_twitter.png</asset>
+  <asset name='hashTagBarSheet' type='graphic'>interface/hashtagbar.png</asset>
+  <asset name='heartButtonSheet' type='graphic'>interface/icons_heart.png</asset>
+  <asset name='spadeButtonSheet' type='graphic'>interface/icons_spade.png</asset>
+  <asset name='bubbleButtonSheet' type='graphic'>interface/icons_bub.png</asset>
+  <asset name='closeButtonSheet' type='graphic'>interface/closeconversation.png</asset>
   
-  <Asset name='meenah_idle' type='graphic'>dialogs/meenah_idle.png</Asset>
-  <Asset name='meenah_talk' type='graphic'>dialogs/meenah_talk.png</Asset>
-  <Asset name='meenah_angry' type='graphic'>dialogs/meenah_angry.png</Asset>
-  <Asset name='meenah_angrytalk' type='graphic'>dialogs/meenah_angrytalk.png</Asset>
-  <Asset name='meenah_annoyed' type='graphic'>dialogs/meenah_annoyed.png</Asset>
-  <Asset name='meenah_annoyedtalk' type='graphic'>dialogs/meenah_annoyedtalk.png</Asset>
-  <Asset name='meenah_creepy' type='graphic'>dialogs/meenah_creepy.png</Asset>
-  <Asset name='meenah_creepytalk' type='graphic'>dialogs/meenah_creepytalk.png</Asset>
-  <Asset name='meenah_creepylaugh' type='graphic'>dialogs/meenah_creepylaugh.png</Asset>
-  <Asset name='meenah_fish' type='graphic'>dialogs/meenah_fish.png</Asset>
-  <Asset name='meenah_fishtalk' type='graphic'>dialogs/meenah_fishtalk.png</Asset>
-  <Asset name='meenah_happy' type='graphic'>dialogs/meenah_happy.png</Asset>
-  <Asset name='meenah_happytalk' type='graphic'>dialogs/meenah_happytalk.png</Asset>
-  <Asset name='meenah_happier' type='graphic'>dialogs/meenah_happier.png</Asset>
-  <Asset name='meenah_ohyes' type='graphic'>dialogs/meenah_ohyes.png</Asset>
-  <Asset name='meenah_wink' type='graphic'>dialogs/meenah_wink.png</Asset>
-  <Asset name='meenah_wut' type='graphic'>dialogs/meenah_wut.png</Asset>
-  <Asset name='meenah_wut2' type='graphic'>dialogs/meenah_wut2.png</Asset>
+  <asset name='meenah_idle' type='graphic'>dialogs/meenah_idle.png</asset>
+  <asset name='meenah_talk' type='graphic'>dialogs/meenah_talk.png</asset>
+  <asset name='meenah_angry' type='graphic'>dialogs/meenah_angry.png</asset>
+  <asset name='meenah_angrytalk' type='graphic'>dialogs/meenah_angrytalk.png</asset>
+  <asset name='meenah_annoyed' type='graphic'>dialogs/meenah_annoyed.png</asset>
+  <asset name='meenah_annoyedtalk' type='graphic'>dialogs/meenah_annoyedtalk.png</asset>
+  <asset name='meenah_creepy' type='graphic'>dialogs/meenah_creepy.png</asset>
+  <asset name='meenah_creepytalk' type='graphic'>dialogs/meenah_creepytalk.png</asset>
+  <asset name='meenah_creepylaugh' type='graphic'>dialogs/meenah_creepylaugh.png</asset>
+  <asset name='meenah_fish' type='graphic'>dialogs/meenah_fish.png</asset>
+  <asset name='meenah_fishtalk' type='graphic'>dialogs/meenah_fishtalk.png</asset>
+  <asset name='meenah_happy' type='graphic'>dialogs/meenah_happy.png</asset>
+  <asset name='meenah_happytalk' type='graphic'>dialogs/meenah_happytalk.png</asset>
+  <asset name='meenah_happier' type='graphic'>dialogs/meenah_happier.png</asset>
+  <asset name='meenah_ohyes' type='graphic'>dialogs/meenah_ohyes.png</asset>
+  <asset name='meenah_wink' type='graphic'>dialogs/meenah_wink.png</asset>
+  <asset name='meenah_wut' type='graphic'>dialogs/meenah_wut.png</asset>
+  <asset name='meenah_wut2' type='graphic'>dialogs/meenah_wut2.png</asset>
 
   <!--
-  <Asset name='troll1sheet' type='graphic'>walkabout/chars/newtrollsprite1.png</Asset>
-  <Asset name='troll2sheet' type='graphic'>walkabout/chars/newtrollsprite2.png</Asset>
-  <Asset name='troll3sheet' type='graphic'>walkabout/chars/newtrollsprite3.png</Asset>
-  <Asset name='troll4sheet' type='graphic'>walkabout/chars/newtrollsprite4.png</Asset>
-  <Asset name='troll5sheet' type='graphic'>walkabout/chars/newtrollsprite5.png</Asset>
-  <Asset name='troll6sheet' type='graphic'>walkabout/chars/newtrollsprite6.png</Asset>-->
-  <Asset name='meenahSheet' type='graphic'>chars/newtrollsprite7.png</Asset>
-  <!--<Asset name='troll8sheet' type='graphic'>walkabout/chars/newtrollsprite8.png</Asset>
-  <Asset name='troll9sheet' type='graphic'>walkabout/chars/newtrollsprite9.png</Asset>
-  <Asset name='troll10sheet' type='graphic'>walkabout/chars/newtrollsprite10.png</Asset>
-  <Asset name='troll11sheet' type='graphic'>walkabout/chars/newtrollsprite11.png</Asset>
-  <Asset name='troll12sheet' type='graphic'>walkabout/chars/newtrollsprite12.png</Asset>
+  <asset name='troll1sheet' type='graphic'>walkabout/chars/newtrollsprite1.png</asset>
+  <asset name='troll2sheet' type='graphic'>walkabout/chars/newtrollsprite2.png</asset>
+  <asset name='troll3sheet' type='graphic'>walkabout/chars/newtrollsprite3.png</asset>
+  <asset name='troll4sheet' type='graphic'>walkabout/chars/newtrollsprite4.png</asset>
+  <asset name='troll5sheet' type='graphic'>walkabout/chars/newtrollsprite5.png</asset>
+  <asset name='troll6sheet' type='graphic'>walkabout/chars/newtrollsprite6.png</asset>-->
+  <asset name='meenahSheet' type='graphic'>chars/newtrollsprite7.png</asset>
+  <!--<asset name='troll8sheet' type='graphic'>walkabout/chars/newtrollsprite8.png</asset>
+  <asset name='troll9sheet' type='graphic'>walkabout/chars/newtrollsprite9.png</asset>
+  <asset name='troll10sheet' type='graphic'>walkabout/chars/newtrollsprite10.png</asset>
+  <asset name='troll11sheet' type='graphic'>walkabout/chars/newtrollsprite11.png</asset>
+  <asset name='troll12sheet' type='graphic'>walkabout/chars/newtrollsprite12.png</asset>
   
-  <Asset name='davesheet' type='graphic'>walkabout/chars/dave.png</Asset>
-  <Asset name='rosesheet' type='graphic'>walkabout/chars/rose.png</Asset>
-  <Asset name='karkatsheet' type='graphic'>walkabout/chars/karkat.png</Asset>
-  <Asset name='terezisheet' type='graphic'>walkabout/chars/terezi.png</Asset>
-  <Asset name='kanayasheet' type='graphic'>walkabout/chars/kanaya.png</Asset>
+  <asset name='davesheet' type='graphic'>walkabout/chars/dave.png</asset>
+  <asset name='rosesheet' type='graphic'>walkabout/chars/rose.png</asset>
+  <asset name='karkatsheet' type='graphic'>walkabout/chars/karkat.png</asset>
+  <asset name='terezisheet' type='graphic'>walkabout/chars/terezi.png</asset>
+  <asset name='kanayasheet' type='graphic'>walkabout/chars/kanaya.png</asset>
   
-  <Asset name='VriskaIdleSheet' type='graphic'>walkabout/dialogSprites/vriskaportrait.png</Asset>
-  <Asset name='NepetaIdleSheet' type='graphic'>walkabout/dialogSprites/nepetaDialog1.png</Asset>
+  <asset name='VriskaIdleSheet' type='graphic'>walkabout/dialogSprites/vriskaportrait.png</asset>
+  <asset name='NepetaIdleSheet' type='graphic'>walkabout/dialogSprites/nepetaDialog1.png</asset>
 
   -->
   
  
   
-  <Asset name='fusciaRuler' type='audio'>audio/FuchsiaRulerCut.mp3;audio/FuchsiaRulerCut.ogg</Asset>
+  <asset name='fusciaRuler' type='audio'>audio/FuchsiaRulerCut.mp3;audio/FuchsiaRulerCut.ogg</asset>
   
   
-</Assets>
+</assets>
 
-<HUD>
-  	<SpriteButton name='volumeButton' x='9' y='9' width='54' height='36' sheet='volumeControl'>
-  		<Action command='toggleVolume' silent='true'> </Action>
-  	</SpriteButton>
-  	<SpriteButton name='helpButton' x='591' y='9' width='54' height='63' sheet='helpControl'>
-  		<Action command='talk' soft='true'>
+<hud>
+  	<spritebutton name='volumeButton' x='9' y='9' width='54' height='36' sheet='volumeControl'>
+  		<action command='toggleVolume' silent='true'> </action>
+  	</spritebutton>
+  	<spritebutton name='helpButton' x='591' y='9' width='54' height='63' sheet='helpControl'>
+  		<action command='talk' soft='true'>
   		@meenah_idle MEENAH: yo
       @meenah_talk MEENAH: yo
       @meenah_angry MEENAH: yo
@@ -102,141 +102,141 @@
       @meenah_wink MEENAH: yo
       @meenah_wut MEENAH: yo
       @meenah_wut2 MEENAH: yo
-  		</Action>
-  	</SpriteButton>
+  		</action>
+  	</spritebutton>
   	
   	
-	<Dialoger alertPos="56,120" talkPosRight="20,120" talkPosLeft="90,120" hiddenPos="-1000,120"
+	<dialoger alertPos="56,120" talkPosRight="20,120" talkPosLeft="90,120" hiddenPos="-1000,120"
 		spriteStartLeft="-300,450" spriteEndLeft="100,450" spriteStartRight="950,450" spriteEndRight="550,450"
 		alertTextDimensions="30,30,450,220" leftTextDimensions="150,30,350,220" rightTextDimensions="30,30,350,220"
 		box="dialogBox" type="social">
-	</Dialoger>
+	</dialoger>
   	
-  	<DialogSprites>
+  	<dialogsprites>
   		
-  		<Animation name='meenah_idle' class='meenahDialog' sheet='meenah_idle'/>
-  		<Animation name='meenah_talk' class='meenahDialog' sheet='meenah_talk' length='2'/>
-  		<Animation name='meenah_angry' class='meenahDialog' sheet='meenah_angry'/>
-  		<Animation name='meenah_angrytalk' class='meenahDialog' sheet='meenah_angrytalk' length='2'/>
-  		<Animation name='meenah_annoyed' class='meenahDialog' sheet='meenah_annoyed'/>
-  		<Animation name='meenah_annoyedtalk' class='meenahDialog' sheet='meenah_annoyedtalk' length='2'/>
-  		<Animation name='meenah_creepy' class='meenahDialog' sheet='meenah_creepy'/>
-  		<Animation name='meenah_creepytalk' class='meenahDialog' sheet='meenah_creepytalk' length='2'/>
-  		<Animation name='meenah_creepylaugh' class='meenahDialog' sheet='meenah_creepylaugh' length='2'/>
-  		<Animation name='meenah_fish' class='meenahDialog' sheet='meenah_fish'/>
-  		<Animation name='meenah_fishtalk' class='meenahDialog' sheet='meenah_fishtalk' length='2'/>
-  		<Animation name='meenah_happy' class='meenahDialog' sheet='meenah_happy'/>
-  		<Animation name='meenah_happytalk' class='meenahDialog' sheet='meenah_happytalk' length='2'/>
-  		<Animation name='meenah_happier' class='meenahDialog' sheet='meenah_happier'/>
-  		<Animation name='meenah_ohyes' class='meenahDialog' sheet='meenah_ohyes'/>
-  		<Animation name='meenah_wink' class='meenahDialog' sheet='meenah_wink' length='2'/>
-  		<Animation name='meenah_wut' class='meenahDialog' sheet='meenah_wut'/>
-  		<Animation name='meenah_wut2' class='meenahDialog' sheet='meenah_wut2'/>
+  		<animation name='meenah_idle' class='meenahDialog' sheet='meenah_idle'/>
+  		<animation name='meenah_talk' class='meenahDialog' sheet='meenah_talk' length='2'/>
+  		<animation name='meenah_angry' class='meenahDialog' sheet='meenah_angry'/>
+  		<animation name='meenah_angrytalk' class='meenahDialog' sheet='meenah_angrytalk' length='2'/>
+  		<animation name='meenah_annoyed' class='meenahDialog' sheet='meenah_annoyed'/>
+  		<animation name='meenah_annoyedtalk' class='meenahDialog' sheet='meenah_annoyedtalk' length='2'/>
+  		<animation name='meenah_creepy' class='meenahDialog' sheet='meenah_creepy'/>
+  		<animation name='meenah_creepytalk' class='meenahDialog' sheet='meenah_creepytalk' length='2'/>
+  		<animation name='meenah_creepylaugh' class='meenahDialog' sheet='meenah_creepylaugh' length='2'/>
+  		<animation name='meenah_fish' class='meenahDialog' sheet='meenah_fish'/>
+  		<animation name='meenah_fishtalk' class='meenahDialog' sheet='meenah_fishtalk' length='2'/>
+  		<animation name='meenah_happy' class='meenahDialog' sheet='meenah_happy'/>
+  		<animation name='meenah_happytalk' class='meenahDialog' sheet='meenah_happytalk' length='2'/>
+  		<animation name='meenah_happier' class='meenahDialog' sheet='meenah_happier'/>
+  		<animation name='meenah_ohyes' class='meenahDialog' sheet='meenah_ohyes'/>
+  		<animation name='meenah_wink' class='meenahDialog' sheet='meenah_wink' length='2'/>
+  		<animation name='meenah_wut' class='meenahDialog' sheet='meenah_wut'/>
+  		<animation name='meenah_wut2' class='meenahDialog' sheet='meenah_wut2'/>
   		
-  		<Animation name='dave_idle' class='meenahDialog' sheet='meenah_wut2'/>
+  		<animation name='dave_idle' class='meenahDialog' sheet='meenah_wut2'/>
   		
-  	</DialogSprites>
-</HUD>
+  	</dialogsprites>
+</hud>
 
-<Sprite name='hashTagBar'>
-	<Animation sheet='hashTagBarSheet'/>
-</Sprite>
+<sprite name='hashTagBar'>
+	<animation sheet='hashTagBarSheet'/>
+</sprite>
 
-<SpriteButton name='spadeButton' x='440' y='300' width='30' height='26' sheet='spadeButtonSheet'>
-	<Action command='setButtonState' silent='true'>heartButton,0</Action>
-</SpriteButton>
+<spritebutton name='spadeButton' x='440' y='300' width='30' height='26' sheet='spadeButtonSheet'>
+	<action command='setButtonState' silent='true'>heartButton,0</action>
+</spritebutton>
 
-<SpriteButton name='heartButton' x='480' y='300' width='30' height='26' sheet='heartButtonSheet'>
-	<Action command='setButtonState' silent='true'>spadeButton,0</Action>
-</SpriteButton>
+<spritebutton name='heartButton' x='480' y='300' width='30' height='26' sheet='heartButtonSheet'>
+	<action command='setButtonState' silent='true'>spadeButton,0</action>
+</spritebutton>
 
-<SpriteButton name='closeButton' x='220' y='60' width='203' height='37' sheet='closeButtonSheet'>
-	<Action command='skipDialog' silent='true'> </Action>
-</SpriteButton>
+<spritebutton name='closeButton' x='220' y='60' width='203' height='37' sheet='closeButtonSheet'>
+	<action command='skipDialog' silent='true'> </action>
+</spritebutton>
 
-<SpriteButton name='bubbleButton' x='510' y='300' width='30' height='26' sheet='bubbleButtonSheet'>
-</SpriteButton>
+<spritebutton name='bubbleButton' x='510' y='300' width='30' height='26' sheet='bubbleButtonSheet'>
+</spritebutton>
   	
 <!--
-    <Character name='troll1' x='400' y='501' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
+    <character name='troll1' x='400' y='501' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
 	       sheet='troll1sheet' state='walkFront' facing='Front'>
-      <Action name='swap' command='changeChar'>troll1</Action>
-    </Character>
-    <Character name='troll2' x='500' y='501' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
+      <action name='swap' command='changeChar'>troll1</action>
+    </character>
+    <character name='troll2' x='500' y='501' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
 	       sheet='troll2sheet' state='walkFront' facing='Front'>
-      <Action name='swap' command='changeChar'>troll2</Action>
-    </Character>
-    <Character name='troll3' x='600' y='501' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
+      <action name='swap' command='changeChar'>troll2</action>
+    </character>
+    <character name='troll3' x='600' y='501' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
 	       sheet='troll3sheet' state='walkFront' facing='Front'>
-      <Action name='swap' command='changeChar'>troll3</Action>
-    </Character>
-    <Character name='troll4' x='700' y='501' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
+      <action name='swap' command='changeChar'>troll3</action>
+    </character>
+    <character name='troll4' x='700' y='501' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
 	       sheet='troll4sheet' state='walkFront' facing='Front'>
-      <Action name='swap' command='changeChar'>troll4</Action>
-    </Character>
-    <Character name='troll5' x='400' y='601' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
+      <action name='swap' command='changeChar'>troll4</action>
+    </character>
+    <character name='troll5' x='400' y='601' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
 	       sheet='troll5sheet' state='walkFront' facing='Front'>
-      <Action name='swap' command='changeChar'>troll5</Action>
-    </Character>
-    <Character name='troll6' x='500' y='601' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
+      <action name='swap' command='changeChar'>troll5</action>
+    </character>
+    <character name='troll6' x='500' y='601' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
 	       sheet='troll6sheet' state='walkFront' facing='Front'>
-      <Action name='swap' command='changeChar'>troll6</Action>
-    </Character>
-    <Character name='troll7' x='600' y='601' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
+      <action name='swap' command='changeChar'>troll6</action>
+    </character>
+    <character name='troll7' x='600' y='601' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
 	       sheet='troll7sheet' state='walkFront' facing='Front'>
-      <Action name='swap' command='changeChar'>troll7</Action>
-    </Character>
-    <Character name='troll8' x='700' y='601' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
+      <action name='swap' command='changeChar'>troll7</action>
+    </character>
+    <character name='troll8' x='700' y='601' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
 	       sheet='troll8sheet' state='walkFront' facing='Front'>
-      <Action name='swap' command='changeChar'>troll8</Action>
-    </Character>
-    <Character name='troll9' x='300' y='601' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
+      <action name='swap' command='changeChar'>troll8</action>
+    </character>
+    <character name='troll9' x='300' y='601' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
 	       sheet='troll9sheet' state='walkFront' facing='Front'>
-      <Action name='swap' command='changeChar'>troll9</Action>
-    </Character>
-    <Character name='troll10' x='400' y='701' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
+      <action name='swap' command='changeChar'>troll9</action>
+    </character>
+    <character name='troll10' x='400' y='701' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
 	       sheet='troll10sheet' state='walkFront' facing='Front'>
-      <Action name='swap' command='changeChar'>troll10</Action>
-    </Character>
-    <Character name='troll11' x='500' y='701' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
+      <action name='swap' command='changeChar'>troll10</action>
+    </character>
+    <character name='troll11' x='500' y='701' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
 	       sheet='troll11sheet' state='walkFront' facing='Front'>
-      <Action name='swap' command='changeChar'>troll11</Action>
-    </Character>
-    <Character name='troll12' x='700' y='701' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
+      <action name='swap' command='changeChar'>troll11</action>
+    </character>
+    <character name='troll12' x='700' y='701' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
 	       sheet='troll12sheet' state='walkFront' facing='Front'>
-      <Action name='swap' command='changeChar'>troll12</Action>
-    </Character>
-    <Character name='dave' x='200' y='300' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
+      <action name='swap' command='changeChar'>troll12</action>
+    </character>
+    <character name='dave' x='200' y='300' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
 	       sheet='davesheet' state='walkFront' facing='Front'>
-      <Action name='swap' command='changeChar'>dave</Action>
-    </Character>
-    <Character name='rose' x='200' y='400' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
+      <action name='swap' command='changeChar'>dave</action>
+    </character>
+    <character name='rose' x='200' y='400' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
 	       sheet='rosesheet' state='walkFront' facing='Front'>
-      <Action name='swap' command='changeChar'>rose</Action>
-    </Character>
-    <Character name='karkat' x='200' y='500' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
+      <action name='swap' command='changeChar'>rose</action>
+    </character>
+    <character name='karkat' x='200' y='500' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
 	       sheet='karkatsheet' state='walkFront' facing='Front'>
-      <Action name='swap' command='changeChar'>karkat</Action>
-    </Character>
-    <Character name='terezi' x='200' y='600' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
+      <action name='swap' command='changeChar'>karkat</action>
+    </character>
+    <character name='terezi' x='200' y='600' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
 	       sheet='terezisheet' state='walkFront' facing='Front'>
-      <Action name='swap' command='changeChar'>terezi</Action>
-    </Character>
-    <Character name='kanaya' x='200' y='700' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
+      <action name='swap' command='changeChar'>terezi</action>
+    </character>
+    <character name='kanaya' x='200' y='700' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
 	       sheet='kanayasheet' state='walkFront' facing='Front'>
-      <Action name='swap' command='changeChar'>kanaya</Action>
-    </Character>
+      <action name='swap' command='changeChar'>kanaya</action>
+    </character>
     -->
     
-    <!--<Sprite class='redBubble' name='redBubble1' x='700' y='400'> </Sprite>
+    <!--<sprite class='redBubble' name='redBubble1' x='700' y='400'> </sprite>
 
-  	<Sprite class='chest' name='baseRoomChest1' x='600' y='400'>
-		<Action name='open' command='openChest'>baseRoomChest1,dollar,You got a boondollar!</Action>
-	</Sprite>
-	<Sprite class='chest' name='baseRoomChest2' x='500' y='400'>
-		<Action name='????' command='teleportToRemoteRoom'>trickster.xml,secretRoom,666,450</Action>
-	</Sprite>
-  	<Sprite class='teleporter' name='baseRoomTeleporter' x='400' y='400'>
-      <Action name='teleport' command='teleportToRemoteRoom'>stairRoom.xml,stairRoom,666,450</Action>
-    </Sprite>-->
-</SBURB>
+  	<sprite class='chest' name='baseRoomChest1' x='600' y='400'>
+		<action name='open' command='openChest'>baseRoomChest1,dollar,You got a boondollar!</action>
+	</sprite>
+	<sprite class='chest' name='baseRoomChest2' x='500' y='400'>
+		<action name='????' command='teleportToRemoteRoom'>trickster.xml,secretRoom,666,450</action>
+	</sprite>
+  	<sprite class='teleporter' name='baseRoomTeleporter' x='400' y='400'>
+      <action name='teleport' command='teleportToRemoteRoom'>stairRoom.xml,stairRoom,666,450</action>
+    </sprite>-->
+</sburb>
