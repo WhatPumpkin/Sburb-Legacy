@@ -1,0 +1,2 @@
+./sanitize.sh
+./sheetify.sh
