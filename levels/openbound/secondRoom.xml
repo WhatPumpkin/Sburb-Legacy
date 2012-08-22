@@ -1,0 +1,41 @@
+<SBURB description="second room">
+
+<Assets>
+  <Asset name='secondRoomMap' type='graphic'>backgrounds/secondRoomWalkable.png</Asset>
+  <Asset name='secondRoomBG' type='graphic'>backgrounds/secondRoomBG.png</Asset>
+  <Asset name='secondRoomFG' type='graphic'>backgrounds/secondRoomFG.png</Asset>
+  <Asset name='secondRoomStairs1' type='path'>1288,2866;1453,2702;1466,2825;1301,2966</Asset>
+</Assets>
+
+
+<Rooms>
+   <Room name='secondRoom' width='4622' height='3966' walkableMap='secondRoomMap'>
+  	<Paths>
+  		<MotionPath path="secondRoomStairs1" xtox = '0.7' xtoy = '-0.7' ytox='0' ytoy = '1' dx='0' dy='0'/>
+  	</Paths>
+  	<Triggers>
+  		<Trigger>spriteProperty,char,x&lt;780
+  			<Trigger>spriteProperty,char,y&lt;1500
+	  			<Action command='deltaSprite'>char,9,0
+	  				<Action command='changeRoom'>firstRoom,4630,3057</Action>
+	  			</Action>
+  			</Trigger>
+  		</Trigger>
+  			<Trigger>spriteProperty,char,y>3420
+	  			<Action command='deltaSprite'>char,0,-9
+	  				<Action command='changeToRemoteRoom'>thirdRoom.xml,thirdRoom,1155,192</Action>
+	  			</Action>
+  			</Trigger>
+  	</Triggers>
+    
+    <Sprite name='secondRoomBG'>
+      <Animation sheet='secondRoomBG'/>
+    </Sprite>
+    <Sprite name='secondRoomFG' depthing='2'>
+      <Animation sheet='secondRoomFG'/>
+    </Sprite>
+  </Room>
+  
+ 
+</Rooms>
+</SBURB>

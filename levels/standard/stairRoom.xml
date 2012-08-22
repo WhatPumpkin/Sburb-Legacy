@@ -1,0 +1,34 @@
+<SBURB>
+
+<Assets>
+  <Asset name='stairRoomBG' type='graphic'>walkabout/backgrounds/stairRoom.png</Asset>
+  <Asset name='stairRoomWalkable' type='path'> 999,368;442,372;258,560;86,556;86,608;0,609;0,940;264,942;630,1318;813,1320;813,2070;222,2070;224,1510;250,1510;588,1888;588,1904;402,1904;402,1904; 237,1905;236,2049;801,2054;800,1706;591,1702;228,1323;142,1323; 140,1344;0,1344;0,2258;999,2258;999,1126;624,1124;260,754;260,740;441,552;999,552</Asset>
+  <Asset name='stairRoomStairs1' type='path'>449,369;258,560;260,740;449,552</Asset>
+  <Asset name='stairRoomStairs2' type='path'>264,942;630,1318;624,1124;260,754</Asset>
+  <Asset name='stairRoomStairs3' type='path'>224,1510;588,1888;591,1702;228,1323</Asset>
+</Assets>
+
+<Rooms>
+  <Room name='stairRoom' width='999' height='2259'>
+  	<Paths>
+  		<Walkable path="stairRoomWalkable"/>
+  		<MotionPath path="stairRoomStairs1" xtox = '0.7' xtoy = '-0.7' ytox='0' ytoy = '1' dx='0' dy='0'/>
+    	<MotionPath path="stairRoomStairs2" xtox = '0.7' xtoy = '0.7' ytox='0' ytoy = '1' dx='0' dy='0'/>
+    	<MotionPath path="stairRoomStairs3" xtox = '0.7' xtoy = '0.7' ytox='0' ytoy = '1' dx='0' dy='0'/>
+  	</Paths>
+  	<Triggers>
+  		<Trigger>spriteProperty,char,x>800
+  			<Trigger>spriteProperty,char,y&lt;600
+  				<Action command="changeRoom">baseRoom,450,800</Action>
+  			</Trigger>
+  		</Trigger>
+  	</Triggers>
+  	<Sprite class='teleporter' name='stairRoomTeleporter' x='666' y='450' >
+      <Action name='teleport' command='teleport'>baseRoom,400,400</Action>
+    </Sprite>
+    <Sprite name='stairRoomBG'>
+      <Animation sheet='stairRoomBG'/>
+    </Sprite>
+  </Room>
+</Rooms>
+</SBURB>

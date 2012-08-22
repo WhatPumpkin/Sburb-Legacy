@@ -1,0 +1,120 @@
+<SBURB curRoom='baseRoom' char='karkat' id='level1' startAction="startGame" scale='3' resourcePath="resources" desc="Main Content">
+
+<Dependencies>levels/standardTemplates.xml</Dependencies>
+
+<Assets>
+	<Asset name='testMovie' type='movie'>cutscenes/cutscenetest.swf</Asset>
+
+  
+  <Asset name='aaSheet' type='graphic'>walkabout/chars/AAsheetBig.png</Asset>
+  <Asset name='acSheet' type='graphic'>walkabout/chars/ACsheetBig.png</Asset>
+  <Asset name='agSheet' type='graphic'>walkabout/chars/AGsheetBig.png</Asset>
+  <Asset name='atSheet' type='graphic'>walkabout/chars/ATsheetBig.png</Asset>
+  <Asset name='caSheet' type='graphic'>walkabout/chars/CAsheetBig.png</Asset>
+  <Asset name='cgSheet' type='graphic'>walkabout/chars/CGsheetBig.png</Asset>
+  <Asset name='ctSheet' type='graphic'>walkabout/chars/CTsheetBig.png</Asset>
+  <Asset name='ccSheet' type='graphic'>walkabout/chars/CCsheetBig.png</Asset>
+  <Asset name='gaSheet' type='graphic'>walkabout/chars/GAsheetBig.png</Asset>
+  <Asset name='gcSheet' type='graphic'>walkabout/chars/GCsheetBig.png</Asset>
+  <Asset name='taSheet' type='graphic'>walkabout/chars/TAsheetBig.png</Asset>
+  <Asset name='tcSheet' type='graphic'>walkabout/chars/TCsheetBig.png</Asset>
+  
+  <Asset name='dollar' type='graphic'>walkabout/objects/dollar.png</Asset>
+  
+  <Asset name='VriskaIdleSheet' type='graphic'>walkabout/dialogSprites/vriskaportrait.gif</Asset>
+  <Asset name='NepetaIdleSheet' type='graphic'>walkabout/dialogSprites/nepetaDialog1.png</Asset>
+    
+  <Asset name='compLabBG' type='graphic'>walkabout/backgrounds/comlab-background.gif</Asset>
+  <Asset name='compLabWalkableMap' type='graphic'>walkabout/backgrounds/comlab-background-walkable.png</Asset>
+  
+  <Asset name='dialogBox' type='graphic'>interface/dialogBoxBig.png</Asset>
+  
+  <Asset name='karkatBGM' type='audio'>audio/karkat.ogg;resources/audio/karkat.mp3</Asset>
+  <Asset name='tereziBGM' type='audio'>audio/terezi.ogg;resources/audio/terezi.mp3</Asset>
+  
+  <Asset name='compLabWalkable' type='path'>70,270;800,270;800,820;70,820</Asset>
+</Assets>
+
+<HUD>
+  	<SpriteButton name='volumeButton' x='9' y='9' width='54' height='36' sheet='volumeControl'>
+  		<Action command='toggleVolume' silent='true'> </Action>
+  	</SpriteButton>
+  	<SpriteButton name='helpButton' x='591' y='9' width='54' height='63' sheet='helpControl'>
+  		<Action command='talk' soft='true'>@! HELP!</Action>
+  	</SpriteButton>
+  	
+	<Dialoger alertPos="56,120" talkPosRight="20,120" talkPosLeft="90,120" hiddenPos="-1000,120"
+		spriteStartLeft="-300,450" spriteEndLeft="100,450" spriteStartRight="950,450" spriteEndRight="550,450"
+		alertTextDimensions="30,30,450,220" leftTextDimensions="150,30,350,220" rightTextDimensions="30,30,350,220"
+		box="dialogBox" type="standard">
+	</Dialoger>
+  	
+  	<DialogSprites>
+  		<Animation name='vriska_idle' x='-150' y='-424' sheet='VriskaIdleSheet' rowSize='424' colSize='284'/>
+  		<Animation name='nepeta_idle' x='-280' y='-450' sheet='NepetaIdleSheet' rowSize='450' colSize='456'/>
+  	</DialogSprites>
+</HUD>
+  
+<Action name='startGame' command='talk'>@! Let's do this!!!
+ <Action command='playSong'>karkatBGM,6.7</Action>
+</Action> 
+
+<Sprite name='dollar'>
+	<Animation sheet='dollar' x='-36' y='-20'/>
+</Sprite>
+
+<Rooms>
+  <Room name='baseRoom' width='861' height='909' walkableMap='compLabWalkableMap'>
+  	<Paths>
+  		<!--<Walkable path='compLabWalkable'/>-->
+  	</Paths>
+  	<Triggers>
+  		<Trigger>spriteProperty,char,y>800
+  			<Action command='deltaSprite'>char,0,-12
+  				<Action command='changeToRemoteRoom'>levels/stairRoom.xml,stairRoom,750,450</Action>
+  			</Action>
+  		</Trigger>
+  	</Triggers>
+  	<Sprite class='chest' name='baseRoomChest1' x='600' y='400'>
+			<Action name='open' command='openChest'>baseRoomChest1,dollar,You got a boondollar!</Action>
+		</Sprite>
+  	<Sprite class='teleporter' name='baseRoomTeleporter' x='400' y='400'>
+  	   <Action command='teleportToRemoteRoom' name="teleport">levels/stairRoom.xml,stairRoom,666,450</Action>
+    </Sprite>
+    <Character name='karkat' x='300' y='501' sx='-36' sy='-87' sWidth='66' sHeight='96' width='48' height='21' 
+	       sheet='cgSheet' state='walkFront' facing='Front'>
+      <Action name='swap' command='changeChar'>karkat
+      	<Action name='introMusic' command='playSong'>karkatBGM, 6.7</Action>
+      </Action>
+    </Character>
+    <Character name='tavros' x='600' y='501' sx='-51' sy='-75' sWidth='102' sHeight='84' width='55' height='21' 
+	       sheet='atSheet' state='walkFront' facing='Front'>
+      <Action name='swap' command='changeChar'>tavros</Action>
+    </Character>
+    <Character name='vriska' x='600' y='666' sx='-36' sy='-75' sWidth='69' sHeight='87' width='48' height='21' 
+	       sheet='agSheet' state='walkRight' facing='Right'>
+      <Action name='swap' command='changeChar'>vriska</Action>
+    </Character>
+    <Character name='aradia' x='300' y='666' sx='-36' sy='-75' sWidth='72' sHeight='87' width='48' height='21' 
+	       sheet='aaSheet' state='walkLeft' facing='Left'>
+      <Action name='swap' command='changeChar'>aradia</Action>
+    </Character>
+    <Character name='terezi' x='201' y='402' sx='-45' sy='-72' sWidth='93' sHeight='93' width='55' height='21' 
+	       sheet='gcSheet' state='walkFront' facing='Front'>
+      <Action name='talk' command='talk'>
+      @vriska_idle HELLO I AM A PRETTY TEST DIALOG. DO YOU LIKE ME? WHY DON'T YOU LIKE ME???
+      @vriska_idle I'm sure you really do like me.
+      @nepeta_idle No I really don't like you. In fact I loathe you with to an unimaginable degree. I would rather you never existed at all!
+      @vriska_idle YES YOU DO.
+      </Action>
+      <Action name='swap' command='changeChar'>terezi
+		    <Action command='playSong'>tereziBGM,1.9</Action>
+      </Action>
+      <Action name='play movie' command='playMovie'>testMovie</Action>
+    </Character>
+    <Sprite name='compLabBG'>
+      <Animation sheet='compLabBG'/>
+    </Sprite>
+  </Room>
+</Rooms>
+</SBURB>

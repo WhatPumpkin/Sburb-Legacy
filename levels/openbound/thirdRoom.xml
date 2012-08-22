@@ -1,0 +1,70 @@
+<SBURB description="third room">
+
+<Assets>
+  <Asset name='thirdRoomMap' type='graphic'>backgrounds/thirdRoomWalkable.png</Asset>
+  <Asset name='thirdRoomBG' type='graphic'>backgrounds/thirdRoomBG.png</Asset>
+  <Asset name='thirdRoomFG' type='graphic'>backgrounds/thirdRoomFG.png</Asset>
+  <Asset name='thirdRoomStaircase' type='graphic'>backgrounds/thirdRoomStairs.png</Asset>
+  <Asset name='thirdRoomDoor' type='graphic'>backgrounds/thirdRoomDoor.png</Asset>
+  <Asset name='thirdRoomExtraStairs' type='path'>1680,1520;2120,1092;2120,1186;1683,1611</Asset>
+  <Asset name='thirdRoomExtraWalkable' type='path'>1680,1520;2130,1092;2330,1092;2350,1186;2150,1186;1683,1611</Asset>
+  <Asset name='thirdRoomExtraUnwalkable' type='path'>1680,1460;2130,1032;2150,1086;1683,1520</Asset>
+  <Asset name='thirdRoomExtraUnwalkable2' type='path'>2150,1186;2150,1651;1683,1651;1683,1610</Asset>
+  <Asset name='thirdRoomStairs1' type='path'>1374,2868;1370,2776;2098,3458;2098,3558</Asset>
+  <Asset name='thirdRoomStairs2' type='path'>3162,3568;3156,3456;3604,3034;3598,3154</Asset>
+  <Asset name='thirdRoomStairs3' type='path'>3705,2592;3705,2668;3270,2265;3276,2144</Asset>
+</Assets>
+
+<Sprite name='thirdRoomStaircase' x='1610' y='1034'>
+	<Animation sheet='thirdRoomStaircase'/>
+</Sprite>
+
+<Rooms>
+   <Room name='thirdRoom' width='4622' height='3966' walkableMap='thirdRoomMap'>
+  	<Paths>
+  		<MotionPath path="thirdRoomStairs1" xtox = '0.7' xtoy = '0.7' ytox='0' ytoy = '1' dx='0' dy='0'/>
+  		<MotionPath path="thirdRoomStairs2" xtox = '0.7' xtoy = '-0.7' ytox='0' ytoy = '1' dx='0' dy='0'/>
+  		<MotionPath path="thirdRoomStairs3" xtox = '0.7' xtoy = '0.7' ytox='0' ytoy = '1' dx='0' dy='0'/>
+  	</Paths>
+  	<Triggers>
+		<Trigger>spriteProperty,char,y&lt;180
+  			<Action command='deltaSprite'>char,0,9
+  				<Action command='changeRoom'>secondRoom,1746,3410</Action>
+  			</Action>
+		</Trigger>
+  	</Triggers>
+    <Sprite class='redBubble' name='testbubble' x='1510' y='1500'>
+    	<Action name='stairify' command='addSprite'>thirdRoomStaircase,thirdRoom
+    		<Action command='addWalkable'>thirdRoomExtraWalkable,thirdRoom
+    			<Action command='addUnwalkable'>thirdRoomExtraUnwalkable,thirdRoom
+    				<Action command='addUnwalkable'>thirdRoomExtraUnwalkable2,thirdRoom
+    					<Action command='addMotionPath'>thirdRoomExtraStairs,0.7,-0.7,0,1,0,0,thirdRoom
+    					</Action>
+    				</Action>
+    			</Action>
+    		</Action>
+    	</Action>
+    </Sprite>
+    <Character name='meenah' x='1146' y='192' sx='-50' sy='-110' sWidth='100' sHeight='130' width='30' height='15' 
+	       sheet='meenahSheet' state='walkFront' facing='Front'>
+      <Action name='swap' command='changeChar'>meenah
+      	<Action name='introMusic' command='playSong'>fusciaRuler, 32.0830</Action>
+      </Action>
+    </Character>
+    
+    <Sprite name='thirdRoomBG'>
+      <Animation sheet='thirdRoomBG'/>
+    </Sprite>
+    <Sprite name='thirdRoomDoor' x='3016' y='452'>
+		<Animation sheet='thirdRoomDoor'/>
+	</Sprite>
+
+	
+    <Sprite name='thirdRoomFG' depthing='2'>
+      <Animation sheet='thirdRoomFG'/>
+    </Sprite>
+  </Room>
+  
+ 
+</Rooms>
+</SBURB>

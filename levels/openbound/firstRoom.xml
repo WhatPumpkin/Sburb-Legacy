@@ -1,0 +1,44 @@
+<SBURB description="first room">
+
+<Assets>
+  
+  <Asset name='firstRoomMap' type='graphic'>backgrounds/firstRoomWalkable.png</Asset>
+  <Asset name='firstRoomBG' type='graphic'>backgrounds/firstRoomBG.png</Asset>
+  <Asset name='firstRoomFG' type='graphic'>backgrounds/firstRoomFG.png</Asset>
+  <Asset name='firstRoomStairs1' type='path'>1574,1372;1990,1696;1980,1760;1580,1448</Asset>
+  <Asset name='firstRoomStairs2' type='path'>876,2710;1474,3156;1482,3288;868,2796</Asset>
+</Assets>
+
+<Rooms>
+  <Room name='firstRoom' width='4800' height='3872' walkableMap='firstRoomMap'>
+  	
+  	<Triggers>
+  		<Trigger>spriteProperty,char,x>4650
+  			<Action command='deltaSprite'>char,-9,0
+  				<Action command='changeToRemoteRoom'>secondRoom.xml,secondRoom,800,790</Action>
+  			</Action>
+  		</Trigger>
+  	</Triggers>
+  	
+    <Paths>
+  		<MotionPath path="firstRoomStairs1" xtox = '0.7' xtoy = '0.7' ytox='0' ytoy = '1' dx='0' dy='0'/>
+  		<MotionPath path="firstRoomStairs2" xtox = '0.7' xtoy = '0.7' ytox='0' ytoy = '1' dx='0' dy='0'/>
+  	</Paths>
+   <!--<Character name='meenah' x='1490' y='630' sx='-50' sy='-110' sWidth='100' sHeight='130' width='30' height='15' 
+	       sheet='meenahSheet' state='walkFront' facing='Front'>
+      <Action name='swap' command='changeChar'>meenah
+      	<Action name='introMusic' command='playSong'>fusciaRuler, 32.0830</Action>
+      </Action>
+    </Character>-->
+    
+    <Sprite name='firstRoomBG'>
+      <Animation sheet='firstRoomBG'/>
+    </Sprite>
+    <Sprite name='firstRoomFG' depthing='2'>
+      <Animation sheet='firstRoomFG'/>
+    </Sprite>
+  </Room>
+  
+ 
+</Rooms>
+</SBURB>
