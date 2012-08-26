@@ -46,6 +46,7 @@ Sburb.Dialoger = function(hiddenPos, alertPos, talkPosLeft, talkPosRight,
 	
 	this.type = type;
 	this.handleType();
+	this.inPosition = false;
 }
 
 Sburb.Dialoger.prototype.dialogSpriteLeft = null;
@@ -63,29 +64,31 @@ Sburb.Dialoger.prototype.handleType = function(){
 
 //nudge the dialoger forward
 Sburb.Dialoger.prototype.nudge = function(){
-	if(this.dialog.isShowingAll()){
-		if(this.dialog.nextBatch()){
-			this.dialog.showSubText(0,0);
-		}else{
-			if(this.queue.length>0){
-				this.nextDialog();
+	if(this.inPosition){
+		if(this.dialog.isShowingAll()){
+			if(this.dialog.nextBatch()){
+				this.dialog.showSubText(0,1);
 			}else{
-				this.talking = false;
-				if(this.type=="social"){
-					if(this.actor){
-						if(Sburb.buttons.spadeButton.animation.name=="state1"){
-							this.choices[this.currentDialog] = -1;
-						}else if(Sburb.buttons.heartButton.animation.name=="state1"){
-							this.choices[this.currentDialog] = 1;
-						}else{
-							this.choices[this.currentDialog] = 0;
+				if(this.queue.length>0){
+					this.nextDialog();
+				}else{
+					this.talking = false;
+					if(this.type=="social"){
+						if(this.actor){
+							if(Sburb.buttons.spadeButton.animation.name=="state1"){
+								this.choices[this.currentDialog] = -1;
+							}else if(Sburb.buttons.heartButton.animation.name=="state1"){
+								this.choices[this.currentDialog] = 1;
+							}else{
+								this.choices[this.currentDialog] = 0;
+							}
 						}
 					}
 				}
 			}
+		}else{
+			this.dialog.showAll();
 		}
-	}else{
-		this.dialog.showAll();
 	}
 }
 
@@ -95,6 +98,7 @@ Sburb.Dialoger.prototype.skipAll = function(){
 
 //start the provided dialog
 Sburb.Dialoger.prototype.startDialog = function(info){
+	this.inPosition = false;
 	this.actor = null;
 	this.currentDialog = info;
 	this.queue = info.split("@");
@@ -133,10 +137,11 @@ Sburb.Dialoger.prototype.startDialog = function(info){
 
 //start the next dialog
 Sburb.Dialoger.prototype.nextDialog = function(){
-	var nextDialog = this.queue.pop();
+	
+	var nextDialog = this.queue.pop().trim();
 	this.dialog.setText(nextDialog);
 	this.dialog.showSubText(0,0);
-	var prefix = nextDialog.substring(0,nextDialog.indexOf(" "));
+	var prefix = nextDialog.split(" ",1)[0];
 	if(prefix.indexOf("~")>=0){
 		var firstIndex = prefix.indexOf("~");
 		var lastIndex = prefix.length;
@@ -150,7 +155,6 @@ Sburb.Dialoger.prototype.nextDialog = function(){
 		}
 		var resource = prefix.substring(firstIndex+1,lastIndex);	
 		prefix = prefix.substring(0,firstIndex)+prefix.substring(lastIndex,prefix.length);	
-		
 		var img = Sburb.assets[resource];
 		this.graphic = new Sburb.Sprite();
 		this.graphic.addAnimation(new Sburb.Animation("image",img,0,0,img.width,img.height,0,1,1));
@@ -184,7 +188,8 @@ Sburb.Dialoger.prototype.nextDialog = function(){
 		
 		this.extraArgs = resource;
 		if(this.type=="social"){
-			this.hashes.setText(this.extraArgs.replace(/#/g," #").trim());
+			this.hashes.setText(this.extraArgs.replace(/#/g," #").replace(/-/g," ").trim());
+			
 		}
 	}else{
 		this.extraArgs = null;
@@ -281,6 +286,7 @@ Sburb.Dialoger.prototype.update = function(){
 		var ready = true;
 		if(this.actor==null){
 			desiredPos = this.alertPos;
+			this.inPosition = true;
 		}else{
 			desiredPos = this["talkPos"+this.dialogSide];	
 			ready = this.moveToward(this.dialogOnSide(this.dialogSide),this.endOnSide(this.dialogSide));
@@ -288,7 +294,9 @@ Sburb.Dialoger.prototype.update = function(){
 		}
 		var init = false;
 		if(this.moveToward(this.pos,desiredPos,110) && ready){
+			
 			if(this.dialog.start==this.dialog.end){
+				this.inPosition = true;
 				var dialogDimensions = this.decideDialogDimensions();
 				this.dialog.setDimensions(dialogDimensions.x,dialogDimensions.y,dialogDimensions.width,dialogDimensions.height);
 				init = true;
@@ -310,6 +318,8 @@ Sburb.Dialoger.prototype.update = function(){
 				}
 				hashTagBar.update();
 			}
+		}else{
+			this.inPosition = false;
 		}
 		
 		if(this.graphic){
@@ -332,29 +342,34 @@ Sburb.Dialoger.prototype.update = function(){
 		hashTagBar.x = this.pos.x;
 		hashTagBar.y = this.pos.y+this.box.height;
 		if(this.dialogSide=="Right"){
-			spadeButton.x = hashTagBar.x+40;
-			heartButton.x = hashTagBar.x+80;
-			bubbleButton.x = hashTagBar.x+120;
+			spadeButton.x = hashTagBar.x+20;
+			heartButton.x = hashTagBar.x+60;
+			bubbleButton.x = hashTagBar.x+100;
 		}else{
 			spadeButton.x = hashTagBar.x+hashTagBar.animation.colSize-120;
 			heartButton.x = hashTagBar.x+hashTagBar.animation.colSize-80;
 			bubbleButton.x = hashTagBar.x+hashTagBar.animation.colSize-40;		
 		}
-		spadeButton.y = hashTagBar.y+9;
-		heartButton.y = hashTagBar.y+9;
-		bubbleButton.y = hashTagBar.y+9;
+		spadeButton.y = hashTagBar.y+15;
+		heartButton.y = hashTagBar.y+15;
+		bubbleButton.y = hashTagBar.y+15;
 		
 		if(init){
 			if(this.dialogSide=="Right"){
-				this.hashes.setDimensions(hashTagBar.x+160,hashTagBar.y+15, 
-					hashTagBar.animation.colSize-140, hashTagBar.animation.rowSize-10);
+				this.hashes.setDimensions(this.dialog.x,hashTagBar.y+13, 
+					this.dialog.width, hashTagBar.animation.rowSize-10);
 			}else{
-				this.hashes.setDimensions(hashTagBar.x+20,hashTagBar.y+15, 
-					hashTagBar.animation.colSize-140, hashTagBar.animation.rowSize-10);
+				this.hashes.setDimensions(this.dialog.x,hashTagBar.y+13, 
+					this.dialog.width, hashTagBar.animation.rowSize-10);
 			}
+		}
+		if(this.dialog.isShowingAll() && this.dialog.onLastBatch()){
 			this.hashes.showAll();
+		}else{
+			this.hashes.showSubText(0,0);
 		}
 	}
+	
 	this.box.update();
 }
 

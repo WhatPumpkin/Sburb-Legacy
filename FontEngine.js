@@ -65,7 +65,9 @@ Sburb.FontEngine.prototype.prefixColours = {
 	gc : "#008282",terezi : "#008282",
 	ta : "#a1a100",sollux : "#a1a100",
 	tc : "#2b0057",gamzee : "#2b0057",
-	dave:"#e00707",meenah : "#77003c"
+	dave:"#e00707",meenah : "#77003c",
+	rose:"#b536da",aranea : "#005682",
+	kankri : "#ff0000"
 };
 
 //set the style
@@ -192,7 +194,7 @@ Sburb.FontEngine.prototype.parseEscapes = function(){
 }
 
 Sburb.FontEngine.prototype.parsePrefixes = function(){
-	var prefix = this.text.substring(0,this.text.indexOf(" "));
+	var prefix = this.text.split(" ",1)[0];
 	var actor;
 	if(prefix!="!"){
 		if(prefix.indexOf("_")>=0){
@@ -202,7 +204,7 @@ Sburb.FontEngine.prototype.parsePrefixes = function(){
 		}
 		this.parsePrefix(actor);
 	}
-	this.text = this.text.substring(this.text.indexOf(" ")+1,this.text.length);
+	this.text = this.text.substring(prefix.length,this.text.length).trim();
 }
 
 Sburb.FontEngine.prototype.parseUnderlines = function(){
@@ -317,6 +319,10 @@ Sburb.FontEngine.prototype.nextBatch = function(){
 	this.realignFormatQueue(-1,this.batchLength());
 	this.lines.splice(0,Math.min(this.lines.length,Math.floor(this.height/this.lineHeight)));
 	return this.lines.length;
+}
+
+Sburb.FontEngine.prototype.onLastBatch = function(){
+	return Math.floor(this.height/this.lineHeight)>=this.lines.length;
 }
 
 //draw the FontEngine

@@ -1,22 +1,177 @@
 <sburb description="third room">
 
+<dependencies>
+	<dependency>thirdRoomDialog.xml</dependency>
+</dependencies>
+
+<classes>
+	<animation class='karkat-dialog' frameInterval='6' x='-180' y='-454'/>
+	<animation class='kankri-dialog' frameInterval='6' x='-180' y='-454'/>
+	<animation class='porrim-dialog' frameInterval='6' x='-180' y='-454'/>
+	<animation class='latula-dialog' frameInterval='6' x='-180' y='-454'/>
+</classes>
+
 <assets>
-  <asset name='thirdRoomMap' type='graphic'>backgrounds/thirdRoomWalkable.png</asset>
-  <asset name='thirdRoomBG' type='graphic'>backgrounds/thirdRoomBG.png</asset>
-  <asset name='thirdRoomFG' type='graphic'>backgrounds/thirdRoomFG.png</asset>
-  <asset name='thirdRoomStaircase' type='graphic'>backgrounds/thirdRoomStairs.png</asset>
-  <asset name='thirdRoomDoor' type='graphic'>backgrounds/thirdRoomDoor.png</asset>
-  <asset name='thirdRoomExtraStairs' type='path'>1680,1520;2120,1092;2120,1186;1683,1611</asset>
-  <asset name='thirdRoomExtraWalkable' type='path'>1680,1520;2130,1092;2330,1092;2350,1186;2150,1186;1683,1611</asset>
-  <asset name='thirdRoomExtraUnwalkable' type='path'>1680,1460;2130,1032;2150,1086;1683,1520</asset>
-  <asset name='thirdRoomExtraUnwalkable2' type='path'>2150,1186;2150,1651;1683,1651;1683,1610</asset>
-  <asset name='thirdRoomStairs1' type='path'>1374,2868;1370,2776;2098,3458;2098,3558</asset>
-  <asset name='thirdRoomStairs2' type='path'>3162,3568;3156,3456;3604,3034;3598,3154</asset>
-  <asset name='thirdRoomStairs3' type='path'>3705,2592;3705,2668;3270,2265;3276,2144</asset>
+	<asset name='porrimSheet' type='graphic'>chars/porrim.png</asset>
+	<asset name='kankriSheet' type='graphic'>chars/kankri.png</asset>
+	<asset name='karkatSheet' type='graphic'>chars/karkat.png</asset>
+	<asset name='andrewsheet' type='graphic'>chars/a_h.png</asset>
+
+	<asset name='latulaSheet' type='graphic'>chars/latula.png</asset>
+	<asset name='latulaOllieSheet' type='graphic'>chars/latula_ollie.png</asset>
+	<asset name='latulaSkateSheet' type='graphic'>chars/latula_skate.png</asset>
+	<asset name='latulaBoardSheet' type='graphic'>chars/latula_withboard.png</asset>
+
+
+	<asset name='blueBubbleSheet' type='graphic'>objects/bluebubble.png</asset>
+	<asset name='skateboard' type='graphic'>objects/latula_board.png</asset>
+	
+	<asset name='thirdRoomMap' type='graphic'>backgrounds/thirdRoomWalkable.png</asset>
+	<asset name='thirdRoomBG' type='graphic'>backgrounds/thirdRoomBG.png</asset>
+	<asset name='thirdRoomFG' type='graphic'>backgrounds/thirdRoomFG.png</asset>
+	<asset name='thirdRoomStaircase' type='graphic'>backgrounds/thirdRoomStairs.png</asset>
+	<asset name='thirdRoomDoor' type='graphic'>backgrounds/thirdRoomDoor.png</asset>
+	
+	<asset name='thirdRoomExtraStairs' type='path'>1680,1520;2120,1092;2120,1186;1683,1611</asset>
+	<asset name='thirdRoomExtraWalkable' type='path'>1680,1520;2130,1092;2330,1092;2350,1186;2150,1186;1683,1611</asset>
+	<asset name='thirdRoomExtraUnwalkable' type='path'>1680,1460;2130,1032;2150,1086;1683,1520</asset>
+	<asset name='thirdRoomExtraUnwalkable2' type='path'>2150,1186;2150,1651;1683,1651;1683,1610</asset>
+	<asset name='thirdRoomStairs1' type='path'>1374,2868;1370,2776;2098,3458;2098,3558</asset>
+	<asset name='thirdRoomStairs2' type='path'>3162,3568;3156,3456;3604,3034;3598,3154</asset>
+	<asset name='thirdRoomStairs3' type='path'>3705,2592;3705,2668;3270,2265;3276,2144</asset>
+  
+  
+	<asset name='kankri_glance' type='graphic'>dialogs/kankri_glance.png</asset>
+	<asset name='kankri_idle' type='graphic'>dialogs/kankri_idle.png</asset>
+	<asset name='kankri_rage' type='graphic'>dialogs/kankri_rage.png</asset>
+	<asset name='kankri_talk2' type='graphic'>dialogs/kankri_talk2.png</asset>
+	<asset name='kankri_talk3' type='graphic'>dialogs/kankri_talk3.png</asset>
+	<asset name='kankri_talk4' type='graphic'>dialogs/kankri_talk4.png</asset>
+	<asset name='kankri_talk' type='graphic'>dialogs/kankri_talk.png</asset>
+	
+	<asset name='karkat_eyeroll1' type='graphic'>dialogs/karkat_eyeroll1.png</asset>
+	<asset name='karkat_eyeroll2' type='graphic'>dialogs/karkat_eyeroll2.png</asset>
+	<asset name='karkat_facepalm' type='graphic'>dialogs/karkat_facepalm.png</asset>
+	<asset name='karkat_horror' type='graphic'>dialogs/karkat_horror.png</asset>
+	<asset name='karkat_idle' type='graphic'>dialogs/karkat_idle.png</asset>
+	<asset name='karkat_shout' type='graphic'>dialogs/karkat_shout.png</asset>
+	<asset name='karkat_sullen' type='graphic'>dialogs/karkat_sullen.png</asset>
+	<asset name='karkat_talk' type='graphic'>dialogs/karkat_talk.png</asset>
+	<asset name='karkat_what' type='graphic'>dialogs/karkat_what.png</asset>
+	<asset name='karkat_yell' type='graphic'>dialogs/karkat_yell.png</asset>
+	
+	<asset name='latula_angry' type='graphic'>dialogs/latula_angry.png</asset>
+	<asset name='latula_annoyed' type='graphic'>dialogs/latula_annoyed.png</asset>
+	<asset name='latula_annoyedtalk' type='graphic'>dialogs/latula_annoyedtalk.png</asset>
+	<asset name='latula_bored' type='graphic'>dialogs/latula_bored.png</asset>
+	<asset name='latula_happier' type='graphic'>dialogs/latula_happier.png</asset>
+	<asset name='latula_happy' type='graphic'>dialogs/latula_happy.png</asset>
+	<asset name='latula_happytalk' type='graphic'>dialogs/latula_happytalk.png</asset>
+	<asset name='latula_huh' type='graphic'>dialogs/latula_huh.png</asset>
+	<asset name='latula_idle2' type='graphic'>dialogs/latula_idle2.png</asset>
+	<asset name='latula_idle3' type='graphic'>dialogs/latula_idle3.png</asset>
+	<asset name='latula_idle' type='graphic'>dialogs/latula_idle.png</asset>
+	<asset name='latula_laugh' type='graphic'>dialogs/latula_laugh.png</asset>
+	<asset name='latula_shades1' type='graphic'>dialogs/latula_shades1.png</asset>
+	<asset name='latula_shades2' type='graphic'>dialogs/latula_shades2.png</asset>
+	<asset name='latula_shine' type='graphic'>dialogs/latula_shine.png</asset>
+	<asset name='latula_stunt' type='graphic'>dialogs/latula_stunt.png</asset>
+	<asset name='latula_talk' type='graphic'>dialogs/latula_talk.png</asset>
+	<asset name='latula_tongue' type='graphic'>dialogs/latula_tongue.png</asset>
+	
+	<asset name='porrim_angry2' type='graphic'>dialogs/porrim_angry2.png</asset>
+	<asset name='porrim_angry' type='graphic'>dialogs/porrim_angry.png</asset>
+	<asset name='porrim_angrytalk' type='graphic'>dialogs/porrim_angrytalk.png</asset>
+	<asset name='porrim_annoyed2' type='graphic'>dialogs/porrim_annoyed2.png</asset>
+	<asset name='porrim_annoyed' type='graphic'>dialogs/porrim_annoyed.png</asset>
+	<asset name='porrim_annoyedtalk' type='graphic'>dialogs/porrim_annoyedtalk.png</asset>
+	<asset name='porrim_happier' type='graphic'>dialogs/porrim_happier.png</asset>
+	<asset name='porrim_happy' type='graphic'>dialogs/porrim_happy.png</asset>
+	<asset name='porrim_happytalk' type='graphic'>dialogs/porrim_happytalk.png</asset>
+	<asset name='porrim_idle' type='graphic'>dialogs/porrim_idle.png</asset>
+	<asset name='porrim_laugh' type='graphic'>dialogs/porrim_laugh.png</asset>
+	<asset name='porrim_light' type='graphic'>dialogs/porrim_light.png</asset>
+	<asset name='porrim_surprise' type='graphic'>dialogs/porrim_surprise.png</asset>
+	<asset name='porrim_surprisetalk' type='graphic'>dialogs/porrim_surprisetalk.png</asset>
+	<asset name='porrim_talk' type='graphic'>dialogs/porrim_talk.png</asset>
+	
+	<asset name='dialogimg_kankri1' type='graphic'>interface/dialogimg_kankri1.png</asset>
+	<asset name='dialogimg_kankri2' type='graphic'>interface/dialogimg_kankri2.png</asset>
+	
+	<asset name='darlingDolorosa' type='audio'>audio/Dolorosa.mp3;audio/Dolorosa.ogg</asset>
+	<asset name='gameGlare' type='audio'>audio/GameGlare.mp3;audio/GameGlare.ogg</asset>
+	<asset name='ironInfidel' type='audio'>audio/IronInfidelCut.mp3;audio/IronInfidelCut.ogg</asset>
+	
 </assets>
+
+<hud>
+	<dialogsprites>
+		<animation name='kankri_glance' class='kankri-dialog' sheet='kankri_glance'/>
+		<animation name='kankri_idle' class='kankri-dialog' sheet='kankri_idle' />
+		<animation name='kankri_rage' class='kankri-dialog' sheet='kankri_rage'  length='2'/>
+		<animation name='kankri_talk2' class='kankri-dialog' sheet='kankri_talk2'  length='2'/>
+		<animation name='kankri_talk3' class='kankri-dialog' sheet='kankri_talk3'  length='2'/>
+		<animation name='kankri_talk4' class='kankri-dialog' sheet='kankri_talk4'  length='2'/>
+		<animation name='kankri_talk' class='kankri-dialog' sheet='kankri_talk'  length='2'/>
+		
+		<animation name='karkat_eyeroll1' class='karkat-dialog' sheet='karkat_eyeroll1' />
+		<animation name='karkat_eyeroll2' class='karkat-dialog' sheet='karkat_eyeroll2' />
+		<animation name='karkat_facepalm' class='karkat-dialog' sheet='karkat_facepalm'  length='2'/>
+		<animation name='karkat_horror' class='karkat-dialog' sheet='karkat_horror' />
+		<animation name='karkat_idle' class='karkat-dialog' sheet='karkat_idle' />
+		<animation name='karkat_shout' class='karkat-dialog' sheet='karkat_shout'  length='2'/>
+		<animation name='karkat_sullen' class='karkat-dialog' sheet='karkat_sullen' />
+		<animation name='karkat_talk' class='karkat-dialog' sheet='karkat_talk'  length='2'/>
+		<animation name='karkat_what' class='karkat-dialog' sheet='karkat_what' />
+		<animation name='karkat_yell' class='karkat-dialog' sheet='karkat_yell' length='2' />
+		
+		<animation name='latula_angry' class='latula-dialog' sheet='latula_angry' />
+		<animation name='latula_annoyed' class='latula-dialog' sheet='latula_annoyed' />
+		<animation name='latula_annoyedtalk' class='latula-dialog' sheet='latula_annoyedtalk' />
+		<animation name='latula_bored' class='latula-dialog' sheet='latula_bored' />
+		<animation name='latula_happier' class='latula-dialog' sheet='latula_happier' />
+		<animation name='latula_happy' class='latula-dialog' sheet='latula_happy' />
+		<animation name='latula_happytalk' class='latula-dialog' sheet='latula_happytalk' />
+		<animation name='latula_huh' class='latula-dialog' sheet='latula_huh' />
+		<animation name='latula_idle2' class='latula-dialog' sheet='latula_idle2' />
+		<animation name='latula_idle3' class='latula-dialog' sheet='latula_idle3' />
+		<animation name='latula_idle' class='latula-dialog' sheet='latula_idle' />
+		<animation name='latula_laugh' class='latula-dialog' sheet='latula_laugh' />
+		<animation name='latula_shades1' class='latula-dialog' sheet='latula_shades1' />
+		<animation name='latula_shades2' class='latula-dialog' sheet='latula_shades2' />
+		<animation name='latula_shine' class='latula-dialog' sheet='latula_shine' />
+		<animation name='latula_stunt' class='latula-dialog' sheet='latula_stunt' />
+		<animation name='latula_talk' class='latula-dialog' sheet='latula_talk' />
+		<animation name='latula_tongue' class='latula-dialog' sheet='latula_tongue' />
+		
+		<animation name='porrim_angry2' class='porrim-dialog' sheet='porrim_angry2' />
+		<animation name='porrim_angry' class='porrim-dialog' sheet='porrim_angry' />
+		<animation name='porrim_angrytalk' class='porrim-dialog' sheet='porrim_angrytalk' />
+		<animation name='porrim_annoyed2' class='porrim-dialog' sheet='porrim_annoyed2' />
+		<animation name='porrim_annoyed' class='porrim-dialog' sheet='porrim_annoyed' />
+		<animation name='porrim_annoyedtalk' class='porrim-dialog' sheet='porrim_annoyedtalk' />
+		<animation name='porrim_happier' class='porrim-dialog' sheet='porrim_happier' />
+		<animation name='porrim_happy' class='porrim-dialog' sheet='porrim_happy' />
+		<animation name='porrim_happytalk' class='porrim-dialog' sheet='porrim_happytalk' />
+		<animation name='porrim_idle' class='porrim-dialog' sheet='porrim_idle' />
+		<animation name='porrim_laugh' class='porrim-dialog' sheet='porrim_laugh' />
+		<animation name='porrim_light' class='porrim-dialog' sheet='porrim_light' />
+		<animation name='porrim_surprise' class='porrim-dialog' sheet='porrim_surprise' />
+		<animation name='porrim_surprisetalk' class='porrim-dialog' sheet='porrim_surprisetalk' />
+		<animation name='porrim_talk' class='porrim-dialog' sheet='porrim_talk' />
+	</dialogsprites>
+</hud>
+
+<sprite name='stairEventSwitch' x='0' y='-50'>
+	<animation name='image' sheet='blueBubbleSheet' x='-20' y='-40' />
+</sprite>
 
 <sprite name='thirdRoomStaircase' x='1610' y='1034'>
 	<animation sheet='thirdRoomStaircase'/>
+</sprite>
+
+<sprite name='skateboard'>
+	<animation sheet='skateboard' x='-30' y='-40'/>
 </sprite>
 
 <rooms>
@@ -28,36 +183,231 @@
   	</paths>
   	<triggers>
 		<trigger>spriteProperty,char,y&lt;180
-  			<action command='deltaSprite'>char,0,9
-  				<action command='changeRoom'>secondRoom,1746,3410</action>
+  			<action command='deltaSprite'>
+  				<args>char,0,9</args>
+  				<action command='changeRoomRemote'>secondRoom.xml,secondRoom,1746,3410</action>
   			</action>
 		</trigger>
+		<trigger>spriteProperty,char,y&lt;1750
+			<trigger detonate='true'>spriteProperty,char,x&gt;2410
+				 <action command='changeFocus'>
+				 	<args>latula</args>
+				 	<action command='deltaSprite' noWait='true' times='18'>
+				 		<args>latula,23,-9</args>
+				 		<action command='playAnimation' noWait='true'>
+				 			<args>latula,skate</args>
+				 			<action command='deltaSprite' times='14' noWait='true'>
+				 				<args>latula,21,0</args>
+				 				<action command='playAnimation' noWait='true'>
+				 					<args>latula,board</args>
+				 					<action command='changeFocus' noWait='true'>
+				 						<args>char</args>
+				 					</action>
+				 				</action>
+				 			</action>
+				 		</action>
+				 	</action>
+				 </action>
+			</trigger>
+  		</trigger>	
+  		<trigger>spriteProperty,stairEventSwitch,y&gt;-100
+  			<trigger>spriteProperty,char,name=meenah
+  				<trigger>spriteProperty,latula,state=walkFront
+  					<trigger>spriteProperty,char,x&lt;2160
+  						<trigger>spriteProperty,char,x&gt;2150
+  							<trigger>spriteProperty,char,y&lt;1300
+  								<trigger>spriteProperty,char,y&gt;1088
+  									<action command='deltaSprite'>
+  										<args>char,9,0</args>
+  										<action command='talk'>
+  											<args> @! Do a sick grind down the railing?</args>
+												<action command='presentActions'>
+													<args>
+														<action command='waitFor' name='Yes.'>
+															<args>time,40</args>
+															<action command='becomeNPC' noWait='true'>
+																<args></args>
+																<action command='moveSprite' noWait='true'>
+																	<args>latula,1536,1530</args>
+																	<action command='moveSprite' noWait='true'>
+																		<args>char,2064,1107</args>
+																		<action command='playAnimation' noWait='true'>
+																			<args>char,skate</args>
+																			<action command='deltaSprite' times='30' noWait='true'>
+																				<args>char,-12,12</args>
+																				<action command='moveSprite' noWait='true'>
+																					<args>char,1630,1530</args>
+																					<action command='playAnimation' noWait='true'>
+																						<args>char,idleFront</args>
+																						<action command='talk' noWait='true'>
+																							<args>@! dialogue goes here sdlkhfsdjkl</args>
+																							<action command='becomePlayer'>
+																								<args></args>
+																								<action command='deltaSprite'>
+																									<args>stairEventSwitch,0,-100</args>
+																									<action command='addActions' noWait='true'>
+																										<args>latula,
+																											<action command='changeChar' name='Be Latula.'>
+																												<args>latula</args>
+																												<action command='playSong'>gameGlare,18.19</action>
+																											</action>
+																										</args>
+																									</action>
+																								</action>
+																							</action>
+																						</action>
+																					</action>
+																				</action>
+																			</action>
+																		</action>
+																	</action>	  
+																</action>
+															</action>
+														</action>
+														<action command='cancel' name='No.'>
+																<!-- Nothing -->
+														</action>
+													</args>
+												</action>
+  										</action>
+  									</action>
+  								</trigger>
+  							</trigger>
+  						</trigger>
+  					</trigger>		
+  				</trigger>
+  			</trigger>
+  		</trigger>
   	</triggers>
-    <sprite class='redBubble' name='testbubble' x='1510' y='1500'>
-    	<action name='stairify' command='addSprite'>thirdRoomStaircase,thirdRoom
-    		<action command='addWalkable'>thirdRoomExtraWalkable,thirdRoom
-    			<action command='addUnwalkable'>thirdRoomExtraUnwalkable,thirdRoom
-    				<action command='addUnwalkable'>thirdRoomExtraUnwalkable2,thirdRoom
-    					<action command='addMotionPath'>thirdRoomExtraStairs,0.7,-0.7,0,1,0,0,thirdRoom
-    					</action>
-    				</action>
-    			</action>
-    		</action>
-    	</action>
-    </sprite>
-    <character name='meenah' x='1146' y='192' sx='-50' sy='-110' sWidth='100' sHeight='130' width='30' height='15' 
+  	
+  	<character name='meenah' x='1150' y='2700' sx='-50' sy='-110' sWidth='100' sHeight='130' width='30' height='15' 
 	       sheet='meenahSheet' state='walkFront' facing='Front'>
-      <action name='swap' command='changeChar'>meenah
-      	<action name='introMusic' command='playSong'>fusciaRuler, 32.0830</action>
+	  	<animation name='skate' sheet='meenahSkate' x='-60' y='-80' />
+      <action name='Be Meenah.' command='changeChar'>
+      	<args>meenah</args>
+      	<action command='playSong'>fusciaRuler, 32.0830</action>
       </action>
     </character>
+    
+    <character name='andrew' x='1150' y='2600' sx='-50' sy='-110' sWidth='100' sHeight='130' width='30' height='15' 
+				 sheet='andrewsheet' state='walkFront' facing='Front' following='meenah'>
+			<action name='swap' command='changeChar'>andrew</action>
+		</character>
+    
+    <character name='kankri' x='1200' y='2870' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
+	       sheet='kankriSheet' state='walkLeft' facing='Left'>
+       <action command='talk' name='Talk.'>
+	  		<args>
+	  		@! Hey, it's shouty! But it looks like he's severely embroiled in a really heavy discussion with your team's Vantas. You really don't feel like getting involved.
+	  		@!:#eavesdropping#rude Listen in on conversation?
+	  		</args>
+  			<action command='presentActions'>
+  				<args>
+  					<action class='eavesdrop'>
+
+						</action>
+						<action command='cancel' name='No.'>
+								<!-- nothing -->
+						</action>
+					</args>
+				</action>
+			</action>
+			<action command='changeChar' name='Be Kankri.'>
+				<args>kankri</args>
+				<action command='playSong'>ironInfidel</action>
+			</action>
+    </character>
+    
+    <character name='latula' x='2402' y='1720' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
+	       sheet='latulaSheet' state='ollie' facing='Front'>
+			<animation name='ollie' sheet='latulaOllieSheet' x='-60' y='-110' />
+			<animation name='skate' sheet='latulaSkateSheet' x='-60' y='-110' />
+			<animation name='board' sheet='latulaBoardSheet' x='-60' y='-110' loopNum='1'/>
+			<action command='talk' name='Talk to Latula.'>
+				<args>
+						@! dialogue goes here sudsuidh
+				</args>
+			</action>
+			<action command='talk' name='Ask Latula to join.'>
+				<args>
+					@! dialogue goes here dnasjknjd
+				</args>
+			</action>
+			<action command='talk' sprite='meenah' name='Be Latula.'>
+				<args>
+					@! dialogue goes here asuhdaisudha
+					@! basically you can't be me unless you do a rad skateboard stunt, i.e. take my skateboard and grind down a railing
+				</args>
+				<action command='openChest'>
+					<args>latula,skateboard,@!:#AWWW-YEAH#WHAT'S-UP-GAMERS You got LATULA'S FOUR WHEEL DEVICE!</args>
+					<action command='playAnimation'>
+						<args>latula,walkFront</args>
+						<action command='removeAction'>
+							<args>latula,Be Latula.</args>
+							
+						</action>
+					</action>
+				</action>
+			</action>
+    </character>
+    
+    <character name='porrim' x='2220' y='1080' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
+	       sheet='porrimSheet' state='walkLeft' facing='Left'>
+			<action command='talk' name='Talk to Porrim.'>
+				<args>@! dialogue goes here fisdiohfsd</args>
+			</action>
+			<action command='talk' name='Ask Porrim to join.'>
+				<args>@! dialogue goes here asuhaiuf</args>
+			</action>
+			<action name='Be Porrim.' command='changeChar'>
+				<args>porrim</args>
+				<action command='playSong'>darlingDolorosa,43.88</action>
+			</action>
+    </character>
+    
+    <character name='karkat' x='1140' y='2870' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
+	       sheet='karkatSheet' state='walkRight' facing='Right'>
+      
+    </character>
+    
+    <sprite name='memoryBubble' x='2220' y='1200' width='20' height='20' depthing='1' collidable='true'>
+  		<animation name='image' sheet='blueBubbleSheet' x='-20' y='-40' />
+  		<action command='talk' sprite='porrim' name='Examine bubble.'>
+				<args>
+					@! It's a little dream bubble, containing one of your memories. You look inside.
+					@! The memory is from right here, on Prospit. You spent a great deal of time there during the long sweeps of your session. You remember this little precipice well.
+					@! But... wasn't there a staircase here? You are almost positive there were stairs.
+				</args>
+				<action command='addSprite'>
+					<args>thirdRoomStaircase,thirdRoom</args>
+					<action command='addWalkable'>
+						<args>thirdRoomExtraWalkable,thirdRoom</args>
+						<action command='addUnwalkable'>
+							<args>thirdRoomExtraUnwalkable,thirdRoom</args>
+							<action command='addUnwalkable'>
+								<args>thirdRoomExtraUnwalkable2,thirdRoom</args>
+								<action command='addMotionPath'>
+									<args>thirdRoomExtraStairs,0.7,-0.7,0,1,0,0,thirdRoom</args>
+								</action>
+							</action>
+						</action>
+					</action>
+				</action>
+			</action>
+    	<action command='talk' sprite='!porrim' name='Examine bubble.'>
+    		<args>
+			  @!:#sorry It's a little dream bubble. But it does not contain your memory. Only Porrim can see what's inside.
+				</args>
+			</action>
+		</sprite>
     
     <sprite name='thirdRoomBG'>
       <animation sheet='thirdRoomBG'/>
     </sprite>
+    
     <sprite name='thirdRoomDoor' x='3016' y='452'>
-		<animation sheet='thirdRoomDoor'/>
-	</sprite>
+			<animation sheet='thirdRoomDoor'/>
+		</sprite>
 
 	
     <sprite name='thirdRoomFG' depthing='2'>

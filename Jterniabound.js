@@ -9,6 +9,7 @@ var Sburb = (function(Sburb){
 Sburb.Keys = {backspace:8,tab:9,enter:13,shift:16,ctrl:17,alt:18,escape:27,space:32,left:37,up:38,right:39,down:40,w:87,a:65,s:83,d:68};
 
 Sburb.Stage = null; //the canvas, we're gonna load it up with a bunch of flash-like game data like fps and scale factors
+Sburb.cam = {x:0,y:0}
 Sburb.stage = null; //its context
 Sburb.pressed = null; //the pressed keys
 Sburb.assetManager = null; //the asset loader
@@ -23,6 +24,7 @@ Sburb.destRoom = null; //current room, the room we are transitioning to, if it e
 Sburb.destX = null;
 Sburb.destY = null; //the desired location in the room we are transitioning to, if it exists.
 Sburb.focus = null; //the focus of the camera (a sprite), usually just the char
+Sburb.destFocus = null;
 Sburb.chooser = null; //the option chooser
 Sburb.curAction = null; //the current action being performed
 Sburb.bgm = null; //the current background music
@@ -268,15 +270,28 @@ function drawHud(){
 }
 
 function hasControl(){
-	return !Sburb.dialoger.talking && !Sburb.chooser.choosing && !Sburb.destRoom && !Sburb.waitFor && !Sburb.fading;
+	return !Sburb.dialoger.talking 
+		&& !Sburb.chooser.choosing 
+		&& !Sburb.destRoom 
+		&& !Sburb.waitFor 
+		&& !Sburb.fading 
+		&& !Sburb.destFocus;
 }
 
 function focusCamera(){
 	//need to divide these by scaleX and scaleY if repurposed
-	Sburb.Stage.x = Math.max(0,Math.min(Sburb.focus.x-Sburb.Stage.width/2,Sburb.curRoom.width-Sburb.Stage.width));
-	Sburb.Stage.y = Math.max(0,Math.min(Sburb.focus.y-Sburb.Stage.height/2,Sburb.curRoom.height-Sburb.Stage.height));
-	Sburb.Stage.x = Math.round(Sburb.Stage.x/3)*3;
-	Sburb.Stage.y = Math.round(Sburb.Stage.y/3)*3;
+	if(!Sburb.destFocus){
+		Sburb.cam.x = Sburb.focus.x-Sburb.Stage.width/2;
+		Sburb.cam.y = Sburb.focus.y-Sburb.Stage.height/2;
+	}else if(Math.abs(Sburb.destFocus.x-Sburb.cam.x-Sburb.Stage.width/2)>8 || Math.abs(Sburb.destFocus.y-Sburb.cam.y-Sburb.Stage.height/2)>8){
+		Sburb.cam.x += (Sburb.destFocus.x-Sburb.Stage.width/2-Sburb.cam.x)/5;
+		Sburb.cam.y += (Sburb.destFocus.y-Sburb.Stage.height/2-Sburb.cam.y)/5;
+	}else{
+		Sburb.focus = Sburb.destFocus;
+		Sburb.destFocus = null;
+	}
+	Sburb.Stage.x = Math.max(0,Math.min(Math.round(Sburb.cam.x/3)*3,Sburb.curRoom.width-Sburb.Stage.width));
+	Sburb.Stage.y = Math.max(0,Math.min(Math.round(Sburb.cam.y/3)*3,Sburb.curRoom.height-Sburb.Stage.height));
 }
 
 function handleRoomChange(){
@@ -389,7 +404,7 @@ Sburb.setCurRoomOf = function(sprite){
 Sburb.changeBGM = function(newSong) {
     if(newSong){
 		if(Sburb.bgm) {
-			if (Sburb.bgm == newSong) {
+			if (Sburb.bgm.asset == newSong.asset && Sburb.bgm.startLoop == newSong.startLoop) {
 				// maybe check for some kind of restart value
 				return;
 			}

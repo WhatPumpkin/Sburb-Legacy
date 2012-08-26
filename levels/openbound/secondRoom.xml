@@ -1,12 +1,127 @@
 <sburb description="second room">
 
+<dependencies>
+	<dependency>secondRoomDialog.xml</dependency>
+</dependencies>
+
+<classes>
+	<animation class='rose-dialog' frameInterval='6' x='-190' y='-454'/>
+	<animation class='dave-dialog' frameInterval='6' x='-230' y='-454'/>
+	<animation class='kanaya-dialog' frameInterval='6' x='-180' y='-474'/>
+	<animation class='aranea-dialog' frameInterval='6' x='-260' y='-524'/>
+</classes>
+
 <assets>
+  
+  <asset name='araneaSheet' type='graphic'>chars/aranea.png</asset>
+  <asset name='davesheet' type='graphic'>chars/dave.png</asset>
+  <asset name='rosesheet' type='graphic'>chars/rose.png</asset>
+  <asset name='kanayasheet' type='graphic'>chars/kanaya.png</asset>
+  
+  <asset name='aranea_angry' type='graphic'>dialogs/aranea_angry.png</asset>
+	<asset name='aranea_angrytalk' type='graphic'>dialogs/aranea_angrytalk.png</asset>
+	<asset name='aranea_annoyed' type='graphic'>dialogs/aranea_annoyed.png</asset>
+	<asset name='aranea_annoyedtalk' type='graphic'>dialogs/aranea_annoyedtalk.png</asset>
+	<asset name='aranea_facepalm' type='graphic'>dialogs/aranea_facepalm.png</asset>
+	<asset name='aranea_facepalmtalk' type='graphic'>dialogs/aranea_facepalmtalk.png</asset>
+	<asset name='aranea_happier' type='graphic'>dialogs/aranea_happier.png</asset>
+	<asset name='aranea_happy' type='graphic'>dialogs/aranea_happy.png</asset>
+	<asset name='aranea_happytalk' type='graphic'>dialogs/aranea_happytalk.png</asset>
+	<asset name='aranea_idle' type='graphic'>dialogs/aranea_idle.png</asset>
+	<asset name='aranea_mad' type='graphic'>dialogs/aranea_mad.png</asset>
+	<asset name='aranea_madtalk' type='graphic'>dialogs/aranea_madtalk.png</asset>
+	<asset name='aranea_surprised' type='graphic'>dialogs/aranea_surprised.png</asset>
+	<asset name='aranea_talk' type='graphic'>dialogs/aranea_talk.png</asset>
+	<asset name='aranea_think' type='graphic'>dialogs/aranea_think.png</asset>
+	
+	<asset name='dave_concern' type='graphic'>dialogs/dave_concern.png</asset>
+	<asset name='dave_huh' type='graphic'>dialogs/dave_huh.png</asset>
+	<asset name='dave_huhtalk' type='graphic'>dialogs/dave_huhtalk.png</asset>
+	<asset name='dave_idle' type='graphic'>dialogs/dave_idle.png</asset>
+	<asset name='dave_mad' type='graphic'>dialogs/dave_mad.png</asset>
+	<asset name='dave_madtalk' type='graphic'>dialogs/dave_madtalk.png</asset>
+	<asset name='dave_smug' type='graphic'>dialogs/dave_smug.png</asset>
+	<asset name='dave_talk' type='graphic'>dialogs/dave_talk.png</asset>
+	
+	<asset name='kanaya_angrytalk' type='graphic'>dialogs/kanaya_angrytalk.png</asset>
+	<asset name='kanaya_bored' type='graphic'>dialogs/kanaya_bored.png</asset>
+	<asset name='kanaya_cry' type='graphic'>dialogs/kanaya_cry.png</asset>
+	<asset name='kanaya_facepalm' type='graphic'>dialogs/kanaya_facepalm.png</asset>
+	<asset name='kanaya_happy' type='graphic'>dialogs/kanaya_happy.png</asset>
+	<asset name='kanaya_happytalk' type='graphic'>dialogs/kanaya_happytalk.png</asset>
+	<asset name='kanaya_idle' type='graphic'>dialogs/kanaya_idle.png</asset>
+	<asset name='kanaya_smirklaugh' type='graphic'>dialogs/kanaya_smirklaugh.png</asset>
+	<asset name='kanaya_smirktalk' type='graphic'>dialogs/kanaya_smirktalk.png</asset>
+	<asset name='kanaya_talk' type='graphic'>dialogs/kanaya_talk.png</asset>
+	
+	<asset name='rose_annoyed' type='graphic'>dialogs/rose_annoyed.png</asset>
+	<asset name='rose_annoyedtalk' type='graphic'>dialogs/rose_annoyedtalk.png</asset>
+	<asset name='rose_concern' type='graphic'>dialogs/rose_concern.png</asset>
+	<asset name='rose_coy' type='graphic'>dialogs/rose_coy.png</asset>
+	<asset name='rose_coytalk' type='graphic'>dialogs/rose_coytalk.png</asset>
+	<asset name='rose_happy' type='graphic'>dialogs/rose_happy.png</asset>
+	<asset name='rose_happytalk' type='graphic'>dialogs/rose_happytalk.png</asset>
+	<asset name='rose_idle' type='graphic'>dialogs/rose_idle.png</asset>
+	<asset name='rose_laugh' type='graphic'>dialogs/rose_laugh.png</asset>
+	<asset name='rose_sad' type='graphic'>dialogs/rose_sad.png</asset>
+	<asset name='rose_talk' type='graphic'>dialogs/rose_talk.png</asset>	
+  
   <asset name='secondRoomMap' type='graphic'>backgrounds/secondRoomWalkable.png</asset>
   <asset name='secondRoomBG' type='graphic'>backgrounds/secondRoomBG.png</asset>
   <asset name='secondRoomFG' type='graphic'>backgrounds/secondRoomFG.png</asset>
   <asset name='secondRoomStairs1' type='path'>1288,2866;1453,2702;1466,2825;1301,2966</asset>
+  
+  
 </assets>
 
+<hud>
+	<dialogsprites>
+		<animation name='aranea_angry' class='aranea-dialog' sheet='aranea_angry' />
+		<animation name='aranea_angrytalk' class='aranea-dialog' sheet='aranea_angrytalk' length='2'/>
+		<animation name='aranea_annoyed' class='aranea-dialog' sheet='aranea_annoyed' />
+		<animation name='aranea_annoyedtalk' class='aranea-dialog' sheet='aranea_annoyedtalk' length='2'/>
+		<animation name='aranea_facepalm' class='aranea-dialog' sheet='aranea_facepalm' />
+		<animation name='aranea_facepalmtalk' class='aranea-dialog' sheet='aranea_facepalmtalk' length='2'/>
+		<animation name='aranea_happier' class='aranea-dialog' sheet='aranea_happier' length='2'/>
+		<animation name='aranea_happy' class='aranea-dialog' sheet='aranea_happy' />
+		<animation name='aranea_happytalk' class='aranea-dialog' sheet='aranea_happytalk' length='2'/>
+		<animation name='aranea_idle' class='aranea-dialog' sheet='aranea_idle' />
+		<animation name='aranea_mad' class='aranea-dialog' sheet='aranea_mad' />
+		<animation name='aranea_madtalk' class='aranea-dialog' sheet='aranea_madtalk' length='2'/>
+		<animation name='aranea_surprised' class='aranea-dialog' sheet='aranea_surprised' />
+		<animation name='aranea_talk' class='aranea-dialog' sheet='aranea_talk' length='2'/>
+		<animation name='aranea_think' class='aranea-dialog' sheet='aranea_think' />
+		<animation name='dave_concern' class='dave-dialog' sheet='dave_concern' length='2'/>
+		<animation name='dave_huh' class='dave-dialog' sheet='dave_huh' />
+		<animation name='dave_huhtalk' class='dave-dialog' sheet='dave_huhtalk' length='2'/>
+		<animation name='dave_idle' class='dave-dialog' sheet='dave_idle' />
+		<animation name='dave_mad' class='dave-dialog' sheet='dave_mad' />
+		<animation name='dave_madtalk' class='dave-dialog' sheet='dave_madtalk' length='2'/>
+		<animation name='dave_smug' class='dave-dialog' sheet='dave_smug' length='2'/>
+		<animation name='dave_talk' class='dave-dialog' sheet='dave_talk' length='2'/>
+		<animation name='kanaya_angrytalk' class='kanaya-dialog' sheet='kanaya_angrytalk' length='2'/>
+		<animation name='kanaya_bored' class='kanaya-dialog' sheet='kanaya_bored' length='2'/>
+		<animation name='kanaya_cry' class='kanaya-dialog' sheet='kanaya_cry' length='2'/>
+		<animation name='kanaya_facepalm' class='kanaya-dialog' sheet='kanaya_facepalm' length='2'/>
+		<animation name='kanaya_happy' class='kanaya-dialog' sheet='kanaya_happy' />
+		<animation name='kanaya_happytalk' class='kanaya-dialog' sheet='kanaya_happytalk' length='2'/>
+		<animation name='kanaya_idle' class='kanaya-dialog' sheet='kanaya_idle' />
+		<animation name='kanaya_smirklaugh' class='kanaya-dialog' sheet='kanaya_smirklaugh' length='2'/>
+		<animation name='kanaya_smirktalk' class='kanaya-dialog' sheet='kanaya_smirktalk' length='2'/>
+		<animation name='kanaya_talk' class='kanaya-dialog' sheet='kanaya_talk' length='2'/>
+		<animation name='rose_annoyed' class='rose-dialog' sheet='rose_annoyed' length='4' frameInterval='15'/>
+		<animation name='rose_annoyedtalk' class='rose-dialog' sheet='rose_annoyedtalk' length='2'/>
+		<animation name='rose_concern' class='rose-dialog' sheet='rose_concern' length='2'/>
+		<animation name='rose_coy' class='rose-dialog' sheet='rose_coy' />
+		<animation name='rose_coytalk' class='rose-dialog' sheet='rose_coytalk' length='2'/>
+		<animation name='rose_happy' class='rose-dialog' sheet='rose_happy' />
+		<animation name='rose_happytalk' class='rose-dialog' sheet='rose_happytalk' length='2' />
+		<animation name='rose_idle' class='rose-dialog' sheet='rose_idle' length='4' frameInterval='15'/>
+		<animation name='rose_laugh' class='rose-dialog' sheet='rose_laugh' length='2'/>
+		<animation name='rose_sad' class='rose-dialog' sheet='rose_sad' />
+		<animation name='rose_talk' class='rose-dialog' sheet='rose_talk' length='2'/>
+	</dialogsprites>
+</hud>
 
 <rooms>
    <room name='secondRoom' width='4622' height='3966' walkableMap='secondRoomMap'>
@@ -16,17 +131,47 @@
   	<triggers>
   		<trigger>spriteProperty,char,x&lt;780
   			<trigger>spriteProperty,char,y&lt;1500
-	  			<action command='deltaSprite'>char,9,0
-	  				<action command='changeRoom'>firstRoom,4630,3057</action>
+	  			<action command='deltaSprite'>
+	  				<args>char,9,0</args>
+	  				<action command='changeRoomRemote'>firstRoom.xml,firstRoom,4630,3057</action>
 	  			</action>
   			</trigger>
   		</trigger>
   			<trigger>spriteProperty,char,y>3420
-	  			<action command='deltaSprite'>char,0,-9
+	  			<action command='deltaSprite'>
+	  				<args>char,0,-9</args>
 	  				<action command='changeRoomRemote'>thirdRoom.xml,thirdRoom,1155,192</action>
 	  			</action>
   			</trigger>
   	</triggers>
+  	
+  	<sprite class='redBubble' name='redBubble1' x='1388' y='2200'> </sprite>
+  	<sprite class='redBubble' name='redBubble2' x='1164' y='2772'> </sprite>
+  	<sprite class='redBubble' name='redBubble3' x='1356' y='3048'> </sprite>
+  	<sprite class='redBubble' name='redBubble4' x='1564' y='2672'> </sprite>
+  	<sprite class='redBubble' name='redBubble5' x='4364' y='836'> </sprite>
+    
+    <character name='aranea' x='2636' y='1576' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
+	       sheet='araneaSheet' state='walkFront' facing='Front'>
+      <action class='araneaDialog1'></action>
+      <action class='araneaDialog2'></action>
+    </character>
+    <character name='dave' x='1632' y='2632' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
+	       sheet='davesheet' state='walkFront' facing='Front'>
+      <action class='daveDialog1'></action>
+      <action class='daveDialog2'></action>
+      <action class='daveDialog3'></action>
+    </character>
+    <character name='rose' x='3868' y='1340' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
+	       sheet='rosesheet' state='walkFront' facing='Front'>
+      <action class='roseDialog1'></action>
+      <action class='roseDialog2'></action>
+    </character>
+    <character name='kanaya' x='4364' y='866' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
+	       sheet='kanayasheet' state='walkLeft' facing='Left'>
+      <action class='kanayaDialog1'></action>
+      <action class='kanayaDialog2'></action>
+    </character>
     
     <sprite name='secondRoomBG'>
       <animation sheet='secondRoomBG'/>

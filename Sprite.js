@@ -110,8 +110,11 @@ Sprite.prototype.removeAction = function(name){
 Sprite.prototype.getActions = function(sprite){
 	var validActions = [];
 	for(var i=0;i<this.actions.length;i++){
-		if(!this.actions[i].sprite || this.actions[i].sprite==sprite){
-			validActions.push(this.actions[i]);
+		var action = this.actions[i];
+		var desired = action.sprite;
+		if(!desired || desired==sprite.name
+			|| (desired.charAt(0)=="!" && desired.substring(1)!=sprite.name)){
+			validActions.push(action);
 		}
 	}
 	return validActions;
@@ -188,6 +191,7 @@ Sburb.parseSprite = function(spriteNode, assetFolder) {
 	newState = (temp=attributes.getNamedItem("state"))?temp.value:newState;
 	
  	var newSprite = new Sprite(newName,newX,newY,newWidth,newHeight,newDx,newDy,newDepthing,newCollidable);
+	
 	
 	var anims = spriteNode.getElementsByTagName("animation");
 	for(var j=0;j<anims.length;j++){

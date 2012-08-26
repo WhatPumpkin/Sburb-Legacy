@@ -16,6 +16,9 @@ Sburb.Character = function(name,x,y,width,height,sx,sy,sWidth,sHeight,sheet,boot
 	this.facing = "Front";
 	this.npc = true;
 	this.spriteType = "character";
+	this.following = null;
+	this.followBuffer = null;
+	this.lastLeaderPos = null;
 	
 	if(!bootstrap){ //automagically generate standard animations
 		sWidth = typeof sWidth == "number" ? sWidth : width;
@@ -41,9 +44,50 @@ Sburb.Character = function(name,x,y,width,height,sx,sy,sWidth,sHeight,sheet,boot
 }
 
 Sburb.Character.prototype = new Sburb.Sprite();
+Sburb.Character.prototype.followBufferLength = 9;
 
 //update as if one frame has passed
 Sburb.Character.prototype.update = function(curRoom){
+	if(this.following){
+		if(this.following.isNPC() && !this.isNPC()){
+			this.becomeNPC();
+			this.collidable = true;
+			this.walk();
+		}else if(!this.following.isNPC() && this.isNPC()){
+			this.becomePlayer();
+			this.collidable = false;
+		}
+		
+		if(this.following.x!=this.lastLeaderPos.x || this.following.y!=this.lastLeaderPos.y){
+			this.followBuffer.push({x:this.following.x,y:this.following.y});
+			this.lastLeaderPos.x = this.following.x;
+			this.lastLeaderPos.y = this.following.y;
+			
+		}
+		while(this.followBuffer.length>this.followBufferLength){
+			var destPos = this.followBuffer[0];
+			if(Math.abs(destPos.x-this.x)>=this.speed){
+				if(destPos.x>this.x){
+					this.moveRight();
+				}else{
+					this.moveLeft();
+				}
+			}else if(Math.abs(destPos.y-this.y)>=this.speed){
+				if(destPos.y>this.y){
+					this.moveDown();
+				}else{
+					this.moveUp();
+				}
+			}else {
+				this.followBuffer.splice(0,1);
+				continue;
+			}
+			break;
+		}
+		if(this.followBuffer.length<=this.followBufferLength && !this.following.isNPC()){
+			this.moveNone();
+		}
+	}
 	this.tryToMove(this.vx,this.vy,curRoom);
 	Sburb.Sprite.prototype.update.call(this,curRoom);
 }
@@ -78,8 +122,10 @@ Sburb.Character.prototype.moveRight = function(){
 
 //impulse character to stand still
 Sburb.Character.prototype.moveNone = function(){
-	this.idle();
-	this.vx = 0; this.vy = 0;
+	if(this.animations.walkFront.frameInterval == 4){
+		this.idle();
+		this.vx = 0; this.vy = 0;
+	}
 }
 
 //make character walk
@@ -152,70 +198,87 @@ Sburb.Character.prototype.tryToMove = function(vx,vy,room){
 			vy-=dy;
 		}
 		
-		var collision;
-		if(collision = room.collides(this)){
-			var fixed = false;
-			if(dx!=0){
-				if(!this.collides(collision,0,minY)){
-					dy+=minY;
-					this.y+=minY;
-					fixed = true;
-				}else if(!this.collides(collision,0,-minY)){
-					dy-=minY;
-					this.y-=minY;
-					fixed = true;
+		if(!this.following){
+			var collision;
+			if(collision = room.collides(this)){
+				var fixed = false;
+				if(dx!=0){
+					if(!this.collides(collision,0,minY)){
+						dy+=minY;
+						this.y+=minY;
+						fixed = true;
+					}else if(!this.collides(collision,0,-minY)){
+						dy-=minY;
+						this.y-=minY;
+						fixed = true;
+					}
+				}
+				if(!fixed && dy!=0){
+					if(!this.collides(collision,minX,0)){
+						dx+=minX;
+						this.x+=minX;
+						fixed = true;
+					}else if(!this.collides(collision,-minX,0)){
+						dx-=minX;
+						this.x-=minX;
+						fixed = true;
+					}
+				}
+				if(!fixed || room.collides(this)){
+					this.x-=dx;
+					this.y-=dy;
+					return false;
 				}
 			}
-			if(!fixed && dy!=0){
-				if(!this.collides(collision,minX,0)){
-					dx+=minX;
-					this.x+=minX;
-					fixed = true;
-				}else if(!this.collides(collision,-minX,0)){
-					dx-=minX;
-					this.x-=minX;
-					fixed = true;
-				}
-			}
-			if(!fixed || room.collides(this)){
-				this.x-=dx;
-				this.y-=dy;
-				return false;
-			}
-		}
 		
-		if(!room.isInBounds(this)){
-			var fixed = false;
-			if(dx!=0){
-				if(room.isInBounds(this,0,minY)){
-					dy+=minY;
-					this.y+=minY;
-					fixed = true;
-				}else if(room.isInBounds(this,0,-minY)){
-					dy-=minY;
-					this.y-=minY;
-					fixed = true;
+			if(!room.isInBounds(this)){
+				var fixed = false;
+				if(dx!=0){
+					if(room.isInBounds(this,0,minY)){
+						dy+=minY;
+						this.y+=minY;
+						fixed = true;
+					}else if(room.isInBounds(this,0,-minY)){
+						dy-=minY;
+						this.y-=minY;
+						fixed = true;
+					}
 				}
-			}
-			if(!fixed && dy!=0){
-				if(room.isInBounds(this,minX,0)){
-					dx+=minX;
-					this.x+=minX;
-					fixed = true;
-				}else if(room.isInBounds(this,-minX,0)){
-					dx-=minX;
-					this.x-=minX;
-					fixed = true;
+				if(!fixed && dy!=0){
+					if(room.isInBounds(this,minX,0)){
+						dx+=minX;
+						this.x+=minX;
+						fixed = true;
+					}else if(room.isInBounds(this,-minX,0)){
+						dx-=minX;
+						this.x-=minX;
+						fixed = true;
+					}
 				}
-			}
-			if(!fixed || room.collides(this)){
-				this.x-=dx;
-				this.y-=dy;
-				return false;
+				if(!fixed || room.collides(this)){
+					this.x-=dx;
+					this.y-=dy;
+					return false;
+				}
 			}
 		}
 	}	
 	return true;
+}
+
+Sburb.Character.prototype.follow = function(sprite){
+	this.following = sprite;
+	this.followBuffer = [];
+	this.lastLeaderPos = {};
+	this.collidable = false;
+}
+
+Sburb.Character.prototype.unfollow = function(sprite){
+	this.following = null;
+	this.following = null;
+	this.lastLeaderPos = null;
+	this.collidable = true;
+	this.becomeNPC();
 }
 
 //get locations character wishes to query for actions
@@ -277,7 +340,9 @@ Sburb.Character.prototype.serialize = function(output){
 
 
 
-
+Sburb.Character.prototype.isNPC = function(){
+	return this.animations.walkFront.frameInterval == 12;
+}
 
 
 
@@ -300,7 +365,11 @@ Sburb.parseCharacter = function(charNode, assetFolder) {
   				    parseInt(attributes.getNamedItem("sWidth").value),
   				    parseInt(attributes.getNamedItem("sHeight").value),
   				    assetFolder[attributes.getNamedItem("sheet").value]);
-  				    
+  	var temp = attributes.getNamedItem("following");
+  	if(temp){
+  		var following = Sburb.sprites[temp.value];
+  		newChar.follow(following);
+  	} 			    
   	var anims = charNode.getElementsByTagName("animation");
 	for(var j=0;j<anims.length;j++){
 		var newAnim = Sburb.parseAnimation(anims[j],assetFolder);

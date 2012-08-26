@@ -16,7 +16,7 @@ Sburb.serialize = function(assets,effects,rooms,sprites,hud,dialoger,curRoom,cha
 		(Sburb.assetManager.levelPath?("' levelPath='"+Sburb.assetManager.levelPath):"")+
 		"'>\n";
 	output = serializeAssets(output,assets,effects);
-	//output = serializeTemplates(output,templateClasses);
+	output = serializeTemplates(output,templateClasses);
 	output = serializeHud(output,hud,dialoger);
 	output = serializeLooseObjects(output,rooms,sprites);
 	output = output.concat("\n<rooms>\n");
@@ -228,7 +228,7 @@ function loadSerial(serialText, keepOld) {
     }
     loadingDepth++;
     loadDependencies(input);
-    loadingDepth--;
+    
     loadSerialAssets(input);
 
     setTimeout(function() { loadSerialState(input) }, 500);
@@ -327,6 +327,7 @@ function loadSerialState(input) {
   	
   	//should be last
     parseState(input);
+    loadingDepth--;
 	if(loadingDepth==0){
     	Sburb.startUpdateProcess();
     }
@@ -520,18 +521,32 @@ function parseHud(input){
 function parseDialoger(input){
 	var dialoger = input.getElementsByTagName("dialoger");
 	if(dialoger.length>0){
+		var dialogSpriteLeft = null;
+		var dialogSpriteRight = null;
+		if(Sburb.dialoger){
+			dialogSpriteLeft = Sburb.dialoger.dialogSpriteLeft;
+			dialogSpriteRight = Sburb.dialoger.dialogSpriteRight;
+		}
 		Sburb.dialoger = Sburb.parseDialoger(dialoger[0]);
+		Sburb.dialoger.dialogSpriteLeft = dialogSpriteLeft;
+		Sburb.dialoger.dialogSpriteRight = dialogSpriteRight;
 	}
 }
 
 function serialLoadDialogSprites(dialogSprites,assetFolder){
-	Sburb.dialoger.dialogSpriteLeft = new Sburb.Sprite("dialogSprite",-1000,Stage.height,0,0);
-	Sburb.dialoger.dialogSpriteRight = new Sburb.Sprite("dialogSprite",Stage.width+1000,Stage.height,0,0);
+	if(!Sburb.dialoger){
+		Sburb.dialoger = {};
+	}
+	if(!Sburb.dialoger.dialogSpriteLeft){
+		Sburb.dialoger.dialogSpriteLeft = new Sburb.Sprite("dialogSprite",-1000,Stage.height,0,0);
+		Sburb.dialoger.dialogSpriteRight = new Sburb.Sprite("dialogSprite",Stage.width+1000,Stage.height,0,0);
+	}
 	var animations = dialogSprites.getElementsByTagName("animation");
 	for(var i=0;i<animations.length;i++){
 		Sburb.dialoger.dialogSpriteLeft.addAnimation(Sburb.parseAnimation(animations[i],assetFolder));
 		Sburb.dialoger.dialogSpriteRight.addAnimation(Sburb.parseAnimation(animations[i],assetFolder));
 	}
+
 }
 
 function serialLoadEffects(effects,assetFolder,effectsFolder){

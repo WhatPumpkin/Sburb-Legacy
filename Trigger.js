@@ -52,7 +52,7 @@ Sburb.Trigger.prototype.reset = function(){
 		}
 		var queryParts = query.split(token);
 		this.property = queryParts[0].trim();
-		this.target = parseInt(queryParts[1].trim());
+		this.target = queryParts[1].trim();
 	
 		this.checkCompletion = function(){
 			var entity = this.entity;

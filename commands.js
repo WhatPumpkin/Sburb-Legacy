@@ -24,7 +24,6 @@ commands.talk = function(info){
 //Pick a random line of dialog
 //syntax: dialog syntax
 commands.randomTalk = function(info){
-	console.log(info);
 	Sburb.dialoger.startDialog(info);
 	var randomNum = Math.floor(Math.random()*(Sburb.dialoger.queue.length+1));
 	if(randomNum){
@@ -40,6 +39,14 @@ commands.randomTalk = function(info){
 commands.changeRoom = function(info){
 	var params = parseParams(info);
 	Sburb.changeRoom(Sburb.rooms[params[0]],parseInt(params[1]),parseInt(params[2]));
+}
+
+//Change the focus of the camera
+//syntax: charName
+commands.changeFocus = function(info){
+	var params = parseParams(info);
+	var sprite = parseCharacterString(params[0]);
+	Sburb.destFocus = sprite;
 }
 
 //Perform changeRoom, and also add teleport effects
@@ -70,6 +77,14 @@ commands.playSong = function(info){
 	Sburb.changeBGM(new Sburb.BGM(Sburb.assets[params[0]],parseFloat(params[1])));
 }
 
+commands.becomeNPC = function(info){
+	Sburb.char.becomeNPC();
+}
+
+commands.becomePlayer = function(info){
+	Sburb.char.becomePlayer();
+}
+
 //Play the given sound
 //syntax: soundName
 commands.playSound = function(info){
@@ -87,14 +102,43 @@ commands.playEffect = function(info){
 //syntax: spriteName, animationName
 commands.playAnimation = function(info){
 	var params = parseParams(info);
-	var sprite;
-	if(params[0]=="char"){
-		sprite = Sburb.char;
-	}else{
-		sprite = Sburb.sprites[params[0]];
-	}
+	var sprite = parseCharacterString(params[0]);
+	
 	sprite.startAnimation(params[1]);
 }
+
+//Add actions to a sprite
+//Syntax: spriteName, SBURBML action tags
+commands.addActions = function(info){
+	var params = parseParams(info);
+	var firstComma = info.indexOf(",");
+	var sprite = parseCharacterString(params[0]);
+	var actionString = info.substring(firstComma+1,info.length);
+	console.log(info,actionString);
+	var actions = parseActionString(actionString);
+	console.log(actions);
+	for(var i=0;i<actions.length;i++){
+		var action = actions[i];
+		sprite.addAction(action);
+	}
+}
+
+//Remove an action from a sprite
+//Syntax: spriteName, actionName
+commands.removeAction = function(info){
+	var params = parseParams(info);
+	var sprite = parseCharacterString(params[0]);
+	sprite.removeAction(params[1]);
+}
+
+//Present player with following actions to choose from
+//Sytax: SBURBML action tags
+commands.presentActions = function(info){
+	var actions = parseActionString(info);
+	Sburb.chooser.choices = actions;
+	Sburb.chooser.beginChoosing(Sburb.char.x,Sburb.char.y);
+}
+
 
 //Open the specified chest, revealing the specified item, and with the specified text
 //Syntax: chestName, itemName, message
@@ -102,15 +146,18 @@ commands.openChest = function(info){
 	var params = parseParams(info);
 	var chest = Sburb.sprites[params[0]];
 	var item = Sburb.sprites[params[1]];
-	chest.startAnimation("open");
+	if(chest.animations["open"]){
+		chest.startAnimation("open");
+	}
 	chest.removeAction(Sburb.curAction.name);
+	var speech = params[2].charAt(0)=="@"?params[2]:"@! "+params[2];
 	var lastAction;
 	var newAction = lastAction = new Sburb.Action("waitFor","played,"+chest.name,null,null);
 	lastAction = lastAction.followUp = new Sburb.Action("waitFor","time,13");
 	lastAction = lastAction.followUp = new Sburb.Action("addSprite",item.name+","+Sburb.curRoom.name,null,null,null,true);
 	lastAction = lastAction.followUp = new Sburb.Action("moveSprite",item.name+","+chest.x+","+(chest.y-60),null,null,null,true,true);
 	lastAction = lastAction.followUp = new Sburb.Action("deltaSprite",item.name+",0,-3",null,null,null,true,null,10);
-	lastAction = lastAction.followUp = new Sburb.Action("talk","@! "+params[2],null,null,null,true);
+	lastAction = lastAction.followUp = new Sburb.Action("talk",speech,null,null,null,true);
 	lastAction = lastAction.followUp = new Sburb.Action("removeSprite",item.name+","+Sburb.curRoom.name);
 	lastAction.followUp = Sburb.curAction.followUp;
 	Sburb.performAction(newAction);
@@ -136,12 +183,7 @@ commands.deltaSprite = function(info){
 //syntax: spriteName, x, y
 commands.moveSprite = function(info){
 	var params = parseParams(info);
-	var sprite = null;
-	if(params[0]=="char"){
-		sprite = Sburb.char;
-	}else{
-		sprite = Sburb.sprites[params[0]];
-	}
+	var sprite = parseCharacterString(params[0]);
 	var newX = parseInt(params[1]);
 	var newY = parseInt(params[2]);
 	sprite.x = newX;
@@ -322,6 +364,28 @@ commands.cancel = function(){
 
 
 
+function parseCharacterString(string){
+	if(string=="char"){
+		return Sburb.char;
+	}else{
+		return Sburb.sprites[string];
+	}
+}
+
+
+function parseActionString(string){
+	var actions = [];
+	string = "<sburb>"+string+"</sburb>";
+	var parser=new DOMParser();
+    var input=parser.parseFromString(string,"text/xml").documentElement;
+	for(var i=0; i<input.childNodes.length; i++) {
+		var tmp = input.childNodes[i];
+		if(tmp.tagName=="action") {
+			actions.push(Sburb.parseAction(tmp));
+		}
+	}
+	return actions;
+}
 
 
 Sburb.commands = commands;

@@ -104,6 +104,7 @@ Sburb.Room.prototype.enter = function(){
 		var ctx = mapCanvas.getContext("2d");
 		ctx.drawImage(this.walkableMap,0,0,drawWidth,drawHeight, 0,0,drawWidth,drawHeight);
 		this.mapCanvas = mapCanvas;
+		
 		this.mapData = ctx.getImageData(0,0,drawWidth,drawHeight).data
 	}
 }
@@ -220,10 +221,13 @@ Sburb.Room.prototype.isInBoundsBatch = function(queries,results){
 			var data = this.mapData;
 			var width = this.mapCanvas.width;
 			var height = this.mapCanvas.height;
-			
-			var imgPt = (Math.round(pt.x)+Math.round(pt.y)*width)*4;
-			results[query] = (data[imgPt]==255 && data[imgPt+1]==255 
-				&& data[imgPt+2]==255 && data[imgPt+3]==255);
+			if(pt.x<0 || pt.x>width*2 || pt.y<0 || pt.y>height*2){
+				console.log("whop");
+				results[query] = false;
+			}else{
+				var imgPt = (Math.round(pt.x/2)+Math.round(pt.y/2)*width)*4;
+				results[query] = !!data[imgPt];
+			}
 		}
 	}
 	for(var i=0;i<this.walkables.length;i++){

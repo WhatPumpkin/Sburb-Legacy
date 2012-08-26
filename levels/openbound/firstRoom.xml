@@ -1,6 +1,13 @@
 <sburb description="first room">
 
+<dependencies>
+	
+</dependencies>
+
 <assets>
+  
+  <asset name='meenahSheet' type='graphic'>chars/meenah.png</asset>
+<asset name='meenahSkate' type='graphic'>chars/meenah_skate.png</asset>
   
   <asset name='firstRoomMap' type='graphic'>backgrounds/firstRoomWalkable.png</asset>
   <asset name='firstRoomBG' type='graphic'>backgrounds/firstRoomBG.png</asset>
@@ -14,7 +21,8 @@
   	
   	<triggers>
   		<trigger>spriteProperty,char,x>4650
-  			<action command='deltaSprite'>char,-9,0
+  			<action command='deltaSprite'>
+  				<args>char,-9,0</args>
   				<action command='changeRoomRemote'>secondRoom.xml,secondRoom,800,790</action>
   			</action>
   		</trigger>
@@ -26,7 +34,9 @@
   	</paths>
    <!--<character name='meenah' x='1490' y='630' sx='-50' sy='-110' sWidth='100' sHeight='130' width='30' height='15' 
 	       sheet='meenahSheet' state='walkFront' facing='Front'>
-      <action name='swap' command='changeChar'>meenah
+	  <animation name='skate'sheet='meenahSkate' x='-60' y='-110' />
+      <action name='swap' command='changeChar'>
+      	<args>meenah</args>
       	<action name='introMusic' command='playSong'>fusciaRuler, 32.0830</action>
       </action>
     </character>-->

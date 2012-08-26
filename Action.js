@@ -30,7 +30,7 @@ Sburb.Action.prototype.clone = function(){
 Sburb.Action.prototype.serialize = function(output){
 	output = output.concat("\n<action "+
 		"command='"+this.command+
-		(this.sprite?"sprite='"+this.sprite.name:"")+
+		(this.sprite?"sprite='"+this.sprite:"")+
 		(this.name?"' name='"+this.name:"")+
 		(this.noWait?"' noWait='"+this.noWait:"")+
 		(this.noDelay?"' noDelay='"+this.noDelay:"")+
@@ -63,9 +63,8 @@ Sburb.parseAction = function(node) {
 	  	var attributes = node.attributes;
 		
 		if(attributes.getNamedItem("sprite") && attributes.getNamedItem("sprite").value!="null"){
-			targSprite = sprites[attributes.getNamedItem("sprite").value];
+			targSprite = attributes.getNamedItem("sprite").value;
 		}
-
 		var newAction = new Sburb.Action(
 					 attributes.getNamedItem("command").value,
 					 node.firstChild?getNodeText(node).trim():"",
@@ -85,10 +84,16 @@ Sburb.parseAction = function(node) {
 			firstAction = newAction;
 		}
 		oldAction = newAction;
-		var nodes = node.getElementsByTagName("action");
-		if(nodes){
-			node = nodes[0];
-		}else{
+		var oldNode = node;
+		node = null;
+		for(var i=0;i<oldNode.childNodes.length;i++){
+			var child = oldNode.childNodes[i];
+			if(child.nodeName=="action"){
+				node = child;
+				break;
+			}
+		}
+		if(!node){
 			break;
 		}
 	}while(node);
@@ -98,14 +103,29 @@ Sburb.parseAction = function(node) {
 
 function getNodeText(xmlNode){
     if(!xmlNode) return '';
-    var big = xmlNode.getElementsByTagName("args");
-    if(big.length>0){
-    	if(typeof(xmlNode.textContent) != "undefined"){
-    		return big[0].textContent;
-    	}
-    	return big[0].firstChild.nodeValue;
-    }
-    return xmlNode.firstChild.nodeValue;
+    for(var i=0;i<xmlNode.childNodes.length;i++){
+    	var child = xmlNode.childNodes[i];
+    	if(child.tagName=="args"){
+    		for(var k=0;k<child.childNodes.length;k++){
+				if(child.childNodes[k].firstChild){
+					serializer = new XMLSerializer();
+					var output = "";
+					for(var j=0; j<child.childNodes.length; j++){
+						output += serializer.serializeToString(child.childNodes[j]);
+					}
+					return output;
+				}
+			}
+			if(typeof(child.textContent) != "undefined"){
+				return child.textContent;
+			}
+			return child.firstChild.nodeValue;
+		}
+	}
+	if(typeof(xmlNode.textContent) != "undefined"){
+		return xmlNode.textContent;
+	}
+	return xmlNode.firstChild.nodeValue;
 }
 
 
