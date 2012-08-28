@@ -43,7 +43,12 @@ Sburb.Trigger.prototype.reset = function(){
 			token = "<";
 			this.trigger = function(entity,property,target){
 				return entity[property]<target;
-			};		
+			};
+		}else if(query.indexOf("!=")>-1){
+			token = "!=";
+			this.trigger = function(entity,property,target){
+				return entity[property]!=target;
+			};				
 		}else if(query.indexOf("=")>-1){
 			token = "=";
 			this.trigger = function(entity,property,target){
@@ -61,7 +66,23 @@ Sburb.Trigger.prototype.reset = function(){
 			}
 			return this.trigger(entity,this.property,this.target);
 		}
-	
+	}else if(this.type=="inBox"){
+		if(params[1]=="char"){
+			this.entity = params[1];
+		}else{
+			this.entity = Sburb.sprites[params[1]];
+		}
+		this.x = parseInt(params[2]);
+		this.y = parseInt(params[3]);
+		this.width = parseInt(params[4]);
+		this.height = parseInt(params[5]);
+		this.checkCompletion = function(){
+			var entity = this.entity;
+			if(this.entity=="char"){
+				entity = Sburb.char;
+			}
+			return entity.x>=this.x && entity.y>=this.y && entity.x<=this.x+this.width && entity.y<=this.y+this.height;
+		}
 	}else if(this.type=="time"){
 		this.time = parseInt(params[1]);
 	

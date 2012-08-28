@@ -1,9 +1,8 @@
-<sburb  curRoom='thirdRoom' char='meenah' description="first area" scale='3' bgm='fusciaRuler, 32.0830' levelPath='levels/openbound' resourcePath='resources/openbound'>
+<sburb  char='meenah' description="first area" scale='2' bgm='fusciaRuler, 32.0830' levelPath='levels/openbound' resourcePath='resources/openbound'>
 
 <dependencies>
 	<dependency>standardTemplates.xml</dependency>
 	<dependency>firstRoom.xml</dependency>
-	<dependency>thirdRoom.xml</dependency>
 </dependencies>
 
 <classes>

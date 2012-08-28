@@ -1,20 +1,91 @@
 <sburb description="first room">
 
 <dependencies>
-	
+	<dependency>firstRoomDialog.xml</dependency>
 </dependencies>
+
+<classes>
+	<animation class='aradia-dialog' frameInterval='6' x='-230' y='-504'/>
+</classes>
 
 <assets>
   
   <asset name='meenahSheet' type='graphic'>chars/meenah.png</asset>
-<asset name='meenahSkate' type='graphic'>chars/meenah_skate.png</asset>
+	<asset name='meenahSkate' type='graphic'>chars/meenah_skate.png</asset>
+	<asset name='aradiaSheet' type='graphic'>chars/aradia.png</asset>
   
   <asset name='firstRoomMap' type='graphic'>backgrounds/firstRoomWalkable.png</asset>
   <asset name='firstRoomBG' type='graphic'>backgrounds/firstRoomBG.png</asset>
   <asset name='firstRoomFG' type='graphic'>backgrounds/firstRoomFG.png</asset>
   <asset name='firstRoomStairs1' type='path'>1574,1372;1990,1696;1980,1760;1580,1448</asset>
   <asset name='firstRoomStairs2' type='path'>876,2710;1474,3156;1482,3288;868,2796</asset>
+
+	<asset name='aradia_happy' type='graphic'>dialogs/aradia_happy.png</asset>
+	<asset name='aradia_happytalk' type='graphic'>dialogs/aradia_happytalk.png</asset>
+	<asset name='aradia_idle' type='graphic'>dialogs/aradia_idle.png</asset>
+	<asset name='aradia_laugh' type='graphic'>dialogs/aradia_laugh.png</asset>
+	<asset name='aradia_point' type='graphic'>dialogs/aradia_point.png</asset>
+	<asset name='aradia_talk' type='graphic'>dialogs/aradia_talk.png</asset>
+	<asset name='aradia_wink' type='graphic'>dialogs/aradia_wink.png</asset>
+	
+	<asset name='obj01' type='graphic'>objects/01.png</asset>
+	<asset name='obj02' type='graphic'>objects/02.png</asset>
+	<asset name='obj03' type='graphic'>objects/03.png</asset>
+	<asset name='obj04' type='graphic'>objects/04.png</asset>
+	<asset name='obj05' type='graphic'>objects/05.png</asset>
+	<asset name='obj06' type='graphic'>objects/06.png</asset>
+	<asset name='obj07' type='graphic'>objects/07.png</asset>
+	<asset name='obj08' type='graphic'>objects/08.png</asset>
+	<asset name='obj09' type='graphic'>objects/09.png</asset>
+	<asset name='obj10' type='graphic'>objects/10.png</asset>
 </assets>
+
+<hud>
+	<dialogsprites>
+		<animation name='aradia_happy' class='aradia-dialog' sheet='aradia_happy' />
+		<animation name='aradia_happytalk' class='aradia-dialog' sheet='aradia_happytalk' length='2' />
+		<animation name='aradia_idle' class='aradia-dialog' sheet='aradia_idle' />
+		<animation name='aradia_laugh' class='aradia-dialog' sheet='aradia_laugh'  length='2' />
+		<animation name='aradia_point' class='aradia-dialog' sheet='aradia_point' />
+		<animation name='aradia_talk' class='aradia-dialog' sheet='aradia_talk'  length='2' />
+		<animation name='aradia_wink' class='aradia-dialog' sheet='aradia_wink' />
+	</dialogsprites>
+</hud>
+
+<sprite name='firstRoomToggle' y='0'>
+    <animation sheet='aradiaSheet'/>
+</sprite>
+
+<sprite depthing='2' name='obj01'>
+<animation x='-50' y='-50' sheet='obj01'/>
+</sprite>
+<sprite depthing='2' name='obj02'>
+<animation x='-50' y='-50' sheet='obj02'/>
+</sprite>
+<sprite depthing='2' name='obj03'>
+<animation x='-50' y='-50' sheet='obj03'/>
+</sprite>
+<sprite depthing='2' name='obj04'>
+<animation x='-50' y='-50' sheet='obj04'/>
+</sprite>
+<sprite depthing='2' name='obj05'>
+<animation x='-50' y='-50' sheet='obj05'/>
+</sprite>
+<sprite depthing='2' name='obj06'>
+<animation x='-50' y='-50' sheet='obj06'/>
+</sprite>
+<sprite depthing='2' name='obj07'>
+<animation x='-50' y='-50' sheet='obj07'/>
+</sprite>
+<sprite depthing='2' name='obj08'>
+<animation x='-50' y='-50' sheet='obj08'/>
+</sprite>
+<sprite depthing='2' name='obj09'>
+<animation x='-50' y='-50' sheet='obj09'/>
+</sprite>
+<sprite depthing='2' name='obj10'>
+<animation x='-50' y='-50' sheet='obj10'/>
+</sprite>
 
 <rooms>
   <room name='firstRoom' width='4800' height='3872' walkableMap='firstRoomMap'>
@@ -22,9 +93,22 @@
   	<triggers>
   		<trigger>spriteProperty,char,x>4650
   			<action command='deltaSprite'>
-  				<args>char,-9,0</args>
+  				<args>char,-12,0</args>
   				<action command='changeRoomRemote'>secondRoom.xml,secondRoom,800,790</action>
   			</action>
+  		</trigger>
+  		<trigger>inBox,char,1056,1773,60,150
+  			<action command='moveSprite'>
+						<args>firstRoomToggle,0,50</args>
+				</action>
+  		</trigger>
+  		<trigger>inBox,char,1439,1730,60,110
+  			<trigger>spriteProperty,firstRoomToggle,y!=0
+					<action command='moveSprite'>
+						<args>firstRoomToggle,0,0</args>
+						<action class='aradiaTalk2'/>
+					</action>
+  			</trigger>
   		</trigger>
   	</triggers>
   	
@@ -32,14 +116,98 @@
   		<motionpath path="firstRoomStairs1" xtox = '0.7' xtoy = '0.7' ytox='0' ytoy = '1' dx='0' dy='0'/>
   		<motionpath path="firstRoomStairs2" xtox = '0.7' xtoy = '0.7' ytox='0' ytoy = '1' dx='0' dy='0'/>
   	</paths>
-   <!--<character name='meenah' x='1490' y='630' sx='-50' sy='-110' sWidth='100' sHeight='130' width='30' height='15' 
+    
+    <character name='meenah' x='1490' y='630' sx='-50' sy='-110' sWidth='100' sHeight='130' width='30' height='15' 
 	       sheet='meenahSheet' state='walkFront' facing='Front'>
-	  <animation name='skate'sheet='meenahSkate' x='-60' y='-110' />
-      <action name='swap' command='changeChar'>
+	  	<animation name='skate' sheet='meenahSkate' x='-60' y='-80' />
+      <action name='Be Meenah.' sprite='!kankri' command='changeChar'>
       	<args>meenah</args>
-      	<action name='introMusic' command='playSong'>fusciaRuler, 32.0830</action>
+      	<action command='playSong'>fusciaRuler, 32.0830</action>
       </action>
-    </character>-->
+      <action class='meenahTalk1' />
+      <action class='meenahTalk2' />
+      <action class='meenahTalk3'>
+      	<action command='talk'>
+      		<args>@! Be Meenah?</args>
+		    	<action command='presentActions'>
+		    		<args>
+		    			<action name='Yes' command='changeChar'>
+								<args>meenah</args>
+								<action command='playSong'>
+									<args>fusciaRuler, 32.0830</args>
+									<action command='removeAction'>
+										<args>karkat,Talk to Karkat.</args>
+										<action command='addActions'>
+											<args>karkat,
+												<action class='karkatTalk2'/>
+											</args>
+										</action> 
+									</action>
+								</action>
+							</action>
+							<action name='No' command='cancel'>
+							</action>
+		    		</args>
+		    	</action>
+		    </action>
+      </action>
+    </character>
+    
+    <sprite name='aradia' x='1650' y='1705' width='40' height='20' collidable='true'>
+    	<animation sheet='aradiaSheet' x='-40' y='-100'/>
+    	<action class='aradiaTalk1'/>
+    </sprite>
+    
+    <sprite class='chest1' name='firstRoomChest1' x='2913' y='208'>
+    	<action command='openChest' name='open'>
+    		<args>firstRoomChest1,obj01,@! ...</args>
+    	</action>
+    </sprite>
+    <sprite class='chest1' name='firstRoomChest2' x='2745' y='576'>
+    	<action command='openChest' name='open'>
+    		<args>firstRoomChest2,obj02,@! ...</args>
+    	</action>
+    </sprite>
+    <sprite class='chest1' name='firstRoomChest3' x='426' y='558'>
+    	<action command='openChest' name='open'>
+    		<args>firstRoomChest3,obj03,@! ...</args>
+    	</action>
+    </sprite>
+    <sprite class='chest1' name='firstRoomChest4' x='2643' y='1557'>
+    	<action command='openChest' name='open'>
+    		<args>firstRoomChest4,obj04,@! ...</args>
+    	</action>
+    </sprite>
+    <sprite class='chest1' name='firstRoomChest5' x='2052' y='2037'>
+    	<action command='openChest' name='open'>
+    		<args>firstRoomChest5,obj05,@! ...</args>
+    	</action>
+    </sprite>
+    <sprite class='chest1' name='firstRoomChest6' x='228' y='1710'>
+    	<action command='openChest' name='open'>
+    		<args>firstRoomChest6,obj06,@! ...</args>
+    	</action>
+    </sprite>
+    <sprite class='chest1' name='firstRoomChest7' x='213' y='2097'>
+    	<action command='openChest' name='open'>
+    		<args>firstRoomChest7,obj07,@! ...</args>
+    	</action>
+    </sprite>
+    <sprite class='chest1' name='firstRoomChest8' x='1152' y='2421'>
+    	<action command='openChest' name='open'>
+    		<args>firstRoomChest8,obj08,@! ...</args>
+    	</action>
+    </sprite>
+    <sprite class='chest1' name='firstRoomChest9' x='2568' y='2856'>
+    	<action command='openChest' name='open'>
+    		<args>firstRoomChest9,obj09,@! ...</args>
+    	</action>
+    </sprite>
+    <sprite class='chest1' name='firstRoomChest10' x='834' y='3235'>
+    	<action command='openChest' name='open'>
+    		<args>firstRoomChest10,obj10,@! ...</args>
+    	</action>
+    </sprite>
     
     <sprite name='firstRoomBG'>
       <animation sheet='firstRoomBG'/>

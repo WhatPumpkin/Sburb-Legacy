@@ -71,6 +71,18 @@
   <asset name='secondRoomFG' type='graphic'>backgrounds/secondRoomFG.png</asset>
   <asset name='secondRoomStairs1' type='path'>1288,2866;1453,2702;1466,2825;1301,2966</asset>
   
+  <asset name='obj11' type='graphic'>objects/11.png</asset>
+<asset name='obj12' type='graphic'>objects/12.png</asset>
+<asset name='obj13' type='graphic'>objects/13.png</asset>
+<asset name='obj14' type='graphic'>objects/14.png</asset>
+<asset name='obj15' type='graphic'>objects/15.png</asset>
+<asset name='obj16' type='graphic'>objects/16.png</asset>
+<asset name='obj17' type='graphic'>objects/17.png</asset>
+<asset name='obj18' type='graphic'>objects/18.png</asset>
+<asset name='obj19' type='graphic'>objects/19.png</asset>
+<asset name='obj20' type='graphic'>objects/20.png</asset>
+<asset name='obj21' type='graphic'>objects/21.png</asset>
+<asset name='obj22' type='graphic'>objects/22.png</asset>
   
 </assets>
 
@@ -123,6 +135,43 @@
 	</dialogsprites>
 </hud>
 
+<sprite depthing='2' name='obj11'>
+<animation x='-50' y='-50' sheet='obj11'/>
+</sprite>
+<sprite depthing='2' name='obj12'>
+<animation x='-50' y='-50' sheet='obj12'/>
+</sprite>
+<sprite depthing='2' name='obj13'>
+<animation x='-50' y='-50' sheet='obj13'/>
+</sprite>
+<sprite depthing='2' name='obj14'>
+<animation x='-50' y='-50' sheet='obj14'/>
+</sprite>
+<sprite depthing='2' name='obj15'>
+<animation x='-50' y='-50' sheet='obj15'/>
+</sprite>
+<sprite depthing='2' name='obj16'>
+<animation x='-50' y='-50' sheet='obj16'/>
+</sprite>
+<sprite depthing='2' name='obj17'>
+<animation x='-50' y='-50' sheet='obj17'/>
+</sprite>
+<sprite depthing='2' name='obj18'>
+<animation x='-50' y='-50' sheet='obj18'/>
+</sprite>
+<sprite depthing='2' name='obj19'>
+<animation x='-50' y='-50' sheet='obj19'/>
+</sprite>
+<sprite depthing='2' name='obj20'>
+<animation x='-50' y='-50' sheet='obj20'/>
+</sprite>
+<sprite depthing='2' name='obj21'>
+<animation x='-50' y='-50' sheet='obj21'/>
+</sprite>
+<sprite depthing='2' name='obj22'>
+<animation x='-50' y='-50' sheet='obj22'/>
+</sprite>
+
 <rooms>
    <room name='secondRoom' width='4622' height='3966' walkableMap='secondRoomMap'>
   	<paths>
@@ -132,14 +181,14 @@
   		<trigger>spriteProperty,char,x&lt;780
   			<trigger>spriteProperty,char,y&lt;1500
 	  			<action command='deltaSprite'>
-	  				<args>char,9,0</args>
+	  				<args>char,12,0</args>
 	  				<action command='changeRoomRemote'>firstRoom.xml,firstRoom,4630,3057</action>
 	  			</action>
   			</trigger>
   		</trigger>
   			<trigger>spriteProperty,char,y>3420
 	  			<action command='deltaSprite'>
-	  				<args>char,0,-9</args>
+	  				<args>char,0,-12</args>
 	  				<action command='changeRoomRemote'>thirdRoom.xml,thirdRoom,1155,192</action>
 	  			</action>
   			</trigger>
@@ -172,6 +221,67 @@
       <action class='kanayaDialog1'></action>
       <action class='kanayaDialog2'></action>
     </character>
+    
+    <sprite class='chest6' name='secondRoomChest1' x='1732' y='660'>
+    	<action command='openChest' name='open'>
+    		<args>secondRoomChest1,obj11,@! ...</args>
+    	</action>
+    </sprite>
+    <sprite class='chest6' name='secondRoomChest2' x='4244' y='640'>
+    	<action command='openChest' name='open'>
+    		<args>secondRoomChest2,obj12,@! ...</args>
+    	</action>
+    </sprite>
+    <sprite class='chest6' name='secondRoomChest3' x='392' y='2020'>
+    	<action command='openChest' name='open'>
+    		<args>secondRoomChest3,obj13,@! ...</args>
+    	</action>
+    </sprite>
+    <sprite class='chest6' name='secondRoomChest4' x='1564' y='2292'>
+    	<action command='openChest' name='open'>
+    		<args>secondRoomChest4,obj14,@! ...</args>
+    	</action>
+    </sprite>
+    <sprite class='chest6' name='secondRoomChest5' x='2244' y='1780'>
+    	<action command='openChest' name='open'>
+    		<args>secondRoomChest5,obj15,@! ...</args>
+    	</action>
+    </sprite>
+    <sprite class='chest6' name='secondRoomChest6' x='4428' y='1836'>
+    	<action command='openChest' name='open'>
+    		<args>secondRoomChest6,obj16,@! ...</args>
+    	</action>
+    </sprite>
+    <sprite class='chest4' name='secondRoomChest7' x='4548' y='2872'>
+    	<action command='openChest' name='open'>
+    		<args>secondRoomChest7,obj17,@! ...</args>
+    	</action>
+    </sprite>
+    <sprite class='chest4' name='secondRoomChest8' x='3644' y='2896'>
+    	<action command='openChest' name='open'>
+    		<args>secondRoomChest8,obj18,@! ...</args>
+    	</action>
+    </sprite>
+    <sprite class='chest4' name='secondRoomChest9' x='3216' y='2304'>
+    	<action command='openChest' name='open'>
+    		<args>secondRoomChest9,obj19,@! ...</args>
+    	</action>
+    </sprite>
+    <sprite class='chest4' name='secondRoomChest10' x='1024' y='2896'>
+    	<action command='openChest' name='open'>
+    		<args>secondRoomChest10,obj20,@! ...</args>
+    	</action>
+    </sprite>
+    <sprite class='chest4' name='secondRoomChest11' x='900' y='3000'>
+    	<action command='openChest' name='open'>
+    		<args>secondRoomChest11,obj21,@! ...</args>
+    	</action>
+    </sprite>
+    <sprite class='chest4' name='secondRoomChest12' x='4028' y='1324'>
+    	<action command='openChest' name='open'>
+    		<args>secondRoomChest12,obj22,@! ...</args>
+    	</action>
+    </sprite>
     
     <sprite name='secondRoomBG'>
       <animation sheet='secondRoomBG'/>

@@ -332,6 +332,14 @@ Sburb.Dialoger.prototype.update = function(){
 
 		if(this.actor!=null){
 			if(this.moveToward(this.dialogOnSide(this.dialogSide),this.startOnSide(this.oppositeSide(this.dialogSide)))){
+				var pos1 = this.startOnSide(this.dialogSide);
+				var sprite1 = this.dialogOnSide(this.dialogSide);
+				sprite1.x = pos1.x;
+				sprite1.y = pos1.y;
+				var pos2 = this.startOnSide(this.oppositeSide(this.dialogSide));
+				var sprite2 = this.dialogOnSide(this.oppositeSide(this.dialogSide));
+				sprite2.x = pos2.x;
+				sprite2.y = pos2.y;
 				this.actor = null;
 			}
 		}

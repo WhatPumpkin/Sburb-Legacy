@@ -10,7 +10,7 @@ var Sburb = (function(Sburb){
 Sburb.Character = function(name,x,y,width,height,sx,sy,sWidth,sHeight,sheet,bootstrap){
 	Sburb.Sprite.call(this,name,x,y,width,height,null,null,Sburb.Sprite.prototype.MG_DEPTHING,true);
 
-	this.speed = 9;
+	this.speed = 12;
 	this.vx = 0;
 	this.vy = 0;
 	this.facing = "Front";
@@ -66,13 +66,13 @@ Sburb.Character.prototype.update = function(curRoom){
 		}
 		while(this.followBuffer.length>this.followBufferLength){
 			var destPos = this.followBuffer[0];
-			if(Math.abs(destPos.x-this.x)>=this.speed){
+			if(Math.abs(destPos.x-this.x)>=this.speed/1.9){
 				if(destPos.x>this.x){
 					this.moveRight();
 				}else{
 					this.moveLeft();
 				}
-			}else if(Math.abs(destPos.y-this.y)>=this.speed){
+			}else if(Math.abs(destPos.y-this.y)>=this.speed/1.9){
 				if(destPos.y>this.y){
 					this.moveDown();
 				}else{

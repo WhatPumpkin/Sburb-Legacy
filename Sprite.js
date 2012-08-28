@@ -34,6 +34,7 @@ Sprite.prototype.addAnimation = function(anim){
 }
 
 Sprite.prototype.startAnimation = function(name){
+	
 	if(this.state!=name){
 		this.animation = this.animations[name];
 		this.animation.reset();

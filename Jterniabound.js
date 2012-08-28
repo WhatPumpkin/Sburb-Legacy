@@ -290,8 +290,8 @@ function focusCamera(){
 		Sburb.focus = Sburb.destFocus;
 		Sburb.destFocus = null;
 	}
-	Sburb.Stage.x = Math.max(0,Math.min(Math.round(Sburb.cam.x/3)*3,Sburb.curRoom.width-Sburb.Stage.width));
-	Sburb.Stage.y = Math.max(0,Math.min(Math.round(Sburb.cam.y/3)*3,Sburb.curRoom.height-Sburb.Stage.height));
+	Sburb.Stage.x = Math.max(0,Math.min(Math.round(Sburb.cam.x/Sburb.Stage.scaleX)*Sburb.Stage.scaleX,Sburb.curRoom.width-Sburb.Stage.width));
+	Sburb.Stage.y = Math.max(0,Math.min(Math.round(Sburb.cam.y/Sburb.Stage.scaleX)*Sburb.Stage.scaleX,Sburb.curRoom.height-Sburb.Stage.height));
 }
 
 function handleRoomChange(){

@@ -7,8 +7,69 @@
 <classes>
 	<animation class='karkat-dialog' frameInterval='6' x='-180' y='-454'/>
 	<animation class='kankri-dialog' frameInterval='6' x='-180' y='-454'/>
-	<animation class='porrim-dialog' frameInterval='6' x='-180' y='-454'/>
-	<animation class='latula-dialog' frameInterval='6' x='-180' y='-454'/>
+	<animation class='porrim-dialog' frameInterval='6' x='-180' y='-444'/>
+	<animation class='latula-dialog' frameInterval='6' x='-200' y='-524'/>
+  
+  <action class='snoop' command='talk' name='Talk.'>
+		<args>
+		@! Hey, it's shouty! But it looks like he's severely embroiled in a really heavy discussion with your team's Vantas. You really don't feel like getting involved.
+		@!:#eavesdropping#rude Listen in on conversation?
+		</args>
+		<action command='presentActions'>
+			<args>
+				<action class='eavesdrop'>
+
+				</action>
+				<action command='cancel' name='No.'>
+						<!-- nothing -->
+				</action>
+			</args>
+		</action>
+	</action>
+	
+	<action class='fix-twins' command='moveSprite'>
+		<args>kankri,1200,2870</args>
+		<action command='moveSprite'>
+    	<args>karkat,1140,2870</args>
+    	<action command='playAnimation'>
+    		<args>kankri,walkLeft</args>
+    		<action command='unfollow'>
+    			<args>karkat</args>
+		  		<action command='playAnimation'>
+		  			<args>karkat,walkRight</args>
+		  			<action command='removeAction'>
+							<args>kankri,Talk.</args>
+							<action command='removeAction'>
+								<args>karkat,Talk.</args>
+								<action command='removeAction'>
+									<args>karkat,Talk to Karkat.</args>
+									<action command='addActions'>
+										<args>kankri,
+											<action class='snoop'/>
+										</args>
+										<action command='addActions'>
+											<args>karkat,
+												<action class='snoop'/>
+												<action class='karkatTalk1'/>
+											</args>
+											<action command='removeAction'>
+												<args>thirdRoomDoor,Open door.</args>
+												<action command='addActions'>
+													<args>thirdRoomDoor,
+														<action class='doorTalk1'/>
+													</args>
+												</action>
+											</action>
+										</action>
+									</action>
+								</action>
+							</action>
+						</action>
+					</action>
+	  		</action>
+  		</action>
+  	</action>
+  </action>
 </classes>
 
 <assets>
@@ -97,11 +158,25 @@
 	
 	<asset name='dialogimg_kankri1' type='graphic'>interface/dialogimg_kankri1.png</asset>
 	<asset name='dialogimg_kankri2' type='graphic'>interface/dialogimg_kankri2.png</asset>
+	<asset name='dialogimg_karkat1' type='graphic'>interface/dialogimg_karkat1.png</asset>
 	
 	<asset name='darlingDolorosa' type='audio'>audio/Dolorosa.mp3;audio/Dolorosa.ogg</asset>
 	<asset name='gameGlare' type='audio'>audio/GameGlare.mp3;audio/GameGlare.ogg</asset>
 	<asset name='ironInfidel' type='audio'>audio/IronInfidelCut.mp3;audio/IronInfidelCut.ogg</asset>
 	
+	<asset name='obj23' type='graphic'>objects/23.png</asset>
+<asset name='obj24' type='graphic'>objects/24.png</asset>
+<asset name='obj25' type='graphic'>objects/25.png</asset>
+<asset name='obj26' type='graphic'>objects/26.png</asset>
+<asset name='obj27' type='graphic'>objects/27.png</asset>
+<asset name='obj28' type='graphic'>objects/28.png</asset>
+<asset name='obj29' type='graphic'>objects/29.png</asset>
+<asset name='obj30' type='graphic'>objects/30.png</asset>
+<asset name='obj31' type='graphic'>objects/31.png</asset>
+<asset name='obj32' type='graphic'>objects/32.png</asset>
+<asset name='obj33' type='graphic'>objects/33.png</asset>
+<asset name='obj34' type='graphic'>objects/34.png</asset>
+<asset name='obj35' type='graphic'>objects/35.png</asset>
 </assets>
 
 <hud>
@@ -125,40 +200,40 @@
 		<animation name='karkat_what' class='karkat-dialog' sheet='karkat_what' />
 		<animation name='karkat_yell' class='karkat-dialog' sheet='karkat_yell' length='2' />
 		
-		<animation name='latula_angry' class='latula-dialog' sheet='latula_angry' />
+		<animation name='latula_angry' class='latula-dialog' sheet='latula_angry' x='-240' length='2'/>
 		<animation name='latula_annoyed' class='latula-dialog' sheet='latula_annoyed' />
-		<animation name='latula_annoyedtalk' class='latula-dialog' sheet='latula_annoyedtalk' />
-		<animation name='latula_bored' class='latula-dialog' sheet='latula_bored' />
+		<animation name='latula_annoyedtalk' class='latula-dialog' sheet='latula_annoyedtalk' length='2'/>
+		<animation name='latula_bored' class='latula-dialog' sheet='latula_bored' length='2'/>
 		<animation name='latula_happier' class='latula-dialog' sheet='latula_happier' />
 		<animation name='latula_happy' class='latula-dialog' sheet='latula_happy' />
-		<animation name='latula_happytalk' class='latula-dialog' sheet='latula_happytalk' />
-		<animation name='latula_huh' class='latula-dialog' sheet='latula_huh' />
+		<animation name='latula_happytalk' class='latula-dialog' sheet='latula_happytalk' length='2'/>
+		<animation name='latula_huh' class='latula-dialog' sheet='latula_huh' length='1'/>
 		<animation name='latula_idle2' class='latula-dialog' sheet='latula_idle2' />
 		<animation name='latula_idle3' class='latula-dialog' sheet='latula_idle3' />
 		<animation name='latula_idle' class='latula-dialog' sheet='latula_idle' />
-		<animation name='latula_laugh' class='latula-dialog' sheet='latula_laugh' />
+		<animation name='latula_laugh' class='latula-dialog' sheet='latula_laugh' length='2'/>
 		<animation name='latula_shades1' class='latula-dialog' sheet='latula_shades1' />
 		<animation name='latula_shades2' class='latula-dialog' sheet='latula_shades2' />
-		<animation name='latula_shine' class='latula-dialog' sheet='latula_shine' />
-		<animation name='latula_stunt' class='latula-dialog' sheet='latula_stunt' />
-		<animation name='latula_talk' class='latula-dialog' sheet='latula_talk' />
+		<animation name='latula_shine' class='latula-dialog' sheet='latula_shine' length='3'/>
+		<animation name='latula_stunt' class='latula-dialog' sheet='latula_stunt' length='2'/>
+		<animation name='latula_talk' class='latula-dialog' sheet='latula_talk' length='2'/>
 		<animation name='latula_tongue' class='latula-dialog' sheet='latula_tongue' />
 		
-		<animation name='porrim_angry2' class='porrim-dialog' sheet='porrim_angry2' />
+		<animation name='porrim_angry2' class='porrim-dialog' sheet='porrim_angry2' length='2'/>
 		<animation name='porrim_angry' class='porrim-dialog' sheet='porrim_angry' />
-		<animation name='porrim_angrytalk' class='porrim-dialog' sheet='porrim_angrytalk' />
-		<animation name='porrim_annoyed2' class='porrim-dialog' sheet='porrim_annoyed2' />
+		<animation name='porrim_angrytalk' class='porrim-dialog' sheet='porrim_angrytalk' length='2'/>
+		<animation name='porrim_annoyed2' class='porrim-dialog' sheet='porrim_annoyed2' length='2'/>
 		<animation name='porrim_annoyed' class='porrim-dialog' sheet='porrim_annoyed' />
-		<animation name='porrim_annoyedtalk' class='porrim-dialog' sheet='porrim_annoyedtalk' />
+		<animation name='porrim_annoyedtalk' class='porrim-dialog' sheet='porrim_annoyedtalk' length='2'/>
 		<animation name='porrim_happier' class='porrim-dialog' sheet='porrim_happier' />
 		<animation name='porrim_happy' class='porrim-dialog' sheet='porrim_happy' />
-		<animation name='porrim_happytalk' class='porrim-dialog' sheet='porrim_happytalk' />
+		<animation name='porrim_happytalk' class='porrim-dialog' sheet='porrim_happytalk' length='2'/>
 		<animation name='porrim_idle' class='porrim-dialog' sheet='porrim_idle' />
-		<animation name='porrim_laugh' class='porrim-dialog' sheet='porrim_laugh' />
+		<animation name='porrim_laugh' class='porrim-dialog' sheet='porrim_laugh' length='2'/>
 		<animation name='porrim_light' class='porrim-dialog' sheet='porrim_light' />
 		<animation name='porrim_surprise' class='porrim-dialog' sheet='porrim_surprise' />
-		<animation name='porrim_surprisetalk' class='porrim-dialog' sheet='porrim_surprisetalk' />
-		<animation name='porrim_talk' class='porrim-dialog' sheet='porrim_talk' />
+		<animation name='porrim_surprisetalk' class='porrim-dialog' sheet='porrim_surprisetalk' length='2'/>
+		<animation name='porrim_talk' class='porrim-dialog' sheet='porrim_talk' length='2'/>
 	</dialogsprites>
 </hud>
 
@@ -170,8 +245,48 @@
 	<animation sheet='thirdRoomStaircase'/>
 </sprite>
 
-<sprite name='skateboard'>
+<sprite name='skateboard' depthing='2'>
 	<animation sheet='skateboard' x='-30' y='-40'/>
+</sprite>
+
+<sprite depthing='2' name='obj23'>
+<animation x='-50' y='-50' sheet='obj23'/>
+</sprite>
+<sprite depthing='2' name='obj24'>
+<animation x='-50' y='-50' sheet='obj24'/>
+</sprite>
+<sprite depthing='2' name='obj25'>
+<animation x='-50' y='-50' sheet='obj25'/>
+</sprite>
+<sprite depthing='2' name='obj26'>
+<animation x='-50' y='-50' sheet='obj26'/>
+</sprite>
+<sprite depthing='2' name='obj27'>
+<animation x='-50' y='-50' sheet='obj27'/>
+</sprite>
+<sprite depthing='2' name='obj28'>
+<animation x='-50' y='-50' sheet='obj28'/>
+</sprite>
+<sprite depthing='2' name='obj29'>
+<animation x='-50' y='-50' sheet='obj29'/>
+</sprite>
+<sprite depthing='2' name='obj30'>
+<animation x='-50' y='-50' sheet='obj30'/>
+</sprite>
+<sprite depthing='2' name='obj31'>
+<animation x='-50' y='-50' sheet='obj31'/>
+</sprite>
+<sprite depthing='2' name='obj32'>
+<animation x='-50' y='-50' sheet='obj32'/>
+</sprite>
+<sprite depthing='2' name='obj33'>
+<animation x='-50' y='-50' sheet='obj33'/>
+</sprite>
+<sprite depthing='2' name='obj34'>
+<animation x='-50' y='-50' sheet='obj34'/>
+</sprite>
+<sprite depthing='2' name='obj35'>
+<animation x='-50' y='-50' sheet='obj35'/>
 </sprite>
 
 <rooms>
@@ -183,10 +298,20 @@
   	</paths>
   	<triggers>
 		<trigger>spriteProperty,char,y&lt;180
+			<trigger>spriteProperty,char,name=meenah
   			<action command='deltaSprite'>
-  				<args>char,0,9</args>
+  				<args>char,0,12</args>
   				<action command='changeRoomRemote'>secondRoom.xml,secondRoom,1746,3410</action>
   			</action>
+  		</trigger>
+		</trigger>
+		<trigger>spriteProperty,char,y&lt;180
+			<trigger>spriteProperty,char,name!=meenah
+  			<action command='deltaSprite'>
+  				<args>char,0,12</args>
+  				<action class='exitAlert'/>
+  			</action>
+  		</trigger>
 		</trigger>
 		<trigger>spriteProperty,char,y&lt;1750
 			<trigger detonate='true'>spriteProperty,char,x&gt;2410
@@ -239,17 +364,19 @@
 																					<args>char,1630,1530</args>
 																					<action command='playAnimation' noWait='true'>
 																						<args>char,idleFront</args>
-																						<action command='talk' noWait='true'>
-																							<args>@! dialogue goes here sdlkhfsdjkl</args>
+																						<action class='grindTalk' command='talk' noWait='true'>
 																							<action command='becomePlayer'>
-																								<args></args>
+																								<args>char</args>
 																								<action command='deltaSprite'>
 																									<args>stairEventSwitch,0,-100</args>
 																									<action command='addActions' noWait='true'>
 																										<args>latula,
 																											<action command='changeChar' name='Be Latula.'>
 																												<args>latula</args>
-																												<action command='playSong'>gameGlare,18.19</action>
+																												<action command='playSong'>
+																													<args>gameGlare,18.19</args>
+																													<action class='fix-twins'/>
+																												</action>
 																											</action>
 																										</args>
 																									</action>
@@ -280,42 +407,36 @@
   		</trigger>
   	</triggers>
   	
-  	<character name='meenah' x='1150' y='2700' sx='-50' sy='-110' sWidth='100' sHeight='130' width='30' height='15' 
-	       sheet='meenahSheet' state='walkFront' facing='Front'>
-	  	<animation name='skate' sheet='meenahSkate' x='-60' y='-80' />
-      <action name='Be Meenah.' command='changeChar'>
-      	<args>meenah</args>
-      	<action command='playSong'>fusciaRuler, 32.0830</action>
-      </action>
-    </character>
+  	
     
-    <character name='andrew' x='1150' y='2600' sx='-50' sy='-110' sWidth='100' sHeight='130' width='30' height='15' 
+    <!--<character name='andrew' x='1150' y='2600' sx='-50' sy='-110' sWidth='100' sHeight='130' width='30' height='15' 
 				 sheet='andrewsheet' state='walkFront' facing='Front' following='meenah'>
 			<action name='swap' command='changeChar'>andrew</action>
-		</character>
+		</character>-->
     
     <character name='kankri' x='1200' y='2870' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
 	       sheet='kankriSheet' state='walkLeft' facing='Left'>
-       <action command='talk' name='Talk.'>
-	  		<args>
-	  		@! Hey, it's shouty! But it looks like he's severely embroiled in a really heavy discussion with your team's Vantas. You really don't feel like getting involved.
-	  		@!:#eavesdropping#rude Listen in on conversation?
-	  		</args>
-  			<action command='presentActions'>
-  				<args>
-  					<action class='eavesdrop'>
-
+      
+      <action class='snoop'/>
+			<action class='kankriTalk1'/>
+			<action class='kankriTalk2'>
+				<action command='changeChar'>
+					<args>kankri</args>
+					<action command='playSong'>
+						<args>ironInfidel</args>
+						<action command='removeAction'>
+							<args>kankri,Talk.</args>
+							<action command='removeAction'>
+								<args>karkat,Talk.</args>
+								
+							</action>
 						</action>
-						<action command='cancel' name='No.'>
-								<!-- nothing -->
-						</action>
-					</args>
+					</action>
+					
 				</action>
 			</action>
-			<action command='changeChar' name='Be Kankri.'>
-				<args>kankri</args>
-				<action command='playSong'>ironInfidel</action>
-			</action>
+			<action class='kankriTalk3'/>
+			<action class='kankriTalk4'/>
     </character>
     
     <character name='latula' x='2402' y='1720' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
@@ -323,50 +444,44 @@
 			<animation name='ollie' sheet='latulaOllieSheet' x='-60' y='-110' />
 			<animation name='skate' sheet='latulaSkateSheet' x='-60' y='-110' />
 			<animation name='board' sheet='latulaBoardSheet' x='-60' y='-110' loopNum='1'/>
-			<action command='talk' name='Talk to Latula.'>
-				<args>
-						@! dialogue goes here sudsuidh
-				</args>
-			</action>
-			<action command='talk' name='Ask Latula to join.'>
-				<args>
-					@! dialogue goes here dnasjknjd
-				</args>
-			</action>
-			<action command='talk' sprite='meenah' name='Be Latula.'>
-				<args>
-					@! dialogue goes here asuhdaisudha
-					@! basically you can't be me unless you do a rad skateboard stunt, i.e. take my skateboard and grind down a railing
-				</args>
+			<action class='latulaTalk1' />
+			<action class='latulaTalk2' />
+			<action class='latulaTalk3'>
 				<action command='openChest'>
 					<args>latula,skateboard,@!:#AWWW-YEAH#WHAT'S-UP-GAMERS You got LATULA'S FOUR WHEEL DEVICE!</args>
 					<action command='playAnimation'>
 						<args>latula,walkFront</args>
 						<action command='removeAction'>
-							<args>latula,Be Latula.</args>
-							
+							<args>latula,Be Latula.</args>	
 						</action>
 					</action>
 				</action>
 			</action>
+			<action class='latulaTalk4' />
+			<action class='latulaTalk5' />
+			
     </character>
     
     <character name='porrim' x='2220' y='1080' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
 	       sheet='porrimSheet' state='walkLeft' facing='Left'>
-			<action command='talk' name='Talk to Porrim.'>
-				<args>@! dialogue goes here fisdiohfsd</args>
-			</action>
-			<action command='talk' name='Ask Porrim to join.'>
-				<args>@! dialogue goes here asuhaiuf</args>
-			</action>
+			<action class='porrimTalk1' />
+			<action class='porrimTalk2' />
+			<action class='porrimTalk3' />
+			<action class='porrimTalk4' />
 			<action name='Be Porrim.' command='changeChar'>
 				<args>porrim</args>
-				<action command='playSong'>darlingDolorosa,43.88</action>
+				<action command='playSong'>
+					<args>darlingDolorosa,43.88</args>
+					<action class='fix-twins'/>
+				</action>
+				
 			</action>
     </character>
     
     <character name='karkat' x='1140' y='2870' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
 	       sheet='karkatSheet' state='walkRight' facing='Right'>
+      <action class='snoop'/>
+      <action class='karkatTalk1'/>
       
     </character>
     
@@ -401,12 +516,79 @@
 			</action>
 		</sprite>
     
+    <sprite class='chest4' name='thirdRoomChest1' x='354' y='1150'>
+    	<action command='openChest' name='open'>
+    		<args>thirdRoomChest1,obj23,@! ...</args>
+    	</action>
+    </sprite>
+    <sprite class='chest4' name='thirdRoomChest2' x='526' y='1150'>
+    	<action command='openChest' name='open'>
+    		<args>thirdRoomChest2,obj24,@! ...</args>
+    	</action>
+    </sprite>
+    <sprite class='chest4' name='thirdRoomChest3' x='663' y='1150'>
+    	<action command='openChest' name='open'>
+    		<args>thirdRoomChest3,obj25,@! ...</args>
+    	</action>
+    </sprite>
+    <sprite class='chest4' name='thirdRoomChest4' x='1623' y='1150'>
+    	<action command='openChest' name='open'>
+    		<args>thirdRoomChest4,obj26,@! ...</args>
+    	</action>
+    </sprite>
+    <sprite class='chest4' name='thirdRoomChest5' x='1794' y='1150'>
+    	<action command='openChest' name='open'>
+    		<args>thirdRoomChest5,obj27,@! ...</args>
+    	</action>
+    </sprite>
+    <sprite class='chest4' name='thirdRoomChest6' x='1959' y='1150'>
+    	<action command='openChest' name='open'>
+    		<args>thirdRoomChest6,obj28,@! ...</args>
+    	</action>
+    </sprite>
+    <sprite class='chest5' name='thirdRoomChest7' x='320' y='2084'>
+    	<action command='openChest' name='open'>
+    		<args>thirdRoomChest7,obj29,@! ...</args>
+    	</action>
+    </sprite>
+    <sprite class='chest5' name='thirdRoomChest8' x='2012' y='2092'>
+    	<action command='openChest' name='open'>
+    		<args>thirdRoomChest8,obj30,@! ...</args>
+    	</action>
+    </sprite>
+    <sprite class='chest4' name='thirdRoomChest9' x='2628' y='2556'>
+    	<action command='openChest' name='open'>
+    		<args>thirdRoomChest9,obj31,@! ...</args>
+    	</action>
+    </sprite>
+    <sprite class='chest4' name='thirdRoomChest10' x='3156' y='2604'>
+    	<action command='openChest' name='open'>
+    		<args>thirdRoomChest10,obj32,@! ...</args>
+    	</action>
+    </sprite>
+    <sprite class='chest4' name='thirdRoomChest11' x='3232' y='2604'>
+    	<action command='openChest' name='open'>
+    		<args>thirdRoomChest11,obj33,@! ...</args>
+    	</action>
+    </sprite>
+    <sprite class='chest4' name='thirdRoomChest12' x='3936' y='2600'>
+    	<action command='openChest' name='open'>
+    		<args>thirdRoomChest12,obj34,@! ...</args>
+    	</action>
+    </sprite>
+    <sprite class='chest5' name='thirdRoomChest13' x='2932' y='2120'>
+    	<action command='openChest' name='open'>
+    		<args>thirdRoomChest13,obj35,@! ...</args>
+    	</action>
+    </sprite>
+    
     <sprite name='thirdRoomBG'>
       <animation sheet='thirdRoomBG'/>
     </sprite>
-    
-    <sprite name='thirdRoomDoor' x='3016' y='452'>
-			<animation sheet='thirdRoomDoor'/>
+
+    <sprite name='thirdRoomDoor' x='3076' y='602' width='68' height='20'>
+			<animation sheet='thirdRoomDoor' x='-60' y='-150'/>
+			<action class='doorTalk1'/>
 		</sprite>
 
 	

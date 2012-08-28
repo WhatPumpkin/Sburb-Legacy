@@ -7,24 +7,53 @@
   		<asset name='helpControl' type='graphic'>interface/helpControl.png</asset>
   		<asset name='teleporterPad' type='graphic'>objects/teleporterpad.png</asset>
   		<asset name='teleportSheet' type='graphic'>effects/teleportSheet.png</asset>
-  		<asset name='chest1OpenSheet' type='graphic'>objects/chest1_open.png</asset>
-  		<asset name='chest1ClosedSheet' type='graphic'>objects/chest1_closed.png</asset>
+  		
+  		<asset name='chest1OpenSheet' type='graphic'>objects/chest1o.png</asset>
+  		<asset name='chest1ClosedSheet' type='graphic'>objects/chest1.png</asset>
+  		
+  		<asset name='chest4OpenSheet' type='graphic'>objects/chest4o.png</asset>
+  		<asset name='chest4ClosedSheet' type='graphic'>objects/chest4.png</asset>
+  		<asset name='chest5OpenSheet' type='graphic'>objects/chest5o.png</asset>
+  		<asset name='chest5ClosedSheet' type='graphic'>objects/chest5.png</asset>
+  		<asset name='chest6OpenSheet' type='graphic'>objects/chest6o.png</asset>
+  		<asset name='chest6ClosedSheet' type='graphic'>objects/chest6.png</asset>
+  		
+
   		<asset name='redBubbleSheet' type='graphic'>objects/redbubble.png</asset>
 	</assets>
 
 	<classes>
-		<sprite class='chest' width='80' height='30' depthing='1' collidable='true'>
-				<animation name='closed' sheet='chest1ClosedSheet' x='-70' y='-60' rowSize='84' colSize='123'/>
-				<animation name='open' sheet='chest1OpenSheet' x='-70' y='-60' rowSize='84' colSize='123' length='3' loopNum='0' followUp='opened'/>
-				<animation name='opened' sheet='chest1OpenSheet' x='-70' y='-60' rowSize='84' colSize='123' startPos='2'/>
+		<sprite class='chest1' width='40' height='20' depthing='1' collidable='true'>
+				<animation name='closed' sheet='chest1ClosedSheet' x='-48' y='-40' />
+				<animation name='open' sheet='chest1OpenSheet' x='-48' y='-40' loopNum='0' followUp='opened'/>
+				<animation name='opened' sheet='chest1OpenSheet' x='-48' y='-40' loopNum='0'/>
 		</sprite>
-	
+		
+		
+		<sprite class='chest4' width='40' height='20' depthing='1' collidable='true'>
+				<animation name='closed' sheet='chest4ClosedSheet' x='-48' y='-40' />
+				<animation name='open' sheet='chest4OpenSheet' x='-48' y='-40'  loopNum='0' followUp='opened'/>
+				<animation name='opened' sheet='chest4OpenSheet' x='-48' y='-40' loopNum='0'/>
+		</sprite>
+		
+		<sprite class='chest5' width='40' height='20' depthing='1' collidable='true'>
+				<animation name='closed' sheet='chest5ClosedSheet' x='-48' y='-40' />
+				<animation name='open' sheet='chest5OpenSheet' x='-48' y='-40'  loopNum='0' followUp='opened'/>
+				<animation name='opened' sheet='chest5OpenSheet' x='-48' y='-40' loopNum='0'/>
+		</sprite>
+		<sprite class='chest6' width='40' height='20' depthing='1' collidable='true'>
+				<animation name='closed' sheet='chest6ClosedSheet' x='-48' y='-40' />
+				<animation name='open' sheet='chest6OpenSheet' x='-48' y='-40'  loopNum='0' followUp='opened'/>
+				<animation name='opened' sheet='chest6OpenSheet' x='-48' y='-40' loopNum='0'/>
+		</sprite>
+		
+		
 		<sprite class='teleporter' width='110' height='60'>
 		  <animation sheet='teleporterPad' x='-66' y='-120'/>
 	  	</sprite>
 	  	
 	  	<sprite class='redBubble' width='20' height='20' depthing='1' collidable='true'>
-	  		<animation name='image' sheet='redBubbleSheet' x='-20' y='-40' />
+	  		<animation name='image' sheet='redBubbleSheet' x='-48' y='-40' />
 			<action class='redBubbleText' name="talk" command='randomTalk'> </action>
 		</sprite>
 	  

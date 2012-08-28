@@ -114,9 +114,9 @@ commands.addActions = function(info){
 	var firstComma = info.indexOf(",");
 	var sprite = parseCharacterString(params[0]);
 	var actionString = info.substring(firstComma+1,info.length);
-	console.log(info,actionString);
+
 	var actions = parseActionString(actionString);
-	console.log(actions);
+
 	for(var i=0;i<actions.length;i++){
 		var action = actions[i];
 		sprite.addAction(action);
@@ -157,7 +157,9 @@ commands.openChest = function(info){
 	lastAction = lastAction.followUp = new Sburb.Action("addSprite",item.name+","+Sburb.curRoom.name,null,null,null,true);
 	lastAction = lastAction.followUp = new Sburb.Action("moveSprite",item.name+","+chest.x+","+(chest.y-60),null,null,null,true,true);
 	lastAction = lastAction.followUp = new Sburb.Action("deltaSprite",item.name+",0,-3",null,null,null,true,null,10);
-	lastAction = lastAction.followUp = new Sburb.Action("talk",speech,null,null,null,true);
+	lastAction = lastAction.followUp = new Sburb.Action("waitFor","time,30");
+	lastAction = lastAction.followUp = new Sburb.Action("talk",speech);
+	
 	lastAction = lastAction.followUp = new Sburb.Action("removeSprite",item.name+","+Sburb.curRoom.name);
 	lastAction.followUp = Sburb.curAction.followUp;
 	Sburb.performAction(newAction);
@@ -354,6 +356,22 @@ commands.skipDialog = function(info){
 	Sburb.dialoger.skipAll();
 }
 
+//Set a character to follow another sprite
+//syntax: followerName, leaderName
+commands.follow = function(info){
+	var params = parseParams(info);
+	var follower = parseCharacterString(params[0]);
+	var leader = parseCharacterString(params[1]);
+	follower.follow(leader);
+}
+
+//Set a character to stop following another sprite
+//syntax: followerName
+commands.unfollow = function(info){
+	var params = parseParams(info);
+	var follower = parseCharacterString(params[0]);
+	follower.unfollow();
+}
 
 //blank utlity function
 //syntax: none
