@@ -12,9 +12,7 @@
 
 <assets>
   <asset name='SburbFont' type='font'>
-  local:Courier New,
-  url:fonts/cour.woff,
-  url:fonts/cour.ttf
+  local:Courier New, local:Courier, url:fonts/cour.woff, url:fonts/cour.ttf
   </asset>
 
 

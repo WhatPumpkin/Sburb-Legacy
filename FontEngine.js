@@ -337,16 +337,17 @@ Sburb.FontEngine.prototype.draw = function(){
 	var currentFormats = [];
 	var nextStop;
 	var curLine;
-	Sburb.stage.save();
-	if(Sburb.stage.textBaseline != "top"){
-		Sburb.stage.textBaseline = "top";
-	}
-	if(Sburb.stage.textAlign!=this.align){
-		Sburb.stage.textAlign = this.align;
-	}
+	
 	i=0;
 	lenCount=0;
 	while(i<Math.floor(this.height/this.lineHeight) && i<this.lines.length){
+		Sburb.stage.save();
+		//if(Sburb.stage.textBaseline != "top"){
+			Sburb.stage.textBaseline = "top";
+		//}
+		//if(Sburb.stage.textAlign!=this.align){
+			Sburb.stage.textAlign = this.align;
+		//}
 		curLine = this.lines[i];
 		var curFont = this.font;
 		var curColor = this.color;
@@ -403,17 +404,22 @@ Sburb.FontEngine.prototype.draw = function(){
 			}
 			linePos = -1;
 		}
-		var startX = this.x+strStart*this.charWidth;
-		var startY = this.y+i*this.lineHeight;
-		if(Sburb.stage.font != curFont){
-			Sburb.stage.font = curFont;
-		}
-		if(Sburb.stage.fillStyle!=curColor){
-			Sburb.stage.strokeStyle = Sburb.stage.fillStyle = curColor;
-		}
-		var len = (strEnd-strStart);
-		if(len>0){
-			Sburb.stage.fillText(curLine.substring(strStart,strEnd),startX,startY,len*this.charWidth);
+		var numChars = strEnd-strStart;
+		
+		if(numChars>0){
+			
+			var startX = this.x+strStart*this.charWidth;
+			var startY = this.y+i*this.lineHeight;
+			
+			//if(Sburb.stage.font != curFont){
+				Sburb.stage.font = curFont;
+			//}
+			//if(Sburb.stage.fillStyle!=curColor){
+				Sburb.stage.strokeStyle = Sburb.stage.fillStyle = curColor;
+			//}
+			//console.log(Sburb.stage.fillStyle, Sburb.stage.strokeStyle, Sburb.stage.font, Sburb.stage.textBaseline, Sburb.stage.textAlign,curLine.substring(strStart,strEnd));
+			//console.log(strStart,strEnd,startX,startY,numChars*this.charWidth,);
+			Sburb.stage.fillText(curLine.substring(strStart,strEnd),startX,startY,numChars*this.charWidth);
 			if(underlining && strStart<strEnd){
 				if(Sburb.stage.lineWidth!=0.6){
 					Sburb.stage.lineWidth = 0.6;
@@ -423,7 +429,7 @@ Sburb.FontEngine.prototype.draw = function(){
 				}
 				Sburb.stage.beginPath();
 				Sburb.stage.moveTo(startX,startY+this.lineHeight-3);
-				Sburb.stage.lineTo(startX+(strEnd-strStart)*this.charWidth,startY+this.lineHeight-3);
+				Sburb.stage.lineTo(startX+numChars*this.charWidth,startY+this.lineHeight-3);
 				Sburb.stage.closePath();
 				Sburb.stage.stroke();
 			}
@@ -433,8 +439,9 @@ Sburb.FontEngine.prototype.draw = function(){
 			linePos = 0;
 			i++;
 		}
+		Sburb.stage.restore();
 	}
-	Sburb.stage.restore();
+	
 }
 
 //is the contents of the current "box" fully displayed
