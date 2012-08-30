@@ -3,6 +3,7 @@
 		<dependency>redBubbleText.xml</dependency>
 	</dependencies>
 	<assets>
+		<asset name='preloaderBG' type='graphic'>backgrounds/load.png</asset>
 		<asset name='volumeControl' type='graphic'>interface/volumeControl.png</asset>
   		<asset name='helpControl' type='graphic'>interface/helpControl.png</asset>
   		<asset name='teleporterPad' type='graphic'>objects/teleporterpad.png</asset>
@@ -23,6 +24,7 @@
 	</assets>
 
 	<classes>
+	
 		<sprite class='chest1' width='40' height='20' depthing='1' collidable='true'>
 				<animation name='closed' sheet='chest1ClosedSheet' x='-48' y='-40' />
 				<animation name='open' sheet='chest1OpenSheet' x='-48' y='-40' loopNum='0' followUp='opened'/>
@@ -52,8 +54,8 @@
 		  <animation sheet='teleporterPad' x='-66' y='-120'/>
 	  	</sprite>
 	  	
-	  	<sprite class='redBubble' width='20' height='20' depthing='1' collidable='true'>
-	  		<animation name='image' sheet='redBubbleSheet' x='-48' y='-40' />
+	  	<sprite class='redBubble' width='25' height='20' depthing='1' collidable='true'>
+	  		<animation name='image' sheet='redBubbleSheet' x='-18' y='-60' />
 			<action class='redBubbleText' name="talk" command='randomTalk'> </action>
 		</sprite>
 	  

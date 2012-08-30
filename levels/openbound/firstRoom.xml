@@ -5,11 +5,14 @@
 </dependencies>
 
 <classes>
-	<animation class='aradia-dialog' frameInterval='6' x='-230' y='-504'/>
+	<animation class='aradia-dialog' frameInterval='6' x='-245' y='-504'/>
+	<character class='andrew' sx='-50' sy='-110' sWidth='100' sHeight='130' width='40' height='20' 
+	       sheet='andrewSheet' state='walkLeft' facing='Left'>
+		<animation name='sit' sheet='andrewSitSheet' x='-30' y='-65'/>
+	</character>
 </classes>
 
 <assets>
-  
   <asset name='meenahSheet' type='graphic'>chars/meenah.png</asset>
 	<asset name='meenahSkate' type='graphic'>chars/meenah_skate.png</asset>
 	<asset name='aradiaSheet' type='graphic'>chars/aradia.png</asset>
@@ -38,6 +41,10 @@
 	<asset name='obj08' type='graphic'>objects/08.png</asset>
 	<asset name='obj09' type='graphic'>objects/09.png</asset>
 	<asset name='obj10' type='graphic'>objects/10.png</asset>
+	
+	<asset name='andrewSheet' type='graphic'>chars/andrew.png</asset>
+	<asset name='andrewSitSheet' type='graphic'>chars/ah_sit.png</asset>
+	<asset name='eightBallsSheet' type='graphic'>objects/ah_8balls.png</asset>
 </assets>
 
 <hud>
@@ -45,7 +52,7 @@
 		<animation name='aradia_happy' class='aradia-dialog' sheet='aradia_happy' />
 		<animation name='aradia_happytalk' class='aradia-dialog' sheet='aradia_happytalk' length='2' />
 		<animation name='aradia_idle' class='aradia-dialog' sheet='aradia_idle' />
-		<animation name='aradia_laugh' class='aradia-dialog' sheet='aradia_laugh'  length='2' />
+		<animation name='aradia_laugh' class='aradia-dialog' sheet='aradia_laugh'  length='1' />
 		<animation name='aradia_point' class='aradia-dialog' sheet='aradia_point' />
 		<animation name='aradia_talk' class='aradia-dialog' sheet='aradia_talk'  length='2' />
 		<animation name='aradia_wink' class='aradia-dialog' sheet='aradia_wink' />
@@ -53,6 +60,10 @@
 </hud>
 
 <sprite name='firstRoomToggle' y='0'>
+    <animation sheet='aradiaSheet'/>
+</sprite>
+
+<sprite name='firstRoomFocusPoint' x='3336' y='280'>
     <animation sheet='aradiaSheet'/>
 </sprite>
 
@@ -110,12 +121,64 @@
 					</action>
   			</trigger>
   		</trigger>
+  		<trigger detonate='true'>inBox,char,2710,234,54,250
+  			<action command='waitFor'>
+  				<args>spriteProperty,andrewRun,y&gt;600</args>
+  				<action command='becomePlayer' noWait='true'>
+  					<args>andrewRun</args>
+  					<action command='playAnimation' noWait='true'>
+							<args>andrewRun,walkRight</args>
+							<action command='changeFocus' noWait='true'>
+								<args>firstRoomFocusPoint</args>
+								<action command='deltaSprite' noWait='true' times='6'>
+									<args>andrewRun,11,0</args>
+									<action command='deltaSprite' noWait='true' times='17'>
+										<args>andrewRun,11,-9</args>
+										<action command='deltaSprite' noWait='true' times='30'>
+											<args>andrewRun,11,13</args>
+											<action command='changeFocus'>
+												<args>char</args>
+											</action>
+										</action>
+									</action>
+								</action>
+							</action>
+						</action>
+  				</action>
+  			</action>
+  		</trigger>
+  		<trigger detonate='true'>inBox,char,1450,3332,180,36
+  			<action command='talk'>
+  				<args>
+  				@! Wait. You hear something nearby.
+				  @! Is...
+				  @! Is that...
+				  @!:#???? Sobbing?
+				  </args>
+  			</action>
+  			
+  		</trigger>
   	</triggers>
   	
     <paths>
   		<motionpath path="firstRoomStairs1" xtox = '0.7' xtoy = '0.7' ytox='0' ytoy = '1' dx='0' dy='0'/>
   		<motionpath path="firstRoomStairs2" xtox = '0.7' xtoy = '0.7' ytox='0' ytoy = '1' dx='0' dy='0'/>
   	</paths>
+    
+    <character class='andrew' name='andrewRun' x='2965' y='380'/>
+    
+    <character class='andrew' name='andrew' x='976' y='3504' state='sit'>
+    	<action class='andrewTalk1'/>
+    </character>
+    
+    <sprite name='eightBalls' x='906' y='3314'>
+    	<animation sheet='eightBallsSheet'/>
+    </sprite>
+    
+    <sprite name='questSwitch'>
+    	<animation sheet='eightBallsSheet'/>
+    </sprite>
+    
     
     <character name='meenah' x='1490' y='630' sx='-50' sy='-110' sWidth='100' sHeight='130' width='30' height='15' 
 	       sheet='meenahSheet' state='walkFront' facing='Front'>
@@ -160,52 +223,63 @@
     
     <sprite class='chest1' name='firstRoomChest1' x='2913' y='208'>
     	<action command='openChest' name='open'>
-    		<args>firstRoomChest1,obj01,@! ...</args>
+    		<args>firstRoomChest1,obj01, @! You got a GOLD TIARA!
+      @!:#bling#carats#jackpot You have no intention of wearing this thing, but it doesn't hurt to start stockpiling loot again. Now that you're dead, you're finding yourself a little light on collateral, if you know what I'm saying.</args>
     	</action>
     </sprite>
     <sprite class='chest1' name='firstRoomChest2' x='2745' y='576'>
     	<action command='openChest' name='open'>
-    		<args>firstRoomChest2,obj02,@! ...</args>
+    		<args>firstRoomChest2,obj02,@! You got a DOUBLE TRIDENT!
+      @!:#GOLD#$$$$$#booyeah You already have one of these. But there ain't nothing wrong with stowing a little more SOLID GOLD in your inventory. You got an extravagant ghost sea princess lifestyle to maintain.</args>
     	</action>
     </sprite>
     <sprite class='chest1' name='firstRoomChest3' x='426' y='558'>
     	<action command='openChest' name='open'>
-    		<args>firstRoomChest3,obj03,@! ...</args>
+    		<args>firstRoomChest3,obj03, @! You got a DIRTY OLD FEDORA!
+      @!:#hornless-troll-indiana-jones-hat Totally useless. This nasty trash isn't coming anywhere close to your head. Doesn't even have horn holes. Looks like something an archaeologist would wear. You wonder whose memory this is?
+</args>
     	</action>
     </sprite>
     <sprite class='chest1' name='firstRoomChest4' x='2643' y='1557'>
     	<action command='openChest' name='open'>
-    		<args>firstRoomChest4,obj04,@! ...</args>
+    		<args>firstRoomChest4,obj04,@!:#ka-ching You got some BOONDOLLARS! 
+      @!:#broke It's not much, but you pocket the loot without a second thought. The bankroll's been a little slack since you died, and every bit helps on your climb back to obscene wealth.</args>
     	</action>
     </sprite>
     <sprite class='chest1' name='firstRoomChest5' x='2052' y='2037'>
     	<action command='openChest' name='open'>
-    		<args>firstRoomChest5,obj05,@! ...</args>
+    		<args>firstRoomChest5,obj05, @!:#pyralspite You got a SCALEMATE PLUSH!
+      @!:#highly-desirable-merchandise Holy shit. You are never going to stop hugging this thing. Ever.</args>
     	</action>
     </sprite>
-    <sprite class='chest1' name='firstRoomChest6' x='228' y='1710'>
+    <sprite class='chest1' name='firstRoomChest6' x='278' y='1710'>
     	<action command='openChest' name='open'>
-    		<args>firstRoomChest6,obj06,@! ...</args>
+    		<args>firstRoomChest6,obj06,@! You got some ANCIENT SERPENT BONES!
+      @!:#where's-the-prawn-shop-in-this-bitch Again, a strange thing to find. Who here would have a memory of these? Huge prehistoric green serpents have always played a major role in your people's mythology, both before and after your session scratched. Of course, only people with an interest in ancient lore and dusty old bones give a crap about that. You're much more interested in their monetary value. Hopefully you can find a sucker to pay up for them big time.</args>
     	</action>
     </sprite>
     <sprite class='chest1' name='firstRoomChest7' x='213' y='2097'>
     	<action command='openChest' name='open'>
-    		<args>firstRoomChest7,obj07,@! ...</args>
+    		<args>firstRoomChest7,obj07, @! You got a BRONZE POTION!
+      @!:#you-throw-it-off-a-cliff This stuff is supposed to make you kiss good, with side effects of mild to total paralysis. Wait a minute... isn't this just some troll blood? Oh yuck.</args>
     	</action>
     </sprite>
     <sprite class='chest1' name='firstRoomChest8' x='1152' y='2421'>
     	<action command='openChest' name='open'>
-    		<args>firstRoomChest8,obj08,@! ...</args>
+    		<args>firstRoomChest8,obj08,@! You got a thing of MOTOR OIL!
+      @!:#P.S.#you-take-a-little-sip#it-tastes-awful Hey, this bottle even has the label intact! Typically the label is ripped off and applied to chalk murals. The fact that it still has a label makes it much more valuable as a collector's item. Always gotta be mindful of the cash value of the useless shit you find in chests.</args>
     	</action>
     </sprite>
     <sprite class='chest1' name='firstRoomChest9' x='2568' y='2856'>
     	<action command='openChest' name='open'>
-    		<args>firstRoomChest9,obj09,@! ...</args>
+    		<args>firstRoomChest9,obj09,@! You got a BOONBUCK!
+      @!:#but-once-you're-there#you-can-try-to-make-it-back-in-a-FUCKING-HURRY Now we're talking. This should get your broke ass off the canvas. It's such a crime that the insane fortune you accumulated in your game doesn't persist after you die. You guess it's true, you really can't take it with you to the other side.</args>
     	</action>
     </sprite>
     <sprite class='chest1' name='firstRoomChest10' x='834' y='3235'>
     	<action command='openChest' name='open'>
-    		<args>firstRoomChest10,obj10,@! ...</args>
+    		<args>firstRoomChest10,obj10,@! You got a BLOODY CHERUB TOOTH!
+      @!:#or-whoever-makes-the-first-offer The fact that this is in a chest here is kind of disturbing to you in ways you can't really explain. You think you'll try to sell this thing to the highest bidder as soon as possible.</args>
     	</action>
     </sprite>
     

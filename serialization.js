@@ -167,16 +167,17 @@ function purgeState(){
 	Sburb.chooser = new Sburb.Chooser();
 	Sburb.dialoger = null;
 	Sburb.curRoom = null;
+	Sburb.char = null;
 	Sburb.assetManager.resourcePath = "";
 	Sburb.assetManager.levelPath = "";
-	
 	loadedFiles = {};
 }
 
 //Load state/assets from file
 Sburb.loadSerialFromXML = function(file,keepOld) {
-	file = Sburb.assetManager.levelPath+file;
 	Sburb.haltUpdateProcess();
+	file = Sburb.assetManager.levelPath+file;
+	
 	if(keepOld && loadedFiles[file]){
 		Sburb.startUpdateProcess();
 		return;
@@ -228,7 +229,7 @@ function loadSerial(serialText, keepOld) {
     }
     loadingDepth++;
     loadDependencies(input);
-    
+    loadingDepth--;
     loadSerialAssets(input);
 		loadQueue.push(input);
 		loadSerialState(input); 
@@ -332,12 +333,12 @@ function loadSerialState() {
 		parseEffects(input);
 	
 		//should be last
-		parseState(input);
-		loadingDepth--;
-		if(loadingDepth==0){
-			Sburb.startUpdateProcess();
-		}
+		parseState(input);	
   }
+  
+  if(loadQueue.length==0 && loadingDepth==0){
+		Sburb.startUpdateProcess();
+	}
 }
 
 function parseDialogSprites(input){
@@ -426,19 +427,34 @@ function parseButtons(input){
 function parseSprites(input){
 	
 	var newSprites = input.getElementsByTagName("sprite");
-  	for(var i=0;i<newSprites.length;i++){
-  		var curSprite = newSprites[i];
+	for(var i=0;i<newSprites.length;i++){
+		var curSprite = newSprites[i];
 		var newSprite = Sburb.parseSprite(curSprite, Sburb.assets);
-  		Sburb.sprites[newSprite.name] = newSprite;
-  	}
+		Sburb.sprites[newSprite.name] = newSprite;
+		parseActions(curSprite,newSprite);
+	}
+}
+
+function parseActions(spriteNode,sprite){
+	var newActions = spriteNode.childNodes;
+	for(var k=0;k<newActions.length;k++){
+		if(newActions[k].nodeName == "#text") {
+			continue;
+		}
+		if(newActions[k].nodeName == "action"){
+			var newAction = Sburb.parseAction(newActions[k]);
+			sprite.addAction(newAction);
+		}
+	}
 }
 
 function parseCharacters(input){
 	var newChars = input.getElementsByTagName("character");
   	for(var i=0;i<newChars.length;i++){
   		var curChar = newChars[i];
-		var newChar = Sburb.parseCharacter(curChar, Sburb.assets);
+			var newChar = Sburb.parseCharacter(curChar, Sburb.assets);
   		Sburb.sprites[newChar.name] = newChar;
+  		parseActions(curChar,newChar);
   	}
 }
 
@@ -446,8 +462,9 @@ function parseFighters(input){
 	var newFighters = input.getElementsByTagName("fighter");
   	for(var i=0;i<newFighters.length;i++){
   		var curFighter = newFighters[i];
-		var newFighter = Sburb.parseFighter(curFighter, Sburb.assets);
+			var newFighter = Sburb.parseFighter(curFighter, Sburb.assets);
   		Sburb.sprites[newFighter.name] = newFighter;
+  		parseActions(curFighter,newFighter);
   	}
 }
 
@@ -455,7 +472,7 @@ function parseRooms(input){
 	var newRooms = input.getElementsByTagName("room");
   	for(var i=0;i<newRooms.length;i++){
   		var currRoom = newRooms[i];
-		var newRoom = Sburb.parseRoom(currRoom, Sburb.assets, Sburb.sprites);
+			var newRoom = Sburb.parseRoom(currRoom, Sburb.assets, Sburb.sprites);
   		Sburb.rooms[newRoom.name] = newRoom;
   	}
 }
@@ -578,16 +595,7 @@ function serialLoadRoomSprites(newRoom, roomSprites, spriteFolder){
 		var curSprite = roomSprites[j];
 		var actualSprite = spriteFolder[curSprite.attributes.getNamedItem("name").value];
 		newRoom.addSprite(actualSprite);
-	  	var newActions = curSprite.childNodes;
-		for(var k=0;k<newActions.length;k++){
-			if(newActions[k].nodeName == "#text") {
-				continue;
-			}
-			if(newActions[k].nodeName == "action"){
-				var newAction = Sburb.parseAction(newActions[k]);
-				actualSprite.addAction(newAction);
-			}
-		}
+	  
 	}
 }
 

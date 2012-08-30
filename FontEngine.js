@@ -411,19 +411,22 @@ Sburb.FontEngine.prototype.draw = function(){
 		if(Sburb.stage.fillStyle!=curColor){
 			Sburb.stage.strokeStyle = Sburb.stage.fillStyle = curColor;
 		}
-		Sburb.stage.fillText(curLine.substring(strStart,strEnd),startX,startY);
-		if(underlining && strStart<strEnd){
-			if(Sburb.stage.lineWidth!=0.6){
-				Sburb.stage.lineWidth = 0.6;
+		var len = (strEnd-strStart);
+		if(len>0){
+			Sburb.stage.fillText(curLine.substring(strStart,strEnd),startX,startY,len*this.charWidth);
+			if(underlining && strStart<strEnd){
+				if(Sburb.stage.lineWidth!=0.6){
+					Sburb.stage.lineWidth = 0.6;
+				}
+				if(Sburb.stage.lineCap!="square"){
+					Sburb.stage.lineCap = "square";
+				}
+				Sburb.stage.beginPath();
+				Sburb.stage.moveTo(startX,startY+this.lineHeight-3);
+				Sburb.stage.lineTo(startX+(strEnd-strStart)*this.charWidth,startY+this.lineHeight-3);
+				Sburb.stage.closePath();
+				Sburb.stage.stroke();
 			}
-			if(Sburb.stage.lineCap!="square"){
-				Sburb.stage.lineCap = "square";
-			}
-			Sburb.stage.beginPath();
-			Sburb.stage.moveTo(startX,startY+this.lineHeight-3);
-			Sburb.stage.lineTo(startX+(strEnd-strStart)*this.charWidth,startY+this.lineHeight-3);
-			Sburb.stage.closePath();
-			Sburb.stage.stroke();
 		}
 		if(linePos==-1){
 			lenCount+=this.lines[i].length;

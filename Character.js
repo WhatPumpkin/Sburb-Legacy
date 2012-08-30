@@ -268,17 +268,20 @@ Sburb.Character.prototype.tryToMove = function(vx,vy,room){
 
 Sburb.Character.prototype.follow = function(sprite){
 	this.following = sprite;
+	sprite.follower = this;
 	this.followBuffer = [];
 	this.lastLeaderPos = {};
 	this.collidable = false;
 }
 
-Sburb.Character.prototype.unfollow = function(sprite){
-	this.following = null;
-	this.following = null;
-	this.lastLeaderPos = null;
-	this.collidable = true;
-	this.becomeNPC();
+Sburb.Character.prototype.unfollow = function(){
+	if(this.following){
+		this.following.follower = null;
+		this.following = null;
+		this.lastLeaderPos = null;
+		this.collidable = true;
+		this.becomeNPC();
+	}
 }
 
 //get locations character wishes to query for actions

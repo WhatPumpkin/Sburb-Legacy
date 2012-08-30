@@ -136,27 +136,36 @@ commands.removeAction = function(info){
 commands.presentActions = function(info){
 	var actions = parseActionString(info);
 	Sburb.chooser.choices = actions;
-	Sburb.chooser.beginChoosing(Sburb.char.x,Sburb.char.y);
+	Sburb.chooser.beginChoosing(Sburb.cam.x+20,Sburb.cam.y+50);
 }
 
 
 //Open the specified chest, revealing the specified item, and with the specified text
 //Syntax: chestName, itemName, message
 commands.openChest = function(info){
-	var params = parseParams(info);
-	var chest = Sburb.sprites[params[0]];
-	var item = Sburb.sprites[params[1]];
+	var params = info.split(",",2);
+	var chest = Sburb.sprites[params[0].trim()];
+	var item = Sburb.sprites[params[1].trim()];
 	if(chest.animations["open"]){
 		chest.startAnimation("open");
+		if(Sburb.assets["openSound"]){
+			commands.playSound("openSound");
+		}
 	}
+	
 	chest.removeAction(Sburb.curAction.name);
-	var speech = params[2].charAt(0)=="@"?params[2]:"@! "+params[2];
+	var offset = params[0].length+params[1].length+2;
+	var speech = info.substring(offset,info.length).trim();
+	speech = speech.charAt(0)=="@" ? speech : "@! "+speech;
 	var lastAction;
 	var newAction = lastAction = new Sburb.Action("waitFor","played,"+chest.name,null,null);
 	lastAction = lastAction.followUp = new Sburb.Action("waitFor","time,13");
 	lastAction = lastAction.followUp = new Sburb.Action("addSprite",item.name+","+Sburb.curRoom.name,null,null,null,true);
 	lastAction = lastAction.followUp = new Sburb.Action("moveSprite",item.name+","+chest.x+","+(chest.y-60),null,null,null,true,true);
 	lastAction = lastAction.followUp = new Sburb.Action("deltaSprite",item.name+",0,-3",null,null,null,true,null,10);
+	if(Sburb.assets["itemGetSound"]){
+		lastAction = lastAction.followUp = new Sburb.Action("playSound","itemGetSound",null,null,null,true,null);
+	}
 	lastAction = lastAction.followUp = new Sburb.Action("waitFor","time,30");
 	lastAction = lastAction.followUp = new Sburb.Action("talk",speech);
 	
@@ -195,16 +204,27 @@ commands.moveSprite = function(info){
 //Play the specified flash movie
 //syntax: movieName
 commands.playMovie = function(info){
-	Sburb.playMovie(Sburb.assets[info]);
-	Sburb.bgm.pause();
+	var params = parseParams(info);
+	Sburb.playMovie(Sburb.assets[params[0]]);
+	if(params.length>0){
+		var interval = setInterval(function(){
+			var movie = window.document.getElementById("movie"+params[0]);
+			if(movie && (!movie.CurrentFrame || movie.CurrentFrame()>=4)){
+				clearInterval(interval);
+				commands.playSong(info.substring(info.indexOf(",")+1,info.length));
+			}
+		},10);
+	}
 }
 
 //Remove the specified flash movie
 //syntax: movieName
 commands.removeMovie = function(info){
+	Sburb.playingMovie = false;
+	Sburb.draw();
 	document.getElementById(info).style.display = "none";
-	document.getElementById("gameDiv").style.display = "block";
-	Sburb.bgm.play();
+	//document.getElementById("gameDiv").style.display = "block";
+	
 }
 
 //Wait for the specified trigger to be satisfied
@@ -371,6 +391,20 @@ commands.unfollow = function(info){
 	var params = parseParams(info);
 	var follower = parseCharacterString(params[0]);
 	follower.unfollow();
+}
+
+commands.addOverlay = function(info){
+	var params = parseParams(info);
+	var sprite = Sburb.sprites[params[0]];
+	sprite.x = Sburb.cam.x;
+	sprite.y = Sburb.cam.y;
+	Sburb.curRoom.addSprite(sprite);
+}
+
+commands.removeOverlay = function(info){
+	var params = parseParams(info);
+	var sprite = Sburb.sprites[params[0]];
+	Sburb.curRoom.removeSprite(sprite);
 }
 
 //blank utlity function

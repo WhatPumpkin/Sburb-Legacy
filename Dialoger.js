@@ -73,17 +73,6 @@ Sburb.Dialoger.prototype.nudge = function(){
 					this.nextDialog();
 				}else{
 					this.talking = false;
-					if(this.type=="social"){
-						if(this.actor){
-							if(Sburb.buttons.spadeButton.animation.name=="state1"){
-								this.choices[this.currentDialog] = -1;
-							}else if(Sburb.buttons.heartButton.animation.name=="state1"){
-								this.choices[this.currentDialog] = 1;
-							}else{
-								this.choices[this.currentDialog] = 0;
-							}
-						}
-					}
 				}
 			}
 		}else{
@@ -125,8 +114,16 @@ Sburb.Dialoger.prototype.startDialog = function(info){
 	this.nextDialog();
 	
 	if(this.type=="social"){
+		Sburb.buttons.spadeButton.startAnimation("state0");
+		Sburb.buttons.heartButton.startAnimation("state0");
 		if(this.actor && !this.choices[this.currentDialog]){
 			this.choices[this.currentDialog] = 0;
+		}else{
+			if(this.choices[this.currentDialog]==1){
+				Sburb.buttons.heartButton.startAnimation("state1");
+			}else{
+				Sburb.buttons.spadeButton.startAnimation("state1");
+			}
 		}
 	}
 	
@@ -361,6 +358,16 @@ Sburb.Dialoger.prototype.update = function(){
 		spadeButton.y = hashTagBar.y+15;
 		heartButton.y = hashTagBar.y+15;
 		bubbleButton.y = hashTagBar.y+15;
+		
+			if(this.actor){
+				if(Sburb.buttons.spadeButton.animation.name=="state1"){
+					this.choices[this.currentDialog] = -1;
+				}else if(Sburb.buttons.heartButton.animation.name=="state1"){
+					this.choices[this.currentDialog] = 1;
+				}else{
+					this.choices[this.currentDialog] = 0;
+				}
+			}
 		
 		if(init){
 			if(this.dialogSide=="Right"){

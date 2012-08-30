@@ -10,7 +10,7 @@
 	<animation class='porrim-dialog' frameInterval='6' x='-180' y='-444'/>
 	<animation class='latula-dialog' frameInterval='6' x='-200' y='-524'/>
   
-  <action class='snoop' command='talk' name='Talk.'>
+  <action class='snoop' sprite='meenah' command='talk' name='Talk.'>
 		<args>
 		@! Hey, it's shouty! But it looks like he's severely embroiled in a really heavy discussion with your team's Vantas. You really don't feel like getting involved.
 		@!:#eavesdropping#rude Listen in on conversation?
@@ -76,7 +76,6 @@
 	<asset name='porrimSheet' type='graphic'>chars/porrim.png</asset>
 	<asset name='kankriSheet' type='graphic'>chars/kankri.png</asset>
 	<asset name='karkatSheet' type='graphic'>chars/karkat.png</asset>
-	<asset name='andrewsheet' type='graphic'>chars/a_h.png</asset>
 
 	<asset name='latulaSheet' type='graphic'>chars/latula.png</asset>
 	<asset name='latulaOllieSheet' type='graphic'>chars/latula_ollie.png</asset>
@@ -100,6 +99,7 @@
 	<asset name='thirdRoomStairs1' type='path'>1374,2868;1370,2776;2098,3458;2098,3558</asset>
 	<asset name='thirdRoomStairs2' type='path'>3162,3568;3156,3456;3604,3034;3598,3154</asset>
 	<asset name='thirdRoomStairs3' type='path'>3705,2592;3705,2668;3270,2265;3276,2144</asset>
+	<asset name='thirdRoomDoorWalkable' type='path'>3036,534;3124,536;3125,619;3033,629</asset>
   
   
 	<asset name='kankri_glance' type='graphic'>dialogs/kankri_glance.png</asset>
@@ -156,13 +156,13 @@
 	<asset name='porrim_surprisetalk' type='graphic'>dialogs/porrim_surprisetalk.png</asset>
 	<asset name='porrim_talk' type='graphic'>dialogs/porrim_talk.png</asset>
 	
-	<asset name='dialogimg_kankri1' type='graphic'>interface/dialogimg_kankri1.png</asset>
-	<asset name='dialogimg_kankri2' type='graphic'>interface/dialogimg_kankri2.png</asset>
-	<asset name='dialogimg_karkat1' type='graphic'>interface/dialogimg_karkat1.png</asset>
+	<asset name='dialogimg_kankri1' type='graphic'>dialogs/dialogimg_kankri1.png</asset>
+	<asset name='dialogimg_kankri2' type='graphic'>dialogs/dialogimg_kankri2.png</asset>
+	<asset name='dialogimg_karkat1' type='graphic'>dialogs/dialogimg_karkat1.png</asset>
 	
-	<asset name='darlingDolorosa' type='audio'>audio/Dolorosa.mp3;audio/Dolorosa.ogg</asset>
-	<asset name='gameGlare' type='audio'>audio/GameGlare.mp3;audio/GameGlare.ogg</asset>
-	<asset name='ironInfidel' type='audio'>audio/IronInfidelCut.mp3;audio/IronInfidelCut.ogg</asset>
+	<asset name='darlingDolorosa' type='audio'>audio/music/Dolorosa.mp3;audio/music/Dolorosa.ogg</asset>
+	<asset name='gameGlare' type='audio'>audio/music/GameGlare.mp3;audio/music/GameGlare.ogg</asset>
+	<asset name='ironInfidel' type='audio'>audio/music/IronInfidelCut.mp3;audio/music/IronInfidelCut.ogg</asset>
 	
 	<asset name='obj23' type='graphic'>objects/23.png</asset>
 <asset name='obj24' type='graphic'>objects/24.png</asset>
@@ -313,6 +313,20 @@
   			</action>
   		</trigger>
 		</trigger>
+		<trigger>inBox,char,3000,535,153,50
+			<action command='deltaSprite'>
+  				<args>char,0,12</args>
+				<action command='unfollow'>
+					<args>karkat</args>
+					<action command='changeRoomRemote'>
+						<args>fourthRoom.xml,fourthRoom,388,1360</args>
+						<action command='playSong'>
+							<args>elevatorstuck,10.895</args>
+						</action>
+					</action>
+				</action>
+			</action>
+		</trigger>
 		<trigger>spriteProperty,char,y&lt;1750
 			<trigger detonate='true'>spriteProperty,char,x&gt;2410
 				 <action command='changeFocus'>
@@ -339,11 +353,11 @@
   			<trigger>spriteProperty,char,name=meenah
   				<trigger>spriteProperty,latula,state=walkFront
   					<trigger>spriteProperty,char,x&lt;2160
-  						<trigger>spriteProperty,char,x&gt;2150
+  						<trigger>spriteProperty,char,x&gt;2147
   							<trigger>spriteProperty,char,y&lt;1300
   								<trigger>spriteProperty,char,y&gt;1088
   									<action command='deltaSprite'>
-  										<args>char,9,0</args>
+  										<args>char,12,0</args>
   										<action command='talk'>
   											<args> @! Do a sick grind down the railing?</args>
 												<action command='presentActions'>
@@ -356,29 +370,32 @@
 																	<args>latula,1536,1530</args>
 																	<action command='moveSprite' noWait='true'>
 																		<args>char,2064,1107</args>
-																		<action command='playAnimation' noWait='true'>
+																		<action command='playAnimation' noWait='true' noDelay='true'>
 																			<args>char,skate</args>
-																			<action command='deltaSprite' times='30' noWait='true'>
-																				<args>char,-12,12</args>
-																				<action command='moveSprite' noWait='true'>
-																					<args>char,1630,1530</args>
-																					<action command='playAnimation' noWait='true'>
-																						<args>char,idleFront</args>
-																						<action class='grindTalk' command='talk' noWait='true'>
-																							<action command='becomePlayer'>
-																								<args>char</args>
-																								<action command='deltaSprite'>
-																									<args>stairEventSwitch,0,-100</args>
-																									<action command='addActions' noWait='true'>
-																										<args>latula,
-																											<action command='changeChar' name='Be Latula.'>
-																												<args>latula</args>
-																												<action command='playSong'>
-																													<args>gameGlare,18.19</args>
-																													<action class='fix-twins'/>
+																			<action command='playSound' noWait='true' noDelay='true'>
+																				<args>grindSound</args>
+																				<action command='deltaSprite' times='30' noWait='true'>
+																					<args>char,-12,12</args>
+																					<action command='moveSprite' noWait='true'>
+																						<args>char,1630,1530</args>
+																						<action command='playAnimation' noWait='true' noDelay='true'>
+																							<args>char,idleFront</args>
+																							<action class='grindTalk' command='talk' noWait='true'>
+																								<action command='becomePlayer'>
+																									<args>char</args>
+																									<action command='deltaSprite'>
+																										<args>stairEventSwitch,0,-100</args>
+																										<action command='addActions' noWait='true'>
+																											<args>latula,
+																												<action command='changeChar' name='Be Latula.'>
+																													<args>latula</args>
+																													<action command='playSong'>
+																														<args>gameGlare,18.19</args>
+																														<action class='fix-twins'/>
+																													</action>
 																												</action>
-																											</action>
-																										</args>
+																											</args>
+																										</action>
 																									</action>
 																								</action>
 																							</action>
@@ -473,6 +490,7 @@
 				<action command='playSong'>
 					<args>darlingDolorosa,43.88</args>
 					<action class='fix-twins'/>
+					
 				</action>
 				
 			</action>
@@ -495,14 +513,17 @@
 				</args>
 				<action command='addSprite'>
 					<args>thirdRoomStaircase,thirdRoom</args>
-					<action command='addWalkable'>
+					<action command='addWalkable' noDelay='true'>
 						<args>thirdRoomExtraWalkable,thirdRoom</args>
-						<action command='addUnwalkable'>
+						<action command='addUnwalkable' noDelay='true'>
 							<args>thirdRoomExtraUnwalkable,thirdRoom</args>
-							<action command='addUnwalkable'>
+							<action command='addUnwalkable' noDelay='true'>
 								<args>thirdRoomExtraUnwalkable2,thirdRoom</args>
-								<action command='addMotionPath'>
+								<action command='addMotionPath' noDelay='true'>
 									<args>thirdRoomExtraStairs,0.7,-0.7,0,1,0,0,thirdRoom</args>
+									<action command='playSound' noDelay='true'>
+										<args>stairSound</args>
+									</action>
 								</action>
 							</action>
 						</action>
@@ -518,67 +539,90 @@
     
     <sprite class='chest4' name='thirdRoomChest1' x='354' y='1150'>
     	<action command='openChest' name='open'>
-    		<args>thirdRoomChest1,obj23,@! ...</args>
+    		<args>thirdRoomChest1,obj23,@! You got a PAIR OF HORNS!
+      @!:#case-closed This is the most ridiculous thing you've ever seen. Why would anyone want to wear a second pair of horns? Unless maybe they were compensating for a particularly nubby pair... oh, you got it! Humans wear these to pretend to be trolls, and also be less stupid looking. These clearly belonged to a human. </args>
     	</action>
     </sprite>
     <sprite class='chest4' name='thirdRoomChest2' x='526' y='1150'>
     	<action command='openChest' name='open'>
-    		<args>thirdRoomChest2,obj24,@! ...</args>
+    		<args>thirdRoomChest2,obj24, @! You got a LANCE!
+      @!:#meenah-has-no-idea-what-we're-talking-about Who's memory is this? This thing has really made the rounds. Let's see, Tavros had it, but then was impaled by it. The Black Queen had it, and used it as a cigarette holder sometimes, when she was Snowman. Spades Slick wielded it while riding around on a horse hitcher once. Snowman killed Quarters with it, you think. That happened in the top banner though, so you might have missed it...</args>
     	</action>
     </sprite>
     <sprite class='chest4' name='thirdRoomChest3' x='663' y='1150'>
     	<action command='openChest' name='open'>
-    		<args>thirdRoomChest3,obj25,@! ...</args>
+    		<args>thirdRoomChest3,obj25,@! You got a SUFFERER PENDANT!
+      @!:#heheh#now-that-you-think-of-it#maybe-you'll-wear-one-too Exhibiting the Sign of the Signless. The story of the Sufferer got really popular among your old crew as a kind of religious fad, after everyone died and learned the stories of their post-scratch lives. Aranea especially seems to have bought into this nonsense hook line and sinker. She never wore anything like that around her neck BEFORE she died. You wonder if people have gotten so into it just to bug Vantas? You just know it probably pisses him off, seeing people wear this thing all the time.</args>
     	</action>
     </sprite>
     <sprite class='chest4' name='thirdRoomChest4' x='1623' y='1150'>
     	<action command='openChest' name='open'>
-    		<args>thirdRoomChest4,obj26,@! ...</args>
+    		<args>thirdRoomChest4,obj26,@! You got a WHOLE STACK OF BOONDOLLARS!
+      @!:#how-does-this-factor-into-the-big-silly-tumblr-metaphor#shrug Keep em coming! You'll be rich again in no time. Pretty soon you'll own this place. Right after you save it from destruction, of course.</args>
     	</action>
     </sprite>
     <sprite class='chest4' name='thirdRoomChest5' x='1794' y='1150'>
     	<action command='openChest' name='open'>
-    		<args>thirdRoomChest5,obj27,@! ...</args>
+    		<args>thirdRoomChest5,obj27,@!:#mo-money#3B) You got a WHOLE HEAP OF BOONDOLLARS!
+      @!:#DWI Some of these messages don't really make sense unless you're being Meenah, but you're not going to let that bother you.</args>
     	</action>
     </sprite>
     <sprite class='chest4' name='thirdRoomChest6' x='1959' y='1150'>
     	<action command='openChest' name='open'>
-    		<args>thirdRoomChest6,obj28,@! ...</args>
+    		<args>thirdRoomChest6,obj28, @! You got a RAGRIPPER!
+      @!:#lame-planet#lame-planet-names A popular model from the DEMONBANE line of chainsaws. At least, it was popular on Alternia. Your planet wasn't nearly badass enough for this thing to be sold legally. Beforus was so lame.
+</args>
     	</action>
     </sprite>
     <sprite class='chest5' name='thirdRoomChest7' x='320' y='2084'>
     	<action command='openChest' name='open'>
-    		<args>thirdRoomChest7,obj29,@! ...</args>
+    		<args>thirdRoomChest7,obj29, @! You got some AUTHENTIC RELIGIOUS MEMORABILIA!
+      @!:#irons#sufferer#authentic#(or-as-authentic-as-phantom-ghost-memory-items-get) These were the doodads adult post-scratch Vantas was chained up with when he died. You bet Serket would fork over a ton of gold for this junk. Religious nuts are some of the biggest suckers around.</args>
     	</action>
     </sprite>
     <sprite class='chest5' name='thirdRoomChest8' x='2012' y='2092'>
     	<action command='openChest' name='open'>
-    		<args>thirdRoomChest8,obj30,@! ...</args>
+    		<args>thirdRoomChest8,obj30,@! You got a JUJU!
+      @!:#ok-you-pried-one-hint-out-of-me#the-number-7 Looks like a magic EGG TIMER, which you can use to travel through time, haphazardly and stupidly. It's the type of item that's severely prone to making a mess of the timeline. Need a JUJU BREAKER to destroy such an item and repair the damage it's done. But that kind of thing is extremely rare-to-non-existent. You don't have a single good guess what form such an item could take.
+</args>
     	</action>
     </sprite>
-    <sprite class='chest4' name='thirdRoomChest9' x='2628' y='2556'>
+    <sprite class='chest4' name='thirdRoomChest9' x='2628' y='2620'>
     	<action command='openChest' name='open'>
-    		<args>thirdRoomChest9,obj31,@! ...</args>
+    		<args>thirdRoomChest9,obj31,@! You got a PRETZELED HORSE HITCHER!
+      @!:#an-incredible-host Who could have done this to such a fine, cast iron steed? Whoever it was must have been incredibly strong, incredibly smug, and incredibly floppy when shaken.</args>
+      	<action command='removeAction'>
+      		<args>andrew,Talk.</args>
+      		<action command='addActions'>
+      			<args>andrew,
+      				<action class='andrewTalk2'/>
+      			</args>
+      		</action>
+      	</action>
     	</action>
     </sprite>
     <sprite class='chest4' name='thirdRoomChest10' x='3156' y='2604'>
     	<action command='openChest' name='open'>
-    		<args>thirdRoomChest10,obj32,@! ...</args>
+    		<args>thirdRoomChest10,obj32,@! You got a MAGIC CUE BALL!
+      @!:#right#...#maybe Hey, is this thing a juju too? It's a shame you can't see through its surface, or you'd be able to ask it yourself. This is another thing that's kind of unnerving to find here. Good thing it's only a memory object, right?</args>
     	</action>
     </sprite>
     <sprite class='chest4' name='thirdRoomChest11' x='3232' y='2604'>
     	<action command='openChest' name='open'>
-    		<args>thirdRoomChest11,obj33,@! ...</args>
+    		<args>thirdRoomChest11,obj33,@! You got a REGISICKLE!
+      @!:#troll-will-smith Perfect for threshing royalty with. You could almost say you could use it to... thresh princes.</args>
     	</action>
     </sprite>
     <sprite class='chest4' name='thirdRoomChest12' x='3936' y='2600'>
     	<action command='openChest' name='open'>
-    		<args>thirdRoomChest12,obj34,@! ...</args>
+    		<args>thirdRoomChest12,obj34,@! You got a TROLL ROMANCE NOVEL!
+      @!:#LAAAAALOOOOONDE!!!!!!!!!! Wow, this sure is some steamy, trashy literature here. It's making you perspire a little, and you're only three sentences into the title. Doesn't seem like anyone's looking. Maybe you'll just take one little peek insi... Whoops, it just disappeared in a blur again. God damn it.</args>
     	</action>
     </sprite>
     <sprite class='chest5' name='thirdRoomChest13' x='2932' y='2120'>
     	<action command='openChest' name='open'>
-    		<args>thirdRoomChest13,obj35,@! ...</args>
+    		<args>thirdRoomChest13,obj35,@! You got a bunch of LICORICE SCOTTIE DOGS!
+      @!:#except-you-just-ate-most-of-them#worth-it Oh man, these were a DELICACY on your planet. The most valuable treat per-pound by far. You have to be a very, very wealthy person to keep a great supply of these on hand. By selling these, you should be able to make most of your fortune back in one fell swoop!!!!!</args>
     	</action>
     </sprite>
     

@@ -49,7 +49,7 @@ Sburb.initialize = function(div,levelName,includeDevTools){
 		display: block;\
 		width:650px;\
 		height:450px;"> \
-		<div id="gameDiv" >\
+		<div id="gameDiv" style="position: absolute; z-index:100">\
 			<canvas id="Stage" width="650" height="450" tabindex="0" \
 						onmousedown = "Sburb.onMouseDown(event,this)"\
 						onmousemove = "Sburb.onMouseMove(event,this)"\
@@ -59,7 +59,7 @@ Sburb.initialize = function(div,levelName,includeDevTools){
 			</canvas>\
 			<canvas id="SBURBMapCanvas" width="1" height="1" style="display:none"/> \
 		</div>\
-		<div id="movieBin"></div>\
+		<div id="movieBin" style="position: absolute; z-index:200">ggggg</div>\
 		<div id="fontBin"></div>\
 		</br>';
 	if(includeDevTools){
@@ -137,25 +137,33 @@ function update(){
 
 function draw(){
 	//stage.clearRect(0,0,Stage.width,Stage.height);
+	if(!Sburb.playingMovie){
+		Sburb.stage.save();
+		Sburb.Stage.offset = true;
+		Sburb.stage.translate(-Stage.x,-Stage.y);
 	
-	Sburb.stage.save();
-	Sburb.Stage.offset = true;
-	Sburb.stage.translate(-Stage.x,-Stage.y);
+		Sburb.curRoom.draw();
 	
-	Sburb.curRoom.draw();
-	Sburb.chooser.draw();
+		Sburb.stage.restore();
+		Sburb.Stage.offset = false;
 	
-	Sburb.stage.restore();
-	Sburb.Stage.offset = false;
-	Sburb.dialoger.draw();
+		if(Sburb.Stage.fade>0.1){
+			Sburb.stage.fillStyle = "rgba(0,0,0,"+Sburb.Stage.fade+")";
+			Sburb.stage.fillRect(0,0,Sburb.Stage.width,Sburb.Stage.height);
+		}
 	
-	if(Sburb.Stage.fade>0.1){
-		Sburb.stage.fillStyle = "rgba(0,0,0,"+Sburb.Stage.fade+")";
-		Sburb.stage.fillRect(0,0,Sburb.Stage.width,Sburb.Stage.height);
+		Sburb.dialoger.draw();
+		drawHud();
+	
+		Sburb.stage.save();
+		Sburb.Stage.offset = true;
+		Sburb.stage.translate(-Stage.x,-Stage.y);
+	
+		Sburb.chooser.draw();
+	
+		Sburb.stage.restore();
+		Sburb.Stage.offset = false;
 	}
-	
-	drawHud();
-	
 }
 
 var _onkeydown = function(e){
@@ -299,8 +307,15 @@ function handleRoomChange(){
 		if(Sburb.Stage.fade<1.1){
 			Sburb.Stage.fade=Math.min(1.1,Sburb.Stage.fade+Sburb.Stage.fadeRate);
 		}else if(Sburb.destRoom){
-			Sburb.char.x = Sburb.destX;
-			Sburb.char.y = Sburb.destY;
+			var deltaX = Sburb.destX-Sburb.char.x; 
+			var deltaY = Sburb.destY-Sburb.char.y; 
+			var curSprite = Sburb.char;
+			while(curSprite){
+				curSprite.x+=deltaX;
+				curSprite.y+=deltaY;
+				curSprite.followBuffer = [];
+				curSprite = curSprite.follower;
+			}
 			Sburb.moveSprite(Sburb.char,Sburb.curRoom,Sburb.destRoom);
 			Sburb.curRoom.exit();
 			Sburb.curRoom = Sburb.destRoom;
@@ -361,9 +376,8 @@ Sburb.performAction = function(action){
 		}
    	Sburb.performActionSilent(Sburb.curAction);
    	looped = true;
-   }while(Sburb.curAction.times<=0 && Sburb.curAction.followUp && Sburb.curAction.followUp.noDelay);
+   }while(Sburb.curAction && Sburb.curAction.times<=0 && Sburb.curAction.followUp && Sburb.curAction.followUp.noDelay);
 }
-
 Sburb.performActionSilent = function(action){
 	action.times--;
 	var info = action.info;
@@ -384,8 +398,12 @@ Sburb.changeRoom = function(newRoom,newX,newY){
 
 
 Sburb.moveSprite = function(sprite,oldRoom,newRoom){
-	oldRoom.removeSprite(sprite);
-	newRoom.addSprite(sprite);
+	var curSprite = sprite;
+	while(curSprite){
+		oldRoom.removeSprite(curSprite);
+		newRoom.addSprite(curSprite);
+		curSprite = curSprite.follower;
+	}
 }
 
 
@@ -428,13 +446,14 @@ Sburb.playSound = function(sound){
 Sburb.playMovie = function(movie){
 	var name = movie.name;
 	document.getElementById(name).style.display = "block";
-	document.getElementById("gameDiv").style.display = "none";
+	//document.getElementById("gameDiv").style.display = "none";
 	Sburb.waitFor = new Sburb.Trigger("movie,"+name+",1");
+	Sburb.playingMovie = true;
 }
 
 Sburb.startUpdateProcess = startUpdateProcess;
 Sburb.haltUpdateProcess = haltUpdateProcess;
-
+Sburb.draw = draw;
 return Sburb;
 })(Sburb || {});
 

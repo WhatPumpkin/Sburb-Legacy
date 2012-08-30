@@ -1,7 +1,8 @@
-<sburb  char='meenah' description="first area" scale='2' bgm='fusciaRuler, 32.0830' levelPath='levels/openbound' resourcePath='resources/openbound'>
+<sburb  char='meenah' startAction='startGame' description="first area" scale='2' levelPath='levels/openbound' resourcePath='resources/openbound'>
 
 <dependencies>
 	<dependency>standardTemplates.xml</dependency>
+	<dependency>rebubbleText.xml</dependency>
 	<dependency>firstRoom.xml</dependency>
 </dependencies>
 
@@ -12,9 +13,8 @@
 <assets>
   <asset name='SburbFont' type='font'>
   local:Courier New,
-  local:Courier,
-  url:fonts/Courier.woff,
-  url:fonts/Courier.ttf
+  url:fonts/cour.woff,
+  url:fonts/cour.ttf
   </asset>
 
 
@@ -46,20 +46,36 @@
   <asset name='meenah_wut' type='graphic'>dialogs/meenah_wut.png</asset>
   <asset name='meenah_wut2' type='graphic'>dialogs/meenah_wut2.png</asset>
   
-  
+  <asset name='startMovie' type='movie'>cutscenes/intro.swf</asset>
 
-  <asset name='fusciaRuler' type='audio'>audio/FuschiaRulerQuiet.mp3;audio/FuschiaRulerQuiet.ogg</asset>
+  <asset name='fusciaRuler' type='audio'>audio/music/FuschiaRulerQuiet.mp3;audio/music/FuschiaRulerQuiet.ogg</asset>
   
-  
+  <asset name='closeSound' type='audio'>audio/sfx/Close1.mp3;audio/sfx/Close1.ogg</asset>
+  <asset name='grindSound' type='audio'>audio/sfx/Grind.mp3;audio/sfx/Grind.ogg</asset>
+  <asset name='hitPowerfulSound' type='audio'>audio/sfx/HitPowerful.mp3;audio/sfx/HitPowerful.ogg</asset>
+  <asset name='hitWeakSound' type='audio'>audio/sfx/HitWeak.mp3;audio/sfx/HitWeak.ogg</asset>
+  <asset name='itemGetSound' type='audio'>audio/sfx/ItemGetNoVoice.mp3;audio/sfx/ItemGetNoVoice.ogg</asset>
+  <asset name='itemGetVoiceSound' type='audio'>audio/sfx/ItemGetVoice.mp3;audio/sfx/ItemGetVoice.ogg</asset>
+  <asset name='openSound' type='audio'>audio/sfx/Open1.mp3;audio/sfx/Open1.ogg</asset>
+  <asset name='openSound2' type='audio'>audio/sfx/Open2.mp3;audio/sfx/Open2.ogg</asset>
+  <asset name='stairSound' type='audio'>audio/sfx/Staircase.mp3;audio/sfx/Staircase.ogg</asset>
 </assets>
 
+<action name='startGame' command='playMovie'>
+	<args>startMovie,fusciaRuler, 32.0830</args>
+</action>
+<!--
+<action name='startGame' command='playSong'>
+	<args>fusciaRuler, 32.0830</args>
+</action>
+-->
 <hud>
   	<spritebutton name='volumeButton' x='9' y='9' width='54' height='36' sheet='volumeControl'>
   		<action command='toggleVolume' silent='true'> </action>
   	</spritebutton>
   	<spritebutton name='helpButton' x='591' y='9' width='54' height='63' sheet='helpControl'>
   		<action command='talk' soft='true'>
-  			<args>@! Help</args>
+  			<args>@! Use the arrow keys or WASD to move, and space to interact.</args>
   		</action>
   	</spritebutton>
   	
@@ -109,6 +125,7 @@
 </spritebutton>
 
 <spritebutton name='bubbleButton' x='510' y='300' width='30' height='26' sheet='bubbleButtonSheet'>
+	<action class='rebubble' />
 </spritebutton>
   	
 <!--

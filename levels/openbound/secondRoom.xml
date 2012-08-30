@@ -121,14 +121,14 @@
 		<animation name='kanaya_smirklaugh' class='kanaya-dialog' sheet='kanaya_smirklaugh' length='2'/>
 		<animation name='kanaya_smirktalk' class='kanaya-dialog' sheet='kanaya_smirktalk' length='2'/>
 		<animation name='kanaya_talk' class='kanaya-dialog' sheet='kanaya_talk' length='2'/>
-		<animation name='rose_annoyed' class='rose-dialog' sheet='rose_annoyed' length='4' frameInterval='15'/>
+		<animation name='rose_annoyed' class='rose-dialog' sheet='rose_annoyed' length='4' frameInterval='0:60,1:6'/>
 		<animation name='rose_annoyedtalk' class='rose-dialog' sheet='rose_annoyedtalk' length='2'/>
 		<animation name='rose_concern' class='rose-dialog' sheet='rose_concern' length='2'/>
 		<animation name='rose_coy' class='rose-dialog' sheet='rose_coy' />
 		<animation name='rose_coytalk' class='rose-dialog' sheet='rose_coytalk' length='2'/>
 		<animation name='rose_happy' class='rose-dialog' sheet='rose_happy' />
 		<animation name='rose_happytalk' class='rose-dialog' sheet='rose_happytalk' length='2' />
-		<animation name='rose_idle' class='rose-dialog' sheet='rose_idle' length='4' frameInterval='15'/>
+		<animation name='rose_idle' class='rose-dialog' sheet='rose_idle' length='4' frameInterval='0:60,1:6'/>
 		<animation name='rose_laugh' class='rose-dialog' sheet='rose_laugh' length='2'/>
 		<animation name='rose_sad' class='rose-dialog' sheet='rose_sad' />
 		<animation name='rose_talk' class='rose-dialog' sheet='rose_talk' length='2'/>
@@ -165,8 +165,21 @@
 <sprite depthing='2' name='obj20'>
 <animation x='-50' y='-50' sheet='obj20'/>
 </sprite>
-<sprite depthing='2' name='obj21'>
-<animation x='-50' y='-50' sheet='obj21'/>
+<sprite name='obj21' x='900' y='3000' collidable='true' depthing='1' width='35' height='30'>
+	<animation x='-38' y='-44' sheet='obj21'/>
+	<action command='talk' name='Talk.'>
+		<args>
+		@! Hey! Get lost kid, this is MY HIDING PLACE.
+		    @!:#DOTA#uh#again Can't you see English is coming for me???
+		    @! HE IS COMING FOR US ALL.
+		</args>
+		<action command='removeSprite'>
+			<args>obj21,secondRoom</args>
+			<action command='addSprite'>
+				<args>secondRoomChest11,secondRoom</args>
+			</action>
+		</action>
+	</action>
 </sprite>
 <sprite depthing='2' name='obj22'>
 <animation x='-50' y='-50' sheet='obj22'/>
@@ -216,7 +229,7 @@
       <action class='roseDialog1'></action>
       <action class='roseDialog2'></action>
     </character>
-    <character name='kanaya' x='4364' y='866' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
+    <character name='kanaya' x='4254' y='1678' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
 	       sheet='kanayasheet' state='walkLeft' facing='Left'>
       <action class='kanayaDialog1'></action>
       <action class='kanayaDialog2'></action>
@@ -224,62 +237,80 @@
     
     <sprite class='chest6' name='secondRoomChest1' x='1732' y='660'>
     	<action command='openChest' name='open'>
-    		<args>secondRoomChest1,obj11,@! ...</args>
+    		<args>secondRoomChest1,obj11,@! You got a JUJU!
+      @!:#you'll-just-hock-it-to-some-chump An EFFIGY, to be precise. It has magical properties binding it to the mortality of someone, depending on what hat it wears. Hey, maybe you'll hang it from this tree? Nah, that's a bit morbid.</args>
     	</action>
     </sprite>
     <sprite class='chest6' name='secondRoomChest2' x='4244' y='640'>
     	<action command='openChest' name='open'>
-    		<args>secondRoomChest2,obj12,@! ...</args>
+    		<args>secondRoomChest2,obj12,@! You got the THORNS OF OGLOGOTH! 
+      @!:#a-wise-move Any sane adventurer would cast these instruments of the occult into the furthest ring and forget they ever existed. And... it looks like someone did just that?</args>
     	</action>
     </sprite>
     <sprite class='chest6' name='secondRoomChest3' x='392' y='2020'>
     	<action command='openChest' name='open'>
-    		<args>secondRoomChest3,obj13,@! ...</args>
+    		<args>secondRoomChest3,obj13,@! You got a bunch of THROWING STARS!
+      @!:#unless-someone-blows-you-away-with-an-offer-of-course Whoa these are badass. Maybe you'll keep a few instead of selling them all.</args>
     	</action>
     </sprite>
     <sprite class='chest6' name='secondRoomChest4' x='1564' y='2292'>
     	<action command='openChest' name='open'>
-    		<args>secondRoomChest4,obj14,@! ...</args>
+    		<args>secondRoomChest4,obj20,@! You got a pair of TIME TABLES! 
+      @!:#ooh,-like-that-kid-across-the-water-there!#you-bet-he's-loaded Use these to travel through time. Which in the furthest ring, doesn't always mean much. Traveling back in time could also transport you millions of lightsweeps away. Probably better to just sell them to an eccentric billionaire.</args>
     	</action>
     </sprite>
     <sprite class='chest6' name='secondRoomChest5' x='2244' y='1780'>
     	<action command='openChest' name='open'>
-    		<args>secondRoomChest5,obj15,@! ...</args>
+    		<args>secondRoomChest5,obj15,@! You got an ECHIDNA STATUE! 
+      @!:#oh,-also-you-can-probably-make-BANK-off-this-thing An obviously not-to-scale depiction of the denizen Aranea consulted with to learn how to scratch your session. The decision to scratch of course came with MAJOR CONSEQUENCES, and you guess it's only now that the true extent of those consequences are fully apparent. Looks like it's time to clean up her mess.</args>
     	</action>
     </sprite>
     <sprite class='chest6' name='secondRoomChest6' x='4428' y='1836'>
     	<action command='openChest' name='open'>
-    		<args>secondRoomChest6,obj16,@! ...</args>
+    		<args>secondRoomChest6,obj16,@! You got a SEWING MACHINE!
+      @!:#you'll-come-back-and-swipe-it-later-when-she's-not-around Oooooh this looks REALLY expensive, you bet you could... wait. What's she looking at? The Maryam girl is looking at you funny. What, is this thing hers? You don't want to start any trouble over this dumb gizmo. You slowly put it back in the chest, very casually like it ain't no thing.</args>
     	</action>
     </sprite>
     <sprite class='chest4' name='secondRoomChest7' x='4548' y='2872'>
     	<action command='openChest' name='open'>
-    		<args>secondRoomChest7,obj17,@! ...</args>
+    		<args>secondRoomChest7,obj17,@! You got a FUCHSIA POTION!
+      @!:#you-chuck-it-over-the-edge#glass-shatters#someone-below-says-'ow' Legend says this enchanted potion is supposed to - oh GOD it's more troll blood. Wait this is ROYAL blood. What an absolute outrage that probably some commoner had the audacity to draw royal blood. You are ALMOST mad enough not to not give a shit.
+</args>
     	</action>
     </sprite>
     <sprite class='chest4' name='secondRoomChest8' x='3644' y='2896'>
     	<action command='openChest' name='open'>
-    		<args>secondRoomChest8,obj18,@! ...</args>
+    		<args>secondRoomChest8,obj18,@! You got a JUJU!
+      @!:#at-exactly-one-second-per-second What's up with all these jujus lying around? Jujus are very wide ranging sorts of magical objects. You never know what form they'll take. This one is particularly useless though. It has the power to travel through time. Into the future only, though.
+</args>
     	</action>
     </sprite>
     <sprite class='chest4' name='secondRoomChest9' x='3216' y='2304'>
     	<action command='openChest' name='open'>
-    		<args>secondRoomChest9,obj19,@! ...</args>
+    		<args>secondRoomChest9,obj19, @! You got a DERSITE TABLOID!
+      @!:#some-of-which-were-yours Says some human girl is dead. You don't recognize her. Inside is the usual kind of sensationalizing sleaze you're used to seeing from these. You spent a long time on Derse during your game. You always enjoyed reading these. They were almost always about assassinations.
+</args>
     	</action>
     </sprite>
     <sprite class='chest4' name='secondRoomChest10' x='1024' y='2896'>
     	<action command='openChest' name='open'>
-    		<args>secondRoomChest10,obj20,@! ...</args>
+    		<args>secondRoomChest10,obj14,  @! You got a RIBBITAR!
+      @!:#aw-shit-is-that-made-of-ruby???#COME-TO-MAMA Foes everywhere tremble at the mere sight of this lethal amphibious scourge. So overwhelming is their terror that... ha ha, yeah right. This sword is almost too ridiculous for words. It's a nice conversation piece though.
+</args>
     	</action>
     </sprite>
     <sprite class='chest4' name='secondRoomChest11' x='900' y='3000'>
-    	<action command='openChest' name='open'>
-    		<args>secondRoomChest11,obj21,@! ...</args>
-    	</action>
+    	<action command='removeSprite' name='open'>
+				<args>secondRoomChest11,secondRoom</args>
+				<action command='addSprite'>
+					<args>obj21,secondRoom</args>
+				</action>
+			</action>
     </sprite>
     <sprite class='chest4' name='secondRoomChest12' x='4028' y='1324'>
     	<action command='openChest' name='open'>
-    		<args>secondRoomChest12,obj22,@! ...</args>
+    		<args>secondRoomChest12,obj22,@! You got a copy of COMPLACENCY OF THE LEARNED!
+      @!:#probably-wasn't-worth-jack-anyway Wow this looks really... huh? It just disappeared from your hand in a crazy blur. What the... oh, that human girl has it. She looks like she's enjoying it a lot more than you ever would. You'll let her have this one.</args>
     	</action>
     </sprite>
     

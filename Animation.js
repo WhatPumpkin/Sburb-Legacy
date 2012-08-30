@@ -38,9 +38,10 @@ Sburb.Animation = function(name,sheet,x,y,colSize,rowSize,startPos,length,frameI
 				var pair = intervals[i].split(":");
 				this.frameIntervals[parseInt(pair[0])] = parseInt(pair[1]);
 			}
-			if(!frameIntervals[0]){
-				frameIntervals[0] = 1;
+			if(!this.frameIntervals[0]){
+				this.frameIntervals[0] = 1;
 			}
+			this.frameInterval = this.frameIntervals[this.curFrame];
 		}
 	}else{
 		this.frameInterval = frameInterval;
@@ -61,13 +62,15 @@ Sburb.Animation.prototype.nextFrame = function() {
 			}
 		}
 	}
+	if(this.frameIntervals && this.frameIntervals[this.curFrame]){
+		this.frameInterval = this.frameIntervals[this.curFrame];
+	}
+	
 }
 
 //update the animation as if a frame of time has elapsed
 Sburb.Animation.prototype.update = function(){
-	if(this.frameIntervals && this.frameIntervals[this.curFrame]){
-		this.frameInterval = this.frameIntervals[this.curFrame];
-	}
+	
 	this.curInterval++;
 	while(this.curInterval>this.frameInterval){
 		this.curInterval-=this.frameInterval;
