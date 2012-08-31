@@ -412,7 +412,7 @@ Sburb.Dialoger.prototype.decideDialogDimensions = function(){
 Sburb.Dialoger.prototype.setBox = function(box){
 	var boxAsset = Sburb.assets[box];
 	
-	var dialogBox = new Sburb.Sprite("dialogBox",Stage.width+1,1000,boxAsset.width,boxAsset.height, null,null,0);
+	var dialogBox = new Sburb.Sprite("dialogBox",Sburb.Stage.width+1,1000,boxAsset.width,boxAsset.height, null,null,0);
   	dialogBox.addAnimation(new Sburb.Animation("image",boxAsset,0,0,boxAsset.width,boxAsset.height,0,1,1));
 	dialogBox.startAnimation("image");
 	

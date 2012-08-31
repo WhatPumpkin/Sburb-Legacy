@@ -40,7 +40,7 @@ Sburb.Character = function(name,x,y,width,height,sx,sy,sWidth,sHeight,sheet,boot
 	}
 	
 	this.becomeNPC();
-
+	
 }
 
 Sburb.Character.prototype = new Sburb.Sprite();
@@ -182,8 +182,8 @@ Sburb.Character.prototype.tryToMove = function(vx,vy,room){
 		vx = l.x;
 		vy = l.y;
 	}
-	var minX = Stage.scaleX;
-	var minY = Stage.scaleY;
+	var minX = Sburb.Stage.scaleX;
+	var minY = Sburb.Stage.scaleY;
 	while(Math.abs(vx)>=minX || Math.abs(vy)>=minY){
 		var dx = 0;
 		var dy = 0;

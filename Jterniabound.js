@@ -49,8 +49,8 @@ Sburb.initialize = function(div,levelName,includeDevTools){
 		display: block;\
 		width:650px;\
 		height:450px;"> \
-		<div id="gameDiv" style="position: absolute; z-index:100">\
-			<canvas id="Stage" width="650" height="450" tabindex="0" \
+		<div id="SBURBgameDiv" style="position: absolute; z-index:100">\
+			<canvas id="SBURBStage" width="650" height="450" tabindex="0" \
 						onmousedown = "Sburb.onMouseDown(event,this)"\
 						onmousemove = "Sburb.onMouseMove(event,this)"\
 						onmouseup = "Sburb.onMouseUp(event,this)"\
@@ -59,8 +59,8 @@ Sburb.initialize = function(div,levelName,includeDevTools){
 			</canvas>\
 			<canvas id="SBURBMapCanvas" width="1" height="1" style="display:none"/> \
 		</div>\
-		<div id="movieBin" style="position: absolute; z-index:200">ggggg</div>\
-		<div id="fontBin"></div>\
+		<div id="SBURBmovieBin" style="position: absolute; z-index:200"> </div>\
+		<div id="SBURBfontBin"></div>\
 		</br>';
 	if(includeDevTools){
 		Sburb._include_dev = true;
@@ -78,10 +78,10 @@ Sburb.initialize = function(div,levelName,includeDevTools){
 	}
 	deploy+='</div>';
 	document.getElementById(div).innerHTML = deploy;
-	var gameDiv = document.getElementById("gameDiv");
+	var gameDiv = document.getElementById("SBURBgameDiv");
 	gameDiv.onkeydown = _onkeydown;
 	gameDiv.onkeyup = _onkeyup;
-	Sburb.Stage = document.getElementById("Stage");	
+	Sburb.Stage = document.getElementById("SBURBStage");	
 	Sburb.Stage.scaleX = Sburb.Stage.scaleY = 3;
 	Sburb.Stage.x = Sburb.Stage.y = 0;
 	Sburb.Stage.fps = 30;
@@ -140,7 +140,7 @@ function draw(){
 	if(!Sburb.playingMovie){
 		Sburb.stage.save();
 		Sburb.Stage.offset = true;
-		Sburb.stage.translate(-Stage.x,-Stage.y);
+		Sburb.stage.translate(-Sburb.Stage.x,-Sburb.Stage.y);
 	
 		Sburb.curRoom.draw();
 	
@@ -157,7 +157,7 @@ function draw(){
 	
 		Sburb.stage.save();
 		Sburb.Stage.offset = true;
-		Sburb.stage.translate(-Stage.x,-Stage.y);
+		Sburb.stage.translate(-Sburb.Stage.x,-Sburb.Stage.y);
 	
 		Sburb.chooser.draw();
 	

@@ -156,7 +156,8 @@ function purgeState(){
 		Sburb.bgm.stop();
 		Sburb.bgm = null;
 	}
-	document.getElementById("movieBin").innerHTML = "";
+	document.getElementById("SBURBmovieBin").innerHTML = "";
+	document.getElementById("SBURBfontBin").innerHTML = "";
 	Sburb.globalVolume = 1;
 	Sburb.hud = {};
 	Sburb.sprites = {};
@@ -571,8 +572,8 @@ function serialLoadDialogSprites(dialogSprites,assetFolder){
 		Sburb.dialoger = {};
 	}
 	if(!Sburb.dialoger.dialogSpriteLeft){
-		Sburb.dialoger.dialogSpriteLeft = new Sburb.Sprite("dialogSprite",-1000,Stage.height,0,0);
-		Sburb.dialoger.dialogSpriteRight = new Sburb.Sprite("dialogSprite",Stage.width+1000,Stage.height,0,0);
+		Sburb.dialoger.dialogSpriteLeft = new Sburb.Sprite("dialogSprite",-1000,Sburb.Stage.height,0,0);
+		Sburb.dialoger.dialogSpriteRight = new Sburb.Sprite("dialogSprite",Sburb.Stage.width+1000,Sburb.Stage.height,0,0);
 	}
 	var animations = dialogSprites.getElementsByTagName("animation");
 	for(var i=0;i<animations.length;i++){

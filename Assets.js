@@ -49,7 +49,7 @@ Sburb.AssetManager.prototype.draw = function(){
 	Sburb.stage.font="10px Verdana";
 	Sburb.stage.textAlign = "center";
   //Sburb.stage.fillText("Loading "+this.description,Stage.width/2,Stage.height-80);
-  Sburb.stage.fillText(Math.floor((this.totalLoaded/this.totalAssets)*100)+"%",Stage.width/2,Stage.height-50);
+  Sburb.stage.fillText(Math.floor((this.totalLoaded/this.totalAssets)*100)+"%",Sburb.Stage.width/2,Sburb.Stage.height-50);
 }
 
 //check if a specific asset has been loaded
@@ -176,7 +176,7 @@ Sburb.createAudioAsset = function(name,sources) {
 //create a flash movie Asset
 Sburb.createMovieAsset = function(name,path){
 	var ret = {src:Sburb.assetManager.resolvePath(path)};
-	document.getElementById("movieBin").innerHTML += '<div id="'+name+'"><object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" id="movie" width="'+Stage.width+'" height="'+Stage.height+'"><param name="allowScriptAccess" value="always" /\><param name="wmode" value="transparent"/\><param name="movie" value="'+name+'" /\><param name="quality" value="high" /\><embed src="'+Sburb.assetManager.resolvePath(path)+'" quality="high" WMODE="transparent" width="'+Stage.width+'" height="'+Stage.height+'" swLiveConnect=true id="movie'+name+'" name="movie'+name+'" allowScriptAccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /\></object></div>';
+	document.getElementById("SBURBmovieBin").innerHTML += '<div id="'+name+'"><object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" id="movie" width="'+Sburb.Stage.width+'" height="'+Sburb.Stage.height+'"><param name="allowScriptAccess" value="always" /\><param name="wmode" value="transparent"/\><param name="movie" value="'+name+'" /\><param name="quality" value="high" /\><embed src="'+Sburb.assetManager.resolvePath(path)+'" quality="high" WMODE="transparent" width="'+Sburb.Stage.width+'" height="'+Sburb.Stage.height+'" swLiveConnect=true id="movie'+name+'" name="movie'+name+'" allowScriptAccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /\></object></div>';
 	
 	
 	ret.name = name;
@@ -244,7 +244,7 @@ Sburb.createFontAsset = function(name, sources){
 	'</style>';
 	
 	
-	document.getElementById("fontBin").innerHTML += style;
+	document.getElementById("SBURBfontBin").innerHTML += style;
 	
 	Sburb.stage.font="10px "+name;
   Sburb.stage.fillText("load font",-100,-100);

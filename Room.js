@@ -24,6 +24,8 @@ Sburb.Room = function(name,width,height){
 
 Sburb.Room.prototype.mapCanvas = null;
 Sburb.Room.prototype.mapData = null;
+Sburb.Room.prototype.mapScale = 4;
+Sburb.Room.prototype.blockSize = 500;
 
 //add an Effect to the room
 Sburb.Room.prototype.addEffect = function(effect){
@@ -96,6 +98,7 @@ Sburb.Room.prototype.removeMotionPath = function(path) {
 
 //perform any intialization
 Sburb.Room.prototype.enter = function(){
+	
 	if(this.walkableMap){
 		var mapCanvas = document.getElementById("SBURBMapCanvas");
 		
@@ -104,8 +107,20 @@ Sburb.Room.prototype.enter = function(){
 		var ctx = mapCanvas.getContext("2d");
 		ctx.drawImage(this.walkableMap,0,0,drawWidth,drawHeight, 0,0,drawWidth,drawHeight);
 		this.mapCanvas = mapCanvas;
-		
-		this.mapData = ctx.getImageData(0,0,drawWidth,drawHeight).data
+		this.mapData = new Uint8Array(drawWidth*drawHeight);
+		for(var x=0;x<drawWidth;x+=this.blockSize){
+			var width = Math.min(this.blockSize,drawWidth-x);
+			for(var y=0;y<drawHeight;y+=this.blockSize){
+				var height = Math.min(this.blockSize,drawHeight-y);
+				var data = ctx.getImageData(x,y,width,height).data;
+				for(var j=0;j<height;j++){
+					for(var i=0;i<width;i++){
+						
+						this.mapData[x+i+(y+j)*drawWidth] = data[(i+j*width)*4];
+					}
+				}
+			}
+		}
 	}
 }
 
@@ -221,11 +236,11 @@ Sburb.Room.prototype.isInBoundsBatch = function(queries,results){
 			var data = this.mapData;
 			var width = this.mapCanvas.width;
 			var height = this.mapCanvas.height;
-			if(pt.x<0 || pt.x>width*2 || pt.y<0 || pt.y>height*2){
+			if(pt.x<0 || pt.x>width*this.mapScale || pt.y<0 || pt.y>height*this.mapScale){
 				console.log("whop");
 				results[query] = false;
 			}else{
-				var imgPt = (Math.round(pt.x/2)+Math.round(pt.y/2)*width)*4;
+				var imgPt = (Math.round(pt.x/this.mapScale)+Math.round(pt.y/this.mapScale)*width);
 				results[query] = !!data[imgPt];
 			}
 		}
@@ -341,5 +356,46 @@ Sburb.parseRoom = function(roomNode, assetFolder, spriteFolder) {
 
 
 
+
 return Sburb;
 })(Sburb || {});
+
+(function() {
+  try {
+    var a = new Uint8Array(1);
+    return; //no need
+  } catch(e) { }
+
+  function subarray(start, end) {
+    return this.slice(start, end);
+  }
+
+  function set_(array, offset) {
+    if (arguments.length < 2) offset = 0;
+    for (var i = 0, n = array.length; i < n; ++i, ++offset)
+      this[offset] = array[i] & 0xFF;
+  }
+
+  // we need typed arrays
+  function TypedArray(arg1) {
+    var result;
+    if (typeof arg1 === "number") {
+       result = new Array(arg1);
+       for (var i = 0; i < arg1; ++i)
+         result[i] = 0;
+    } else
+       result = arg1.slice(0);
+    result.subarray = subarray;
+    result.buffer = result;
+    result.byteLength = result.length;
+    result.set = set_;
+    if (typeof arg1 === "object" && arg1.buffer)
+      result.buffer = arg1.buffer;
+
+    return result;
+  }
+
+  window.Uint8Array = TypedArray;
+  window.Uint32Array = TypedArray;
+  window.Int32Array = TypedArray;
+})();
