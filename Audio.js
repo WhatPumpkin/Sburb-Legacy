@@ -18,17 +18,20 @@ Sburb.Sound = function(asset){
 Sburb.Sound.prototype.play = function() {
 	this.fixVolume();
 	this.asset.play();	
+	console.log("starting the sound...");
 }
 
 //pause this sound
 Sburb.Sound.prototype.pause = function() {
 	this.asset.pause();
+	console.log("pausing the sound...");
 }
 
 //stop this sound
 Sburb.Sound.prototype.stop = function() {
 	this.pause();
 	this.asset.currentTime = 0;
+	console.log("stopping the sound...");
 }
 
 //has the sound stopped
@@ -39,8 +42,7 @@ Sburb.Sound.prototype.ended = function() {
 //ensure the sound is playing at the global volume
 Sburb.Sound.prototype.fixVolume = function(){
 	this.asset.volume = Sburb.globalVolume;
-	this.asset.pause();
-	this.asset.play();
+	console.log("fixing the volume...");
 }
 
 
@@ -66,6 +68,7 @@ Sburb.BGM.prototype = new Sburb.Sound();
 Sburb.BGM.prototype.setLoopPoints = function(start, end) {
 	tmpAsset = this.asset
 	tmpAsset.addEventListener('ended', function() {
+		console.log("I'm loopin' as hard as I can cap'n! (via event listener)");
 		tmpAsset.currentTime = start;
 		tmpAsset.play();
 	},false);
@@ -76,6 +79,7 @@ Sburb.BGM.prototype.setLoopPoints = function(start, end) {
 
 //loop the sound
 Sburb.BGM.prototype.loop = function() {
+		console.log("looping...");
 		this.asset.currentTime = this.startLoop;
 		this.asset.play();
 }

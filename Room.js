@@ -105,7 +105,9 @@ Sburb.Room.prototype.enter = function(){
 		var drawHeight = mapCanvas.height = this.walkableMap.height;
 		var ctx = mapCanvas.getContext("2d");
 		ctx.drawImage(this.walkableMap,0,0,drawWidth,drawHeight, 0,0,drawWidth,drawHeight);
-		this.mapData = new Uint8Array(drawWidth*drawHeight);
+		
+		this.mapData = ctx.getImageData(0,0,drawWidth,drawHeight).data;
+		/*this.mapData = new Uint8Array(drawWidth*drawHeight);
 		for(var x=0;x<drawWidth;x+=this.blockSize){
 			var width = Math.min(this.blockSize,drawWidth-x);
 			for(var y=0;y<drawHeight;y+=this.blockSize){
@@ -118,7 +120,7 @@ Sburb.Room.prototype.enter = function(){
 					}
 				}
 			}
-		}
+		}*/
 	}
 }
 
@@ -238,7 +240,7 @@ Sburb.Room.prototype.isInBoundsBatch = function(queries,results){
 			if(pt.x<0 || pt.x>width*this.mapScale || pt.y<0 || pt.y>height*this.mapScale){
 				results[query] = false;
 			}else{
-				var imgPt = (Math.round(pt.x/this.mapScale)+Math.round(pt.y/this.mapScale)*width);
+				var imgPt = (Math.round(pt.x/this.mapScale)+Math.round(pt.y/this.mapScale)*width)*4;
 				results[query] = !!data[imgPt];
 			}
 		}

@@ -1,7 +1,6 @@
 var Sburb = (function(Sburb){
 
 
-
 ///////////////////////////////////////
 //Chracter Class (inherits Sprite)
 ///////////////////////////////////////
@@ -20,6 +19,7 @@ Sburb.Character = function(name,x,y,width,height,sx,sy,sWidth,sHeight,sheet,boot
 	this.followBuffer = null;
 	this.follower = null;
 	this.lastLeaderPos = null;
+	this.handledInput = -1;
 	
 	if(!bootstrap){ //automagically generate standard animations
 		sWidth = typeof sWidth == "number" ? sWidth : width;
@@ -87,6 +87,12 @@ Sburb.Character.prototype.update = function(curRoom){
 		}
 		if(this.followBuffer.length<=this.followBufferLength && !this.following.isNPC()){
 			this.moveNone();
+		}
+	}
+	if(this.handleInput>0){
+		--this.handleInput;
+		if(this.handleInput==0){
+			moveNone();
 		}
 	}
 	this.tryToMove(this.vx,this.vy,curRoom);
@@ -168,6 +174,7 @@ Sburb.Character.prototype.handleInputs = function(pressed){
 	}else{
 		this.moveNone();
 	}
+	this.handledInput = 2;
 }
 
 //have character try to move through room
