@@ -447,7 +447,7 @@ Sburb.playMovie = function(movie){
 	var name = movie.name;
 	document.getElementById(name).style.display = "block";
 	//document.getElementById("gameDiv").style.display = "none";
-	Sburb.waitFor = new Sburb.Trigger("movie,"+name+",1");
+	Sburb.waitFor = new Sburb.Trigger("movie,"+name+",5");
 	Sburb.playingMovie = true;
 }
 
