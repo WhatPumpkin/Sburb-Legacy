@@ -267,6 +267,9 @@ Sburb.Character.prototype.tryToMove = function(vx,vy,room){
 }
 
 Sburb.Character.prototype.follow = function(sprite){
+	while(sprite.follower!=null){
+		sprite = sprite.follower;
+	}
 	this.following = sprite;
 	sprite.follower = this;
 	this.followBuffer = [];
@@ -276,8 +279,12 @@ Sburb.Character.prototype.follow = function(sprite){
 
 Sburb.Character.prototype.unfollow = function(){
 	if(this.following){
-		this.following.follower = null;
+		this.following.follower = this.follower;
+		if(this.follower){
+			this.follower.following = this.following;
+		}
 		this.following = null;
+		this.follower = null;
 		this.lastLeaderPos = null;
 		this.collidable = true;
 		this.becomeNPC();

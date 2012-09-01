@@ -376,7 +376,7 @@ Sburb.performAction = function(action){
 		}
    	Sburb.performActionSilent(Sburb.curAction);
    	looped = true;
-   }while(Sburb.curAction && Sburb.curAction.times<=0 && Sburb.curAction.followUp && Sburb.curAction.followUp.noDelay);
+	}while(Sburb.curAction && Sburb.curAction.times<=0 && Sburb.curAction.followUp && Sburb.curAction.followUp.noDelay);
 }
 Sburb.performActionSilent = function(action){
 	action.times--;
