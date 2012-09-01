@@ -12,8 +12,14 @@
 	<asset name='araneaStandSheet' type='graphic'>chars/aranea_expostand.png</asset>
 	<asset name='peanutsSheet' type='graphic'>backgrounds/peanuts.png</asset>
 
-  <asset name='fourthRoomFG' type='graphic'>backgrounds/fourthRoomFG.png</asset>
-  <asset name='fourthRoomBG' type='graphic'>backgrounds/fourthRoomBG.png</asset>
+  <asset name='fourthRoomBG_0_0' type='graphic'>backgrounds/slices/fourthRoomBG_0_0.png</asset>
+<asset name='fourthRoomBG_0_1' type='graphic'>backgrounds/slices/fourthRoomBG_0_1.png</asset>
+<asset name='fourthRoomBG_1_0' type='graphic'>backgrounds/slices/fourthRoomBG_1_0.png</asset>
+<asset name='fourthRoomBG_1_1' type='graphic'>backgrounds/slices/fourthRoomBG_1_1.png</asset>
+<asset name='fourthRoomFG_0_0' type='graphic'>backgrounds/slices/fourthRoomFG_0_0.png</asset>
+<asset name='fourthRoomFG_0_1' type='graphic'>backgrounds/slices/fourthRoomFG_0_1.png</asset>
+<asset name='fourthRoomFG_1_0' type='graphic'>backgrounds/slices/fourthRoomFG_1_0.png</asset>
+<asset name='fourthRoomFG_1_1' type='graphic'>backgrounds/slices/fourthRoomFG_1_1.png</asset>
   <asset name='fourthRoomMap' type='graphic'>backgrounds/fourthRoomWalkable.png</asset>
   
   <asset name='spritedHorse' type='graphic'>objects/spiritedhorse.png</asset>
@@ -94,12 +100,15 @@
    		</action>
    	</sprite>
    
-    <sprite name='fourthRoomBG'>
-      <animation sheet='fourthRoomBG'/>
-    </sprite>
-    <sprite name='fourthRoomFG' depthing='2'>
-      <animation sheet='fourthRoomFG'/>
-    </sprite>
+    <sprite name='fourthRoomBG_0_0' x='0' y='0'><animation sheet='fourthRoomBG_0_0' /></sprite>
+<sprite name='fourthRoomBG_0_1' x='1000' y='0'><animation sheet='fourthRoomBG_0_1' /></sprite>
+<sprite name='fourthRoomBG_1_0' x='0' y='1000'><animation sheet='fourthRoomBG_1_0' /></sprite>
+<sprite name='fourthRoomBG_1_1' x='1000' y='1000'><animation sheet='fourthRoomBG_1_1' /></sprite>
+
+<sprite name='fourthRoomFG_0_0' x='0' y='0' depthing='2'><animation sheet='fourthRoomFG_0_0' /></sprite>
+<sprite name='fourthRoomFG_0_1' x='1000' y='0' depthing='2'><animation sheet='fourthRoomFG_0_1' /></sprite>
+<sprite name='fourthRoomFG_1_0' x='0' y='1000' depthing='2'><animation sheet='fourthRoomFG_1_0' /></sprite>
+<sprite name='fourthRoomFG_1_1' x='1000' y='1000' depthing='2'><animation sheet='fourthRoomFG_1_1' /></sprite>
   </room>
 </rooms>
 </sburb>

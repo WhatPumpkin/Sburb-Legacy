@@ -18,6 +18,7 @@ Sburb.Character = function(name,x,y,width,height,sx,sy,sWidth,sHeight,sheet,boot
 	this.spriteType = "character";
 	this.following = null;
 	this.followBuffer = null;
+	this.follower = null;
 	this.lastLeaderPos = null;
 	
 	if(!bootstrap){ //automagically generate standard animations

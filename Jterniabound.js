@@ -122,6 +122,7 @@ function haltUpdateProcess(){
 
 function update(){
 	//update stuff
+	handleAudio();
 	handleInputs();
 	handleHud();
 	
@@ -251,6 +252,18 @@ function relMouseCoords(event,canvas){
     canvasX = event.pageX - totalOffsetX;
     canvasY = event.pageY - totalOffsetY;
     return {x:canvasX,y:canvasY};
+}
+
+function handleAudio(){
+	//console.log(Sburb.bgm);
+	if(Sburb.bgm && Sburb.bgm.asset){
+		if(Sburb.bgm.asset.ended || Sburb.bgm.asset.currentTime>=Sburb.bgm.asset.duration){
+			Sburb.bgm.loop();
+		}
+		if(Sburb.bgm.asset.paused){
+			Sburb.bgm.play();
+		}
+	}
 }
 
 function handleInputs(){

@@ -18,8 +18,51 @@
 	<asset name='aradiaSheet' type='graphic'>chars/aradia.png</asset>
   
   <asset name='firstRoomMap' type='graphic'>backgrounds/firstRoomWalkable.png</asset>
-  <asset name='firstRoomBG' type='graphic'>backgrounds/firstRoomBG.png</asset>
-  <asset name='firstRoomFG' type='graphic'>backgrounds/firstRoomFG.png</asset>
+  <!--<asset name='firstRoomBG' type='graphic'>backgrounds/firstRoomBG.png</asset>-->
+  <!--<asset name='firstRoomFG' type='graphic'>backgrounds/firstRoomFG.png</asset>-->
+  
+  <asset name='bg1_11' type='graphic'>backgrounds/firstRoomBG/MAP1_11.png</asset>
+<asset name='bg1_12' type='graphic'>backgrounds/firstRoomBG/MAP1_12.png</asset>
+<asset name='bg1_13' type='graphic'>backgrounds/firstRoomBG/MAP1_13.png</asset>
+<asset name='bg1_14' type='graphic'>backgrounds/firstRoomBG/MAP1_14.png</asset>
+<asset name='bg1_15' type='graphic'>backgrounds/firstRoomBG/MAP1_15.png</asset>
+<asset name='bg1_21' type='graphic'>backgrounds/firstRoomBG/MAP1_21.png</asset>
+<asset name='bg1_22' type='graphic'>backgrounds/firstRoomBG/MAP1_22.png</asset>
+<asset name='bg1_23' type='graphic'>backgrounds/firstRoomBG/MAP1_23.png</asset>
+<asset name='bg1_24' type='graphic'>backgrounds/firstRoomBG/MAP1_24.png</asset>
+<asset name='bg1_25' type='graphic'>backgrounds/firstRoomBG/MAP1_25.png</asset>
+<asset name='bg1_31' type='graphic'>backgrounds/firstRoomBG/MAP1_31.png</asset>
+<asset name='bg1_32' type='graphic'>backgrounds/firstRoomBG/MAP1_32.png</asset>
+<asset name='bg1_33' type='graphic'>backgrounds/firstRoomBG/MAP1_33.png</asset>
+<asset name='bg1_34' type='graphic'>backgrounds/firstRoomBG/MAP1_34.png</asset>
+<asset name='bg1_35' type='graphic'>backgrounds/firstRoomBG/MAP1_35.png</asset>
+<asset name='bg1_41' type='graphic'>backgrounds/firstRoomBG/MAP1_41.png</asset>
+<asset name='bg1_42' type='graphic'>backgrounds/firstRoomBG/MAP1_42.png</asset>
+<asset name='bg1_43' type='graphic'>backgrounds/firstRoomBG/MAP1_43.png</asset>
+<asset name='bg1_44' type='graphic'>backgrounds/firstRoomBG/MAP1_44.png</asset>
+<asset name='bg1_45' type='graphic'>backgrounds/firstRoomBG/MAP1_45.png</asset>
+
+<asset name='fg1_11' type='graphic'>backgrounds/firstRoomFG/MAP1o_11.png</asset>
+<asset name='fg1_12' type='graphic'>backgrounds/firstRoomFG/MAP1o_12.png</asset>
+<asset name='fg1_13' type='graphic'>backgrounds/firstRoomFG/MAP1o_13.png</asset>
+<asset name='fg1_14' type='graphic'>backgrounds/firstRoomFG/MAP1o_14.png</asset>
+<asset name='fg1_15' type='graphic'>backgrounds/firstRoomFG/MAP1o_15.png</asset>
+<asset name='fg1_21' type='graphic'>backgrounds/firstRoomFG/MAP1o_21.png</asset>
+<asset name='fg1_22' type='graphic'>backgrounds/firstRoomFG/MAP1o_22.png</asset>
+<asset name='fg1_23' type='graphic'>backgrounds/firstRoomFG/MAP1o_23.png</asset>
+<asset name='fg1_24' type='graphic'>backgrounds/firstRoomFG/MAP1o_24.png</asset>
+<asset name='fg1_25' type='graphic'>backgrounds/firstRoomFG/MAP1o_25.png</asset>
+<asset name='fg1_31' type='graphic'>backgrounds/firstRoomFG/MAP1o_31.png</asset>
+<asset name='fg1_32' type='graphic'>backgrounds/firstRoomFG/MAP1o_32.png</asset>
+<asset name='fg1_33' type='graphic'>backgrounds/firstRoomFG/MAP1o_33.png</asset>
+<asset name='fg1_34' type='graphic'>backgrounds/firstRoomFG/MAP1o_34.png</asset>
+<asset name='fg1_35' type='graphic'>backgrounds/firstRoomFG/MAP1o_35.png</asset>
+<asset name='fg1_41' type='graphic'>backgrounds/firstRoomFG/MAP1o_41.png</asset>
+<asset name='fg1_42' type='graphic'>backgrounds/firstRoomFG/MAP1o_42.png</asset>
+<asset name='fg1_43' type='graphic'>backgrounds/firstRoomFG/MAP1o_43.png</asset>
+<asset name='fg1_44' type='graphic'>backgrounds/firstRoomFG/MAP1o_44.png</asset>
+<asset name='fg1_45' type='graphic'>backgrounds/firstRoomFG/MAP1o_45.png</asset>
+  
   <asset name='firstRoomStairs1' type='path'>1574,1372;1990,1696;1980,1760;1580,1448</asset>
   <asset name='firstRoomStairs2' type='path'>876,2710;1474,3156;1482,3288;868,2796</asset>
 
@@ -282,13 +325,55 @@
       @!:#or-whoever-makes-the-first-offer The fact that this is in a chest here is kind of disturbing to you in ways you can't really explain. You think you'll try to sell this thing to the highest bidder as soon as possible.</args>
     	</action>
     </sprite>
-    
+    <!--
     <sprite name='firstRoomBG'>
       <animation sheet='firstRoomBG'/>
     </sprite>
     <sprite name='firstRoomFG' depthing='2'>
       <animation sheet='firstRoomFG'/>
     </sprite>
+    -->
+    <sprite name='bg1_11' x='0' y='0' ><animation sheet='bg1_11'/></sprite>
+<sprite name='bg1_12' x='1000' y='0' ><animation sheet='bg1_12'/></sprite>
+<sprite name='bg1_13' x='2000' y='0' ><animation sheet='bg1_13'/></sprite>
+<sprite name='bg1_14' x='3000' y='0' ><animation sheet='bg1_14'/></sprite>
+<sprite name='bg1_15' x='4000' y='0' ><animation sheet='bg1_15'/></sprite>
+<sprite name='bg1_21' x='0' y='1000' ><animation sheet='bg1_21'/></sprite>
+<sprite name='bg1_22' x='1000' y='1000' ><animation sheet='bg1_22'/></sprite>
+<sprite name='bg1_23' x='2000' y='1000' ><animation sheet='bg1_23'/></sprite>
+<sprite name='bg1_24' x='3000' y='1000' ><animation sheet='bg1_24'/></sprite>
+<sprite name='bg1_25' x='4000' y='1000' ><animation sheet='bg1_25'/></sprite>
+<sprite name='bg1_31' x='0' y='2000' ><animation sheet='bg1_31'/></sprite>
+<sprite name='bg1_32' x='1000' y='2000' ><animation sheet='bg1_32'/></sprite>
+<sprite name='bg1_33' x='2000' y='2000' ><animation sheet='bg1_33'/></sprite>
+<sprite name='bg1_34' x='3000' y='2000' ><animation sheet='bg1_34'/></sprite>
+<sprite name='bg1_35' x='4000' y='2000' ><animation sheet='bg1_35'/></sprite>
+<sprite name='bg1_41' x='0' y='3000' ><animation sheet='bg1_41'/></sprite>
+<sprite name='bg1_42' x='1000' y='3000' ><animation sheet='bg1_42'/></sprite>
+<sprite name='bg1_43' x='2000' y='3000' ><animation sheet='bg1_43'/></sprite>
+<sprite name='bg1_44' x='3000' y='3000' ><animation sheet='bg1_44'/></sprite>
+<sprite name='bg1_45' x='4000' y='3000' ><animation sheet='bg1_45'/></sprite>
+
+<sprite name='fg1_11' x='0' y='0' depthing='2' ><animation sheet='fg1_11'/></sprite>
+<sprite name='fg1_12' x='1000' y='0' depthing='2' ><animation sheet='fg1_12'/></sprite>
+<sprite name='fg1_13' x='2000' y='0' depthing='2' ><animation sheet='fg1_13'/></sprite>
+<sprite name='fg1_14' x='3000' y='0' depthing='2' ><animation sheet='fg1_14'/></sprite>
+<sprite name='fg1_15' x='4000' y='0' depthing='2' ><animation sheet='fg1_15'/></sprite>
+<sprite name='fg1_21' x='0' y='1000' depthing='2' ><animation sheet='fg1_21'/></sprite>
+<sprite name='fg1_22' x='1000' y='1000' depthing='2' ><animation sheet='fg1_22'/></sprite>
+<sprite name='fg1_23' x='2000' y='1000' depthing='2' ><animation sheet='fg1_23'/></sprite>
+<sprite name='fg1_24' x='3000' y='1000' depthing='2' ><animation sheet='fg1_24'/></sprite>
+<sprite name='fg1_25' x='4000' y='1000' depthing='2' ><animation sheet='fg1_25'/></sprite>
+<sprite name='fg1_31' x='0' y='2000' depthing='2' ><animation sheet='fg1_31'/></sprite>
+<sprite name='fg1_32' x='1000' y='2000' depthing='2' ><animation sheet='fg1_32'/></sprite>
+<sprite name='fg1_33' x='2000' y='2000' depthing='2' ><animation sheet='fg1_33'/></sprite>
+<sprite name='fg1_34' x='3000' y='2000' depthing='2' ><animation sheet='fg1_34'/></sprite>
+<sprite name='fg1_35' x='4000' y='2000' depthing='2' ><animation sheet='fg1_35'/></sprite>
+<sprite name='fg1_41' x='0' y='3000' depthing='2' ><animation sheet='fg1_41'/></sprite>
+<sprite name='fg1_42' x='1000' y='3000' depthing='2' ><animation sheet='fg1_42'/></sprite>
+<sprite name='fg1_43' x='2000' y='3000' depthing='2' ><animation sheet='fg1_43'/></sprite>
+<sprite name='fg1_44' x='3000' y='3000' depthing='2' ><animation sheet='fg1_44'/></sprite>
+<sprite name='fg1_45' x='4000' y='3000' depthing='2' ><animation sheet='fg1_45'/></sprite>
   </room>
   
  

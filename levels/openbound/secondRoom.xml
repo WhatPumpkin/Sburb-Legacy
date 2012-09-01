@@ -67,8 +67,41 @@
 	<asset name='rose_talk' type='graphic'>dialogs/rose_talk.png</asset>	
   
   <asset name='secondRoomMap' type='graphic'>backgrounds/secondRoomWalkable.png</asset>
-  <asset name='secondRoomBG' type='graphic'>backgrounds/secondRoomBG.png</asset>
-  <asset name='secondRoomFG' type='graphic'>backgrounds/secondRoomFG.png</asset>
+  <asset name='secondRoomBG_0_0' type='graphic'>backgrounds/slices/secondRoomBG_0_0.png</asset>
+<asset name='secondRoomBG_0_1' type='graphic'>backgrounds/slices/secondRoomBG_0_1.png</asset>
+<asset name='secondRoomBG_0_2' type='graphic'>backgrounds/slices/secondRoomBG_0_2.png</asset>
+<asset name='secondRoomBG_0_3' type='graphic'>backgrounds/slices/secondRoomBG_0_3.png</asset>
+<asset name='secondRoomBG_0_4' type='graphic'>backgrounds/slices/secondRoomBG_0_4.png</asset>
+<asset name='secondRoomBG_1_0' type='graphic'>backgrounds/slices/secondRoomBG_1_0.png</asset>
+<asset name='secondRoomBG_1_1' type='graphic'>backgrounds/slices/secondRoomBG_1_1.png</asset>
+<asset name='secondRoomBG_1_2' type='graphic'>backgrounds/slices/secondRoomBG_1_2.png</asset>
+<asset name='secondRoomBG_1_3' type='graphic'>backgrounds/slices/secondRoomBG_1_3.png</asset>
+<asset name='secondRoomBG_1_4' type='graphic'>backgrounds/slices/secondRoomBG_1_4.png</asset>
+<asset name='secondRoomBG_2_0' type='graphic'>backgrounds/slices/secondRoomBG_2_0.png</asset>
+<asset name='secondRoomBG_2_1' type='graphic'>backgrounds/slices/secondRoomBG_2_1.png</asset>
+<asset name='secondRoomBG_2_2' type='graphic'>backgrounds/slices/secondRoomBG_2_2.png</asset>
+<asset name='secondRoomBG_2_3' type='graphic'>backgrounds/slices/secondRoomBG_2_3.png</asset>
+<asset name='secondRoomBG_2_4' type='graphic'>backgrounds/slices/secondRoomBG_2_4.png</asset>
+<asset name='secondRoomBG_3_0' type='graphic'>backgrounds/slices/secondRoomBG_3_0.png</asset>
+<asset name='secondRoomBG_3_1' type='graphic'>backgrounds/slices/secondRoomBG_3_1.png</asset>
+<asset name='secondRoomBG_3_2' type='graphic'>backgrounds/slices/secondRoomBG_3_2.png</asset>
+<asset name='secondRoomBG_3_3' type='graphic'>backgrounds/slices/secondRoomBG_3_3.png</asset>
+<asset name='secondRoomBG_3_4' type='graphic'>backgrounds/slices/secondRoomBG_3_4.png</asset>
+<asset name='secondRoomFG_0_0' type='graphic'>backgrounds/slices/secondRoomFG_0_0.png</asset>
+<asset name='secondRoomFG_0_1' type='graphic'>backgrounds/slices/secondRoomFG_0_1.png</asset>
+<asset name='secondRoomFG_0_2' type='graphic'>backgrounds/slices/secondRoomFG_0_2.png</asset>
+
+<asset name='secondRoomFG_1_0' type='graphic'>backgrounds/slices/secondRoomFG_1_0.png</asset>
+<asset name='secondRoomFG_1_1' type='graphic'>backgrounds/slices/secondRoomFG_1_1.png</asset>
+<asset name='secondRoomFG_1_2' type='graphic'>backgrounds/slices/secondRoomFG_1_2.png</asset>
+
+<asset name='secondRoomFG_2_0' type='graphic'>backgrounds/slices/secondRoomFG_2_0.png</asset>
+<asset name='secondRoomFG_2_1' type='graphic'>backgrounds/slices/secondRoomFG_2_1.png</asset>
+<asset name='secondRoomFG_2_2' type='graphic'>backgrounds/slices/secondRoomFG_2_2.png</asset>
+
+<asset name='secondRoomFG_3_0' type='graphic'>backgrounds/slices/secondRoomFG_3_0.png</asset>
+<asset name='secondRoomFG_3_1' type='graphic'>backgrounds/slices/secondRoomFG_3_1.png</asset>
+
   <asset name='secondRoomStairs1' type='path'>1288,2866;1453,2702;1466,2825;1301,2966</asset>
   
   <asset name='obj11' type='graphic'>objects/11.png</asset>
@@ -314,12 +347,42 @@
     	</action>
     </sprite>
     
-    <sprite name='secondRoomBG'>
-      <animation sheet='secondRoomBG'/>
-    </sprite>
-    <sprite name='secondRoomFG' depthing='2'>
-      <animation sheet='secondRoomFG'/>
-    </sprite>
+    <sprite name='secondRoomBG_0_0' x='0' y='0'><animation sheet='secondRoomBG_0_0' /></sprite>
+<sprite name='secondRoomBG_0_1' x='1000' y='0'><animation sheet='secondRoomBG_0_1' /></sprite>
+<sprite name='secondRoomBG_0_2' x='2000' y='0'><animation sheet='secondRoomBG_0_2' /></sprite>
+<sprite name='secondRoomBG_0_3' x='3000' y='0'><animation sheet='secondRoomBG_0_3' /></sprite>
+<sprite name='secondRoomBG_0_4' x='4000' y='0'><animation sheet='secondRoomBG_0_4' /></sprite>
+<sprite name='secondRoomBG_1_0' x='0' y='1000'><animation sheet='secondRoomBG_1_0' /></sprite>
+<sprite name='secondRoomBG_1_1' x='1000' y='1000'><animation sheet='secondRoomBG_1_1' /></sprite>
+<sprite name='secondRoomBG_1_2' x='2000' y='1000'><animation sheet='secondRoomBG_1_2' /></sprite>
+<sprite name='secondRoomBG_1_3' x='3000' y='1000'><animation sheet='secondRoomBG_1_3' /></sprite>
+<sprite name='secondRoomBG_1_4' x='4000' y='1000'><animation sheet='secondRoomBG_1_4' /></sprite>
+<sprite name='secondRoomBG_2_0' x='0' y='2000'><animation sheet='secondRoomBG_2_0' /></sprite>
+<sprite name='secondRoomBG_2_1' x='1000' y='2000'><animation sheet='secondRoomBG_2_1' /></sprite>
+<sprite name='secondRoomBG_2_2' x='2000' y='2000'><animation sheet='secondRoomBG_2_2' /></sprite>
+<sprite name='secondRoomBG_2_3' x='3000' y='2000'><animation sheet='secondRoomBG_2_3' /></sprite>
+<sprite name='secondRoomBG_2_4' x='4000' y='2000'><animation sheet='secondRoomBG_2_4' /></sprite>
+<sprite name='secondRoomBG_3_0' x='0' y='3000'><animation sheet='secondRoomBG_3_0' /></sprite>
+<sprite name='secondRoomBG_3_1' x='1000' y='3000'><animation sheet='secondRoomBG_3_1' /></sprite>
+<sprite name='secondRoomBG_3_2' x='2000' y='3000'><animation sheet='secondRoomBG_3_2' /></sprite>
+<sprite name='secondRoomBG_3_3' x='3000' y='3000'><animation sheet='secondRoomBG_3_3' /></sprite>
+<sprite name='secondRoomBG_3_4' x='4000' y='3000'><animation sheet='secondRoomBG_3_4' /></sprite>
+
+<sprite name='secondRoomFG_0_0' x='0' y='0' depthing='2'><animation sheet='secondRoomFG_0_0' /></sprite>
+<sprite name='secondRoomFG_0_1' x='1000' y='0' depthing='2'><animation sheet='secondRoomFG_0_1' /></sprite>
+<sprite name='secondRoomFG_0_2' x='2000' y='0' depthing='2'><animation sheet='secondRoomFG_0_2' /></sprite>
+
+<sprite name='secondRoomFG_1_0' x='0' y='1000' depthing='2'><animation sheet='secondRoomFG_1_0' /></sprite>
+<sprite name='secondRoomFG_1_1' x='1000' y='1000' depthing='2'><animation sheet='secondRoomFG_1_1' /></sprite>
+<sprite name='secondRoomFG_1_2' x='2000' y='1000' depthing='2'><animation sheet='secondRoomFG_1_2' /></sprite>
+
+<sprite name='secondRoomFG_2_0' x='0' y='2000' depthing='2'><animation sheet='secondRoomFG_2_0' /></sprite>
+<sprite name='secondRoomFG_2_1' x='1000' y='2000' depthing='2'><animation sheet='secondRoomFG_2_1' /></sprite>
+<sprite name='secondRoomFG_2_2' x='2000' y='2000' depthing='2'><animation sheet='secondRoomFG_2_2' /></sprite>
+
+<sprite name='secondRoomFG_3_0' x='0' y='3000' depthing='2'><animation sheet='secondRoomFG_3_0' /></sprite>
+<sprite name='secondRoomFG_3_1' x='1000' y='3000' depthing='2'><animation sheet='secondRoomFG_3_1' /></sprite>
+
   </room>
   
  

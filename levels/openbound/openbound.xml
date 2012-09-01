@@ -65,8 +65,8 @@
 <!--
 <action name='startGame' command='playSong'>
 	<args>fusciaRuler, 32.0830</args>
-</action>
--->
+</action>-->
+
 <hud>
   	<spritebutton name='volumeButton' x='9' y='9' width='54' height='36' sheet='volumeControl'>
   		<action command='toggleVolume' silent='true'> </action>

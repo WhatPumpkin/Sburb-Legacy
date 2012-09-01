@@ -80,6 +80,7 @@ Sburb.AssetManager.prototype.loadAsset = function(assetObj) {
 	if(!loadedAsset && assetObj.needsTimeout && assetObj.checkLoaded){
 		this.recurrences[assetObj.name] = assetObj.checkLoaded;
 	}
+	this.draw();
 }
 
 //log that the asset was added
