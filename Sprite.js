@@ -22,7 +22,7 @@ function Sprite(name,x,y,width,height,dx,dy,depthing,collidable){
 	this.lastTime = 0;
 	this.actions = [];
 	this.name = name;
-	
+	this.queries = null;
 }
 
 Sprite.prototype.BG_DEPTHING = 0;
@@ -126,12 +126,22 @@ Sprite.prototype.getBoundaryQueries = function(dx,dy){
 	var spriteY = this.y+(dy?dy:0);
 	var w = this.width/2;
 	var h = this.height/2;
-	return {upRight:{x:spriteX+w,y:spriteY-h},
-				 upLeft:{x:spriteX-w,y:spriteY-h},
-				 downLeft:{x:spriteX-w,y:spriteY+h},
-				 downRight:{x:spriteX+w,y:spriteY+h},
-				 downMid:{x:spriteX,y:spriteY+h},
-				 upMid:{x:spriteX,y:spriteY-h}};
+	if(!this.queries){
+		this.queries = {upRight:{},upLeft:{},downLeft:{},downRight:{},downMid:{},upMid:{}};
+	}
+	this.queries.upRight.x=spriteX+w;
+	this.queries.upRight.y=spriteY-h;
+	this.queries.upLeft.x=spriteX-w;
+	this.queries.upLeft.y=spriteY-h;
+	this.queries.downLeft.x=spriteX-w;
+	this.queries.downLeft.y=spriteY+h;
+	this.queries.downRight.x=spriteX+w;
+	this.queries.downRight.y=spriteY+h;
+	this.queries.downMid.x=spriteX;
+	this.queries.downMid.y=spriteY+h;
+	this.queries.upMid.x=spriteX;
+	this.queries.upMid.y=spriteY-h;
+	return this.queries;
 }
 
 Sprite.prototype.serialize = function(output){

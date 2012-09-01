@@ -22,7 +22,6 @@ Sburb.Room = function(name,width,height){
 	this.walkableMap = null;
 }
 
-Sburb.Room.prototype.mapCanvas = null;
 Sburb.Room.prototype.mapData = null;
 Sburb.Room.prototype.mapScale = 4;
 Sburb.Room.prototype.blockSize = 500;
@@ -106,7 +105,6 @@ Sburb.Room.prototype.enter = function(){
 		var drawHeight = mapCanvas.height = this.walkableMap.height;
 		var ctx = mapCanvas.getContext("2d");
 		ctx.drawImage(this.walkableMap,0,0,drawWidth,drawHeight, 0,0,drawWidth,drawHeight);
-		this.mapCanvas = mapCanvas;
 		this.mapData = new Uint8Array(drawWidth*drawHeight);
 		for(var x=0;x<drawWidth;x+=this.blockSize){
 			var width = Math.min(this.blockSize,drawWidth-x);
@@ -127,6 +125,7 @@ Sburb.Room.prototype.enter = function(){
 //perform any exit activities necessary
 Sburb.Room.prototype.exit = function(){
 	this.effects = [];
+	this.mapData = null;
 }
 
 //check if the room contains the sprite
@@ -234,10 +233,9 @@ Sburb.Room.prototype.isInBoundsBatch = function(queries,results){
 		for(var query in queries){
 			var pt = queries[query];
 			var data = this.mapData;
-			var width = this.mapCanvas.width;
-			var height = this.mapCanvas.height;
+			var width = this.walkableMap.width;
+			var height = this.walkableMap.height;
 			if(pt.x<0 || pt.x>width*this.mapScale || pt.y<0 || pt.y>height*this.mapScale){
-				console.log("whop");
 				results[query] = false;
 			}else{
 				var imgPt = (Math.round(pt.x/this.mapScale)+Math.round(pt.y/this.mapScale)*width);
@@ -260,7 +258,7 @@ Sburb.Room.prototype.getMoveFunction = function(sprite) {
 	var result;
 	for(i=0; i<this.motionPaths.length; i++) {
 		var motionPath = this.motionPaths[i];
-		var shouldMove = motionPath.path.query({x:sprite.x,y:sprite.y});
+		var shouldMove = motionPath.path.query(sprite);
 		if(shouldMove) {
 			result = function(ax, ay) {
 				var fx,fy;
