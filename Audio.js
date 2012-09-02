@@ -33,22 +33,20 @@ Sburb.Sound.prototype.play = function(pos) {
         this.asset.currentTime = pos; 
     }
 	this.fixVolume();
-	this.asset.play();
-    console.log(pos);
-	console.log("starting the sound...");
+	this.asset.play();	
 }
 
 //pause this sound
 Sburb.Sound.prototype.pause = function() {
 	this.asset.pause();
-	console.log("pausing the sound...");
+	//console.log("pausing the sound...");
 }
 
 //stop this sound
 Sburb.Sound.prototype.stop = function() {
 	this.pause();
 	this.asset.currentTime = 0;
-	console.log("stopping the sound...");
+	//console.log("stopping the sound...");
 }
 
 //has the sound stopped
@@ -59,7 +57,7 @@ Sburb.Sound.prototype.ended = function() {
 //ensure the sound is playing at the global volume
 Sburb.Sound.prototype.fixVolume = function(){
 	this.asset.volume = Sburb.globalVolume;
-	console.log("fixing the volume...");
+	//console.log("fixing the volume...");
 }
 
 
@@ -73,8 +71,8 @@ Sburb.Sound.prototype.fixVolume = function(){
 //constructor
 Sburb.BGM = function(asset, startLoop, priority) {
     Sburb.Sound.call(this,asset);
-    this.startLoop;
-    this.endLoop;
+    this.startLoop = 0;
+    this.endLoop = 0;
     
     this.setLoopPoints(startLoop?startLoop:0); 
 }
@@ -85,7 +83,7 @@ Sburb.BGM.prototype = new Sburb.Sound();
 Sburb.BGM.prototype.setLoopPoints = function(start, end) {
 	tmpAsset = this.asset
 	tmpAsset.addEventListener('ended', function() {
-		console.log("I'm loopin' as hard as I can cap'n! (via event listener)");
+	//	console.log("I'm loopin' as hard as I can cap'n! (via event listener)");
 		tmpAsset.currentTime = start;
 		tmpAsset.play();
 	},false);
@@ -96,7 +94,7 @@ Sburb.BGM.prototype.setLoopPoints = function(start, end) {
 
 //loop the sound
 Sburb.BGM.prototype.loop = function() {
-		console.log("looping...");
+	//	console.log("looping...");
 		this.play(this.startLoop);
 }
 

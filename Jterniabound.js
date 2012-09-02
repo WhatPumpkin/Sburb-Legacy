@@ -259,7 +259,6 @@ function handleAudio(){
 	if(Sburb.bgm && Sburb.bgm.asset){
 		if(Sburb.bgm.asset.ended || Sburb.bgm.asset.currentTime>=Sburb.bgm.asset.duration 
           ){
-			console.log("I'm loopin' as hard as I can capn'! (via polling)");
 			Sburb.bgm.loop();
 		}
 		if (Sburb.lastMusicTime[0] == Sburb.bgm.asset.currentTime && Sburb.lastMusicTime[1] == Sburb.bgm.asset.currentTime){
@@ -267,13 +266,13 @@ function handleAudio(){
             Sburb.bgm.asset.play(); // asset.play() because sometimes this condition is true on startup
         }
 		if(Sburb.bgm.asset.paused){
-			console.log("The sound is paused??? THIS SHOULD NOT BE.");
+		//	console.log("The sound is paused??? THIS SHOULD NOT BE.");
 			Sburb.bgm.play();
 		}
 		Sburb.lastMusicTime[0] = Sburb.lastMusicTime[1];
 		Sburb.lastMusicTime[1] = Sburb.bgm.asset.currentTime;
 	}else{
-		console.log("The music doesn't exist!");
+		//console.log("The music doesn't exist!");
 	}
 }
 
