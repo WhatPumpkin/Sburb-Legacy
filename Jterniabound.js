@@ -257,13 +257,14 @@ function relMouseCoords(event,canvas){
 
 function handleAudio(){
 	if(Sburb.bgm && Sburb.bgm.asset){
-		//console.log("The music exists; The music has ended: "+Sburb.bgm.asset.ended+
-		//	"; The volume is at: "+Sburb.bgm.asset.volume+"; The music is at: "+Sburb.bgm.asset.currentTime+"/"+Sburb.bgm.asset.duration); 
 		if(Sburb.bgm.asset.ended || Sburb.bgm.asset.currentTime>=Sburb.bgm.asset.duration 
-			|| (Sburb.bgm.asset.currentTime>Sburb.bgm.starLoop && Sburb.lastMusicTime[0] == Sburb.bgm.asset.currentTime && Sburb.lastMusicTime[1] == Sburb.bgm.asset.currentTime)){
-		//	console.log("I'm loopin' as hard as I can capn'! (via polling)");
+          ){
 			Sburb.bgm.loop();
 		}
+		if (Sburb.lastMusicTime[0] == Sburb.bgm.asset.currentTime && Sburb.lastMusicTime[1] == Sburb.bgm.asset.currentTime){
+            Sburb.bgm.asset.pause(); 
+            Sburb.bgm.asset.play(); // asset.play() because sometimes this condition is true on startup
+        }
 		if(Sburb.bgm.asset.paused){
 		//	console.log("The sound is paused??? THIS SHOULD NOT BE.");
 			Sburb.bgm.play();
