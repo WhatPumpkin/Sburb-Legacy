@@ -46,17 +46,17 @@
   
   <asset name='startMovie' type='movie'>cutscenes/intro.swf</asset>
 
-  <asset name='fusciaRuler' type='audio'>audio/music/FuschiaRulerQuiet.mp3;audio/music/FuschiaRulerQuiet.ogg</asset>
+  <asset name='fusciaRuler' type='audio'>audio/music/FuschiaRulerQuiet.ogg;audio/music/FuschiaRulerQuiet.mp3</asset>
   
-  <asset name='closeSound' type='audio'>audio/sfx/Close1.mp3;audio/sfx/Close1.ogg</asset>
-  <asset name='grindSound' type='audio'>audio/sfx/Grind.mp3;audio/sfx/Grind.ogg</asset>
-  <asset name='hitPowerfulSound' type='audio'>audio/sfx/HitPowerful.mp3;audio/sfx/HitPowerful.ogg</asset>
-  <asset name='hitWeakSound' type='audio'>audio/sfx/HitWeak.mp3;audio/sfx/HitWeak.ogg</asset>
-  <asset name='itemGetSound' type='audio'>audio/sfx/ItemGetNoVoice.mp3;audio/sfx/ItemGetNoVoice.ogg</asset>
-  <asset name='itemGetVoiceSound' type='audio'>audio/sfx/ItemGetVoice.mp3;audio/sfx/ItemGetVoice.ogg</asset>
-  <asset name='openSound' type='audio'>audio/sfx/Open1.mp3;audio/sfx/Open1.ogg</asset>
-  <asset name='openSound2' type='audio'>audio/sfx/Open2.mp3;audio/sfx/Open2.ogg</asset>
-  <asset name='stairSound' type='audio'>audio/sfx/Staircase.mp3;audio/sfx/Staircase.ogg</asset>
+  <asset name='closeSound' type='audio'>audio/sfx/Close1.ogg;audio/sfx/Close1.mp3</asset>
+  <asset name='grindSound' type='audio'>audio/sfx/Grind.ogg;audio/sfx/Grind.mp3</asset>
+  <asset name='hitPowerfulSound' type='audio'>audio/sfx/HitPowerful.ogg;audio/sfx/HitPowerful.mp3</asset>
+  <asset name='hitWeakSound' type='audio'>audio/sfx/HitWeak.ogg;audio/sfx/HitWeak.mp3</asset>
+  <asset name='itemGetSound' type='audio'>audio/sfx/ItemGetNoVoice.ogg;audio/sfx/ItemGetNoVoice.mp3</asset>
+  <asset name='itemGetVoiceSound' type='audio'>audio/sfx/ItemGetVoice.ogg;audio/sfx/ItemGetVoice.mp3</asset>
+  <asset name='openSound' type='audio'>audio/sfx/Open1.ogg;audio/sfx/Open1.mp3</asset>
+  <asset name='openSound2' type='audio'>audio/sfx/Open2.ogg;audio/sfx/Open2.mp3</asset>
+  <asset name='stairSound' type='audio'>audio/sfx/Staircase.ogg;audio/sfx/Staircase.mp3</asset>
 </assets>
 
 <action name='startGame' command='playMovie'>
