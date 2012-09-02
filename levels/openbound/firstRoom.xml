@@ -17,7 +17,7 @@
 	<asset name='meenahSkate' type='graphic'>chars/meenah_skate.png</asset>
 	<asset name='aradiaSheet' type='graphic'>chars/aradia.png</asset>
   
-  <asset name='firstRoomMap' type='graphic'>backgrounds/firstRoomWalkable.png</asset>
+  <asset name='firstRoomMap' type='graphic'>backgrounds/firstRoomMap.png</asset>
   <!--<asset name='firstRoomBG' type='graphic'>backgrounds/firstRoomBG.png</asset>-->
   <!--<asset name='firstRoomFG' type='graphic'>backgrounds/firstRoomFG.png</asset>-->
   

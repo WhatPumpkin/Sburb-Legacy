@@ -86,7 +86,7 @@
 	<asset name='blueBubbleSheet' type='graphic'>objects/bluebubble.png</asset>
 	<asset name='skateboard' type='graphic'>objects/latula_board.png</asset>
 	
-	<asset name='thirdRoomMap' type='graphic'>backgrounds/thirdRoomWalkable.png</asset>
+	<asset name='thirdRoomMap' type='graphic'>backgrounds/thirdRoomMap.png</asset>
 	<asset name='thirdRoomBG_0_0' type='graphic'>backgrounds/slices/thirdRoomBG_0_0.png</asset>
 <asset name='thirdRoomBG_0_1' type='graphic'>backgrounds/slices/thirdRoomBG_0_1.png</asset>
 <asset name='thirdRoomBG_0_2' type='graphic'>backgrounds/slices/thirdRoomBG_0_2.png</asset>

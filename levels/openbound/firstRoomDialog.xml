@@ -64,10 +64,13 @@
 		<args>karkat,meenah</args>
 		<action command='removeAction'>
 			<args>thirdRoomDoor,Open door.</args>
-			<action command='addActions'>
-				<args>thirdRoomDoor,
-					<action class='doorTalk2'/>
-				</args>
+			<action command='removeAction'>
+				<args>karkat,Talk to Karkat.</args>
+				<action command='addActions'>
+					<args>thirdRoomDoor,
+						<action class='doorTalk2'/>
+					</args>
+				</action>
 			</action>
 		</action>
 	</action>

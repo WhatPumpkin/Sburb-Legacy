@@ -20,7 +20,7 @@
 <asset name='fourthRoomFG_0_1' type='graphic'>backgrounds/slices/fourthRoomFG_0_1.png</asset>
 <asset name='fourthRoomFG_1_0' type='graphic'>backgrounds/slices/fourthRoomFG_1_0.png</asset>
 <asset name='fourthRoomFG_1_1' type='graphic'>backgrounds/slices/fourthRoomFG_1_1.png</asset>
-  <asset name='fourthRoomMap' type='graphic'>backgrounds/fourthRoomWalkable.png</asset>
+  <asset name='fourthRoomMap' type='graphic'>backgrounds/fourthRoomMap.png</asset>
   
   <asset name='spritedHorse' type='graphic'>objects/spiritedhorse.png</asset>
   
