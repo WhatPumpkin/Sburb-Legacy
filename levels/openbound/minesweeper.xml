@@ -1,0 +1,90 @@
+<sburb description="minesweeper">
+
+<classes>
+	<animation class='latula-dialog' frameInterval='6' x='-200' y='-524'/>
+</classes>
+
+<assets>
+  <asset name='latulaSheet' type='graphic'>chars/latula.png</asset>
+  <asset name='minesweeperMap' type='graphic'>backgrounds/minesweeperWalkable.png</asset>
+  <asset name='minesweeperBG' type='graphic'>backgrounds/minesweeperBG.png</asset>
+  <asset name='bomb' type='graphic'>objects/shittybomb.png</asset>
+  <asset name='flag' type='graphic'>objects/flag.png</asset>
+  <asset name='nr1' type='graphic'>objects/nr1.png</asset>
+  <asset name='nr2' type='graphic'>objects/nr2.png</asset>
+  <asset name='nr3' type='graphic'>objects/nr3.png</asset>
+  <asset name='nr4' type='graphic'>objects/nr4.png</asset>
+  <asset name='nr5' type='graphic'>objects/nr5.png</asset>
+  <asset name='nr6' type='graphic'>objects/nr6.png</asset>
+</assets>
+
+<sprite depthing='1' name='flag' x='-50' y='-50'>
+	<animation x='-50' y='-50' sheet='flag'/>
+</sprite>
+<sprite depthing='1' name='bomb' x='-50' y='-50'>
+	<animation x='-50' y='-50' sheet='bomb'/>
+</sprite>
+<sprite depthing='0' name='nr1'>
+	<animation x='-50' y='-50' sheet='nr1'/>
+</sprite>
+<sprite depthing='0' name='nr2'>
+	<animation x='-50' y='-50' sheet='nr2'/>
+</sprite>
+<sprite depthing='0' name='nr3'>
+	<animation x='-50' y='-50' sheet='nr3'/>
+</sprite>
+<sprite depthing='0' name='nr4'>
+	<animation x='-50' y='-50' sheet='nr4'/>
+</sprite>
+<sprite depthing='0' name='nr5'>
+	<animation x='-50' y='-50' sheet='nr5'/>
+</sprite>
+<sprite depthing='0' name='nr6'>
+	<animation x='-50' y='-50' sheet='nr6'/>
+</sprite>
+<sprite class='chest1' name='minesweeperChest' x='-50' y='-50'>
+	<action command='openMineChest' name='open'></action>
+	<action command='markMineChest' silent='true' name='mark'></action>
+</sprite>
+
+<rooms>
+  <room name='minesweeper' width='800' height='600' walkableMap='minesweeperMap'>
+
+	<sprite class='chest1' name='generatorChest' x='50' y='50'>
+		<action command='createMineChests' name='start game'>
+			<args>minesweeperChest,minesweeperChest,9,7,10,120,120,70,70,bomb,generatorChest,
+				<action class='win' sprite='latula' command='talk' name='win'><args>
+			 			@latula_happier LATULA: h3ll y34h!
+					</args>
+			    </action>,
+				<action class='loose' sprite='latula' command='talk' name='loose'><args>
+			 			@latula_annoyed LATULA: d4mn!
+					</args>
+					<action command='fadeOut'>
+						<args></args>
+						<action command='talk'>
+							<args>@! Game Over! Try again?</args>
+							<action command='presentActions'>
+							 	<args>
+								 	<action command='loadStateFile' name='Start over'>
+											<args>openbound.xml</args>
+									</action>
+								</args>
+							</action>
+						</action>
+					</action>
+			    </action>
+			</args>
+		</action>
+	</sprite>
+
+    <character name='latula' x='100' y='100' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
+	       sheet='latulaSheet' state='walkFront' facing='Front'>
+    </character>
+
+    <sprite name='minesweeperBG'>
+      <animation sheet='minesweeperBG'/>
+    </sprite>
+  </room>
+</rooms>
+</sburb>

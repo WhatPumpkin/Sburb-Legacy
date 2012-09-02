@@ -1,22 +1,16 @@
-<sburb  char='meenah' startAction='startGame' description="first area" scale='2' levelPath='levels/openbound' resourcePath='resources/openbound'>
+<sburb  char='latula' startAction='startGame' description="minesweeper" scale='2' levelPath='levels/openbound' resourcePath='resources/openbound'>
 
 <dependencies>
 	<dependency>standardTemplates.xml</dependency>
 	<dependency>rebubbleText.xml</dependency>
-	<dependency>firstRoom.xml</dependency>
+	<dependency>minesweeper.xml</dependency>
 </dependencies>
-
-<classes>
-	<animation class='meenahDialog' frameInterval='6' x='-180' y='-524'/>
-</classes>
 
 <assets>
   <asset name='SburbFont' type='font'>
   local:Courier New, local:Courier, url:fonts/cour.woff, url:fonts/cour.ttf
   </asset>
 
-
-	
   <asset name='dialogBox' type='graphic'>interface/dialogBoxBig.png</asset>
   <asset name='alttextbox_twitter' type='graphic'>interface/alttextbox_twitter.png</asset>
   <asset name='hashTagBarSheet' type='graphic'>interface/hashtagbar.png</asset>
@@ -25,28 +19,26 @@
   <asset name='bubbleButtonSheet' type='graphic'>interface/icons_bub.png</asset>
   <asset name='closeButtonSheet' type='graphic'>interface/closeconversation.png</asset>
   
-  <asset name='meenah_idle' type='graphic'>dialogs/meenah_idle.png</asset>
-  <asset name='meenah_talk' type='graphic'>dialogs/meenah_talk.png</asset>
-  <asset name='meenah_angry' type='graphic'>dialogs/meenah_angry.png</asset>
-  <asset name='meenah_angrytalk' type='graphic'>dialogs/meenah_angrytalk.png</asset>
-  <asset name='meenah_annoyed' type='graphic'>dialogs/meenah_annoyed.png</asset>
-  <asset name='meenah_annoyedtalk' type='graphic'>dialogs/meenah_annoyedtalk.png</asset>
-  <asset name='meenah_creepy' type='graphic'>dialogs/meenah_creepy.png</asset>
-  <asset name='meenah_creepytalk' type='graphic'>dialogs/meenah_creepytalk.png</asset>
-  <asset name='meenah_creepylaugh' type='graphic'>dialogs/meenah_creepylaugh.png</asset>
-  <asset name='meenah_fish' type='graphic'>dialogs/meenah_fish.png</asset>
-  <asset name='meenah_fishtalk' type='graphic'>dialogs/meenah_fishtalk.png</asset>
-  <asset name='meenah_happy' type='graphic'>dialogs/meenah_happy.png</asset>
-  <asset name='meenah_happytalk' type='graphic'>dialogs/meenah_happytalk.png</asset>
-  <asset name='meenah_happier' type='graphic'>dialogs/meenah_happier.png</asset>
-  <asset name='meenah_ohyes' type='graphic'>dialogs/meenah_ohyes.png</asset>
-  <asset name='meenah_wink' type='graphic'>dialogs/meenah_wink.png</asset>
-  <asset name='meenah_wut' type='graphic'>dialogs/meenah_wut.png</asset>
-  <asset name='meenah_wut2' type='graphic'>dialogs/meenah_wut2.png</asset>
-  
-  <asset name='startMovie' type='movie'>cutscenes/intro.swf</asset>
+  <asset name='latula_angry' type='graphic'>dialogs/latula_angry.png</asset>
+  <asset name='latula_annoyed' type='graphic'>dialogs/latula_annoyed.png</asset>
+  <asset name='latula_annoyedtalk' type='graphic'>dialogs/latula_annoyedtalk.png</asset>
+  <asset name='latula_bored' type='graphic'>dialogs/latula_bored.png</asset>
+  <asset name='latula_happier' type='graphic'>dialogs/latula_happier.png</asset>
+  <asset name='latula_happy' type='graphic'>dialogs/latula_happy.png</asset>
+  <asset name='latula_happytalk' type='graphic'>dialogs/latula_happytalk.png</asset>
+  <asset name='latula_huh' type='graphic'>dialogs/latula_huh.png</asset>
+  <asset name='latula_idle2' type='graphic'>dialogs/latula_idle2.png</asset>
+  <asset name='latula_idle3' type='graphic'>dialogs/latula_idle3.png</asset>
+  <asset name='latula_idle' type='graphic'>dialogs/latula_idle.png</asset>
+  <asset name='latula_laugh' type='graphic'>dialogs/latula_laugh.png</asset>
+  <asset name='latula_shades1' type='graphic'>dialogs/latula_shades1.png</asset>
+  <asset name='latula_shades2' type='graphic'>dialogs/latula_shades2.png</asset>
+  <asset name='latula_shine' type='graphic'>dialogs/latula_shine.png</asset>
+  <asset name='latula_stunt' type='graphic'>dialogs/latula_stunt.png</asset>
+  <asset name='latula_talk' type='graphic'>dialogs/latula_talk.png</asset>
+  <asset name='latula_tongue' type='graphic'>dialogs/latula_tongue.png</asset>
 
-  <asset name='fusciaRuler' type='audio'>audio/music/FuschiaRulerQuiet.ogg;audio/music/FuschiaRulerQuiet.mp3</asset>
+  <asset name='gameGlare' type='audio'>audio/music/GameGlare.ogg;audio/music/GameGlare.mp3</asset>
   
   <asset name='closeSound' type='audio'>audio/sfx/Close1.ogg;audio/sfx/Close1.mp3</asset>
   <asset name='grindSound' type='audio'>audio/sfx/Grind.ogg;audio/sfx/Grind.mp3</asset>
@@ -59,13 +51,9 @@
   <asset name='stairSound' type='audio'>audio/sfx/Staircase.ogg;audio/sfx/Staircase.mp3</asset>
 </assets>
 
-<action name='startGame' command='playMovie'>
-	<args>startMovie,fusciaRuler, 32.0830</args>
-</action>
-<!--
 <action name='startGame' command='playSong'>
-	<args>fusciaRuler, 32.0830</args>
-</action>-->
+	<args>gameGlare, 18.19</args>
+</action>
 
 <hud>
   	<spritebutton name='volumeButton' x='9' y='9' width='54' height='36' sheet='volumeControl'>
@@ -85,24 +73,24 @@
 	</dialoger>
   	
   	<dialogsprites>	
-  		<animation name='meenah_idle' class='meenahDialog' sheet='meenah_idle'/>
-  		<animation name='meenah_talk' class='meenahDialog' sheet='meenah_talk' length='2'/>
-  		<animation name='meenah_angry' class='meenahDialog' sheet='meenah_angry'/>
-  		<animation name='meenah_angrytalk' class='meenahDialog' sheet='meenah_angrytalk' length='2'/>
-  		<animation name='meenah_annoyed' class='meenahDialog' sheet='meenah_annoyed'/>
-  		<animation name='meenah_annoyedtalk' class='meenahDialog' sheet='meenah_annoyedtalk' length='2'/>
-  		<animation name='meenah_creepy' class='meenahDialog' sheet='meenah_creepy'/>
-  		<animation name='meenah_creepytalk' class='meenahDialog' sheet='meenah_creepytalk' length='2'/>
-  		<animation name='meenah_creepylaugh' class='meenahDialog' sheet='meenah_creepylaugh' length='2'/>
-  		<animation name='meenah_fish' class='meenahDialog' sheet='meenah_fish'/>
-  		<animation name='meenah_fishtalk' class='meenahDialog' sheet='meenah_fishtalk' length='2'/>
-  		<animation name='meenah_happy' class='meenahDialog' sheet='meenah_happy'/>
-  		<animation name='meenah_happytalk' class='meenahDialog' sheet='meenah_happytalk' length='2'/>
-  		<animation name='meenah_happier' class='meenahDialog' sheet='meenah_happier'/>
-  		<animation name='meenah_ohyes' class='meenahDialog' sheet='meenah_ohyes'/>
-  		<animation name='meenah_wink' class='meenahDialog' sheet='meenah_wink' length='2'/>
-  		<animation name='meenah_wut' class='meenahDialog' sheet='meenah_wut'/>
-  		<animation name='meenah_wut2' class='meenahDialog' sheet='meenah_wut2'/>
+	  <animation name='latula_angry' class='latula-dialog' sheet='latula_angry' x='-240' length='2'/>
+	  <animation name='latula_annoyed' class='latula-dialog' sheet='latula_annoyed' />
+	  <animation name='latula_annoyedtalk' class='latula-dialog' sheet='latula_annoyedtalk' length='2'/>
+	  <animation name='latula_bored' class='latula-dialog' sheet='latula_bored' length='2'/>
+	  <animation name='latula_happier' class='latula-dialog' sheet='latula_happier' />
+	  <animation name='latula_happy' class='latula-dialog' sheet='latula_happy' />
+	  <animation name='latula_happytalk' class='latula-dialog' sheet='latula_happytalk' length='2'/>
+	  <animation name='latula_huh' class='latula-dialog' sheet='latula_huh' length='1'/>
+	  <animation name='latula_idle2' class='latula-dialog' sheet='latula_idle2' />
+	  <animation name='latula_idle3' class='latula-dialog' sheet='latula_idle3' />
+	  <animation name='latula_idle' class='latula-dialog' sheet='latula_idle' />
+	  <animation name='latula_laugh' class='latula-dialog' sheet='latula_laugh' length='2'/>
+	  <animation name='latula_shades1' class='latula-dialog' sheet='latula_shades1' />
+	  <animation name='latula_shades2' class='latula-dialog' sheet='latula_shades2' />
+	  <animation name='latula_shine' class='latula-dialog' sheet='latula_shine' length='3'/>
+	  <animation name='latula_stunt' class='latula-dialog' sheet='latula_stunt' length='2'/>
+	  <animation name='latula_talk' class='latula-dialog' sheet='latula_talk' length='2'/>
+	  <animation name='latula_tongue' class='latula-dialog' sheet='latula_tongue' />
   	</dialogsprites>
 </hud>
 
@@ -125,25 +113,4 @@
 <spritebutton name='bubbleButton' x='510' y='300' width='30' height='26' sheet='bubbleButtonSheet'>
 	<action class='rebubble' />
 </spritebutton>
-  	
-<!--
-    
-    <character name='terezi' x='200' y='600' sx='-50' sy='-110' sWidth='100' sHeight='130' width='48' height='21' 
-	       sheet='terezisheet' state='walkFront' facing='Front'>
-      <action name='swap' command='changeChar'>terezi</action>
-    </character>
-    
-    -->
-    
-    <!--
-
-  	<sprite class='chest' name='baseRoomChest1' x='600' y='400'>
-		<action name='open' command='openChest'>baseRoomChest1,dollar,You got a boondollar!</action>
-	</sprite>
-	<sprite class='chest' name='baseRoomChest2' x='500' y='400'>
-		<action name='????' command='teleportRemote'>trickster.xml,secretRoom,666,450</action>
-	</sprite>
-  	<sprite class='teleporter' name='baseRoomTeleporter' x='400' y='400'>
-      <action name='teleport' command='teleportRemote'>stairRoom.xml,stairRoom,666,450</action>
-    </sprite>-->
 </sburb>
