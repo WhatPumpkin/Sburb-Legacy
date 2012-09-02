@@ -290,6 +290,7 @@ Sburb.Character.prototype.unfollow = function(){
 		this.following.follower = this.follower;
 		if(this.follower){
 			this.follower.following = this.following;
+			this.follower.followBuffer = [];
 		}
 		this.following = null;
 		this.follower = null;
