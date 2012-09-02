@@ -15,9 +15,26 @@ Sburb.Sound = function(asset){
 }
 
 //play this sound
-Sburb.Sound.prototype.play = function() {
+Sburb.Sound.prototype.play = function(pos) {
+    if(window.chrome) {
+        this.asset.load();
+        if(pos) {
+            // chrome doesnt like us changing the play time
+            // unless we're already playing
+            var oThis = this;
+            this.asset.addEventListener('playing', function() {
+                oThis.asset.currentTime = pos;
+                oThis.asset.pause();
+                oThis.asset.removeEventListener('playing', arguments.callee);
+                oThis.asset.play();
+            });
+        }
+    } else if(pos) {
+        this.asset.currentTime = pos; 
+    }
 	this.fixVolume();
-	this.asset.play();	
+	this.asset.play();
+    console.log(pos);
 	console.log("starting the sound...");
 }
 
@@ -80,8 +97,7 @@ Sburb.BGM.prototype.setLoopPoints = function(start, end) {
 //loop the sound
 Sburb.BGM.prototype.loop = function() {
 		console.log("looping...");
-		this.asset.currentTime = this.startLoop;
-		this.asset.play();
+		this.play(this.startLoop);
 }
 
 
