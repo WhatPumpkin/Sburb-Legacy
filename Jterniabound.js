@@ -33,7 +33,8 @@ Sburb.Mouse = {down:false,x:0,y:0}; //current recorded properties of the mouse
 Sburb.waitFor = null;
 Sburb.engineMode = "wander";
 Sburb.fading = false;
-Sburb.lastMusicTime = [0,0];
+Sburb.lastMusicTime = -1;
+Sburb.musicStoppedFor = 0;
 
 Sburb.updateLoop = null; //the main updateLoop, used to interrupt updating
 Sburb.initFinished = null; //only used when _hardcode_load is true
@@ -257,20 +258,23 @@ function relMouseCoords(event,canvas){
 
 function handleAudio(){
 	if(Sburb.bgm && Sburb.bgm.asset){
-		if(Sburb.bgm.asset.ended || Sburb.bgm.asset.currentTime>=Sburb.bgm.asset.duration 
-          ){
+		if(Sburb.bgm.asset.ended || Sburb.bgm.asset.currentTime>=Sburb.bgm.asset.duration ){
 			Sburb.bgm.loop();
 		}
-		if (Sburb.lastMusicTime[0] == Sburb.bgm.asset.currentTime && Sburb.lastMusicTime[1] == Sburb.bgm.asset.currentTime){
-            Sburb.bgm.asset.pause(); 
-            Sburb.bgm.asset.play(); // asset.play() because sometimes this condition is true on startup
-        }
+		if (Sburb.lastMusicTime == Sburb.bgm.asset.currentTime){
+			Sburb.musicStoppedFor++;
+			if(Sburb.musicStoppedFor>4){
+		    Sburb.bgm.asset.pause(); 
+		    Sburb.bgm.asset.play(); // asset.play() because sometimes this condition is true on startup
+		  }
+    }else{
+    	Sburb.musicStoppedFor = 0;
+    }
 		if(Sburb.bgm.asset.paused){
 		//	console.log("The sound is paused??? THIS SHOULD NOT BE.");
 			Sburb.bgm.play();
 		}
-		Sburb.lastMusicTime[0] = Sburb.lastMusicTime[1];
-		Sburb.lastMusicTime[1] = Sburb.bgm.asset.currentTime;
+		Sburb.lastMusicTime = Sburb.bgm.asset.currentTime;
 	}else{
 		//console.log("The music doesn't exist!");
 	}
