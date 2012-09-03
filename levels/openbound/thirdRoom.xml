@@ -198,9 +198,9 @@
 	<asset name='dialogimg_kankri2' type='graphic'>dialogs/dialogimg_kankri2.png</asset>
 	<asset name='dialogimg_karkat1' type='graphic'>dialogs/dialogimg_karkat1.png</asset>
 	
-	<asset name='darlingDolorosa' type='audio'>audio/music/Dolorosa.ogg;audio/music/Dolorosa.mp3</asset>
-	<asset name='gameGlare' type='audio'>audio/music/GameGlare.ogg;audio/music/GameGlare.mp3</asset>
-	<asset name='ironInfidel' type='audio'>audio/music/IronInfidelCut.ogg;audio/music/IronInfidelCut.mp3</asset>
+	<asset name='darlingDolorosa' type='audio'>audio/music/Dolorosa.oga;audio/music/Dolorosa.mp3</asset>
+	<asset name='gameGlare' type='audio'>audio/music/GameGlare.oga;audio/music/GameGlare.mp3</asset>
+	<asset name='ironInfidel' type='audio'>audio/music/IronInfidelCut.oga;audio/music/IronInfidelCut.mp3</asset>
 	
 	<asset name='obj23' type='graphic'>objects/23.png</asset>
 <asset name='obj24' type='graphic'>objects/24.png</asset>
