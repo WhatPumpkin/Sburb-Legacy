@@ -187,7 +187,16 @@ Sburb.loadGenericAsset = function(asset, path, type, id) {
         }
 
         if (status == 200) {
-            var blob = new Blob([this.response],{type: type});
+            var sliceMethod = false;
+            if("mozSlice" in this.response)    sliceMethod = "mozSlice";
+            if("webkitSlice" in this.response) sliceMethod = "webkitSlice";
+            if("slice" in this.response)       sliceMethod = "slice";
+            if(!sliceMethod) {
+                console.log("No way to generate blob properly. Aborting.");
+                asset.failure(id);
+                return;
+            }
+            var blob = this.response[sliceMethod](0,this.response.size,type); //new Blob([this.response],{type: type});
             var url = URL.createObjectURL(blob);
             var diff = xhr.total - xhr.loaded;
             xhr.loaded = xhr.total;
