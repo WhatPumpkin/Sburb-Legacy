@@ -9,8 +9,10 @@ var Sburb = (function(Sburb){
 
 //Constructor
 Sburb.AssetManager = function() {
-	this.totalAssets = 0;
-	this.totalLoaded = 0;
+	this.totalAssets = 0; // Used in calculation of "Are we done yet?"
+	this.totalLoaded = 0; // Used in calculation of "Are we done yet?"
+	this.totalSize = 0;   // Used in progress bar
+	this.loadedSize = 0;  // Used in progress bar
 	this.assets = {};
 	this.loaded = {};
 	this.recurrences = {};
@@ -50,7 +52,7 @@ Sburb.AssetManager.prototype.draw = function(){
 	Sburb.stage.font="10px Verdana";
 	Sburb.stage.textAlign = "center";
   //Sburb.stage.fillText("Loading "+this.description,Stage.width/2,Stage.height-80);
-  Sburb.stage.fillText(Math.floor((this.totalLoaded/this.totalAssets)*100)+"%",Sburb.Stage.width/2,Sburb.Stage.height-50);
+  Sburb.stage.fillText(Math.floor((this.loadedSize/this.totalSize)*100)+"%",Sburb.Stage.width/2,Sburb.Stage.height-50);
   if(this.error.length) {
     Sburb.stage.textAlign = "left";
     for(var i = 0; i < this.error.length; i++)
@@ -71,6 +73,9 @@ Sburb.AssetManager.prototype.purge = function() {
 	this.loaded = {}
 	this.totalLoaded = 0;
 	this.totalAssets = 0;
+	this.totalSize = 0;
+	this.loadedSize = 0;
+	this.error = [];
 }
 
 //load the given asset
@@ -140,26 +145,97 @@ Sburb.AssetManager.prototype.assetFailed = function(name) {
 //Related Utility functions
 ////////////////////////////////////////////
 
+Sburb.loadGenericAsset = function(asset, path) {
+    var URL = window.URL || window.webkitURL;  // Take care of vendor prefixes.
+    var xhr = new XMLHttpRequest();
+    xhr.total = 0;
+    xhr.loaded = 0;
+    xhr.open('GET', Sburb.assetManager.resolvePath(path), true);
+    xhr.responseType = 'blob';
+    xhr.onprogress = function(e) {
+        if(e.lengthComputable) {
+            if(!xhr.total) {
+                Sburb.assetManager.totalSize += e.total;
+                xhr.total = e.total;
+            }
+            var diff = e.loaded - xhr.loaded;
+            xhr.loaded = e.loaded;
+            Sburb.assetManager.loadedSize += diff;
+        } else {
+            console.log("ERROR: Length not computable for " + path);
+        }
+    }
+    xhr.onload = function() {
+        if (this.status == 200) {
+            var blob = this.response;
+            var url = URL.createObjectURL(blob);
+            var diff = xhr.total - xhr.loaded;
+            xhr.loaded = xhr.total;
+            Sburb.assetManager.loadedSize += diff;
+            asset.success(url);
+        } else {
+            asset.failure();
+        }
+    }
+    xhr.onabort = xhr.onerror = asset.failure;
+    xhr.send();
+};
+
 //Create a graphic Asset
 Sburb.createGraphicAsset = function(name, path) {
     var ret = new Image();
-    ret.loaded = false;
-    ret.failed = false;
-    ret.onload = function() {
-		ret.loaded = true;
-    }
-    ret.onerror = function() {
-        ret.failed = true;
-    };
-    ret.src = Sburb.assetManager.resolvePath(path);
     ret.type = "graphic";
     ret.name = name;
+    ret.loaded = false;
+    ret.failed = false;
+    ret.success = function(url) { ret.src = url; ret.loaded = true; };
+    ret.failure = function() { ret.failed = true; };
     ret.assetOnLoadFunction = function(fn) {
 		if(ret.loaded) {
 			if(fn) { fn(); }
 			return true;
 		} else {
-			ret.onload = function () {
+			ret.success = function (url) {
+				ret.loaded = true
+				ret.src = url;
+				if(fn) { fn(); }
+			}
+			return false;
+		}
+    };
+    ret.assetOnFailFunction = function(fn) {
+        if(ret.failed) {
+            if(fn) { fn(); }
+            return true;
+        } else {
+            ret.failure = function() {
+                if(!ret.failed && fn) { fn(); }
+                ret.failed = true;
+            }
+            return false;
+        }
+    };
+    Sburb.loadGenericAsset(ret, path);
+    return ret;
+}
+
+//create an audio Asset
+Sburb.createAudioAsset = function(name,sources) {
+    var ret = new Audio();
+    ret.name = name
+    ret.type = "audio";
+    ret.preload = true;
+    ret.remaining = sources.length
+    ret.loaded = false;
+    ret.failed = false;
+    ret.done = function() { ret.loaded = true; };
+    ret.failure = function() { ret.failed = true; };
+    ret.assetOnLoadFunction = function(fn) {
+		if(ret.loaded) {
+			if(fn) { fn(); }
+			return true;
+		} else {
+			ret.done = function () {
 				ret.loaded = true
 				if(fn) { fn(); }
 			}
@@ -171,63 +247,23 @@ Sburb.createGraphicAsset = function(name, path) {
             if(fn) { fn(); }
             return true;
         } else {
-            ret.onerror = function() {
+            ret.failure = function() {
+                if(!ret.failed && fn) { fn(); }
                 ret.failed = true;
-                if(fn) { fn(); }
             }
             return false;
         }
     };
-    return ret;
-}
-
-//create an audio Asset
-Sburb.createAudioAsset = function(name,sources) {
-    var ret = new Audio();
-    ret.name = name
-    ret.type = "audio";
-    ret.preload = true;
-    ret.failed = false;
-    //ret.needsTimeout = true;
-    
-    var fail =  function() { ret.failed = true; };
-    ret.addEventListener('error',fail);
-    ret.addEventListener('stalled',fail);
-    
-    for (var a=0; a < sources.length; a++) {
+    ret.success = function(url) {
 		var tmp = document.createElement("source");
-		tmp.src = Sburb.assetManager.resolvePath(sources[a]);
+		tmp.src = url;
 		ret.appendChild(tmp);
+        ret.remaining -= 1;
+        if(!ret.remaining)
+            ret.done();
     }
-    ret.assetOnLoadFunction = function(fn) {
-		this.checkLoaded = function(){
-			//console.log("check!",ret.name);
-			if (ret.readyState==4) {
-				//console.log("good!");
-				if(fn) { fn(); }
-				return true;
-			}
-			return false;
-		}
-		if(!this.checkLoaded()){
-			ret.addEventListener('loadeddata', fn, false);
-			return false;
-		}else{
-			return true;
-		}
-    };
-    ret.assetOnFailFunction = function(fn) {
-        if(ret.failed) {
-            if(fn) { fn(); }
-            return true;
-        } else {
-            ret.onerror = function() {
-                ret.failed = true;
-                if(fn) { fn(); }
-            }
-            return false;
-        }
-    };
+    for (var a=0; a < sources.length; a++)
+        Sburb.loadGenericAsset(ret, sources[a]);
     return ret;
 }
 
@@ -261,6 +297,7 @@ Sburb.createPathAsset = function(name, path) {
     return ret
 }
 
+//create a font
 Sburb.createFontAsset = function(name, sources){
 	var ret = {font:sources[0]};
 	ret.name = name;
