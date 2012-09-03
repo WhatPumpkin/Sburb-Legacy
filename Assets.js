@@ -17,6 +17,7 @@ Sburb.AssetManager = function() {
 	this.description = "";
 	this.resourcePath = "";
 	this.levelPath = "";
+	this.error = [];
 }
 
 Sburb.AssetManager.prototype.resolvePath = function(path){
@@ -50,6 +51,12 @@ Sburb.AssetManager.prototype.draw = function(){
 	Sburb.stage.textAlign = "center";
   //Sburb.stage.fillText("Loading "+this.description,Stage.width/2,Stage.height-80);
   Sburb.stage.fillText(Math.floor((this.totalLoaded/this.totalAssets)*100)+"%",Sburb.Stage.width/2,Sburb.Stage.height-50);
+  if(this.error.length) {
+    Sburb.stage.textAlign = "left";
+    for(var i = 0; i < this.error.length; i++)
+        Sburb.stage.fillText("Error: "+this.error[i],10,20+15*i);
+    Sburb.stage.textAlign = "center";
+  }
 }
 
 //check if a specific asset has been loaded
@@ -77,6 +84,8 @@ Sburb.AssetManager.prototype.loadAsset = function(assetObj) {
 	var oThis = this;
 	this.assetAdded(name);	
 	var loadedAsset = this.assets[name].assetOnLoadFunction(function() { oThis.assetLoaded(name); });
+	if(!loadedAsset)
+	    this.assets[name].assetOnFailFunction(function() { oThis.assetFailed(name); });
 	if(!loadedAsset && assetObj.needsTimeout && assetObj.checkLoaded){
 		this.recurrences[assetObj.name] = assetObj.checkLoaded;
 	}
@@ -96,6 +105,15 @@ Sburb.AssetManager.prototype.assetLoaded = function(name){
 			this.loaded[name] = true
 			this.totalLoaded++;
 			
+			/*
+			var unloaded = [];
+			for(var k in this.loaded) {
+			    if(this.loaded.hasOwnProperty(k) && this.loaded[k] == false)
+			        unloaded.push(k);
+	        }
+	        console.log(unloaded);
+			*/
+			
 			this.draw();
 			
 			if(this.finishedLoading() && Sburb._hardcode_load){
@@ -108,7 +126,12 @@ Sburb.AssetManager.prototype.assetLoaded = function(name){
 	}
 };
 
-
+Sburb.AssetManager.prototype.assetFailed = function(name) {
+    var msg = name + " failed to load"
+    console.log(msg);
+    this.error.push(msg);
+    this.draw();
+};
 
 
 
@@ -121,9 +144,13 @@ Sburb.AssetManager.prototype.assetLoaded = function(name){
 Sburb.createGraphicAsset = function(name, path) {
     var ret = new Image();
     ret.loaded = false;
+    ret.failed = false;
     ret.onload = function() {
 		ret.loaded = true;
     }
+    ret.onerror = function() {
+        ret.failed = true;
+    };
     ret.src = Sburb.assetManager.resolvePath(path);
     ret.type = "graphic";
     ret.name = name;
@@ -139,6 +166,18 @@ Sburb.createGraphicAsset = function(name, path) {
 			return false;
 		}
     };
+    ret.assetOnFailFunction = function(fn) {
+        if(ret.failed) {
+            if(fn) { fn(); }
+            return true;
+        } else {
+            ret.onerror = function() {
+                ret.failed = true;
+                if(fn) { fn(); }
+            }
+            return false;
+        }
+    };
     return ret;
 }
 
@@ -148,7 +187,13 @@ Sburb.createAudioAsset = function(name,sources) {
     ret.name = name
     ret.type = "audio";
     ret.preload = true;
+    ret.failed = false;
     //ret.needsTimeout = true;
+    
+    var fail =  function() { ret.failed = true; };
+    ret.addEventListener('error',fail);
+    ret.addEventListener('stalled',fail);
+    
     for (var a=0; a < sources.length; a++) {
 		var tmp = document.createElement("source");
 		tmp.src = Sburb.assetManager.resolvePath(sources[a]);
@@ -170,6 +215,18 @@ Sburb.createAudioAsset = function(name,sources) {
 		}else{
 			return true;
 		}
+    };
+    ret.assetOnFailFunction = function(fn) {
+        if(ret.failed) {
+            if(fn) { fn(); }
+            return true;
+        } else {
+            ret.onerror = function() {
+                ret.failed = true;
+                if(fn) { fn(); }
+            }
+            return false;
+        }
     };
     return ret;
 }
@@ -200,6 +257,7 @@ Sburb.createPathAsset = function(name, path) {
 		if(fn) { fn(); }
 		return;
     }
+    ret.assetOnFailFunction = function(fn) { return false; }
     return ret
 }
 
@@ -254,6 +312,7 @@ Sburb.createFontAsset = function(name, sources){
 		if(fn) { fn(); }
 		return;
     }
+    ret.assetOnFailFunction = function(fn) { return false; }
     return ret
 }
 
