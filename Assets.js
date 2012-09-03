@@ -21,6 +21,19 @@ Sburb.AssetManager = function() {
     this.levelPath = "";
     this.error = [];
     this.failed = [];
+    this.mimes = {
+        "jpg": "image/jpeg",
+        "gif": "image/gif",
+        "png": "image/png",
+        "svg": "image/svg+xml",
+        "mp3": "audio/mpeg",
+        "oga": "audio/ogg",
+        "ogg": "audio/ogg",
+        "ttf": "application/x-font-ttf",
+        "woff": "application/x-font-woff",
+        "swf": "application/x-shockwave-flash",
+        "flv": "application/x-shockwave-flash"
+    };
 }
 
 Sburb.AssetManager.prototype.resolvePath = function(path){
@@ -157,7 +170,7 @@ Sburb.AssetManager.prototype.assetFailed = function(name) {
 //Related Utility functions
 ////////////////////////////////////////////
 
-Sburb.loadGenericAsset = function(asset, path, type, id) {
+Sburb.loadGenericAsset = function(asset, path, id) {
     var URL = window.URL || window.webkitURL;  // Take care of vendor prefixes.
     var xhr = new XMLHttpRequest();
     var assetPath = Sburb.assetManager.resolvePath(path);
@@ -196,6 +209,8 @@ Sburb.loadGenericAsset = function(asset, path, type, id) {
                 asset.failure(id);
                 return;
             }
+            var ext = path.substring(path.indexOf(".")+1,path.length);
+            var type = Sburb.assetManager.mimes[ext];
             var blob = this.response[sliceMethod](0,this.response.size,type); //new Blob([this.response],{type: type});
             var url = URL.createObjectURL(blob);
             var diff = xhr.total - xhr.loaded;
@@ -218,7 +233,6 @@ Sburb.createGraphicAsset = function(name, path) {
     var ret = new Image();
     ret.type = "graphic";
     ret.name = name;
-    ret.mime = "image/"+path.substr(-3);
     ret.loaded = false;
     ret.failed = false;
     ret.originalVals = path;
@@ -253,7 +267,7 @@ Sburb.createGraphicAsset = function(name, path) {
     ret.reload = function() {
         ret.loaded = false;
         ret.failed = false;
-        Sburb.loadGenericAsset(ret, path, ret.mime);
+        Sburb.loadGenericAsset(ret, path);
     };
     ret.reload();
     return ret;
@@ -319,7 +333,7 @@ Sburb.createAudioAsset = function(name,sources) {
         ret.failed = false;
         ret.remaining = sources.length
         for (var a=0; a < sources.length; a++)
-            Sburb.loadGenericAsset(ret, sources[a],"audio/"+sources[a].substr(-3));
+            Sburb.loadGenericAsset(ret, sources[a]);
     };
     ret.reload();
     return ret;
@@ -370,7 +384,7 @@ Sburb.createMovieAsset = function(name,path){
     ret.reload = function() {
         ret.loaded = false;
         ret.failed = false;
-        Sburb.loadGenericAsset(ret, path, "application/x-shockwave-flash");
+        Sburb.loadGenericAsset(ret, path);
     };
     
     ret.reload();
@@ -451,19 +465,15 @@ Sburb.createFontAsset = function(name, sources){
             if(type == "url"){
                 var extension = path.substring(path.indexOf(".")+1,path.length);
                 var format = "";
-                var mime = "";
                 if(extension=="ttf"){
                     format = "truetype";
-                    mime = "application/x-font-ttf"
                 }else if(extension=="woff"){
                     format = "woff";
-                    mime = "application/x-font-woff"
                 }else if(extension=="svg"){
                     format = "svg";
-                    mime = "image/svg+xml"
                 }
                 ret.remaining += 1;
-                Sburb.loadGenericAsset(ret, path, mime, ret.sources.length);
+                Sburb.loadGenericAsset(ret, path, ret.sources.length);
                 ret.sources.push(format);
             }else if(type == "local"){
                 ret.sources.push("local('"+path+"')");
