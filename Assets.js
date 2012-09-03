@@ -166,7 +166,14 @@ Sburb.loadGenericAsset = function(asset, path) {
         }
     }
     xhr.onload = function() {
-        if (this.status == 200) {
+    	var status = this.status;
+
+    	if(this.status === 0 && this.response)
+    	{
+    		status = 200;
+    	}
+
+        if (status == 200) {
             var blob = this.response;
             var url = URL.createObjectURL(blob);
             var diff = xhr.total - xhr.loaded;
