@@ -145,7 +145,7 @@ Sburb.AssetManager.prototype.assetFailed = function(name) {
 //Related Utility functions
 ////////////////////////////////////////////
 
-Sburb.loadGenericAsset = function(asset, path) {
+Sburb.loadGenericAsset = function(asset, path, type) {
     var URL = window.URL || window.webkitURL;  // Take care of vendor prefixes.
     var xhr = new XMLHttpRequest();
     xhr.total = 0;
@@ -174,7 +174,7 @@ Sburb.loadGenericAsset = function(asset, path) {
     	}
 
         if (status == 200) {
-            var blob = this.response;
+            var blob = new Blob([this.response],{type: type});
             var url = URL.createObjectURL(blob);
             var diff = xhr.total - xhr.loaded;
             xhr.loaded = xhr.total;
@@ -222,7 +222,7 @@ Sburb.createGraphicAsset = function(name, path) {
             return false;
         }
     };
-    Sburb.loadGenericAsset(ret, path);
+    Sburb.loadGenericAsset(ret, path, "image/"+path.substr(-3));
     return ret;
 }
 
@@ -270,7 +270,7 @@ Sburb.createAudioAsset = function(name,sources) {
             ret.done();
     }
     for (var a=0; a < sources.length; a++)
-        Sburb.loadGenericAsset(ret, sources[a]);
+        Sburb.loadGenericAsset(ret, sources[a],"audio/"+sources[a].substr(-3));
     return ret;
 }
 
