@@ -274,7 +274,7 @@ Sburb.createAudioAsset = function(name,sources) {
             if(ret.readyState == 4) {
                 ret.isLoaded();
             } else {
-                //ret.failure();
+                ret.failure();
             }
         }
     };
@@ -309,7 +309,7 @@ Sburb.createAudioAsset = function(name,sources) {
         ret.remaining -= 1;
         if(!ret.remaining) {
             ret.addEventListener('loadeddata', ret.isLoaded, false);
-            setTimeout(ret.checkLoaded, 1000);
+            setTimeout(ret.checkLoaded, 5000);
         }
     }
     for (var a=0; a < sources.length; a++)
