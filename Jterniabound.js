@@ -76,7 +76,7 @@ Sburb.initialize = function(div,levelName,includeDevTools){
 			<button id="strifeTest" onclick="Sburb.loadSerialFromXML(\'levels/strifeTest.xml\')">strife test</button>\
 			<button id="wanderTest" onclick="Sburb.loadSerialFromXML(\'levels/wanderTest.xml\')">wander test</button>\
 			</br>\
-			<textarea id="serialText" style="display:inline; width:650; height:100;"></textarea><br/>\
+			<textarea id="serialText" style="display:inline; width:650px; height:100px;"></textarea><br/>\
 		</div>';
 	}
 	deploy+='</div>';
