@@ -1,4 +1,4 @@
-<sburb  char='meenah' startAction='startGame' description="first area" scale='2' levelPath='levels/openbound' resourcePath='resources/openbound'>
+<sburb name="Jterniabound" version="1.0" char='meenah' startAction='startGame' description="first area" scale='2' levelPath='levels/openbound' resourcePath='resources/openbound'>
 
 <dependencies>
 	<dependency>standardTemplates.xml</dependency>

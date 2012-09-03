@@ -464,6 +464,16 @@ function loadSerial(serialText, keepOld) {
     if(resourcePath){
     	Sburb.assetManager.resourcePath = resourcePath.value;
     }
+
+    var name = rootAttr.getNamedItem("name");
+    if(name) {
+    	Sburb.name = name.value;
+    }
+
+    var version = rootAttr.getNamedItem("version");
+    if(version) {
+    	Sburb.version = version.value;
+    }
     loadingDepth++;
     loadDependencies(input);
     loadingDepth--;
