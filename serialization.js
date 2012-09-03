@@ -228,16 +228,29 @@ Sburb.deleteOldVersionStates = function(local)
 // Returns:
 //   (Boolean) True is state is in storage, false if it is not (or storage is not supported)
 ///
-Sburb.isStateInStorage = function(local)
+Sburb.isStateInStorage = function(auto, local)
 {
+	auto = typeof auto !== 'undefined' ? auto : false;
+	local = typeof local !== 'undefined' ? local : false;
 	var storage = local ? localStorage : sessionStorage;
 
 	if(!storage)
 		return false;
 
-	var state = storage.getItem(Sburb.name + '_savedState');
+	for(key in storage)
+	{
+		var savedIndex = key.indexOf('_savedState_');
+		if(savedIndex >= 0) // this key is a saved state
+		{
+			if(auto && key.indexOf("(auto)") >= 0 && key.indexOf(Sburb.name + ":" + Sburb.version) >= savedIndex)
+				return true;
+			else if(!auto && key.indexOf("(auto)") < 0 &&  key.indexOf(Sburb.name + ":" + Sburb.version) >= savedIndex)
+				return false;
+		}
 
-	return state !== null;
+	}
+
+	return false;
 }
 
 
@@ -286,17 +299,17 @@ function serializeAssets(output,assets,effects){
 		var curAsset = assets[asset];
 		output = output.concat("\n<asset name='"+curAsset.name+"' type='"+curAsset.type+"'>");
 		if(curAsset.type=="graphic"){
-			output = output.concat(curAsset.src);
+			output += curAsset.originalVals;
 		}else if(curAsset.type=="audio"){
-			var sources = curAsset.innerHTML.split('"');
-			var vals = "";
-			for(var i=1;i<sources.length;i+=2){
-				vals+=sources[i];
-				if(i+2<sources.length){
-					vals+=";";
-				}
+
+			var firstSrc = false;
+			for(var i = 0; i < curAsset.originalVals.length; i++)
+			{
+				var srcVal = curAsset.originalVals[i];
+				output += (firstSrc?";":"")+srcVal;
+
+				firstSrc = true;
 			}
-			output += vals;
 
 		}else if(curAsset.type=="path"){
 			for(var i=0;i<curAsset.points.length;i++){
@@ -306,7 +319,7 @@ function serializeAssets(output,assets,effects){
 				}
 			}
 		}else if(curAsset.type=="movie"){
-			output = output.concat(curAsset.src);
+			output += curAsset.originalVals;
 		}else if(curAsset.type=="font"){
 			output += curAsset.originalVals;
 		}

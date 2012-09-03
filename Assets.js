@@ -201,6 +201,7 @@ Sburb.loadGenericAsset = function(asset, path, type, id) {
             var diff = xhr.total - xhr.loaded;
             xhr.loaded = xhr.total;
             Sburb.assetManager.loadedSize += diff;
+
             asset.success(url,id);
         } else {
             asset.failure(id);
@@ -220,6 +221,7 @@ Sburb.createGraphicAsset = function(name, path) {
     ret.mime = "image/"+path.substr(-3);
     ret.loaded = false;
     ret.failed = false;
+    ret.originalVals = path;
     ret.success = function(url) { ret.src = url; };
     ret.failure = function() { ret.failed = true; };
     ret.onload = function() { ret.loaded = true; }
@@ -266,6 +268,7 @@ Sburb.createAudioAsset = function(name,sources) {
     ret.remaining = sources.length
     ret.loaded = false;
     ret.failed = false;
+    ret.originalVals = sources;
     ret.failure = function() { ret.failed = true; };
     ret.isLoaded = function() { ret.loaded = true; };
     ret.checkLoaded = function() {
@@ -327,6 +330,7 @@ Sburb.createMovieAsset = function(name,path){
     var ret = {}; //src:Sburb.assetManager.resolvePath(path)};
     ret.name = name;
     ret.type = "movie";
+    ret.originalVals = path;
     // ret.instant = true;
     
     ret.done = function(url) {
