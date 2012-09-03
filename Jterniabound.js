@@ -8,6 +8,8 @@ var Sburb = (function(Sburb){
 //650x450 screen
 Sburb.Keys = {backspace:8,tab:9,enter:13,shift:16,ctrl:17,alt:18,escape:27,space:32,left:37,up:38,right:39,down:40,w:87,a:65,s:83,d:68};
 
+Sburb.name = 'Jterniabound';
+Sburb.version = '1.0';
 Sburb.Stage = null; //the canvas, we're gonna load it up with a bunch of flash-like game data like fps and scale factors
 Sburb.cam = {x:0,y:0}
 Sburb.stage = null; //its context
@@ -33,7 +35,8 @@ Sburb.Mouse = {down:false,x:0,y:0}; //current recorded properties of the mouse
 Sburb.waitFor = null;
 Sburb.engineMode = "wander";
 Sburb.fading = false;
-Sburb.lastMusicTime = [0,0];
+Sburb.lastMusicTime = -1;
+Sburb.musicStoppedFor = 0;
 
 Sburb.updateLoop = null; //the main updateLoop, used to interrupt updating
 Sburb.initFinished = null; //only used when _hardcode_load is true
@@ -67,14 +70,14 @@ Sburb.initialize = function(div,levelName,includeDevTools){
 		Sburb._include_dev = true;
 		deploy+='\
 		<div> \
-			<button id="saveState" onclick="Sburb.serialize(Sburb.assets, Sburb.effects, Sburb.rooms, Sburb.sprites, Sburb.hud, Sburb.dialoger, Sburb.curRoom, Sburb.char)">save state</button>\
+			<button id="saveState" onclick="Sburb.serialize(Sburb)">save state</button>\
 			<button id="loadState" onclick="Sburb.loadSerial(document.getElementById(\'serialText\').value)">load state</button>\
 			<input type="file" name="level" id="levelFile" />\
 			<button id="loadLevelFile" onclick="Sburb.loadLevelFile(document.getElementById(\'levelFile\'))">load level</button>\
 			<button id="strifeTest" onclick="Sburb.loadSerialFromXML(\'levels/strifeTest.xml\')">strife test</button>\
 			<button id="wanderTest" onclick="Sburb.loadSerialFromXML(\'levels/wanderTest.xml\')">wander test</button>\
 			</br>\
-			<textarea id="serialText" style="display:inline; width:650; height:100;"></textarea><br/>\
+			<textarea id="serialText" style="display:inline; width:650px; height:100px;"></textarea><br/>\
 		</div>';
 	}
 	deploy+='</div>';
@@ -257,20 +260,23 @@ function relMouseCoords(event,canvas){
 
 function handleAudio(){
 	if(Sburb.bgm && Sburb.bgm.asset){
-		if(Sburb.bgm.asset.ended || Sburb.bgm.asset.currentTime>=Sburb.bgm.asset.duration 
-          ){
+		if(Sburb.bgm.asset.ended || Sburb.bgm.asset.currentTime>=Sburb.bgm.asset.duration ){
 			Sburb.bgm.loop();
 		}
-		if (Sburb.lastMusicTime[0] == Sburb.bgm.asset.currentTime && Sburb.lastMusicTime[1] == Sburb.bgm.asset.currentTime){
-            Sburb.bgm.asset.pause(); 
-            Sburb.bgm.asset.play(); // asset.play() because sometimes this condition is true on startup
-        }
+		if (Sburb.lastMusicTime == Sburb.bgm.asset.currentTime){
+			Sburb.musicStoppedFor++;
+			if(Sburb.musicStoppedFor>4){
+		    Sburb.bgm.asset.pause(); 
+		    Sburb.bgm.asset.play(); // asset.play() because sometimes this condition is true on startup
+		  }
+    }else{
+    	Sburb.musicStoppedFor = 0;
+    }
 		if(Sburb.bgm.asset.paused){
 		//	console.log("The sound is paused??? THIS SHOULD NOT BE.");
 			Sburb.bgm.play();
 		}
-		Sburb.lastMusicTime[0] = Sburb.lastMusicTime[1];
-		Sburb.lastMusicTime[1] = Sburb.bgm.asset.currentTime;
+		Sburb.lastMusicTime = Sburb.bgm.asset.currentTime;
 	}else{
 		//console.log("The music doesn't exist!");
 	}
@@ -469,7 +475,6 @@ Sburb.playSound = function(sound){
 Sburb.playMovie = function(movie){
 	var name = movie.name;
 	document.getElementById(name).style.display = "block";
-	//document.getElementById("gameDiv").style.display = "none";
 	Sburb.waitFor = new Sburb.Trigger("movie,"+name+",5");
 	Sburb.playingMovie = true;
 }

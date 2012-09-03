@@ -325,6 +325,7 @@ Sburb.Dialoger.prototype.update = function(){
 		}
 		
 	}else {
+		this.graphic = null;
 		this.moveToward(this.pos,this.hiddenPos,120);
 
 		if(this.actor!=null){

@@ -5,11 +5,23 @@ var loadedFiles = {};
 var loadingDepth = 0;
 var loadQueue = [];
 var updateLoop = null;
+var jsonUpdateLoop = null;
+
 //Save the current state to xml
-Sburb.serialize = function(assets,effects,rooms,sprites,hud,dialoger,curRoom,char){
+Sburb.serialize = function(sburbInst) { 
+	var assets = sburbInst.assets;
+	var effects = sburbInst.effects;
+	var rooms = sburbInst.rooms;
+	var sprites = sburbInst.sprites;
+	var hud = sburbInst.hud;
+	var dialoger = sburbInst.dialoger;
+	var curRoom = sburbInst.curRoom;
+	var char = sburbInst.char;
+
+
 	var out = document.getElementById("serialText");
 	var output = "<sburb"+
-		"' char='"+char.name+
+		" char='"+char.name+
 		(Sburb.bgm?"' bgm='"+Sburb.bgm.asset.name+(Sburb.bgm.startLoop?","+Sburb.bgm.startLoop:""):"")+
 		(Sburb.Stage.scaleX!=1?"' scale='"+Sburb.Stage.scaleX:"")+
 		(Sburb.assetManager.resourcePath?("' resourcePath='"+Sburb.assetManager.resourcePath):"")+
@@ -19,17 +31,228 @@ Sburb.serialize = function(assets,effects,rooms,sprites,hud,dialoger,curRoom,cha
 	output = serializeTemplates(output,templateClasses);
 	output = serializeHud(output,hud,dialoger);
 	output = serializeLooseObjects(output,rooms,sprites);
-	output = output.concat("\n<rooms>\n");
+	output = serializeRooms(output,rooms);
+	/*output = output.concat("\n<rooms>\n");
 	for(var room in rooms){
 		output = rooms[room].serialize(output);
 	}
-	output = output.concat("\n</rooms>\n");
+	output = output.concat("\n</rooms>\n");*/
 	output = output.concat("\n</sburb>");
 	if(out){
 		out.value = output;
 	}
 	return output;
 }
+
+///
+// Saves state to session or local storage if supported by browser
+// Paramters:
+//   description (String) A descriptive name for the save, i.e. 'Kankri, Second Room'
+//   auto (Boolean) If true this save is an auto save, false it is not
+//   local (Boolean) If true, use localStorage, if false, use sessionStorage
+// Returns:
+//   (Boolean) False if storage is not supported by browser, true otherwise 
+///
+Sburb.saveStateToStorage = function(description, auto, local)
+{
+	description = typeof description !== 'undefined' ? description : "SaveFile";
+	auto = typeof auto !== 'undefined' ? auto : false;
+	local = typeof local !== 'undefined' ? local : false;
+
+	var storage = local ? localStorage : sessionStorage;
+
+	if(!storage)
+	{
+		return false;
+	}
+
+
+	var serialized = Sburb.serialize(Sburb);
+	compressed = base32k.encodeBytes(serialized);
+
+	var saveStateName = description + (auto? " (auto)":"") + '_savedState_' + Sburb.name + ":" + Sburb.version;
+
+
+	Sburb.deleteStateFromStorage(auto);
+	storage.setItem(saveStateName, compressed);
+
+	return true;
+}
+
+///
+// Loads state from session or local storage if supported by browser
+// Paramters:
+//   auto (Boolean) If true loads the auto save, else it loads the manual save
+//   local (Boolean) If true, use localStorage, if false, use sessionStorage
+// Returns:
+//   (Boolean) False if storage is not supported by browser or save does not exist, true otherwise 
+///
+Sburb.loadStateFromStorage = function(auto, local)
+{
+	description = typeof description !== 'undefined' ? description : "SaveFile";
+	auto = typeof auto !== 'undefined' ? auto : false;
+	local = typeof local !== 'undefined' ? local : false;
+
+	var storage = local ? localStorage : sessionStorage;
+
+	if(!storage)
+		return false;
+
+
+	var saveStateName = "";
+
+	for(key in storage)
+	{
+		var savedIndex = key.indexOf('_savedState_');
+		if(savedIndex >= 0) // this key is a saved state
+		{
+			if(auto && key.indexOf("(auto)") >= 0 && key.indexOf(Sburb.name + ":" + Sburb.version) >= savedIndex)
+			{
+				saveStateName = key;
+				break;
+			}
+			else if(!auto && key.indexOf("(auto)") < 0 &&  key.indexOf(Sburb.name + ":" + Sburb.version) >= savedIndex)
+			{
+				saveStateName = key;
+				break;
+			}
+		}
+
+	}
+
+	var compressed = storage.getItem(saveStateName);
+
+	if(!compressed)
+		return false;
+
+	var decoded = base32k.decodeBytes(compressed);
+
+	Sburb.loadSerial(decoded);
+	
+	return true;
+}
+///
+// Gets the descriptive name of the currently saved state
+// Paramters:
+//   auto (Boolean) If true returns the description for the auto save, if false the manual save
+// Returns:
+//   (String) Description of save, returns "" if no description is found or storage is not supported
+///
+Sburb.getStateDescription = function(auto, local)
+{	
+	auto = typeof auto !== 'undefined' ? auto : false;
+	local = typeof local !== 'undefined' ? local : false;
+
+	var storage = local ? localStorage : sessionStorage;
+
+	if(!storage)
+		return null;
+
+	for(key in storage)
+	{
+		var savedIndex = key.indexOf('_savedState_');
+		if(savedIndex >= 0) // this key is a saved state
+		{
+			if(auto && key.indexOf("(auto)") >= 0 && key.indexOf(Sburb.name + ":" + Sburb.version) >= savedIndex)
+				return key.substring(0, savedIndex);
+			else if(!auto && key.indexOf("(auto)") < 0 &&  key.indexOf(Sburb.name + ":" + Sburb.version) >= savedIndex)
+				return key.substring(0, savedIndex);
+		}
+
+	}
+
+	return null;
+}
+
+///
+// Deletes state from session or local storage if supported by browser
+// Paramters:
+//   auto (Boolean) If true, deletes the current auto save, if false deletes the current manual save
+//   local (Boolean) If true, use localStorage, if false, use sessionStorage
+///
+Sburb.deleteStateFromStorage = function(auto, local)
+{
+	auto = typeof auto !== 'undefined' ? auto : false;
+	local = typeof local !== 'undefined' ? local : false;
+
+	var storage = local ? localStorage : sessionStorage;
+
+	if(!storage)
+		return;
+
+	Sburb.deleteOldVersionStates(local);
+	for(key in storage)
+	{
+		var savedIndex = key.indexOf('_savedState_');
+		if(savedIndex >= 0) // this key is a saved state
+		{
+			if(auto && key.indexOf("(auto)") >= 0 && key.indexOf(Sburb.name + ":" + Sburb.version) >= savedIndex)
+				storage.removeItem(key);
+			else if(!auto && key.indexOf("(auto)") < 0 &&  key.indexOf(Sburb.name + ":" + Sburb.version) >= savedIndex)
+				storage.removeItem(key);
+		}
+
+	}
+
+}
+///
+// Deletes any old states from previous versions of the game
+// Paramters:
+//   local (Boolean) If true, use localStorage, if false, use sessionStorage
+///
+Sburb.deleteOldVersionStates = function(local)
+{
+	local = typeof local !== 'undefined' ? local : false;
+	var storage = local ? localStorage : sessionStorage;
+
+	if(!storage)
+		return;
+
+	for(key in storage)
+	{
+		var savedIndex = key.indexOf('_savedState_');
+		if(savedIndex >= 0) // this key is a saved state
+		{
+			// This is a key for our game, but not of the right version
+			if(key.indexOf(Sburb.name + ":") >= savedIndex && key.indexOf(":" + Sburb.version) < 0)
+				storage.removeItem(key);
+		}
+
+	}
+}
+
+///
+// Checks if state is in session of local storage
+// Paramters:
+//   local (Boolean) If true, use localStorage, if false, use sessionStorage
+// Returns:
+//   (Boolean) True is state is in storage, false if it is not (or storage is not supported)
+///
+Sburb.isStateInStorage = function(auto, local)
+{
+	auto = typeof auto !== 'undefined' ? auto : false;
+	local = typeof local !== 'undefined' ? local : false;
+	var storage = local ? localStorage : sessionStorage;
+
+	if(!storage)
+		return false;
+
+	for(key in storage)
+	{
+		var savedIndex = key.indexOf('_savedState_');
+		if(savedIndex >= 0) // this key is a saved state
+		{
+			if(auto && key.indexOf("(auto)") >= 0 && key.indexOf(Sburb.name + ":" + Sburb.version) >= savedIndex)
+				return true;
+			else if(!auto && key.indexOf("(auto)") < 0 &&  key.indexOf(Sburb.name + ":" + Sburb.version) >= savedIndex)
+				return true;
+		}
+
+	}
+
+	return false;
+}
+
 
 //Serialize things that aren't actually in any room
 function serializeLooseObjects(output,rooms,sprites){
@@ -57,6 +280,18 @@ function serializeLooseObjects(output,rooms,sprites){
 	return output;
 }
 
+//Serializes Rooms
+function serializeRooms(output, rooms)
+{
+	output = output.concat("\n<rooms>\n");
+	for(var room in rooms){
+		output = rooms[room].serialize(output);
+	}
+	output = output.concat("\n</rooms>\n");
+
+	return output;
+}
+
 //Serialize assets
 function serializeAssets(output,assets,effects){
 	output = output.concat("\n<assets>");
@@ -64,17 +299,17 @@ function serializeAssets(output,assets,effects){
 		var curAsset = assets[asset];
 		output = output.concat("\n<asset name='"+curAsset.name+"' type='"+curAsset.type+"'>");
 		if(curAsset.type=="graphic"){
-			output = output.concat(curAsset.src);
+			output += curAsset.originalVals;
 		}else if(curAsset.type=="audio"){
-			var sources = curAsset.innerHTML.split('"');
-			var vals = "";
-			for(var i=1;i<sources.length;i+=2){
-				vals+=sources[i];
-				if(i+2<sources.length){
-					vals+=";";
-				}
+
+			var firstSrc = false;
+			for(var i = 0; i < curAsset.originalVals.length; i++)
+			{
+				var srcVal = curAsset.originalVals[i];
+				output += (firstSrc?";":"")+srcVal;
+
+				firstSrc = true;
 			}
-			output += vals;
 
 		}else if(curAsset.type=="path"){
 			for(var i=0;i<curAsset.points.length;i++){
@@ -84,7 +319,7 @@ function serializeAssets(output,assets,effects){
 				}
 			}
 		}else if(curAsset.type=="movie"){
-			output = output.concat(curAsset.src);
+			output += curAsset.originalVals;
 		}else if(curAsset.type=="font"){
 			output += curAsset.originalVals;
 		}
@@ -213,13 +448,14 @@ function loadSerial(serialText, keepOld) {
     var parser=new DOMParser();
     var input=parser.parseFromString(inText,"text/xml").documentElement;
 	
-		if(!keepOld){
+	if(!keepOld) {
     	purgeAssets(); 
     	purgeState();
     }
     
     var rootAttr = input.attributes;
-		var levelPath = rootAttr.getNamedItem("levelPath");
+	var levelPath = rootAttr.getNamedItem("levelPath");
+
     if(levelPath){
     	Sburb.assetManager.levelPath = levelPath.value+"/";
     }
@@ -228,12 +464,22 @@ function loadSerial(serialText, keepOld) {
     if(resourcePath){
     	Sburb.assetManager.resourcePath = resourcePath.value;
     }
+
+    var name = rootAttr.getNamedItem("name");
+    if(name) {
+    	Sburb.name = name.value;
+    }
+
+    var version = rootAttr.getNamedItem("version");
+    if(version) {
+    	Sburb.version = version.value;
+    }
     loadingDepth++;
     loadDependencies(input);
     loadingDepth--;
     loadSerialAssets(input);
-		loadQueue.push(input);
-		loadSerialState(input); 
+	loadQueue.push(input);
+	loadSerialState(input); 
 }
 
 function loadDependencies(input){
@@ -273,7 +519,6 @@ function loadSerialAsset(curAsset){
     var newAsset = parseSerialAsset(curAsset);
     Sburb.assetManager.loadAsset(newAsset);
 }
-
 function parseSerialAsset(curAsset) {
 	var attributes = curAsset.attributes;
 	var name = attributes.getNamedItem("name").value;
@@ -300,6 +545,7 @@ function parseSerialAsset(curAsset) {
 		//var sources = value.split(";");
 		newAsset = Sburb.createFontAsset(name,value);
 	}
+    newAsset._raw_xml = curAsset;
 	return newAsset;
 }
 
@@ -315,13 +561,13 @@ function loadSerialState() {
 		updateLoop=setTimeout(function() { loadSerialState(); } ,500);
 		return;
   }
+  
   while(loadQueue.length>0){
 		var input = loadQueue[0];
 		loadQueue.splice(0,1);
 		//These two have to be first
 	 	parseTemplateClasses(input);
 		applyTemplateClasses(input);
-
 		parseButtons(input);
 		parseSprites(input);
 		parseCharacters(input);
@@ -330,7 +576,6 @@ function loadSerialState() {
 	
 	
 		parseHud(input);
-	
 		parseEffects(input);
 	
 		//should be last
@@ -485,7 +730,7 @@ function parseState(input){
   	if(char){
 	  	Sburb.focus = Sburb.char = Sburb.sprites[char.value];
 	  	Sburb.char.becomePlayer();
-		}
+	}
   	
   	var mode = rootInfo.getNamedItem("mode");
   	if(mode){
@@ -511,7 +756,6 @@ function parseState(input){
   			}
   		}
   	}
-  	
   	var bgm = rootInfo.getNamedItem("bgm");
   	if(bgm){
   		var params = bgm.value.split(",");
@@ -655,7 +899,6 @@ Sburb.serialLoadRoomSprites = serialLoadRoomSprites;
 Sburb.serialLoadRoomPaths = serialLoadRoomPaths;
 Sburb.serialLoadRoomTriggers = serialLoadRoomTriggers;
 Sburb.loadSerial = loadSerial;
-
 
 return Sburb;
 })(Sburb || {});

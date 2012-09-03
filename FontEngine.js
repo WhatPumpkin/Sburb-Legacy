@@ -435,7 +435,7 @@ Sburb.FontEngine.prototype.draw = function(){
 			}
 		}
 		if(linePos==-1){
-			lenCount+=this.lines[i].length;
+			lenCount+=this.lines[i].length + 1;
 			linePos = 0;
 			i++;
 		}

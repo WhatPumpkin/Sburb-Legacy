@@ -5,6 +5,7 @@
 	<assets>
 		<asset name='preloaderBG' type='graphic'>backgrounds/load.png</asset>
 		<asset name='volumeControl' type='graphic'>interface/volumeControl.png</asset>
+		<asset name='saveControl' type='graphic'>interface/captcha.png</asset>
   		<asset name='helpControl' type='graphic'>interface/helpControl.png</asset>
   		<asset name='teleporterPad' type='graphic'>objects/teleporterpad.png</asset>
   		<asset name='teleportSheet' type='graphic'>effects/teleportSheet.png</asset>

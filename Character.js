@@ -290,6 +290,7 @@ Sburb.Character.prototype.unfollow = function(){
 		this.following.follower = this.follower;
 		if(this.follower){
 			this.follower.following = this.following;
+			this.follower.followBuffer = [];
 		}
 		this.following = null;
 		this.follower = null;
@@ -340,6 +341,10 @@ Sburb.Character.prototype.serialize = function(output){
 			"' sheet='"+this.animations.walkFront.sheet.name);
 		}else{
 			output = output.concat("' bootstrap='true");
+		}
+		if(this.following)
+		{
+			output = output.concat("' following='"+this.following.name+"");
 		}
 		output = output.concat("'>");
 	for(var animation in this.animations){

@@ -30,7 +30,7 @@ Sburb.Action.prototype.clone = function(){
 Sburb.Action.prototype.serialize = function(output){
 	output = output.concat("\n<action "+
 		"command='"+this.command+
-		(this.sprite?"sprite='"+this.sprite:"")+
+		(this.sprite?"' sprite='"+this.sprite:"")+
 		(this.name?"' name='"+this.name:"")+
 		(this.noWait?"' noWait='"+this.noWait:"")+
 		(this.noDelay?"' noDelay='"+this.noDelay:"")+
@@ -38,7 +38,7 @@ Sburb.Action.prototype.serialize = function(output){
 		(this.silent?"' silent='"+this.silent:"")+
 		(this.times!=1?"' times='"+this.times:"")+
 		"'>");
-	output = output.concat(this.info.trim());
+	output = output.concat('<args>' + escape(this.info.trim()) + '</args>' );
 	if(this.followUp){
 		output = this.followUp.serialize(output);
 	}
@@ -67,7 +67,7 @@ Sburb.parseAction = function(node) {
 		}
 		var newAction = new Sburb.Action(
 					 attributes.getNamedItem("command").value,
-					 node.firstChild?getNodeText(node).trim():"",
+					 node.firstChild?unescape(getNodeText(node)).trim():"",
 					 attributes.getNamedItem("name")?attributes.getNamedItem("name").value:null,
 					 targSprite,
 					 null,
@@ -102,11 +102,11 @@ Sburb.parseAction = function(node) {
 }
 
 function getNodeText(xmlNode){
-    if(!xmlNode) return '';
-    for(var i=0;i<xmlNode.childNodes.length;i++){
-    	var child = xmlNode.childNodes[i];
-    	if(child.tagName=="args"){
-    		for(var k=0;k<child.childNodes.length;k++){
+  if(!xmlNode) return '';
+  for(var i=0;i<xmlNode.childNodes.length;i++){
+  	var child = xmlNode.childNodes[i];
+  	if(child.tagName=="args"){
+  		for(var k=0;k<child.childNodes.length;k++){
 				if(child.childNodes[k].firstChild){
 					serializer = new XMLSerializer();
 					var output = "";
