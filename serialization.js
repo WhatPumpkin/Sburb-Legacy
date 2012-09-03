@@ -5,9 +5,20 @@ var loadedFiles = {};
 var loadingDepth = 0;
 var loadQueue = [];
 var updateLoop = null;
+var jsonUpdateLoop = null;
 
 //Save the current state to xml
-Sburb.serialize = function(assets,effects,rooms,sprites,hud,dialoger,curRoom,char){
+Sburb.serialize = function(sburbInst) { 
+	var assets = sburbInst.assets;
+	var effects = sburbInst.effects;
+	var rooms = sburbInst.rooms;
+	var sprites = sburbInst.sprites;
+	var hud = sburbInst.hud;
+	var dialoger = sburbInst.dialoger;
+	var curRoom = sburbInst.curRoom;
+	var char = sburbInst.char;
+
+
 	var out = document.getElementById("serialText");
 	var output = "<sburb"+
 		" char='"+char.name+
@@ -20,11 +31,12 @@ Sburb.serialize = function(assets,effects,rooms,sprites,hud,dialoger,curRoom,cha
 	output = serializeTemplates(output,templateClasses);
 	output = serializeHud(output,hud,dialoger);
 	output = serializeLooseObjects(output,rooms,sprites);
-	output = output.concat("\n<rooms>\n");
+	output = serializeRooms(output,rooms);
+	/*output = output.concat("\n<rooms>\n");
 	for(var room in rooms){
 		output = rooms[room].serialize(output);
 	}
-	output = output.concat("\n</rooms>\n");
+	output = output.concat("\n</rooms>\n");*/
 	output = output.concat("\n</sburb>");
 	if(out){
 		out.value = output;
@@ -51,7 +63,7 @@ Sburb.saveStateToStorage = function(local)
 	}
 
 
-	var serialized = Sburb.serialize(Sburb.assets, Sburb.effects, Sburb.rooms, Sburb.sprites, Sburb.hud, Sburb.dialoger, Sburb.curRoom, Sburb.char);
+	var serialized = Sburb.serialize(Sburb);
 	compressed = base32k.encodeBytes(serialized);
 
 	storage.setItem(Sburb.name + '_savedState', compressed);
@@ -140,6 +152,18 @@ function serializeLooseObjects(output,rooms,sprites){
 			output = theButton.serialize(output);
 		}
 	}
+
+	return output;
+}
+
+//Serializes Rooms
+function serializeRooms(output, rooms)
+{
+	output = output.concat("\n<rooms>\n");
+	for(var room in rooms){
+		output = rooms[room].serialize(output);
+	}
+	output = output.concat("\n</rooms>\n");
 
 	return output;
 }
@@ -572,7 +596,7 @@ function parseState(input){
   	if(char){
 	  	Sburb.focus = Sburb.char = Sburb.sprites[char.value];
 	  	Sburb.char.becomePlayer();
-		}
+	}
   	
   	var mode = rootInfo.getNamedItem("mode");
   	if(mode){
