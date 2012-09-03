@@ -428,7 +428,8 @@ commands.load = function(info){
 	var params = parseParams(info);
 	var auto = params.length>0 && params[0]=="true";
 	var local = params.length>1 && params[1]=="true";
-	Sburb.saveStateToStorage(Sburb.char.name+", "+Sburb.curRoom.name,auto,local);
+	Sburb.loadStateFromStorage(auto, local);
+//	Sburb.saveStateToStorage(Sburb.char.name+", "+Sburb.curRoom.name,auto,local);
 }
 
 //Display save/load options
