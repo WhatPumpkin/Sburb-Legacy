@@ -411,7 +411,10 @@ function loadSerialAsset(curAsset){
     var newAsset = parseSerialAsset(curAsset);
     Sburb.assetManager.loadAsset(newAsset);
 }
-
+function reloadSerialAsset(curAsset) {
+    var newAsset = parseSerialAsset(curAsset);
+    Sburb.assetManager.reloadAsset(newAsset);
+}
 function parseSerialAsset(curAsset) {
 	var attributes = curAsset.attributes;
 	var name = attributes.getNamedItem("name").value;
@@ -438,6 +441,7 @@ function parseSerialAsset(curAsset) {
 		//var sources = value.split(";");
 		newAsset = Sburb.createFontAsset(name,value);
 	}
+    newAsset._raw_xml = curAsset;
 	return newAsset;
 }
 
@@ -460,7 +464,6 @@ function loadSerialState() {
 		//These two have to be first
 	 	parseTemplateClasses(input);
 		applyTemplateClasses(input);
-
 		parseButtons(input);
 		parseSprites(input);
 		parseCharacters(input);
@@ -469,7 +472,6 @@ function loadSerialState() {
 	
 	
 		parseHud(input);
-	
 		parseEffects(input);
 	
 		//should be last
@@ -650,7 +652,6 @@ function parseState(input){
   			}
   		}
   	}
-  	
   	var bgm = rootInfo.getNamedItem("bgm");
   	if(bgm){
   		var params = bgm.value.split(",");
@@ -794,7 +795,7 @@ Sburb.serialLoadRoomSprites = serialLoadRoomSprites;
 Sburb.serialLoadRoomPaths = serialLoadRoomPaths;
 Sburb.serialLoadRoomTriggers = serialLoadRoomTriggers;
 Sburb.loadSerial = loadSerial;
-
+    Sburb.reloadSerialAsset = reloadSerialAsset; // to load asset in case something fails
 
 return Sburb;
 })(Sburb || {});

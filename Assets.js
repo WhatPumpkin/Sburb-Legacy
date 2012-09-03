@@ -58,10 +58,28 @@ Sburb.AssetManager.prototype.draw = function(){
   }
   Sburb.stage.fillText(percent+"%",Sburb.Stage.width/2,Sburb.Stage.height-50);
   if(this.error.length) {
-    Sburb.stage.textAlign = "left";
-    for(var i = 0; i < this.error.length; i++)
-        Sburb.stage.fillText("Error: "+this.error[i],10,20+15*i);
-    Sburb.stage.textAlign = "center";
+      Sburb.stage.textAlign = "left";
+      for(var i = 0; i < this.error.length; i++)
+          Sburb.stage.fillText("Error: "+this.error[i],10,20+15*i);
+      Sburb.stage.textAlign = "center";
+      if(!this.refreshButton) {
+	  var refreshButton = document.createElement("button");
+	  var assetManager = this;
+	  refreshButton.onclick = function() {
+	      for(assetName in assetManager.assets) {
+		  var asset = assetManager.assets[assetName];
+		  if(asset.failed) {
+		      Sburb.reloadSerialAsset(asset._raw_xml);
+		  }
+	      }
+	      this.parentNode.removeChild(this);
+	      assetManager.refreshButton = null;
+	      assetManager.error = ["Refreshing..."];
+	  };
+	  refreshButton.appendChild(document.createTextNode("REFRESH"));
+	  document.body.appendChild(refreshButton);
+	  this.refreshButton = refreshButton;
+      }
   }
 }
 
@@ -83,7 +101,7 @@ Sburb.AssetManager.prototype.purge = function() {
 }
 
 //load the given asset
-Sburb.AssetManager.prototype.loadAsset = function(assetObj) {
+Sburb.AssetManager.prototype.loadAsset = function(assetObj, reload) {
 	var name = assetObj.name;
 	this.assets[name] = assetObj;
 	if(assetObj.instant) {
@@ -91,14 +109,20 @@ Sburb.AssetManager.prototype.loadAsset = function(assetObj) {
 	}
 
 	var oThis = this;
-	this.assetAdded(name);	
+    if(!reload) {
+	this.assetAdded(name);
+    }
 	var loadedAsset = this.assets[name].assetOnLoadFunction(function() { oThis.assetLoaded(name); });
-	if(!loadedAsset)
+        if(!loadedAsset)
 	    this.assets[name].assetOnFailFunction(function() { oThis.assetFailed(name); });
-	if(!loadedAsset && assetObj.needsTimeout && assetObj.checkLoaded){
+	if(!loadedAsset && assetObj.checkLoaded){
 		this.recurrences[assetObj.name] = assetObj.checkLoaded;
 	}
 	this.draw();
+}
+Sburb.AssetManager.prototype.reloadAsset = function(assetObj) {
+    console.log("reloading");
+    return this.loadAsset(assetObj, true);
 }
 
 //log that the asset was added
@@ -247,7 +271,7 @@ Sburb.createAudioAsset = function(name,sources) {
             if(ret.readyState == 4) {
                 ret.isLoaded();
             } else {
-                ret.failure();
+                //ret.failure();
             }
         }
     };
