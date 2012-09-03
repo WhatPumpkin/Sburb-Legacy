@@ -176,9 +176,10 @@ Sburb.AssetManager.prototype.assetFailed = function(name) {
 Sburb.loadGenericAsset = function(asset, path, type) {
     var URL = window.URL || window.webkitURL;  // Take care of vendor prefixes.
     var xhr = new XMLHttpRequest();
+    var assetPath = Sburb.assetManager.resolvePath(path);
     xhr.total = 0;
     xhr.loaded = 0;
-    xhr.open('GET', Sburb.assetManager.resolvePath(path), true);
+    xhr.open('GET', assetPath, true);
     xhr.responseType = 'blob';
     xhr.onprogress = function(e) {
         if(e.lengthComputable) {
@@ -203,7 +204,7 @@ Sburb.loadGenericAsset = function(asset, path, type) {
 
         if (status == 200) {
             var blob = new Blob([this.response],{type: type});
-            var url = URL.createObjectURL(blob);
+            var url = assetPath;
             var diff = xhr.total - xhr.loaded;
             xhr.loaded = xhr.total;
             Sburb.assetManager.loadedSize += diff;
@@ -212,7 +213,9 @@ Sburb.loadGenericAsset = function(asset, path, type) {
             asset.failure();
         }
     }
-    xhr.onabort = xhr.onerror = asset.failure;
+
+    xhr.onabort = function() { asset.failure() };
+    xhr.onerror = function() { asset.failure() };
     xhr.send();
 };
 

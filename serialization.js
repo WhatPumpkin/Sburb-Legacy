@@ -5,11 +5,12 @@ var loadedFiles = {};
 var loadingDepth = 0;
 var loadQueue = [];
 var updateLoop = null;
+
 //Save the current state to xml
 Sburb.serialize = function(assets,effects,rooms,sprites,hud,dialoger,curRoom,char){
 	var out = document.getElementById("serialText");
 	var output = "<sburb"+
-		"' char='"+char.name+
+		" char='"+char.name+
 		(Sburb.bgm?"' bgm='"+Sburb.bgm.asset.name+(Sburb.bgm.startLoop?","+Sburb.bgm.startLoop:""):"")+
 		(Sburb.Stage.scaleX!=1?"' scale='"+Sburb.Stage.scaleX:"")+
 		(Sburb.assetManager.resourcePath?("' resourcePath='"+Sburb.assetManager.resourcePath):"")+
@@ -51,7 +52,7 @@ Sburb.saveStateToStorage = function(local)
 
 
 	var serialized = Sburb.serialize(Sburb.assets, Sburb.effects, Sburb.rooms, Sburb.sprites, Sburb.hud, Sburb.dialoger, Sburb.curRoom, Sburb.char);
-	var compressed = lzw_encode(serialized);
+	compressed = base32k.encodeBytes(serialized);
 
 	storage.setItem(Sburb.name + '_savedState', compressed);
 
@@ -75,7 +76,7 @@ Sburb.loadStateFromStorage = function(local)
 		return false;
 
 	var compressed = storage.getItem(Sburb.name + '_savedState');
-	var decoded = lzw_decode(compressed);
+	var decoded = base32k.decodeBytes(compressed);
 
 	Sburb.loadSerial(decoded);
 	
@@ -116,58 +117,6 @@ Sburb.isStateInStorage = function(local)
 	return state !== null;
 }
 
-// LZW-compress a string
-function lzw_encode(s) {
-    var dict = {};
-    var data = (s + "").split("");
-    var out = [];
-    var currChar;
-    var phrase = data[0];
-    var code = 256;
-    for (var i=1; i<data.length; i++) {
-        currChar=data[i];
-        if (dict[phrase + currChar] != null) {
-            phrase += currChar;
-        }
-        else {
-            out.push(phrase.length > 1 ? dict[phrase] : phrase.charCodeAt(0));
-            dict[phrase + currChar] = code;
-            code++;
-            phrase=currChar;
-        }
-    }
-    out.push(phrase.length > 1 ? dict[phrase] : phrase.charCodeAt(0));
-    for (var i=0; i<out.length; i++) {
-        out[i] = String.fromCharCode(out[i]);
-    }
-    return out.join("");
-}
-
-// Decompress an LZW-encoded string
-function lzw_decode(s) {
-    var dict = {};
-    var data = (s + "").split("");
-    var currChar = data[0];
-    var oldPhrase = currChar;
-    var out = [currChar];
-    var code = 256;
-    var phrase;
-    for (var i=1; i<data.length; i++) {
-        var currCode = data[i].charCodeAt(0);
-        if (currCode < 256) {
-            phrase = data[i];
-        }
-        else {
-           phrase = dict[currCode] ? dict[currCode] : (oldPhrase + currChar);
-        }
-        out.push(phrase);
-        currChar = phrase.charAt(0);
-        dict[code] = oldPhrase + currChar;
-        code++;
-        oldPhrase = phrase;
-    }
-    return out.join("");
-}
 
 //Serialize things that aren't actually in any room
 function serializeLooseObjects(output,rooms,sprites){
@@ -351,13 +300,14 @@ function loadSerial(serialText, keepOld) {
     var parser=new DOMParser();
     var input=parser.parseFromString(inText,"text/xml").documentElement;
 	
-		if(!keepOld){
+	if(!keepOld) {
     	purgeAssets(); 
     	purgeState();
     }
     
     var rootAttr = input.attributes;
-		var levelPath = rootAttr.getNamedItem("levelPath");
+	var levelPath = rootAttr.getNamedItem("levelPath");
+
     if(levelPath){
     	Sburb.assetManager.levelPath = levelPath.value+"/";
     }
@@ -370,8 +320,8 @@ function loadSerial(serialText, keepOld) {
     loadDependencies(input);
     loadingDepth--;
     loadSerialAssets(input);
-		loadQueue.push(input);
-		loadSerialState(input); 
+	loadQueue.push(input);
+	loadSerialState(input); 
 }
 
 function loadDependencies(input){

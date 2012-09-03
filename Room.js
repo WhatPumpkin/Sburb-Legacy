@@ -309,8 +309,9 @@ Sburb.Room.prototype.serialize = function(output){
 	}
 	output = output.concat("\n</paths>");
 	output = output.concat("\n<triggers>");
+
 	for(var i=0;i<this.triggers.length;i++){
-		otuput = this.triggers[i].serialize(output);
+		output = this.triggers[i].serialize(output);
 	}
 	output = output.concat("\n</triggers>");
 	for(var sprite in this.sprites){
