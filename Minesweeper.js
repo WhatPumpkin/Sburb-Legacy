@@ -135,20 +135,24 @@ var Sburb = (function(Sburb) {
 			var y=foundnumbers[i][1];
 			var number=foundnumbers[i][2];
 			var chest = Sburb.sprites[prefix+x+"_"+y];
-			if(chest.animations["open"]){
+			if(chest.animations["open"]) {
 				chest.startAnimation("open");
 				if(Sburb.assets["openSound"]){
-					Sburb.commands.playSound("openSound");
+					if(!newAction) {
+						newAction = lastAction = new Sburb.Action("playSound","openSound",null,null,null,true,null,1,true);
+						lastAction = lastAction.followUp = new Sburb.Action("waitFor","played,"+chest.name,null,null,null,null,null,1,true);
+					}
 				}
 			}
 			chest.removeAction(Sburb.curAction.name);
 			if(number==0) {
 				if(!newAction)
-					newAction = lastAction = new Sburb.Action("waitFor","played,"+chest.name,null,null);
-				lastAction = lastAction.followUp = new Sburb.Action("removeSprite",chest.name+","+Sburb.curRoom.name);
+					newAction = lastAction = new Sburb.Action("removeSprite",chest.name+","+Sburb.curRoom.name,null,null,null,true,true,1,true);
+				else
+					lastAction = lastAction.followUp = new Sburb.Action("removeSprite",chest.name+","+Sburb.curRoom.name,null,null,null,true,true,1,true);
 				var flag = Sburb.sprites[prefix+"_flag"+x+"_"+y];
 				if(flag)
-					lastAction = lastAction.followUp = new Sburb.Action("removeSprite",flag.name+","+Sburb.curRoom.name,null,null,null,true);
+					lastAction = lastAction.followUp = new Sburb.Action("removeSprite",flag.name+","+Sburb.curRoom.name,null,null,null,true,true,1,true);
 				continue;
 			}
 			var item = Sburb.sprites[(number==-1)?mine:("nr"+number)].clone("minesweep"+x+"_"+y);
@@ -158,20 +162,20 @@ var Sburb = (function(Sburb) {
 			else
 				item.depthing = 2;
 			if(!newAction)
-				newAction = lastAction = new Sburb.Action("waitFor","played,"+chest.name,null,null);
+				newAction = lastAction = new Sburb.Action("waitFor","played,"+chest.name,null,null,null,null,null,1,true);
 			else
-				lastAction.followUp = new Sburb.Action("waitFor","played,"+chest.name,null,null);
-			lastAction = lastAction.followUp = new Sburb.Action("addSprite",item.name+","+Sburb.curRoom.name,null,null,null,true);
-			lastAction = lastAction.followUp = new Sburb.Action("moveSprite",item.name+","+chest.x+","+(chest.y-35),null,null,null,true,true);
+				lastAction.followUp = new Sburb.Action("waitFor","played,"+chest.name,null,null,null,null,null,1,true);
+			lastAction = lastAction.followUp = new Sburb.Action("addSprite",item.name+","+Sburb.curRoom.name,null,null,null,true,true,1,true);
+			lastAction = lastAction.followUp = new Sburb.Action("moveSprite",item.name+","+chest.x+","+(chest.y-35),null,null,null,true,true,1,true);
 			lastAction = lastAction.followUp = new Sburb.Action("deltaSprite",item.name+",0,-8",null,null,null,true,null,5);
-			lastAction = lastAction.followUp = new Sburb.Action("removeSprite",chest.name+","+Sburb.curRoom.name);
+			lastAction = lastAction.followUp = new Sburb.Action("removeSprite",chest.name+","+Sburb.curRoom.name,null,null,null,true,true,1,true);
 			var flag = Sburb.sprites[prefix+"_flag"+x+"_"+y];
 			if(flag)
-				lastAction = lastAction.followUp = new Sburb.Action("removeSprite",flag.name+","+Sburb.curRoom.name,null,null,null,true);
+				lastAction = lastAction.followUp = new Sburb.Action("removeSprite",flag.name+","+Sburb.curRoom.name,null,null,null,true,true,1,true);
 			lastAction = lastAction.followUp = new Sburb.Action("deltaSprite",item.name+",0,12",null,null,null,true,null,8);
-			lastAction = lastAction.followUp = new Sburb.Action("changeDepthing",item.name+",0",null,null,null,true,null);
+			lastAction = lastAction.followUp = new Sburb.Action("changeDepthing",item.name+",0",null,null,null,true,null,1,true);
 			if(Sburb.assets["itemGetSound"]){
-				lastAction = lastAction.followUp = new Sburb.Action("playSound","itemGetSound",null,null,null,true,null);
+				lastAction = lastAction.followUp = new Sburb.Action("playSound","itemGetSound",null,null,null,true,null,1,true);
 			}
 			if(number==-1) {
 				loose=true;
@@ -185,8 +189,7 @@ var Sburb = (function(Sburb) {
 		}
 		while(lastAction.followUp)
 			lastAction=lastAction.followUp;
-		lastAction.followUp = Sburb.curAction.followUp;
-		Sburb.performAction(newAction);
+		Sburb.curAction.followUp = newAction;
 	}
 
 	Sburb.commands.markMineChest = function(info) {
@@ -201,11 +204,11 @@ var Sburb = (function(Sburb) {
 			flag.x=chest.x+30;
 			flag.y=chest.y;
 			chest.removeAction("mark");
-			chest.addAction(new Sburb.Action("markMineChest",prefix+","+cx+","+cy+",false","unmark",null,null,true));
+			chest.addAction(new Sburb.Action("markMineChest",prefix+","+cx+","+cy+",false","unmark",null,null,true,null,1,null,true));
 		} else {
 			Sburb.curRoom.removeSprite(Sburb.sprites[prefix+"_flag"+cx+"_"+cy]);
 			chest.removeAction("unmark");
-			chest.addAction(new Sburb.Action("markMineChest",prefix+","+cx+","+cy+",true","mark",null,null,true));
+			chest.addAction(new Sburb.Action("markMineChest",prefix+","+cx+","+cy+",true","mark",null,null,true,true,1,null,true));
 		}
 	}
 
