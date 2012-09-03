@@ -52,7 +52,11 @@ Sburb.AssetManager.prototype.draw = function(){
 	Sburb.stage.font="10px Verdana";
 	Sburb.stage.textAlign = "center";
   //Sburb.stage.fillText("Loading "+this.description,Stage.width/2,Stage.height-80);
-  Sburb.stage.fillText(Math.floor((this.loadedSize/this.totalSize)*100)+"%",Sburb.Stage.width/2,Sburb.Stage.height-50);
+  var percent = 0;
+  if(this.totalSize){
+  	percent =Math.floor((this.loadedSize/this.totalSize)*100);
+  }
+  Sburb.stage.fillText(percent+"%",Sburb.Stage.width/2,Sburb.Stage.height-50);
   if(this.error.length) {
     Sburb.stage.textAlign = "left";
     for(var i = 0; i < this.error.length; i++)
@@ -145,7 +149,7 @@ Sburb.AssetManager.prototype.assetFailed = function(name) {
 //Related Utility functions
 ////////////////////////////////////////////
 
-Sburb.loadGenericAsset = function(asset, path) {
+Sburb.loadGenericAsset = function(asset, path, type) {
     var URL = window.URL || window.webkitURL;  // Take care of vendor prefixes.
     var xhr = new XMLHttpRequest();
     var assetPath = Sburb.assetManager.resolvePath(path);
@@ -175,8 +179,7 @@ Sburb.loadGenericAsset = function(asset, path) {
     	}
 
         if (status == 200) {
-            var blob = this.response;
-            //var url = URL.createObjectURL(blob);
+            var blob = new Blob([this.response],{type: type});
             var url = assetPath;
             var diff = xhr.total - xhr.loaded;
             xhr.loaded = xhr.total;
@@ -226,7 +229,7 @@ Sburb.createGraphicAsset = function(name, path) {
             return false;
         }
     };
-    Sburb.loadGenericAsset(ret, path);
+    Sburb.loadGenericAsset(ret, path, "image/"+path.substr(-3));
     return ret;
 }
 
@@ -274,7 +277,7 @@ Sburb.createAudioAsset = function(name,sources) {
             ret.done();
     }
     for (var a=0; a < sources.length; a++)
-        Sburb.loadGenericAsset(ret, sources[a]);
+        Sburb.loadGenericAsset(ret, sources[a],"audio/"+sources[a].substr(-3));
     return ret;
 }
 

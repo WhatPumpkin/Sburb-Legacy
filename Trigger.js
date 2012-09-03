@@ -138,7 +138,7 @@ Sburb.Trigger.prototype.serialize = function(output){
 		(this.restart?" restart='true'":"")+
 		(this.detonate?" detonate='true'":"")+
 		">");
-	output = output.concat(this.info);
+	output = output.concat("<args>"+this.info+"</args>");
 	if(this.action){
 		output = this.action.serialize(output);
 	}
@@ -165,7 +165,7 @@ Sburb.parseTrigger = function(triggerNode){
 	var oldTrigger = null;
 	do{
 		var attributes = triggerNode.attributes;
-		var info = triggerNode.firstChild.nodeValue.trim();
+		var info = getNodeText(triggerNode).trim();
 		var actions = triggerNode.getElementsByTagName("action");
 		
 		var action = null;
@@ -195,6 +195,33 @@ Sburb.parseTrigger = function(triggerNode){
 	}while(triggerNode)
 	return firstTrigger;
 }
+
+
+
+function getNodeText(xmlNode){
+  if(!xmlNode) return '';
+  for(var i=0;i<xmlNode.childNodes.length;i++){
+  	var child = xmlNode.childNodes[i];
+  	if(child.tagName=="args"){
+  		for(var k=0;k<child.childNodes.length;k++){
+				if(child.childNodes[k].firstChild){
+					serializer = new XMLSerializer();
+					var output = "";
+					for(var j=0; j<child.childNodes.length; j++){
+						output += serializer.serializeToString(child.childNodes[j]);
+					}
+					return output;
+				}
+			}
+			if(typeof(child.textContent) != "undefined"){
+				return child.textContent;
+			}
+			return child.firstChild.nodeValue;
+		}
+	}
+	return xmlNode.firstChild.nodeValue;
+}
+
 
 return Sburb;
 })(Sburb || {});
