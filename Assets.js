@@ -199,16 +199,17 @@ Sburb.createGraphicAsset = function(name, path) {
     ret.name = name;
     ret.loaded = false;
     ret.failed = false;
-    ret.success = function(url) { ret.src = url; ret.loaded = true; };
+    ret.success = function(url) { ret.src = url; };
     ret.failure = function() { ret.failed = true; };
+    ret.onload = function() { ret.loaded = true; }
+    ret.onerror = ret.failure;
     ret.assetOnLoadFunction = function(fn) {
 		if(ret.loaded) {
 			if(fn) { fn(); }
 			return true;
 		} else {
-			ret.success = function (url) {
+			ret.onload = function () {
 				ret.loaded = true
-				ret.src = url;
 				if(fn) { fn(); }
 			}
 			return false;
@@ -239,14 +240,23 @@ Sburb.createAudioAsset = function(name,sources) {
     ret.remaining = sources.length
     ret.loaded = false;
     ret.failed = false;
-    ret.done = function() { ret.loaded = true; };
     ret.failure = function() { ret.failed = true; };
+    ret.isLoaded = function() { ret.loaded = true; };
+    ret.checkLoaded = function() {
+        if(!ret.loaded) {
+            if(ret.readyState == 4) {
+                ret.isLoaded();
+            } else {
+                ret.failure();
+            }
+        }
+    };
     ret.assetOnLoadFunction = function(fn) {
 		if(ret.loaded) {
 			if(fn) { fn(); }
 			return true;
 		} else {
-			ret.done = function () {
+			ret.isLoaded = function () {
 				ret.loaded = true
 				if(fn) { fn(); }
 			}
@@ -270,8 +280,10 @@ Sburb.createAudioAsset = function(name,sources) {
 		tmp.src = url;
 		ret.appendChild(tmp);
         ret.remaining -= 1;
-        if(!ret.remaining)
-            ret.done();
+        if(!ret.remaining) {
+            ret.addEventListener('loadeddata', ret.isLoaded, false);
+            setTimeout(ret.checkLoaded, 1000);
+        }
     }
     for (var a=0; a < sources.length; a++)
         Sburb.loadGenericAsset(ret, sources[a],"audio/"+sources[a].substr(-3));
