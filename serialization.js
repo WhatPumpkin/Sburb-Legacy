@@ -361,10 +361,6 @@ function loadSerialAsset(curAsset){
     var newAsset = parseSerialAsset(curAsset);
     Sburb.assetManager.loadAsset(newAsset);
 }
-function reloadSerialAsset(curAsset) {
-    var newAsset = parseSerialAsset(curAsset);
-    Sburb.assetManager.reloadAsset(newAsset);
-}
 function parseSerialAsset(curAsset) {
 	var attributes = curAsset.attributes;
 	var name = attributes.getNamedItem("name").value;
@@ -745,7 +741,6 @@ Sburb.serialLoadRoomSprites = serialLoadRoomSprites;
 Sburb.serialLoadRoomPaths = serialLoadRoomPaths;
 Sburb.serialLoadRoomTriggers = serialLoadRoomTriggers;
 Sburb.loadSerial = loadSerial;
-    Sburb.reloadSerialAsset = reloadSerialAsset; // to load asset in case something fails
 
 return Sburb;
 })(Sburb || {});
