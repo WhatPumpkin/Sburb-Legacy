@@ -188,7 +188,7 @@ Sburb.loadGenericAsset = function(asset, path, type, id) {
 
         if (status == 200) {
             var blob = new Blob([this.response],{type: type});
-            var url = URL.createObjectURL(blob);
+            var url = assetPath;
             var diff = xhr.total - xhr.loaded;
             xhr.loaded = xhr.total;
             Sburb.assetManager.loadedSize += diff;

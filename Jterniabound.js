@@ -9,6 +9,7 @@ var Sburb = (function(Sburb){
 Sburb.Keys = {backspace:8,tab:9,enter:13,shift:16,ctrl:17,alt:18,escape:27,space:32,left:37,up:38,right:39,down:40,w:87,a:65,s:83,d:68};
 
 Sburb.name = 'Jterniabound';
+Sburb.version = '0.2';
 Sburb.Stage = null; //the canvas, we're gonna load it up with a bunch of flash-like game data like fps and scale factors
 Sburb.cam = {x:0,y:0}
 Sburb.stage = null; //its context
