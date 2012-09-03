@@ -273,7 +273,7 @@ commands.addUnwalkable = function(info){
 }
 
 //Add the specified path as a motionpath to the specified room
-//syntax: pathName, xtox, xtoy, ytox, ytoy, dx, dy roomName
+//syntax: pathName, xtox, xtoy, ytox, ytoy, dx, dy, roomName
 commands.addMotionPath = function(info){
 	var params = parseParams(info);
 	var path = Sburb.assets[params[0]];
@@ -336,7 +336,7 @@ commands.loadStateFile = function(info){
 }
 
 //fade out to black
-//syntax: node
+//syntax: none
 commands.fadeOut = function(info){
 	Sburb.fading = true;
 }
