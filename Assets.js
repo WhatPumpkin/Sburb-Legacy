@@ -210,7 +210,7 @@ Sburb.createAudioAsset = function(name,sources) {
 			return false;
 		}
 		if(!this.checkLoaded()){
-			ret.addEventListener('loadeddata', fn);
+			ret.addEventListener('loadeddata', fn, false);
 			return false;
 		}else{
 			return true;
@@ -234,7 +234,7 @@ Sburb.createAudioAsset = function(name,sources) {
 //create a flash movie Asset
 Sburb.createMovieAsset = function(name,path){
 	var ret = {src:Sburb.assetManager.resolvePath(path)};
-	document.getElementById("SBURBmovieBin").innerHTML += '<div id="'+name+'"><object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" id="movie" width="'+Sburb.Stage.width+'" height="'+Sburb.Stage.height+'"><param name="allowScriptAccess" value="always" /\><param name="wmode" value="transparent"/\><param name="movie" value="'+name+'" /\><param name="quality" value="high" /\><embed src="'+Sburb.assetManager.resolvePath(path)+'" quality="high" WMODE="transparent" width="'+Sburb.Stage.width+'" height="'+Sburb.Stage.height+'" swLiveConnect=true id="movie'+name+'" name="movie'+name+'" allowScriptAccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /\></object></div>';
+	document.getElementById("SBURBmovieBin").innerHTML += '<div id="'+name+'"><object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" id="movie" width="'+Sburb.Stage.width+'" height="'+Sburb.Stage.height+'"><param name="allowScriptAccess" value="always" /\><param name="wmode" value="transparent"/\><param name="movie" value="'+name+'" /\><param name="quality" value="high" /\><embed src="'+Sburb.assetManager.resolvePath(path)+'" quality="high" WMODE="transparent" width="'+Sburb.Stage.width+'" height="'+Sburb.Stage.height+'" swLiveConnect="true" id="movie'+name+'" name="movie'+name+'" allowScriptAccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /\></object></div>';
 	
 	
 	ret.name = name;
@@ -269,13 +269,14 @@ Sburb.createFontAsset = function(name, sources){
 	ret.instant = true;
 	
 	var source = "";
+	var extra = "";
 	var sourceList = sources.split(',');
 	for(var i=0;i<sourceList.length;i++){
 		var result = "";
 		var values = sourceList[i].split(':');
-		var location = values[0].trim();
+		var type = values[0].trim();
 		var path = values[1].trim();
-		if(location == "url"){
+		if(type == "url"){
 			var extension = path.substring(path.indexOf(".")+1,path.length);
 			var format = "";
 			if(extension=="ttf"){
@@ -287,21 +288,23 @@ Sburb.createFontAsset = function(name, sources){
 			}
 			path = Sburb.assetManager.resolvePath(path);
 			result = "url('"+path+"') format('"+format+"')";
-		}else if(location == "local"){
+		}else if(type == "local"){
 			result = "local('"+path+"')";
+		}else if(type == "weight"){
+			extra+= "font-weight:"+path+"; "
 		}
 		
-		source+=result;
-		if(i+1<sourceList.length){
-			source+=",";
+		if(result!=""){
+			source+=result+",";
 		}
 
 	}
+	source = source.substring(0,source.length-1);
 	var style = 
 	'<style type="text/css">'+
-		'@font-face{ font-family: '+name+'; src: '+source+'}'+
+		'@font-face{ font-family: '+name+'; src: '+source+'; '+extra+'}'+
 	'</style>';
-	
+	//console.log(style);
 	
 	document.getElementById("SBURBfontBin").innerHTML += style;
 	

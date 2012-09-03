@@ -27,7 +27,7 @@ Sburb.Sound.prototype.play = function(pos) {
                 oThis.asset.pause();
                 oThis.asset.removeEventListener('playing', arguments.callee);
                 oThis.asset.play();
-            });
+            },false);
         }
     } else if(pos) {
         this.asset.currentTime = pos; 
