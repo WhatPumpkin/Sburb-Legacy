@@ -9,7 +9,7 @@ var updateLoop = null;
 Sburb.serialize = function(assets,effects,rooms,sprites,hud,dialoger,curRoom,char){
 	var out = document.getElementById("serialText");
 	var output = "<sburb"+
-		"' char='"+char.name+
+		" char='"+char.name+
 		(Sburb.bgm?"' bgm='"+Sburb.bgm.asset.name+(Sburb.bgm.startLoop?","+Sburb.bgm.startLoop:""):"")+
 		(Sburb.Stage.scaleX!=1?"' scale='"+Sburb.Stage.scaleX:"")+
 		(Sburb.assetManager.resourcePath?("' resourcePath='"+Sburb.assetManager.resourcePath):"")+
@@ -51,7 +51,10 @@ Sburb.saveStateToStorage = function(local)
 
 
 	var serialized = Sburb.serialize(Sburb.assets, Sburb.effects, Sburb.rooms, Sburb.sprites, Sburb.hud, Sburb.dialoger, Sburb.curRoom, Sburb.char);
-	var compressed = lzw_encode(serialized);
+//	var compressed = lzw_encode(serialized);
+//	var compressed = serialized.replace(/[^\s]/g,function(c){return c.charCodeAt()});
+
+	compressed = base32k.encodeBytes(serialized);
 
 	storage.setItem(Sburb.name + '_savedState', compressed);
 
@@ -75,7 +78,8 @@ Sburb.loadStateFromStorage = function(local)
 		return false;
 
 	var compressed = storage.getItem(Sburb.name + '_savedState');
-	var decoded = lzw_decode(compressed);
+	var decoded = base32k.decodeBytes(compressed);
+//	var decoded = lzw_decode(compressed).replace(/[3][2-9]|[4-9][0-9]|[1][0-1][0-9]|[1][2][0-6]/g,function(d){return String.fromCharCode(d)});
 
 	Sburb.loadSerial(decoded);
 	
@@ -351,13 +355,14 @@ function loadSerial(serialText, keepOld) {
     var parser=new DOMParser();
     var input=parser.parseFromString(inText,"text/xml").documentElement;
 	
-		if(!keepOld){
+	if(!keepOld) {
     	purgeAssets(); 
     	purgeState();
     }
     
     var rootAttr = input.attributes;
-		var levelPath = rootAttr.getNamedItem("levelPath");
+	var levelPath = rootAttr.getNamedItem("levelPath");
+
     if(levelPath){
     	Sburb.assetManager.levelPath = levelPath.value+"/";
     }
@@ -370,8 +375,8 @@ function loadSerial(serialText, keepOld) {
     loadDependencies(input);
     loadingDepth--;
     loadSerialAssets(input);
-		loadQueue.push(input);
-		loadSerialState(input); 
+	loadQueue.push(input);
+	loadSerialState(input); 
 }
 
 function loadDependencies(input){
