@@ -51,9 +51,6 @@ Sburb.saveStateToStorage = function(local)
 
 
 	var serialized = Sburb.serialize(Sburb.assets, Sburb.effects, Sburb.rooms, Sburb.sprites, Sburb.hud, Sburb.dialoger, Sburb.curRoom, Sburb.char);
-//	var compressed = lzw_encode(serialized);
-//	var compressed = serialized.replace(/[^\s]/g,function(c){return c.charCodeAt()});
-
 	compressed = base32k.encodeBytes(serialized);
 
 	storage.setItem(Sburb.name + '_savedState', compressed);
@@ -79,7 +76,6 @@ Sburb.loadStateFromStorage = function(local)
 
 	var compressed = storage.getItem(Sburb.name + '_savedState');
 	var decoded = base32k.decodeBytes(compressed);
-//	var decoded = lzw_decode(compressed).replace(/[3][2-9]|[4-9][0-9]|[1][0-1][0-9]|[1][2][0-6]/g,function(d){return String.fromCharCode(d)});
 
 	Sburb.loadSerial(decoded);
 	
@@ -120,58 +116,6 @@ Sburb.isStateInStorage = function(local)
 	return state !== null;
 }
 
-// LZW-compress a string
-function lzw_encode(s) {
-    var dict = {};
-    var data = (s + "").split("");
-    var out = [];
-    var currChar;
-    var phrase = data[0];
-    var code = 256;
-    for (var i=1; i<data.length; i++) {
-        currChar=data[i];
-        if (dict[phrase + currChar] != null) {
-            phrase += currChar;
-        }
-        else {
-            out.push(phrase.length > 1 ? dict[phrase] : phrase.charCodeAt(0));
-            dict[phrase + currChar] = code;
-            code++;
-            phrase=currChar;
-        }
-    }
-    out.push(phrase.length > 1 ? dict[phrase] : phrase.charCodeAt(0));
-    for (var i=0; i<out.length; i++) {
-        out[i] = String.fromCharCode(out[i]);
-    }
-    return out.join("");
-}
-
-// Decompress an LZW-encoded string
-function lzw_decode(s) {
-    var dict = {};
-    var data = (s + "").split("");
-    var currChar = data[0];
-    var oldPhrase = currChar;
-    var out = [currChar];
-    var code = 256;
-    var phrase;
-    for (var i=1; i<data.length; i++) {
-        var currCode = data[i].charCodeAt(0);
-        if (currCode < 256) {
-            phrase = data[i];
-        }
-        else {
-           phrase = dict[currCode] ? dict[currCode] : (oldPhrase + currChar);
-        }
-        out.push(phrase);
-        currChar = phrase.charAt(0);
-        dict[code] = oldPhrase + currChar;
-        code++;
-        oldPhrase = phrase;
-    }
-    return out.join("");
-}
 
 //Serialize things that aren't actually in any room
 function serializeLooseObjects(output,rooms,sprites){
