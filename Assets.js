@@ -52,7 +52,11 @@ Sburb.AssetManager.prototype.draw = function(){
 	Sburb.stage.font="10px Verdana";
 	Sburb.stage.textAlign = "center";
   //Sburb.stage.fillText("Loading "+this.description,Stage.width/2,Stage.height-80);
-  Sburb.stage.fillText(Math.floor((this.loadedSize/this.totalSize)*100)+"%",Sburb.Stage.width/2,Sburb.Stage.height-50);
+  var percent = 0;
+  if(this.totalSize){
+  	percent =Math.floor((this.loadedSize/this.totalSize)*100);
+  }
+  Sburb.stage.fillText(percent+"%",Sburb.Stage.width/2,Sburb.Stage.height-50);
   if(this.error.length) {
     Sburb.stage.textAlign = "left";
     for(var i = 0; i < this.error.length; i++)

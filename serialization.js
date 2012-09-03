@@ -453,6 +453,7 @@ function loadSerialState() {
 		updateLoop=setTimeout(function() { loadSerialState(); } ,500);
 		return;
   }
+  
   while(loadQueue.length>0){
 		var input = loadQueue[0];
 		loadQueue.splice(0,1);
