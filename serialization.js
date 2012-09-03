@@ -5,6 +5,7 @@ var loadedFiles = {};
 var loadingDepth = 0;
 var loadQueue = [];
 var updateLoop = null;
+
 //Save the current state to xml
 Sburb.serialize = function(assets,effects,rooms,sprites,hud,dialoger,curRoom,char){
 	var out = document.getElementById("serialText");
