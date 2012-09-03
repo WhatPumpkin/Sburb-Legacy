@@ -217,6 +217,23 @@ Sburb.Animation.prototype.clone = function(x,y){
 
 //serialize this Animation to XML
 Sburb.Animation.prototype.serialize = function(output){
+
+	var frameInterval = "";
+	var firstInterval = true;
+
+	if(this.frameIntervals)
+	{
+		for(var interval in this.frameIntervals)
+		{
+			frameInterval = frameInterval + (firstInterval?"":",") + interval + ":" + this.frameIntervals[interval];
+			firstInterval = false;
+		}
+	}
+	else if(this.frameInterval !== 1)
+	{
+		frameInterval = this.frameInterval;
+	}
+
 	output = output.concat("\n<animation "+
 		("sheet='"+this.sheet.name+"' ")+
 		((this.name!="image")?"name='"+this.name+"' ":"")+
@@ -225,7 +242,7 @@ Sburb.Animation.prototype.serialize = function(output){
 		((this.colSize!=this.sheet.width)?"colSize='"+this.colSize+"' ":"")+
 		Sburb.serializeAttribute(this,"startPos")+
 		((this.length!=1)?"length='"+this.length+"' ":"")+
-		((this.frameInterval!=1)?"frameInterval='"+this.frameInterval+"' ":"")+
+		((frameInterval!=="")?"frameInterval='"+frameInterval+"' ":"")+
 		((this.loopNum!=-1)?"loopNum='"+this.loopNum+"' ":"")+
 		Sburb.serializeAttributes(this,"folowUp","flipX","flipY")+
 		" />");

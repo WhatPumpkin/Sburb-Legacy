@@ -342,6 +342,10 @@ Sburb.Character.prototype.serialize = function(output){
 		}else{
 			output = output.concat("' bootstrap='true");
 		}
+		if(this.following)
+		{
+			output = output.concat("' following='"+this.following.name+"");
+		}
 		output = output.concat("'>");
 	for(var animation in this.animations){
 		var anim = this.animations[animation];

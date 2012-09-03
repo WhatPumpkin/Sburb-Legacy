@@ -69,7 +69,7 @@ Sburb.initialize = function(div,levelName,includeDevTools){
 		Sburb._include_dev = true;
 		deploy+='\
 		<div> \
-			<button id="saveState" onclick="Sburb.serialize(Sburb.assets, Sburb.effects, Sburb.rooms, Sburb.sprites, Sburb.hud, Sburb.dialoger, Sburb.curRoom, Sburb.char)">save state</button>\
+			<button id="saveState" onclick="Sburb.serialize(Sburb)">save state</button>\
 			<button id="loadState" onclick="Sburb.loadSerial(document.getElementById(\'serialText\').value)">load state</button>\
 			<input type="file" name="level" id="levelFile" />\
 			<button id="loadLevelFile" onclick="Sburb.loadLevelFile(document.getElementById(\'levelFile\'))">load level</button>\
