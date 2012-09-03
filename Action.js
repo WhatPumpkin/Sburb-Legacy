@@ -115,11 +115,12 @@ function getNodeText(xmlNode){
 					}
 					return output;
 				}
+				if(typeof(child.textContent) != "undefined"){
+					return child.textContent;
+				}
+				return child.firstChild.nodeValue;
 			}
-			if(typeof(child.textContent) != "undefined"){
-				return child.textContent;
-			}
-			return child.firstChild.nodeValue;
+			
 		}
 	}
 	if(typeof(xmlNode.textContent) != "undefined"){
