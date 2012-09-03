@@ -138,7 +138,7 @@ Sburb.Trigger.prototype.serialize = function(output){
 		(this.restart?" restart='true'":"")+
 		(this.detonate?" detonate='true'":"")+
 		">");
-	output = output.concat("<args>"+this.info+"</args>");
+	output = output.concat("<args>"+escape(this.info)+"</args>");
 	if(this.action){
 		output = this.action.serialize(output);
 	}
@@ -165,7 +165,7 @@ Sburb.parseTrigger = function(triggerNode){
 	var oldTrigger = null;
 	do{
 		var attributes = triggerNode.attributes;
-		var info = getNodeText(triggerNode).trim();
+		var info = unescape(getNodeText(triggerNode).trim());
 		var actions = triggerNode.getElementsByTagName("action");
 		
 		var action = null;
