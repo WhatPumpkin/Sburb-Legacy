@@ -245,7 +245,7 @@ Sburb.isStateInStorage = function(auto, local)
 			if(auto && key.indexOf("(auto)") >= 0 && key.indexOf(Sburb.name + ":" + Sburb.version) >= savedIndex)
 				return true;
 			else if(!auto && key.indexOf("(auto)") < 0 &&  key.indexOf(Sburb.name + ":" + Sburb.version) >= savedIndex)
-				return false;
+				return true;
 		}
 
 	}
