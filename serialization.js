@@ -31,6 +31,144 @@ Sburb.serialize = function(assets,effects,rooms,sprites,hud,dialoger,curRoom,cha
 	return output;
 }
 
+///
+// Saves state to session or local storage if supported by browser
+// Paramters:
+//   local (Boolean) If true, use localStorage, if false, use sessionStorage
+// Returns:
+//   (Boolean) False if storage is not supported by browser, true otherwise 
+///
+Sburb.saveStateToStorage = function(local)
+{
+	local = typeof local !== 'undefined' ? local : false;
+
+	var storage = local ? localStorage : sessionStorage;
+
+	if(!storage)
+	{
+		return false;
+	}
+
+
+	var serialized = Sburb.serialize(Sburb.assets, Sburb.effects, Sburb.rooms, Sburb.sprites, Sburb.hud, Sburb.dialoger, Sburb.curRoom, Sburb.char);
+	var compressed = lzw_encode(serialized);
+
+	storage.setItem(Sburb.name + '_savedState', compressed);
+
+	return true;
+}
+
+///
+// Loads state from session or local storage if supported by browser
+// Paramters:
+//   local (Boolean) If true, use localStorage, if false, use sessionStorage
+// Returns:
+//   (Boolean) False if storage is not supported by browser, true otherwise 
+///
+Sburb.loadStateFromStorage = function(local)
+{
+	local = typeof local !== 'undefined' ? local : false;
+
+	var storage = local ? localStorage : sessionStorage;
+
+	if(!storage)
+		return false;
+
+	var compressed = storage.getItem(Sburb.name + '_savedState');
+	var decoded = lzw_decode(compressed);
+
+	Sburb.loadSerial(decoded);
+	
+	return true;
+}
+
+///
+// Deletes state from session or local storage if supported by browser
+// Paramters:
+//   local (Boolean) If true, use localStorage, if false, use sessionStorage
+///
+Sburb.deleteStateFromStorage = function(local)
+{
+	var storage = local ? localStorage : sessionStorage;
+
+	if(!storage)
+		return;
+
+	storage.removeItem(Sburb.name + '_savedState');
+}
+
+///
+// Checks if state is in session of local storage
+// Paramters:
+//   local (Boolean) If true, use localStorage, if false, use sessionStorage
+// Returns:
+//   (Boolean) True is state is in storage, false if it is not (or storage is not supported)
+///
+Sburb.isStateInStorage = function(local)
+{
+	var storage = local ? localStorage : sessionStorage;
+
+	if(!storage)
+		return false;
+
+	var state = storage.getItem(Sburb.name + '_savedState');
+
+	return state !== null;
+}
+
+// LZW-compress a string
+function lzw_encode(s) {
+    var dict = {};
+    var data = (s + "").split("");
+    var out = [];
+    var currChar;
+    var phrase = data[0];
+    var code = 256;
+    for (var i=1; i<data.length; i++) {
+        currChar=data[i];
+        if (dict[phrase + currChar] != null) {
+            phrase += currChar;
+        }
+        else {
+            out.push(phrase.length > 1 ? dict[phrase] : phrase.charCodeAt(0));
+            dict[phrase + currChar] = code;
+            code++;
+            phrase=currChar;
+        }
+    }
+    out.push(phrase.length > 1 ? dict[phrase] : phrase.charCodeAt(0));
+    for (var i=0; i<out.length; i++) {
+        out[i] = String.fromCharCode(out[i]);
+    }
+    return out.join("");
+}
+
+// Decompress an LZW-encoded string
+function lzw_decode(s) {
+    var dict = {};
+    var data = (s + "").split("");
+    var currChar = data[0];
+    var oldPhrase = currChar;
+    var out = [currChar];
+    var code = 256;
+    var phrase;
+    for (var i=1; i<data.length; i++) {
+        var currCode = data[i].charCodeAt(0);
+        if (currCode < 256) {
+            phrase = data[i];
+        }
+        else {
+           phrase = dict[currCode] ? dict[currCode] : (oldPhrase + currChar);
+        }
+        out.push(phrase);
+        currChar = phrase.charAt(0);
+        dict[code] = oldPhrase + currChar;
+        code++;
+        oldPhrase = phrase;
+    }
+    return out.join("");
+}
+
 //Serialize things that aren't actually in any room
 function serializeLooseObjects(output,rooms,sprites){
 
