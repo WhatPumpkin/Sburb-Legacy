@@ -395,6 +395,8 @@ commands.unfollow = function(info){
 	follower.unfollow();
 }
 
+//Overlay a sprite over the game area (below the HUD)
+//syntax: spriteName
 commands.addOverlay = function(info){
 	var params = parseParams(info);
 	var sprite = Sburb.sprites[params[0]];
@@ -403,11 +405,50 @@ commands.addOverlay = function(info){
 	Sburb.curRoom.addSprite(sprite);
 }
 
+//Remove an overlay
+//syntax: spriteName
 commands.removeOverlay = function(info){
 	var params = parseParams(info);
 	var sprite = Sburb.sprites[params[0]];
 	Sburb.curRoom.removeSprite(sprite);
 }
+
+//Save state to client storage
+//syntax: isAuto, useLocal
+commands.save = function(info){
+	var params = parseParams(info);
+	var auto = params.length>0 && params[0]=="true";
+	var local = params.length>1 && params[1]=="true";
+	Sburb.saveStateToStorage(Sburb.char.name+", "+Sburb.curRoom.name,auto,local);
+}
+
+//Load state from client storage
+//syntax: isAuto, useLocal
+commands.load = function(info){
+	var params = parseParams(info);
+	var auto = params.length>0 && params[0]=="true";
+	var local = params.length>1 && params[1]=="true";
+	Sburb.saveStateToStorage(Sburb.char.name+", "+Sburb.curRoom.name,auto,local);
+}
+
+//Display save/load options
+//syntax: useLocal
+commands.saveOrLoad = function(info){
+	var params = parseParams(info);
+	var local = params.length>0 && params[0]=="true";
+	var actions = [];
+	if(Sburb.isStateInStorage(false,local)){
+		actions.push(new Sburb.Action("load","false, "+local,"Load "+Sburb.getStateDescription(false)));
+	}
+	if(Sburb.isStateInStorage(true,local)){
+		actions.push(new Sburb.Action("load","true, "+local,"Load "+Sburb.getStateDescription(true)));
+	}
+	actions.push(new Sburb.Action("save","false,"+local,"Save"));
+	actions.push(new Sburb.Action("cancel",null,"Cancel"));
+	Sburb.chooser.choices = actions;
+	Sburb.chooser.beginChoosing(Sburb.cam.x+20,Sburb.cam.y+50);
+}
+
 
 //blank utlity function
 //syntax: none

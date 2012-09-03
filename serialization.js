@@ -138,7 +138,7 @@ Sburb.loadStateFromStorage = function(auto, local)
 // Returns:
 //   (String) Description of save, returns "" if no description is found or storage is not supported
 ///
-Sburb.getStateDescription = function(auto)
+Sburb.getStateDescription = function(auto, local)
 {	
 	auto = typeof auto !== 'undefined' ? auto : false;
 	local = typeof local !== 'undefined' ? local : false;
@@ -146,7 +146,7 @@ Sburb.getStateDescription = function(auto)
 	var storage = local ? localStorage : sessionStorage;
 
 	if(!storage)
-		return "";
+		return null;
 
 	for(key in storage)
 	{
@@ -161,7 +161,7 @@ Sburb.getStateDescription = function(auto)
 
 	}
 
-	return "";
+	return null;
 }
 
 ///
