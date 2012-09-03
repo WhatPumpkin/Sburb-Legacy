@@ -145,7 +145,8 @@
   <room name='firstRoom' width='4800' height='3872' walkableMap='firstRoomMap'>
   	
   	<triggers>
-  		<trigger>spriteProperty,char,x>4650
+  		<trigger>
+  			<args>spriteProperty,char,x>4650</args>
   			<action command='deltaSprite'>
   				<args>char,-12,0</args>
   				<action command='changeRoomRemote'>secondRoom.xml,secondRoom,800,790</action>

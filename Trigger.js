@@ -199,11 +199,11 @@ Sburb.parseTrigger = function(triggerNode){
 
 
 function getNodeText(xmlNode){
-    if(!xmlNode) return '';
-    for(var i=0;i<xmlNode.childNodes.length;i++){
-    	var child = xmlNode.childNodes[i];
-    	if(child.tagName=="args"){
-    		for(var k=0;k<child.childNodes.length;k++){
+  if(!xmlNode) return '';
+  for(var i=0;i<xmlNode.childNodes.length;i++){
+  	var child = xmlNode.childNodes[i];
+  	if(child.tagName=="args"){
+  		for(var k=0;k<child.childNodes.length;k++){
 				if(child.childNodes[k].firstChild){
 					serializer = new XMLSerializer();
 					var output = "";
@@ -212,12 +212,11 @@ function getNodeText(xmlNode){
 					}
 					return output;
 				}
-				if(typeof(child.textContent) != "undefined"){
-					return child.textContent;
-				}
-				return child.firstChild.nodeValue;
 			}
-			
+			if(typeof(child.textContent) != "undefined"){
+				return child.textContent;
+			}
+			return child.firstChild.nodeValue;
 		}
 	}
 	return xmlNode.firstChild.nodeValue;
