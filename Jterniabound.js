@@ -47,16 +47,22 @@ var lastDrawTime = 0;
 Sburb.testCompatibility = function(div) {
     var errors = [];
     
-    if(!Modernizr.fontface)                             errors.push("- Lack of CSS @font-face support.");
-    if(!Modernizr.canvas)                               errors.push("- Lack of canvas support.");
-    if(!Modernizr.canvastext)                           errors.push("- Lack of canvas text support.");
-    if(!Modernizr.audio.ogg && !Modernizr.audio.mp3)    errors.push("- Lack of audio support.");
-    if(!Modernizr.sessionstorage)                       errors.push("- Lack of session storage support.");
-    if(!Modernizr.xhr2)                                 errors.push("- Lack of XHR2 support.");
+    // Expand Modernizr
+    Modernizr.addTest('blob_slice',function() { return ("slice" in Blob.prototype || "mozSlice" in Blob.prototype || "webkitSlice" in Blob.prototype); });
+    
+    // Use Modernizr to test compatibility
+    if(!Modernizr.fontface)                          errors.push("- Lack of CSS @font-face support.");
+    if(!Modernizr.canvas)                            errors.push("- Lack of canvas support.");
+    if(!Modernizr.canvastext)                        errors.push("- Lack of canvas text support.");
+    if(!Modernizr.audio.ogg && !Modernizr.audio.mp3) errors.push("- Lack of audio support.");
+    if(!Modernizr.sessionstorage)                    errors.push("- Lack of session storage support.");
+    if(!Modernizr.xhr2)                              errors.push("- Lack of XHR2 support.");
+    if(!Modernizr.blob_slice)                        errors.push("- Lack of Blob.slice support.");
     
     if(!errors.length)
         return true; // We're ok!    
     
+    // Display what failed
     var deploy = '<div style="padding-left: 0; padding-right: 0; margin-left: auto; margin-right: auto; display: block; width:650px; height:450px; overflow: auto;">';
     deploy += '<p style="font-weight: bold;">Your browser is too old. Here are the problems we found:</p>';
     for(var i=0; i < errors.length; i++)
@@ -64,7 +70,7 @@ Sburb.testCompatibility = function(div) {
     deploy += '<p>Maybe try Chrome instead?</p>';
     deploy += '</div>';
     document.getElementById(div).innerHTML = deploy;
-    return false;
+    return false; // Stop initialization
 }
 
 Sburb.initialize = function(div,levelName,includeDevTools){
