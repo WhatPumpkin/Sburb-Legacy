@@ -450,7 +450,13 @@ commands.saveOrLoad = function(info){
 	Sburb.chooser.beginChoosing(Sburb.cam.x+20,Sburb.cam.y+50);
 }
 
-
+//Change global game state
+commands.setGameState = function(info) {
+	var params = parseParams(info);
+	// TODO: there should be a check to make sure the gameState key
+	// doesn't contain &, <, or >
+	Sburb.gameState[params[0]] = params[1];
+}
 //blank utlity function
 //syntax: none
 commands.cancel = function(){

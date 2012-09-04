@@ -13,6 +13,7 @@ Sburb.version = '1.0';
 Sburb.Stage = null; //the canvas, we're gonna load it up with a bunch of flash-like game data like fps and scale factors
 Sburb.cam = {x:0,y:0}
 Sburb.stage = null; //its context
+Sburb.gameState = {}; // global game state object, dumping ground for random game state vars
 Sburb.pressed = null; //the pressed keys
 Sburb.assetManager = null; //the asset loader
 Sburb.assets = null; //all images, sounds, paths
@@ -104,6 +105,7 @@ Sburb.initialize = function(div,levelName,includeDevTools){
 	Sburb.buttons = {};
 	Sburb.hud = {};
 	Sburb.pressed = [];
+	Sburb.gameState = {};
 	
     Sburb.loadSerialFromXML(levelName); // comment out this line and
     //loadAssets();                        // uncomment these two lines, to do a standard hardcode load
