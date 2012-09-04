@@ -393,7 +393,7 @@ Sburb.performAction = function(action){
 		Sburb.performActionSilent(action);
 		return;
 	}
-	if(((Sburb.curAction && Sburb.curAction.followUp!=action) || !hasControl()) && action.soft){
+	if(((Sburb.curAction && Sburb.curAction.followUp!=action && Sburb.curAction!=action) || !hasControl()) && action.soft){
 		return;
 	}
 	
