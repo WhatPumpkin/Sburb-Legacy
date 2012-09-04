@@ -308,6 +308,8 @@ Sburb.createAudioAsset = function(name,sources) {
 		ret.appendChild(tmp);
         ret.remaining -= 1;
         if(!ret.remaining) {
+	    console.log("load call");
+	    if(window.chrome) ret.load();
             ret.addEventListener('loadeddata', ret.isLoaded, false);
             setTimeout(ret.checkLoaded, 5000);
         }
