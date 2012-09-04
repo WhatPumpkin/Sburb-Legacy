@@ -42,6 +42,12 @@ Sburb.updateLoop = null; //the main updateLoop, used to interrupt updating
 Sburb.initFinished = null; //only used when _hardcode_load is true
 Sburb._hardcode_load = null; //set to 1 when we don't want to load from XML: see initialize()
 Sburb._include_dev = false;
+
+
+//DivFontEngineStuff
+Sburb.dialogBin = null;
+Sburb.useDivFontEngine = true;
+
 var lastDrawTime = 0;
 
 Sburb.initialize = function(div,levelName,includeDevTools){
@@ -53,15 +59,16 @@ Sburb.initialize = function(div,levelName,includeDevTools){
 		display: block;\
 		width:650px;\
 		height:450px;"> \
-		<div id="SBURBgameDiv" style="position: absolute; z-index:100">\
-			<canvas id="SBURBStage" width="650" height="450" tabindex="0" \
+		<div id="SBURBgameDiv" style="position: absolute; z-index:100" \
 						onmousedown = "Sburb.onMouseDown(event,this)"\
 						onmousemove = "Sburb.onMouseMove(event,this)"\
 						onmouseup = "Sburb.onMouseUp(event,this)"\
 						>\
+			<canvas id="SBURBStage" width="650" height="450" tabindex="0">\
 						ERROR: Your browser is too old to display this content!\
 			</canvas>\
-			<canvas id="SBURBMapCanvas" width="1" height="1" style="display:none"/> \
+			<div id="SBURBdialogBin" style = "position:absolute;display:none;"></div>\
+			<canvas id="SBURBMapCanvas" width="1" height="1" style="display:none"></canvas>\
 		</div>\
 		<div id="SBURBmovieBin" style="position: absolute; z-index:200"> </div>\
 		<div id="SBURBfontBin"></div>\
@@ -96,6 +103,9 @@ Sburb.initialize = function(div,levelName,includeDevTools){
 	
 	Sburb.chooser = new Sburb.Chooser();
 	Sburb.dialoger = null;
+
+	Sburb.dialogBin = document.getElementById("SBURBdialogBin")
+
     Sburb.assetManager = new Sburb.AssetManager();
 	Sburb.assets = Sburb.assetManager.assets; // shortcut for raw asset access
 	Sburb.rooms = {};
