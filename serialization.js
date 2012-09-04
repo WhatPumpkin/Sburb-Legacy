@@ -16,6 +16,7 @@ Sburb.serialize = function(sburbInst) {
 	var hud = sburbInst.hud;
 	var dialoger = sburbInst.dialoger;
 	var curRoom = sburbInst.curRoom;
+	var gameState = sburbInst.gameState;
 	var char = sburbInst.char;
 
 
@@ -37,6 +38,7 @@ Sburb.serialize = function(sburbInst) {
 		output = rooms[room].serialize(output);
 	}
 	output = output.concat("\n</rooms>\n");*/
+	output = serializeGameState(output,gameState);
 	output = output.concat("\n</sburb>");
 	if(out){
 		out.value = output;
@@ -253,6 +255,13 @@ Sburb.isStateInStorage = function(auto, local)
 	return false;
 }
 
+function encodeXML(s) {
+    return s.replace(/&/g, '&amp;')
+		.replace(/</g, '&lt;')
+		.replace(/>/g, '&gt;')
+		.replace(/"/g, '&quot;');
+};
+
 
 //Serialize things that aren't actually in any room
 function serializeLooseObjects(output,rooms,sprites){
@@ -289,6 +298,16 @@ function serializeRooms(output, rooms)
 	}
 	output = output.concat("\n</rooms>\n");
 
+	return output;
+}
+function serializeGameState(output, gameState) 
+{
+	output = output.concat("\n<gameState>\n");
+	for(var key in gameState) {
+		output = output.concat("  <"+key+">"+encodeXML(gameState[key])+"</"+key+">");
+	}
+	output = output.concat("\n</gameState>\n");
+	
 	return output;
 }
 
@@ -416,6 +435,7 @@ function purgeState(){
 	}
 	document.getElementById("SBURBmovieBin").innerHTML = "";
 	document.getElementById("SBURBfontBin").innerHTML = "";
+	Sburb.gameState = {};
 	Sburb.globalVolume = 1;
 	Sburb.hud = {};
 	Sburb.sprites = {};
@@ -482,7 +502,7 @@ function loadSerial(serialText, keepOld) {
     if(levelPath){
     	Sburb.assetManager.levelPath = levelPath.value+"/";
     }
-    
+
     var resourcePath = rootAttr.getNamedItem("resourcePath");
     if(resourcePath){
     	Sburb.assetManager.resourcePath = resourcePath.value;
@@ -497,6 +517,7 @@ function loadSerial(serialText, keepOld) {
     if(version) {
     	Sburb.version = version.value;
     }
+
     loadingDepth++;
     loadDependencies(input);
     loadingDepth--;
@@ -604,7 +625,7 @@ function loadSerialState() {
 		parseCharacters(input);
 		parseFighters(input);
 		parseRooms(input);
-	
+	  parseGameState(input);
 	
 		parseHud(input);
 		parseEffects(input);
@@ -752,6 +773,20 @@ function parseRooms(input){
 			var newRoom = Sburb.parseRoom(currRoom, Sburb.assets, Sburb.sprites);
   		Sburb.rooms[newRoom.name] = newRoom;
   	}
+}
+
+function parseGameState(input) {
+	var gameStates = input.getElementsByTagName("gameState");
+	for(var i=0; i<gameStates.length; i++) {
+		var gameState = gameStates[i];
+		var children = gameState.childNodes;
+		for(var j=0; j<children.length; j++) {
+			var node = children[j];
+			var key = node.tagName;
+			var value = node.firstChild.nodeValue;
+			Sburb.gameState[key] = value;
+		}
+	}
 }
 
 function parseState(input){
