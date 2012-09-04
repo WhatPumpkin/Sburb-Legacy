@@ -1,7 +1,8 @@
 var Sburb = (function(Sburb){
 
+Sburb.loadedFiles = {};
+
 var templateClasses = {};
-var loadedFiles = {};
 var loadingDepth = 0;
 var loadQueue = [];
 var updateLoop = null;
@@ -18,6 +19,15 @@ Sburb.serialize = function(sburbInst) {
 	var curRoom = sburbInst.curRoom;
 	var char = sburbInst.char;
 
+	var loadedFiles = "";
+	var loadedFilesExist = false;
+
+	for(var key in Sburb.loadedFiles)
+	{
+		loadedFiles = loadedFiles + (loadedFilesExist?",":"") + key;
+		loadedFilesExist = true;
+	}
+
 
 	var out = document.getElementById("serialText");
 	var output = "<sburb"+
@@ -26,17 +36,14 @@ Sburb.serialize = function(sburbInst) {
 		(Sburb.Stage.scaleX!=1?"' scale='"+Sburb.Stage.scaleX:"")+
 		(Sburb.assetManager.resourcePath?("' resourcePath='"+Sburb.assetManager.resourcePath):"")+
 		(Sburb.assetManager.levelPath?("' levelPath='"+Sburb.assetManager.levelPath):"")+
+		(loadedFilesExist?("' loadedFiles='"+loadedFiles):"")+
 		"'>\n";
 	output = serializeAssets(output,assets,effects);
 	output = serializeTemplates(output,templateClasses);
 	output = serializeHud(output,hud,dialoger);
 	output = serializeLooseObjects(output,rooms,sprites);
 	output = serializeRooms(output,rooms);
-	/*output = output.concat("\n<rooms>\n");
-	for(var room in rooms){
-		output = rooms[room].serialize(output);
-	}
-	output = output.concat("\n</rooms>\n");*/
+
 	output = output.concat("\n</sburb>");
 	if(out){
 		out.value = output;
@@ -325,7 +332,7 @@ function serializeAssets(output,assets,effects){
 
 		}else if(curAsset.type=="path"){
 			for(var i=0;i<curAsset.points.length;i++){
-				output = output.concat(curAsset.points[i].x+","+curAsset.points[i].y);
+				innerHTML = innerHTML.concat(curAsset.points[i].x+","+curAsset.points[i].y);
 				if(i!=curAsset.points.length-1){
 					innerHTML = innerHTML.concat(";");
 				}
@@ -429,7 +436,7 @@ function purgeState(){
 	Sburb.char = null;
 	Sburb.assetManager.resourcePath = "";
 	Sburb.assetManager.levelPath = "";
-	loadedFiles = {};
+	Sburb.loadedFiles = {};
 }
 
 //Load state/assets from file
@@ -437,11 +444,11 @@ Sburb.loadSerialFromXML = function(file,keepOld) {
 	Sburb.haltUpdateProcess();
 	file = Sburb.assetManager.levelPath+file;
 	
-	if(keepOld && loadedFiles[file]){
+	if(keepOld && Sburb.loadedFiles[file]){
 		Sburb.startUpdateProcess();
 		return;
 	}else{
-		loadedFiles[file] = true;
+		Sburb.loadedFiles[file] = true;
 	}
 	
 	
@@ -497,6 +504,16 @@ function loadSerial(serialText, keepOld) {
     if(version) {
     	Sburb.version = version.value;
     }
+
+    var loadedFiles = rootAttr.getNamedItem("loadedFiles");
+    if(loadedFiles) {
+    	var fileNames = loadedFiles.value.split(",");
+    	for(var i = 0; i< fileNames.length; i++)
+    	{
+    		Sburb.loadedFiles[fileNames[i]] = true;
+    	}
+    }
+    
     loadingDepth++;
     loadDependencies(input);
     loadingDepth--;
