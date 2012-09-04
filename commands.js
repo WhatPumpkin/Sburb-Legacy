@@ -42,7 +42,7 @@ commands.changeRoom = function(info){
 }
 
 //Change the focus of the camera
-//syntax: charName
+//syntax: spriteName
 commands.changeFocus = function(info){
 	var params = parseParams(info);
 	var sprite = parseCharacterString(params[0]);
@@ -109,7 +109,7 @@ commands.playAnimation = function(info){
 
 //Add actions to a sprite
 //Syntax: spriteName, SBURBML action tags
-commands.addActions = function(info){
+commands.addAction = commands.addActions = function(info){
 	var params = parseParams(info);
 	var firstComma = info.indexOf(",");
 	var sprite = parseCharacterString(params[0]);
@@ -125,15 +125,17 @@ commands.addActions = function(info){
 
 //Remove an action from a sprite
 //Syntax: spriteName, actionName
-commands.removeAction = function(info){
+commands.removeAction = commands.removeActions = function(info){
 	var params = parseParams(info);
 	var sprite = parseCharacterString(params[0]);
-	sprite.removeAction(params[1]);
+	for(var i=1;i<params.length;i++){
+		sprite.removeAction(params[i]);
+	}
 }
 
 //Present player with following actions to choose from
 //Sytax: SBURBML action tags
-commands.presentActions = function(info){
+commands.presentAction = commands.presentActions = function(info){
 	var actions = parseActionString(info);
 	Sburb.chooser.choices = actions;
 	Sburb.chooser.beginChoosing(Sburb.cam.x+20,Sburb.cam.y+50);
@@ -271,7 +273,7 @@ commands.addUnwalkable = function(info){
 }
 
 //Add the specified path as a motionpath to the specified room
-//syntax: pathName, xtox, xtoy, ytox, ytoy, dx, dy roomName
+//syntax: pathName, xtox, xtoy, ytox, ytoy, dx, dy, roomName
 commands.addMotionPath = function(info){
 	var params = parseParams(info);
 	var path = Sburb.assets[params[0]];
@@ -334,7 +336,7 @@ commands.loadStateFile = function(info){
 }
 
 //fade out to black
-//syntax: node
+//syntax: none
 commands.fadeOut = function(info){
 	Sburb.fading = true;
 }
@@ -393,6 +395,8 @@ commands.unfollow = function(info){
 	follower.unfollow();
 }
 
+//Overlay a sprite over the game area (below the HUD)
+//syntax: spriteName
 commands.addOverlay = function(info){
 	var params = parseParams(info);
 	var sprite = Sburb.sprites[params[0]];
@@ -401,11 +405,51 @@ commands.addOverlay = function(info){
 	Sburb.curRoom.addSprite(sprite);
 }
 
+//Remove an overlay
+//syntax: spriteName
 commands.removeOverlay = function(info){
 	var params = parseParams(info);
 	var sprite = Sburb.sprites[params[0]];
 	Sburb.curRoom.removeSprite(sprite);
 }
+
+//Save state to client storage
+//syntax: isAuto, useLocal
+commands.save = function(info){
+	var params = parseParams(info);
+	var auto = params.length>0 && params[0]=="true";
+	var local = params.length>1 && params[1]=="true";
+	Sburb.saveStateToStorage(Sburb.char.name+", "+Sburb.curRoom.name,auto,local);
+}
+
+//Load state from client storage
+//syntax: isAuto, useLocal
+commands.load = function(info){
+	var params = parseParams(info);
+	var auto = params.length>0 && params[0]=="true";
+	var local = params.length>1 && params[1]=="true";
+	Sburb.loadStateFromStorage(auto, local);
+//	Sburb.saveStateToStorage(Sburb.char.name+", "+Sburb.curRoom.name,auto,local);
+}
+
+//Display save/load options
+//syntax: useLocal
+commands.saveOrLoad = function(info){
+	var params = parseParams(info);
+	var local = params.length>0 && params[0]=="true";
+	var actions = [];
+	if(Sburb.isStateInStorage(false,local)){
+		actions.push(new Sburb.Action("load","false, "+local,"Load "+Sburb.getStateDescription(false)));
+	}
+	if(Sburb.isStateInStorage(true,local)){
+		actions.push(new Sburb.Action("load","true, "+local,"Load "+Sburb.getStateDescription(true)));
+	}
+	actions.push(new Sburb.Action("save","false,"+local,"Save"));
+	actions.push(new Sburb.Action("cancel",null,"Cancel"));
+	Sburb.chooser.choices = actions;
+	Sburb.chooser.beginChoosing(Sburb.cam.x+20,Sburb.cam.y+50);
+}
+
 
 //blank utlity function
 //syntax: none

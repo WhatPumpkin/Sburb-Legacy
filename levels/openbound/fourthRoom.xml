@@ -24,7 +24,7 @@
   
   <asset name='spritedHorse' type='graphic'>objects/spiritedhorse.png</asset>
   
-  <asset name='elevatorstuck' type='audio'>audio/music/ElevatorstuckLoopQuiet.ogg;audio/music/ElevatorstuckLoopQuiet.mp3</asset>
+  <asset name='elevatorstuck' type='audio'>audio/music/ElevatorstuckLoopQuiet.oga;audio/music/ElevatorstuckLoopQuiet.mp3</asset>
 </assets>
 
 <sprite name='peanuts' depthing='2'>

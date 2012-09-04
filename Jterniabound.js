@@ -9,6 +9,7 @@ var Sburb = (function(Sburb){
 Sburb.Keys = {backspace:8,tab:9,enter:13,shift:16,ctrl:17,alt:18,escape:27,space:32,left:37,up:38,right:39,down:40,w:87,a:65,s:83,d:68};
 
 Sburb.name = 'Jterniabound';
+Sburb.version = '1.0';
 Sburb.Stage = null; //the canvas, we're gonna load it up with a bunch of flash-like game data like fps and scale factors
 Sburb.cam = {x:0,y:0}
 Sburb.stage = null; //its context
@@ -69,14 +70,14 @@ Sburb.initialize = function(div,levelName,includeDevTools){
 		Sburb._include_dev = true;
 		deploy+='\
 		<div> \
-			<button id="saveState" onclick="Sburb.serialize(Sburb.assets, Sburb.effects, Sburb.rooms, Sburb.sprites, Sburb.hud, Sburb.dialoger, Sburb.curRoom, Sburb.char)">save state</button>\
+			<button id="saveState" onclick="Sburb.serialize(Sburb)">save state</button>\
 			<button id="loadState" onclick="Sburb.loadSerial(document.getElementById(\'serialText\').value)">load state</button>\
 			<input type="file" name="level" id="levelFile" />\
 			<button id="loadLevelFile" onclick="Sburb.loadLevelFile(document.getElementById(\'levelFile\'))">load level</button>\
 			<button id="strifeTest" onclick="Sburb.loadSerialFromXML(\'levels/strifeTest.xml\')">strife test</button>\
 			<button id="wanderTest" onclick="Sburb.loadSerialFromXML(\'levels/wanderTest.xml\')">wander test</button>\
 			</br>\
-			<textarea id="serialText" style="display:inline; width:650; height:100;"></textarea><br/>\
+			<textarea id="serialText" style="display:inline; width:650px; height:100px;"></textarea><br/>\
 		</div>';
 	}
 	deploy+='</div>';

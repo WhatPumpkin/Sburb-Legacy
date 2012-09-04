@@ -96,12 +96,13 @@ Sburb.SpriteButton.prototype.serialize = function(output){
 //Parse a SpriteButton from XML
 Sburb.parseSpriteButton = function(button){
 	var attributes = button.attributes;
+	var sheet = Sburb.assets[attributes.getNamedItem("sheet").value];
 	var newButton = new Sburb.SpriteButton(attributes.getNamedItem("name").value,
   									attributes.getNamedItem("x")?parseInt(attributes.getNamedItem("x").value):0,
   									attributes.getNamedItem("y")?parseInt(attributes.getNamedItem("y").value):0,
-  									parseInt(attributes.getNamedItem("width").value),
-  									parseInt(attributes.getNamedItem("height").value),
-  									Sburb.assets[attributes.getNamedItem("sheet").value]);
+  									attributes.getNamedItem("width")?parseInt(attributes.getNamedItem("width").value):sheet.width,
+  									attributes.getNamedItem("width")?parseInt(attributes.getNamedItem("height").value):sheet.height,
+  									sheet);
   	var curAction = button.getElementsByTagName("action");
   	if(curAction.length>0){
   		var newAction = Sburb.parseAction(curAction[0]);
