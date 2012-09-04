@@ -229,7 +229,7 @@ Sburb.loadGenericAsset = function(asset, path, id) {
 };
 
 //Create a graphic Asset
-Sburb.createGraphicAsset = function(name, path) {
+Sburb.createGraphicAsset = function(name, path, blobUrls) {
     var ret = new Image();
     ret.type = "graphic";
     ret.name = name;
@@ -274,7 +274,7 @@ Sburb.createGraphicAsset = function(name, path) {
 }
 
 //create an audio Asset
-Sburb.createAudioAsset = function(name,sources) {
+Sburb.createAudioAsset = function(name,sources,blobUrls) {
     var ret = new Audio();
     ret.name = name
     ret.type = "audio";
@@ -340,7 +340,7 @@ Sburb.createAudioAsset = function(name,sources) {
 }
 
 //create a flash movie Asset
-Sburb.createMovieAsset = function(name,path){
+Sburb.createMovieAsset = function(name,path,blobUrls){
     var ret = {}; //src:Sburb.assetManager.resolvePath(path)};
     ret.name = name;
     ret.type = "movie";
