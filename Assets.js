@@ -9,6 +9,7 @@ var Sburb = (function(Sburb){
 
 //Constructor
 Sburb.AssetManager = function() {
+    // Asset tracking
     this.totalAssets = 0; // Used in calculation of "Are we done yet?"
     this.totalLoaded = 0; // Used in calculation of "Are we done yet?"
     this.totalSize = 0;   // Used in progress bar
@@ -16,11 +17,14 @@ Sburb.AssetManager = function() {
     this.assets = {};
     this.loaded = {};
     this.recurrences = {};
+    this.error = [];
+    this.failed = [];
+    // Master blob map
+    this.blobs = {}
+    // Descriptors
     this.description = "";
     this.resourcePath = "";
     this.levelPath = "";
-    this.error = [];
-    this.failed = [];
     this.mimes = {
         "jpg": "image/jpeg",
         "gif": "image/gif",
@@ -38,9 +42,9 @@ Sburb.AssetManager = function() {
 
 Sburb.AssetManager.prototype.resolvePath = function(path){
     if(path.indexOf(this.resourcePath)==-1){
-        return this.resourcePath+"/"+path;
+        return this.resourcePath+"/"+path+"?"+Sburb.version;
     }else{
-        return path;
+        return path+"?"+Sburb.version; // Only cache resources of the same version
     }
 }
 
@@ -101,12 +105,17 @@ Sburb.AssetManager.prototype.isLoaded = function(name) {
 
 //reset the asset manager to have no assets
 Sburb.AssetManager.prototype.purge = function() {
-    this.assets = {}
-    this.loaded = {}
+    for(var k in this.recurrences) {
+        if(this.recurrences.hasOwnProperty(k))
+            clearTimeout(this.recurrences[k]);
+    }
     this.totalLoaded = 0;
     this.totalAssets = 0;
     this.totalSize = 0;
     this.loadedSize = 0;
+    this.assets = {}
+    this.loaded = {}
+    this.recurrences = {};
     this.error = [];
     this.failed = [];
 }
@@ -124,9 +133,6 @@ Sburb.AssetManager.prototype.loadAsset = function(assetObj) {
     var loadedAsset = this.assets[name].assetOnLoadFunction(function() { oThis.assetLoaded(name); });
     if(!loadedAsset)
         this.assets[name].assetOnFailFunction(function() { oThis.assetFailed(name); });
-    if(!loadedAsset && assetObj.checkLoaded){
-        this.recurrences[assetObj.name] = assetObj.checkLoaded;
-    }
     this.draw();
 }
 
@@ -172,8 +178,19 @@ Sburb.AssetManager.prototype.assetFailed = function(name) {
 
 Sburb.loadGenericAsset = function(asset, path, id) {
     var URL = window.URL || window.webkitURL;  // Take care of vendor prefixes.
-    var xhr = new XMLHttpRequest();
     var assetPath = Sburb.assetManager.resolvePath(path);
+    if(assetPath in Sburb.assetManager.blobs) {
+        var blob_url = Sburb.assetManager.blobs[assetPath];
+        // This may be overkill
+        var blob_xhr = new XMLHttpRequest();
+        blob_xhr.open("GET", blob_url, false);
+        blob_xhr.send();
+        if(blob_xhr.status == 200) {
+            setTimeout(function() { asset.success(blob_url, id); }, 0); // Async call success so things don't blow up
+            return;
+        }
+    }
+    var xhr = new XMLHttpRequest();
     xhr.total = 0;
     xhr.loaded = 0;
     xhr.open('GET', assetPath, true);
@@ -212,7 +229,8 @@ Sburb.loadGenericAsset = function(asset, path, id) {
             var ext = path.substring(path.indexOf(".")+1,path.length);
             var type = Sburb.assetManager.mimes[ext];
             var blob = this.response[sliceMethod](0,this.response.size,type); //new Blob([this.response],{type: type});
-            var url = URL.createObjectURL(blob);
+            var url = URL.createObjectURL(blob); // Apparently we can't do this yet, {"autoRevoke": false}); // Make the blob persist until page unload
+            Sburb.assetManager.blobs[assetPath] = url; // Save for later use
             var diff = xhr.total - xhr.loaded;
             xhr.loaded = xhr.total;
             Sburb.assetManager.loadedSize += diff;
@@ -229,13 +247,15 @@ Sburb.loadGenericAsset = function(asset, path, id) {
 };
 
 //Create a graphic Asset
-Sburb.createGraphicAsset = function(name, path, blobUrls) {
+Sburb.createGraphicAsset = function(name, path) {
+    // Actual image stuff
     var ret = new Image();
     ret.type = "graphic";
     ret.name = name;
-    ret.loaded = false;
-    ret.failed = false;
-    ret.originalVals = path;
+    ret.originalVals = path; // Save for serialization
+    // AJAX pre-load shenanigans
+    // Load via AJAX, call success or failure
+    // If success, set src attribute, call onload or onerror
     ret.success = function(url) { ret.src = url; };
     ret.failure = function() { ret.failed = true; };
     ret.onload = function() { ret.loaded = true; }
@@ -274,24 +294,34 @@ Sburb.createGraphicAsset = function(name, path, blobUrls) {
 }
 
 //create an audio Asset
-Sburb.createAudioAsset = function(name,sources,blobUrls) {
+Sburb.createAudioAsset = function(name,sources) {
     var ret = new Audio();
     ret.name = name
     ret.type = "audio";
     ret.preload = true;
-    ret.remaining = sources.length
-    ret.loaded = false;
-    ret.failed = false;
     ret.originalVals = sources;
+    // Ajax Shenanigans
+    // Load each source, call success or failure for each
+    // On success, add as a source
+    // When all sources are added add an event listener and timeout
+    // If resource isn't loaded by the timeout, fail
     ret.failure = function() { ret.failed = true; };
     ret.isLoaded = function() { ret.loaded = true; };
+    // Check multiple times to speed up loading where the event listener fails
     ret.checkLoaded = function() {
         if(!ret.loaded) {
+            ret.check_count -= 1;
             if(ret.readyState == 4) {
+                delete this.recurrences[name];
                 ret.isLoaded();
-            } else {
+            } else if(!ret.check_count) {
+                delete this.recurrences[name];
                 ret.failure();
+            } else {
+                Sburb.assetManager.recurrences[name] = setTimeout(ret.checkLoaded, ret.check_interval);
             }
+        } else {
+            delete Sburb.assetManager.recurrences[name];
         }
     };
     ret.assetOnLoadFunction = function(fn) {
@@ -324,16 +354,17 @@ Sburb.createAudioAsset = function(name,sources,blobUrls) {
         ret.appendChild(tmp);
         ret.remaining -= 1;
         if(!ret.remaining) {
-	    // console.log("load call");
-	    if(window.chrome) ret.load();
+	        if(window.chrome) ret.load();
             ret.addEventListener('loadeddata', ret.isLoaded, false);
-            setTimeout(ret.checkLoaded, 5000);
+            Sburb.assetManager.recurrences[name] = setTimeout(ret.checkLoaded, ret.check_interval);
         }
     }
     ret.reload = function() {
+        ret.remaining = sources.length // How many sources we have left to load
+        ret.check_interval = 800; // How long to wait between checks
+        ret.check_count = 5; // How many checks to make
         ret.loaded = false;
         ret.failed = false;
-        ret.remaining = sources.length
         for (var a=0; a < sources.length; a++)
             Sburb.loadGenericAsset(ret, sources[a]);
     };
@@ -342,20 +373,17 @@ Sburb.createAudioAsset = function(name,sources,blobUrls) {
 }
 
 //create a flash movie Asset
-Sburb.createMovieAsset = function(name,path,blobUrls){
+Sburb.createMovieAsset = function(name,path){
     var ret = {}; //src:Sburb.assetManager.resolvePath(path)};
     ret.name = name;
     ret.type = "movie";
     ret.originalVals = path;
-    // ret.instant = true;
     
     ret.done = function(url) {
         ret.src = url;
         document.getElementById("SBURBmovieBin").innerHTML += '<div id="'+name+'"><object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" id="movie" width="'+Sburb.Stage.width+'" height="'+Sburb.Stage.height+'"><param name="allowScriptAccess" value="always" /\><param name="wmode" value="transparent"/\><param name="movie" value="'+name+'" /\><param name="quality" value="high" /\><embed src="'+ret.src+'" quality="high" WMODE="transparent" width="'+Sburb.Stage.width+'" height="'+Sburb.Stage.height+'" swLiveConnect="true" id="movie'+name+'" name="movie'+name+'" allowScriptAccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /\></object></div>';
         document.getElementById(name).style.display = "none";
     }
-    ret.loaded = false;
-    ret.failed = false;
     ret.success = function(url) { ret.done(url); ret.loaded = true; };
     ret.failure = function() { ret.failed = true; };
     ret.assetOnLoadFunction = function(fn) {
@@ -414,9 +442,6 @@ Sburb.createFontAsset = function(name, sources){
     ret.name = name;
     ret.originalVals = sources;
     ret.type = "font";
-    //ret.instant = true;
-    ret.loaded = false;
-    ret.failed = false;
     ret.done = function(url) { ret.loaded = true; };
     ret.failure = function() { ret.failed = true; };
     ret.success = function(url, id) {
@@ -486,7 +511,6 @@ Sburb.createFontAsset = function(name, sources){
     };
     
     ret.reload();
-    //Sburb.stage.fillText("load font",-100,-100);
     
     return ret
 }
