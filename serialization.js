@@ -297,16 +297,28 @@ function serializeAssets(output,assets,effects){
 	output = output.concat("\n<assets>");
 	for(var asset in assets){
 		var curAsset = assets[asset];
-		output = output.concat("\n<asset name='"+curAsset.name+"' type='"+curAsset.type+"'>");
+		var blobUrls = [];
+		var innerHTML = "";
+
 		if(curAsset.type=="graphic"){
-			output += curAsset.originalVals;
+			if(curAsset.src.substring(0,5) === 'blob:')
+				blobUrls.push(curAsset.src);
+
+			innerHTML += curAsset.originalVals;
 		}else if(curAsset.type=="audio"){
+			var sources = curAsset.innerHTML.split('"');  	
+			var vals = ""; 	
+			
+			for(var i=1;i<sources.length;i+=2){	
+				if(sources[i].substring(0,5) === 'blob:')
+					blobUrls.push(sources[i]);
+			}
 
 			var firstSrc = false;
 			for(var i = 0; i < curAsset.originalVals.length; i++)
 			{
 				var srcVal = curAsset.originalVals[i];
-				output += (firstSrc?";":"")+srcVal;
+				innerHTML += (firstSrc?";":"")+srcVal;
 
 				firstSrc = true;
 			}
@@ -315,14 +327,25 @@ function serializeAssets(output,assets,effects){
 			for(var i=0;i<curAsset.points.length;i++){
 				output = output.concat(curAsset.points[i].x+","+curAsset.points[i].y);
 				if(i!=curAsset.points.length-1){
-					output = output.concat(";");
+					innerHTML = innerHTML.concat(";");
 				}
 			}
 		}else if(curAsset.type=="movie"){
-			output += curAsset.originalVals;
+			if(curAsset.src.substring(0,5) === 'blob:')
+				blobUrls.push(curAsset.src);
+
+			innerHTML += curAsset.originalVals;
 		}else if(curAsset.type=="font"){
-			output += curAsset.originalVals;
+			innerHTML += curAsset.originalVals;
 		}
+
+		output = output.concat("\n<asset name='"+curAsset.name+"' type='"+curAsset.type+"' ");
+
+		if(blobUrls.length > 0)
+			output = output.concat("blob-urls='" + blobUrls.join(';') + "' ")
+
+		output = output.concat(" >");
+		output = output.concat(innerHTML);
 		output = output.concat("</asset>");
 	}
 	output = output.concat("\n</assets>\n");
@@ -525,12 +548,20 @@ function parseSerialAsset(curAsset) {
 	var type = attributes.getNamedItem("type").value;
 	var value = curAsset.firstChild.nodeValue.trim();
 
+	var blobUrlsAttr = attributes.getNamedItem("blob-urls");
+	var blobUrls = [];
+
+	if(blobUrlsAttr)
+		blobUrls = blobUrlsAttr.value.split(";");
+
+	if(blobUrls.length === 0) blobUrls = null;
+
 	var newAsset;
 	if(type=="graphic"){
-		newAsset = Sburb.createGraphicAsset(name, value);
+		newAsset = Sburb.createGraphicAsset(name, value, blobUrls);
 	} else if(type=="audio"){
 		var sources = value.split(";");
-		newAsset = Sburb.createAudioAsset(name, sources);
+		newAsset = Sburb.createAudioAsset(name, sources,blobUrls);
 	} else if(type=="path"){
 		var pts = value.split(";");
 		var path = new Sburb.Path();
@@ -540,7 +571,7 @@ function parseSerialAsset(curAsset) {
 		}
 		newAsset = Sburb.createPathAsset(name,path);
 	}else if(type=="movie"){
-		newAsset = Sburb.createMovieAsset(name, value);
+		newAsset = Sburb.createMovieAsset(name, value,blobUrls);
 	}else if(type=="font"){
 		//var sources = value.split(";");
 		newAsset = Sburb.createFontAsset(name,value);
