@@ -18,7 +18,7 @@ Sburb.Sound = function(asset){
 Sburb.Sound.prototype.play = function(pos) {
     if(window.chrome) {
 	if(this.playedOnce) {
-	    console.log("load again");
+	    // console.log("load again");
             this.asset.load();
 	} else {
 	    this.playedOnce = true;
