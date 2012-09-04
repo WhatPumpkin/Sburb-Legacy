@@ -19,7 +19,10 @@ Sburb.Dialoger = function(hiddenPos, alertPos, talkPosLeft, talkPosRight,
 	this.talking = false;
 	this.queue = [];
 	this.extraArgs = null;
-	this.dialog = new Sburb.FontEngine();
+	if (!Sburb.useDivFontEngine) 
+		this.dialog = new Sburb.FontEngine();
+	else
+		this.dialog = new Sburb.DivFontEngine();
 	
 	this.hiddenPos = hiddenPos;
 	this.alertPos = alertPos;
@@ -82,6 +85,7 @@ Sburb.Dialoger.prototype.nudge = function(){
 }
 
 Sburb.Dialoger.prototype.skipAll = function(){
+	this.dialog.nextBatch();
 	this.talking = false; 
 }
 
