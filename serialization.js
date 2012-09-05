@@ -782,6 +782,10 @@ function parseGameState(input) {
 		var children = gameState.childNodes;
 		for(var j=0; j<children.length; j++) {
 			var node = children[j];
+
+			if(node.nodeType === 3) //Text node, formatting node
+				continue;
+
 			var key = node.tagName;
 			var value = node.firstChild.nodeValue;
 			Sburb.gameState[key] = value;
