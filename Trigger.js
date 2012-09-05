@@ -16,102 +16,21 @@ Sburb.Trigger = function(info,action,followUp,restart,detonate){
 	this.action = action?action:null;
 	this.restart = restart?restart:false;
 	this.detonate = detonate?detonate:false;
-	this.type = null;
 	
+	var params = this.info.split(",");
+	this.type = params[0];
+
+	this.event = new Sburb.events[this.type](this.info);
 	this.reset();
 }
 
 //parse the trigger info into an actual event to watch
 Sburb.Trigger.prototype.reset = function(){
-	var params = this.info.split(",");
-	this.type = params[0];
+	return this.event.reset();
+}
 
-	if(this.type=="spriteProperty"){
-		if(params[1]=="char"){
-			this.entity = params[1];
-		}else{
-			this.entity = Sburb.sprites[params[1]];
-		}
-		var token;	
-		var query = params[2];
-		if(query.indexOf(">")>-1){
-			token = ">";
-			this.trigger = function(entity,property,target){
-				return entity[property]>target;
-			};		
-		}else if(query.indexOf("<")>-1){
-			token = "<";
-			this.trigger = function(entity,property,target){
-				return entity[property]<target;
-			};
-		}else if(query.indexOf("!=")>-1){
-			token = "!=";
-			this.trigger = function(entity,property,target){
-				return entity[property]!=target;
-			};				
-		}else if(query.indexOf("=")>-1){
-			token = "=";
-			this.trigger = function(entity,property,target){
-				return entity[property]==target;
-			};		
-		}
-		var queryParts = query.split(token);
-		this.property = queryParts[0].trim();
-		this.target = queryParts[1].trim();
-	
-		this.checkCompletion = function(){
-			var entity = this.entity;
-			if(this.entity=="char"){
-				entity = Sburb.char;
-			}
-			return this.trigger(entity,this.property,this.target);
-		}
-	}else if(this.type=="inBox"){
-		if(params[1]=="char"){
-			this.entity = params[1];
-		}else{
-			this.entity = Sburb.sprites[params[1]];
-		}
-		this.x = parseInt(params[2]);
-		this.y = parseInt(params[3]);
-		this.width = parseInt(params[4]);
-		this.height = parseInt(params[5]);
-		this.checkCompletion = function(){
-			var entity = this.entity;
-			if(this.entity=="char"){
-				entity = Sburb.char;
-			}
-			return entity.x>=this.x && entity.y>=this.y && entity.x<=this.x+this.width && entity.y<=this.y+this.height;
-		}
-	}else if(this.type=="time"){
-		this.time = parseInt(params[1]);
-	
-		this.checkCompletion = function(){
-			this.time--;
-			return this.time<=0;
-		};
-	
-	}else if(this.type=="played"){
-		this.entity = Sburb.sprites[params[1]];
-		this.checkCompletion = function(){
-			var entity = this.entity;
-			if(this.entity=="char"){
-				entity = Sburb.char;
-			}
-			return entity.animation.hasPlayed();
-		};
-	}else if(this.type=="movie"){
-		this.movie = window.document.getElementById("movie"+params[1]);
-		this.threshold = parseInt(params[2]);
-		this.checkCompletion = function(){
-			if(this.movie && (!this.movie.TotalFrames || 
-				(this.movie.TotalFrames()>0 && this.movie.TotalFrames()-1-this.movie.CurrentFrame()<=this.threshold))){
-				Sburb.commands.removeMovie(params[1]);
-				return true;
-			}
-			return false;
-		}
-	}
+Sburb.Trigger.prototype.checkCompletion = function() {
+	return this.event.checkCompletion();
 }
 
 //check if the trigger has been satisfied
