@@ -3,6 +3,19 @@ if(typeof String.prototype.trim !== 'function') {
     return this.replace(/^\s+|\s+$/g, ''); 
   }
 }
+if(typeof Array.prototype.remove !== 'function') {
+    // Array Remove - By John Resig (MIT Licensed)
+    Array.prototype.remove = function(from, to) {
+      var rest = this.slice((to || from) + 1 || this.length);
+      this.length = from < 0 ? this.length + from : from;
+      return this.push.apply(this, rest);
+    };
+    Array.prototype.destroy = function(obj) {
+        var i = this.indexOf(obj);
+        if(i >= 0)
+            this.remove(i);
+    };
+}
 
 var Sburb = (function(Sburb){
 //650x450 screen
@@ -15,6 +28,7 @@ Sburb.cam = {x:0,y:0}
 Sburb.stage = null; //its context
 Sburb.gameState = {};
 Sburb.pressed = null; //the pressed keys
+Sburb.pressedOrder = null; //reverse stack of keypress order. Higher index = pushed later
 Sburb.assetManager = null; //the asset loader
 Sburb.assets = null; //all images, sounds, paths
 Sburb.sprites = null; //all sprites that were Serial loaded
@@ -137,7 +151,8 @@ Sburb.initialize = function(div,levelName,includeDevTools){
 	Sburb.buttons = {};
 	Sburb.hud = {};
 	Sburb.gameState = {};
-	Sburb.pressed = [];
+	Sburb.pressed = {};
+	Sburb.pressedOrder = [];
 	
     Sburb.loadSerialFromXML(levelName); // comment out this line and
     //loadAssets();                        // uncomment these two lines, to do a standard hardcode load
@@ -237,6 +252,8 @@ var _onkeydown = function(e){
 			}
 		}
 	}
+	if(!Sburb.pressed[e.keyCode])
+	    Sburb.pressedOrder.push(e.keyCode);
 	Sburb.pressed[e.keyCode] = true;
     // return true if we want to pass keys along to the browser, i.e. Ctrl-N for a new window
     if(e.altKey || e.ctrlKey || e.metaKey) {
@@ -247,6 +264,8 @@ var _onkeydown = function(e){
 }
 
 var _onkeyup = function(e){
+    if(Sburb.pressed[e.keyCode])
+    	Sburb.pressedOrder.destroy(e.keyCode);
 	Sburb.pressed[e.keyCode] = false;
 }
 
@@ -321,7 +340,7 @@ function handleInputs(){
 		Sburb.Stage.style.cursor = "default";
 	}
 	if(hasControl()){
-		Sburb.char.handleInputs(Sburb.pressed);
+		Sburb.char.handleInputs(Sburb.pressed, Sburb.pressedOrder);
 	}else{
 		Sburb.char.moveNone();
 	}
