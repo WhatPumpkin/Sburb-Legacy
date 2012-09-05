@@ -162,18 +162,24 @@ Sburb.Character.prototype.becomePlayer = function(){
 }
 
 //parse key inputs into actions
-Sburb.Character.prototype.handleInputs = function(pressed){
-	if(pressed[Sburb.Keys.down] || pressed[Sburb.Keys.s]){
-		this.moveDown();
-	}else if(pressed[Sburb.Keys.up] || pressed[Sburb.Keys.w]){
-		this.moveUp();
-	}else if(pressed[Sburb.Keys.left] || pressed[Sburb.Keys.a]){
-		this.moveLeft();
-	}else if(pressed[Sburb.Keys.right] || pressed[Sburb.Keys.d]){
-		this.moveRight();
-	}else{
-		this.moveNone();
-	}
+Sburb.Character.prototype.handleInputs = function(pressed, order){
+    var down = -1, up = -1, left = -1, right = -1, most = 0;
+    down  = Math.max(order.indexOf(Sburb.Keys.down), order.indexOf(Sburb.Keys.s));
+    up    = Math.max(order.indexOf(Sburb.Keys.up),   order.indexOf(Sburb.Keys.w));
+    left  = Math.max(order.indexOf(Sburb.Keys.left), order.indexOf(Sburb.Keys.a));
+    right = Math.max(order.indexOf(Sburb.Keys.right),order.indexOf(Sburb.Keys.d));
+    most  = Math.max(down, up, left, right, most);
+    if(down == most) {
+        this.moveDown();
+    } else if(up == most) {
+        this.moveUp();
+    } else if(left == most) {
+        this.moveLeft();
+    } else if(right == most) {
+        this.moveRight();
+    } else {
+        this.moveNone();
+    }
 	this.handledInput = 2;
 }
 
