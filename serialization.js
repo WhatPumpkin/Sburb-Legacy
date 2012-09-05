@@ -304,22 +304,12 @@ function serializeAssets(output,assets,effects){
 	output = output.concat("\n<assets>");
 	for(var asset in assets){
 		var curAsset = assets[asset];
-		var blobUrls = [];
 		var innerHTML = "";
 
 		if(curAsset.type=="graphic"){
-			if(curAsset.src.substring(0,5) === 'blob:')
-				blobUrls.push(curAsset.src);
 
 			innerHTML += curAsset.originalVals;
 		}else if(curAsset.type=="audio"){
-			var sources = curAsset.innerHTML.split('"');  	
-			var vals = ""; 	
-			
-			for(var i=1;i<sources.length;i+=2){	
-				if(sources[i].substring(0,5) === 'blob:')
-					blobUrls.push(sources[i]);
-			}
 
 			var firstSrc = false;
 			for(var i = 0; i < curAsset.originalVals.length; i++)
@@ -338,18 +328,12 @@ function serializeAssets(output,assets,effects){
 				}
 			}
 		}else if(curAsset.type=="movie"){
-			if(curAsset.src.substring(0,5) === 'blob:')
-				blobUrls.push(curAsset.src);
-
 			innerHTML += curAsset.originalVals;
 		}else if(curAsset.type=="font"){
 			innerHTML += curAsset.originalVals;
 		}
 
 		output = output.concat("\n<asset name='"+curAsset.name+"' type='"+curAsset.type+"' ");
-
-		if(blobUrls.length > 0)
-			output = output.concat("blob-urls='" + blobUrls.join(';') + "' ")
 
 		output = output.concat(" >");
 		output = output.concat(innerHTML);
@@ -513,7 +497,7 @@ function loadSerial(serialText, keepOld) {
     		Sburb.loadedFiles[fileNames[i]] = true;
     	}
     }
-    
+
     loadingDepth++;
     loadDependencies(input);
     loadingDepth--;
