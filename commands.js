@@ -451,11 +451,45 @@ commands.saveOrLoad = function(info){
 }
 
 //Change global game state
+//syntax: gameState, value
 commands.setGameState = function(info) {
 	var params = parseParams(info);
 	// TODO: there should be a check to make sure the gameState key
 	// doesn't contain &, <, or >
 	Sburb.gameState[params[0]] = params[1];
+}
+
+//Move the character backwards
+//syntax: charName
+commands.goBack = function(info){
+	var params = parseParams(info);
+	var character = parseCharacterString(params[0]);
+	var vx = 0; vy = 0;
+	if(character.facing=="Front"){
+		vx = 0; 
+		vy = -character.speed;
+	}else if(character.facing=="Back"){
+		vx = 0; 
+		vy = character.speed;
+	}else if(character.facing=="Left"){
+		vx = character.speed;
+		vy = 0;
+	}else if(character.facing=="Right"){
+		vx = -character.speed; 
+		vy = 0;
+	}
+	character.tryToMove(vx,vy,Sburb.curRoom);
+}
+
+//make the character walk in the specified direction (Up, Down, Left, Right, None)
+//syntax: charName, direction
+commands.walk = function(info){
+	var params = parseParams(info);
+	var character = parseCharacterString(params[0]);
+	var dir = params[1];
+	if(typeof character["move"+dir] == "function"){
+		character["move"+dir]();
+	}
 }
 
 //blank utlity function
