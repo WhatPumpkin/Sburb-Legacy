@@ -138,7 +138,8 @@ commands.removeAction = commands.removeActions = function(info){
 commands.presentAction = commands.presentActions = function(info){
 	var actions = parseActionString(info);
 	Sburb.chooser.choices = actions;
-	Sburb.chooser.beginChoosing(Sburb.cam.x+20,Sburb.cam.y+50);
+	Sburb.chooser.beginChoosing(Sburb.Stage.x+20,Sburb.Stage.y+50);
+	//Sburb.Stage is the true position of the view. Sburb.cam is simply the desired position
 }
 
 
@@ -400,8 +401,8 @@ commands.unfollow = function(info){
 commands.addOverlay = function(info){
 	var params = parseParams(info);
 	var sprite = Sburb.sprites[params[0]];
-	sprite.x = Sburb.cam.x;
-	sprite.y = Sburb.cam.y;
+	sprite.x = Sburb.Stage.x;
+	sprite.y = Sburb.Stage.y;
 	Sburb.curRoom.addSprite(sprite);
 }
 
@@ -447,7 +448,7 @@ commands.saveOrLoad = function(info){
 	actions.push(new Sburb.Action("save","false,"+local,"Save"));
 	actions.push(new Sburb.Action("cancel",null,"Cancel"));
 	Sburb.chooser.choices = actions;
-	Sburb.chooser.beginChoosing(Sburb.cam.x+20,Sburb.cam.y+50);
+	Sburb.chooser.beginChoosing(Sburb.Stage.x+20,Sburb.Stage.y+50);
 }
 
 //Change global game state
