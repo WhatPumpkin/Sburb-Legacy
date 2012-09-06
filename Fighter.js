@@ -248,18 +248,20 @@ Sburb.Fighter.prototype.tryToMove = function(room){
 //serialize this Fighter to XML
 Sburb.Fighter.prototype.serialize = function(output){
 	var animationCount = 0;
-	for(anim in this.animations){
-			animationCount++;
+	for(var anim in this.animations){
+	    if(!this.animations.hasOwnProperty(anim)) continue;
+		animationCount++;
 	}
 	output = output.concat("<fighter "+
 		Sburb.serializeAttributes(this,"name","x","y","width","height","facing")+
 		(animationCount>1?"state='"+this.state+"' ":"")+
 		">");
-	for(animation in this.animations){
-		output = this.animations[animation].serialize(output);
+	for(var animation in this.animations){
+	    if(!this.animations.hasOwnProperty(animation)) continue;
+	    output = this.animations[animation].serialize(output);
 	}
-	for(action in this.actions){
-		output = this.actions[action].serialize(output);
+	for(var i=0; i < this.actions.length; i++){
+		output = this.actions[i].serialize(output);
 	}
 	output = output.concat("</fighter>");
 	return output;

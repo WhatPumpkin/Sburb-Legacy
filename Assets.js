@@ -312,10 +312,10 @@ Sburb.createAudioAsset = function(name,sources) {
         if(!ret.loaded) {
             ret.check_count -= 1;
             if(ret.readyState == 4) {
-                delete this.recurrences[name];
+                delete Sburb.assetManager.recurrences[name];
                 ret.isLoaded();
             } else if(!ret.check_count) {
-                delete this.recurrences[name];
+                delete Sburb.assetManager.recurrences[name];
                 ret.failure();
             } else {
                 Sburb.assetManager.recurrences[name] = setTimeout(ret.checkLoaded, ret.check_interval);
@@ -360,13 +360,29 @@ Sburb.createAudioAsset = function(name,sources) {
         }
     }
     ret.reload = function() {
-        ret.remaining = sources.length // How many sources we have left to load
+        ret.remaining = 0; // How many sources we have left to load
         ret.check_interval = 800; // How long to wait between checks
         ret.check_count = 5; // How many checks to make
         ret.loaded = false;
         ret.failed = false;
-        for (var a=0; a < sources.length; a++)
-            Sburb.loadGenericAsset(ret, sources[a]);
+        for (var a=0; a < sources.length; a++) {
+            var ext = sources[a].substring(sources[a].indexOf(".")+1,sources[a].length);
+            var type = Sburb.assetManager.mimes[ext];
+            if(type == "audio/mpeg") {
+                if(Modernizr.audio.mp3) {
+                    ret.remaining++;
+                    Sburb.loadGenericAsset(ret, sources[a]);
+                }
+            } else if(type == "audio/ogg") {
+                if(Modernizr.audio.ogg) {
+                    ret.remaining++;
+                    Sburb.loadGenericAsset(ret, sources[a]);
+                }
+            } else {
+                ret.remaining++;
+                Sburb.loadGenericAsset(ret, sources[a]);
+            }
+        }
     };
     ret.reload();
     return ret;

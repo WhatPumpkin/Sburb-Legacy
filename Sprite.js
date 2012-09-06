@@ -146,8 +146,9 @@ Sprite.prototype.getBoundaryQueries = function(dx,dy){
 
 Sprite.prototype.serialize = function(output){
 	var animationCount = 0;
-	for(anim in this.animations){
-			animationCount++;
+	for(var anim in this.animations){
+        if(!this.animations.hasOwnProperty(anim)) continue;
+        animationCount++;
 	}
 	
 	output = output.concat("\n<sprite "+
@@ -156,10 +157,11 @@ Sprite.prototype.serialize = function(output){
 		">");
 
 	for(var anim in this.animations){
+        if(!this.animations.hasOwnProperty(anim)) continue;
 		output = this.animations[anim].serialize(output);
 	}
-	for(var action in this.actions){
-		output = this.actions[action].serialize(output);
+	for(var i=0; i < this.actions.length; i++){
+		output = this.actions[i].serialize(output);
 	}
 	output = output.concat("\n</sprite>");
 	return output;

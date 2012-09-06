@@ -354,14 +354,16 @@ function handleInputs(){
 
 function handleHud(){
 	for(var content in Sburb.hud){
-		var obj = Sburb.hud[content];
-		obj.update();
+	    if(!Sburb.hud.hasOwnProperty(content)) continue;
+	    var obj = Sburb.hud[content];
+	    obj.update();
 	}
 }
 
 function drawHud(){
 	for(var content in Sburb.hud){
-		Sburb.hud[content].draw();
+	    if(!Sburb.hud.hasOwnProperty(content)) continue;
+	    Sburb.hud[content].draw();
 	}
 }
 
@@ -499,10 +501,11 @@ Sburb.moveSprite = function(sprite,oldRoom,newRoom){
 Sburb.setCurRoomOf = function(sprite){
 	if(!Sburb.curRoom.contains(sprite)){
 		for(var room in Sburb.rooms){
-			if(Sburb.rooms[room].contains(sprite)){
-				Sburb.changeRoom(Sburb.rooms[room],Sburb.char.x,Sburb.char.y);
-				return;
-			}
+		    if(!Sburb.rooms.hasOwnProperty(room)) continue;
+		    if(Sburb.rooms[room].contains(sprite)){
+			    Sburb.changeRoom(Sburb.rooms[room],Sburb.char.x,Sburb.char.y);
+			    return;
+		    }
 		}
 	}
 }
