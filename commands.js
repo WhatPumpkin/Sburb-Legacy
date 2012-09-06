@@ -487,7 +487,9 @@ commands.walk = function(info){
 	var params = parseParams(info);
 	var character = parseCharacterString(params[0]);
 	var dir = params[1];
-	character["move"+dir]();
+	if(typeof character["move"+dir] == "function"){
+		character["move"+dir]();
+	}
 }
 
 //blank utlity function
