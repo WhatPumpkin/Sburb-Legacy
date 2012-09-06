@@ -9,12 +9,15 @@ function parseParams(info){
 var events = {};
 
 // Please list all 9f y9ur triggers here so I can handle them c9rrectly.
+//...I can't tell if you're trying to use some troll thing or broke your "o" key
 
 // Trigger functions are called with "new"; functions should set
 // this.reset (for when the trigger is initialized/reset) and
 // this.checkCompletion (which should return true or false based
 // on whether the trigger has been completed).
 
+//Check if the given sprite's property satisfies some condition
+//syntax: spriteName, query (e.g. x=3)
 events.spriteProperty = function(info) {
 	var params = parseParams(info);
 	var token;
@@ -60,6 +63,8 @@ events.spriteProperty = function(info) {
 	}
 };
 
+//Check if the given sprite is inside a box
+//syntax: spriteName, x, y, width, height
 events.inBox = function(info) {
 	var params = parseParams(info);
 	var x = parseInt(params[2]);
@@ -82,6 +87,8 @@ events.inBox = function(info) {
 	}
 };
 
+//Check if a certain interval of time has elapsed
+//syntax: time
 events.time = function(info) {
 	var params = parseParams(info);
 	this.reset = function() {
@@ -93,6 +100,8 @@ events.time = function(info) {
 	};
 };
 
+//Check if the sprite's animation has played
+//sytax: spriteName
 events.played = function(info) {
 	var params = parseParams(info);
 	this.reset = function() {
@@ -107,6 +116,8 @@ events.played = function(info) {
 	};
 };
 
+//check if the movie has finished playing (iternal utility event)
+//syntax: movieName
 events.movie = function(info) {
 	var params = parseParams(info);
 	var threshold = parseInt(params[2]);
@@ -123,6 +134,8 @@ events.movie = function(info) {
 	}
 };
 
+//check if the game state meets a certain condition
+//syntax: condition (e.g. doorOpened=true)
 events.gameState = function(info) {
 	var params = parseParams(info);
 	var token;
@@ -158,6 +171,24 @@ events.gameState = function(info) {
 		return this.trigger(property,target);
 	}
 };	
+
+//check if the player is nudging the game forward (space or mouse)
+//syntax: none
+events.nudge = function(info){
+	this.reset = function(){ } //do nothing
+	this.checkCompletion = function(){
+		return Sburb.Keys.space || Sburb.Mouse.down;
+	}
+}
+
+//check that there are no pending or active actions on the queue
+//syntax: none
+events.noActions = function(info){
+	this.reset = function(){ } //do nothing
+	this.checkCompletion = function(){
+		return Sburb.curAction==null;
+	}
+}
 
 Sburb.events = events;
 return Sburb;
