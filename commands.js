@@ -458,6 +458,8 @@ commands.setGameState = function(info) {
 	Sburb.gameState[params[0]] = params[1];
 }
 
+commands.
+
 //blank utlity function
 //syntax: none
 commands.cancel = function(){
