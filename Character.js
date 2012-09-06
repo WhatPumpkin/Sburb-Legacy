@@ -354,13 +354,14 @@ Sburb.Character.prototype.serialize = function(output){
 		}
 		output = output.concat("'>");
 	for(var animation in this.animations){
-		var anim = this.animations[animation];
-		if(this.bootstrap || (anim.name.indexOf("idle")==-1 && anim.name.indexOf("walk")==-1)){
-			output = anim.serialize(output);
+	    if(!this.animations.hasOwnProperty(animation)) continue;
+	    var anim = this.animations[animation];
+	    if(this.bootstrap || (anim.name.indexOf("idle")==-1 && anim.name.indexOf("walk")==-1)){
+		    output = anim.serialize(output);
 		}
 	}
-	for(var action in this.actions){
-		output = this.actions[action].serialize(output);
+	for(var i=0; i < this.actions.length; i++){
+		output = this.actions[i].serialize(output);
 	}
 	
 	output = output.concat("\n</character>");

@@ -216,7 +216,7 @@ Sburb.Room.prototype.isInBounds = function(sprite,dx,dy){
 	var queries = sprite.getBoundaryQueries(dx,dy);
 	var result = this.isInBoundsBatch(queries);
 	for(var point in result){
-		if(!result[point]){
+		if(!result[point]){ // I'll let this lack of hasOwnProperty slide
 			return false;
 		}
 	}
@@ -228,11 +228,13 @@ Sburb.Room.prototype.isInBoundsBatch = function(queries,results){
 	if(typeof results != "object"){
 		results = {};
 		for(var queryName in queries){
-			results[queryName] = false;
+		    if(!queries.hasOwnProperty(queryName)) continue;
+		    results[queryName] = false;
 		}
 	}
 	if(this.walkableMap){
 		for(var query in queries){
+		    if(!queries.hasOwnProperty(query)) continue;
 			var pt = queries[query];
 			var data = this.mapData;
 			var width = this.walkableMap.width;
@@ -314,8 +316,8 @@ Sburb.Room.prototype.serialize = function(output){
 		output = this.triggers[i].serialize(output);
 	}
 	output = output.concat("\n</triggers>");
-	for(var sprite in this.sprites){
-		output = this.sprites[sprite].serialize(output);
+	for(var i=0; i < this.sprites.length; i++){
+	    output = this.sprites[i].serialize(output);
 	}
 	
 	output = output.concat("\n</room>");
