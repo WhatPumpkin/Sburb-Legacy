@@ -42,7 +42,6 @@ Sburb.Chooser.prototype.beginChoosing = function(x,y){
 		x = Sburb.Stage.x+10;
 	}
 	if(y<Sburb.Stage.y+10){
-		console.log(y,Sburb.Stage.y,"what");
 		y = Sburb.Stage.y+10;
 	}
 	if(x+width>Sburb.Stage.x+Sburb.Stage.width-10){
