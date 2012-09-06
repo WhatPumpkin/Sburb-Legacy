@@ -461,7 +461,7 @@ commands.setGameState = function(info) {
 
 //Move the character backwards
 //syntax: charName
-commands.goBack(info){
+commands.goBack = function(info){
 	var params = parseParams(info);
 	var character = parseCharacterString(params[0]);
 	var vx = 0; vy = 0;
@@ -483,7 +483,7 @@ commands.goBack(info){
 
 //make the character walk in the specified direction (Up, Down, Left, Right, None)
 //syntax: charName, direction
-commands.walk(info){
+commands.walk = function(info){
 	var params = parseParams(info);
 	var character = parseCharacterString(params[0]);
 	var dir = params[1];

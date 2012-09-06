@@ -132,6 +132,7 @@ Sburb.initialize = function(div,levelName,includeDevTools){
 	var gameDiv = document.getElementById("SBURBgameDiv");
 	gameDiv.onkeydown = _onkeydown;
 	gameDiv.onkeyup = _onkeyup;
+	gameDiv.onblur = _onblur;
 	Sburb.Stage = document.getElementById("SBURBStage");	
 	Sburb.Stage.scaleX = Sburb.Stage.scaleY = 3;
 	Sburb.Stage.x = Sburb.Stage.y = 0;
@@ -267,6 +268,11 @@ var _onkeyup = function(e){
     if(Sburb.pressed[e.keyCode])
     	Sburb.pressedOrder.destroy(e.keyCode);
 	Sburb.pressed[e.keyCode] = false;
+}
+
+var _onblur = function(e){
+	Sburb.pressed = {};
+	Sburb.pressedOrder = [];
 }
 
 Sburb.onMouseMove = function(e,canvas){
