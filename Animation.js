@@ -225,8 +225,9 @@ Sburb.Animation.prototype.serialize = function(output){
 	{
 		for(var interval in this.frameIntervals)
 		{
-			frameInterval = frameInterval + (firstInterval?"":",") + interval + ":" + this.frameIntervals[interval];
-			firstInterval = false;
+		    if(!this.frameIntervals.hasOwnProperty(interval)) continue;
+		    frameInterval = frameInterval + (firstInterval?"":",") + interval + ":" + this.frameIntervals[interval];
+		    firstInterval = false;
 		}
 	}
 	else if(this.frameInterval !== 1)

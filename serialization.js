@@ -23,10 +23,11 @@ Sburb.serialize = function(sburbInst) {
 	var loadedFiles = "";
 	var loadedFilesExist = false;
 
-	for(var key in Sburb.loadedFiles)
+	for(var key in Sburb.loadedFiles) // Not sburbInst.loadedFiles ?
 	{
-		loadedFiles = loadedFiles + (loadedFilesExist?",":"") + key;
-		loadedFilesExist = true;
+	    if(!Sburb.loadedFiles.hasOwnProperty(key)) continue;
+	    loadedFiles = loadedFiles + (loadedFilesExist?",":"") + key;
+	    loadedFilesExist = true;
 	}
 
 
@@ -110,8 +111,9 @@ Sburb.loadStateFromStorage = function(auto, local)
 
 	var saveStateName = "";
 
-	for(key in storage)
+	for(var key in storage)
 	{
+	    if(!storage.hasOwnProperty(key)) continue;
 		var savedIndex = key.indexOf('_savedState_');
 		if(savedIndex >= 0) // this key is a saved state
 		{
@@ -157,8 +159,9 @@ Sburb.getStateDescription = function(auto, local)
 	if(!storage)
 		return null;
 
-	for(key in storage)
+	for(var key in storage)
 	{
+	    if(!storage.hasOwnProperty(key)) continue;
 		var savedIndex = key.indexOf('_savedState_');
 		if(savedIndex >= 0) // this key is a saved state
 		{
@@ -190,8 +193,9 @@ Sburb.deleteStateFromStorage = function(auto, local)
 		return;
 
 	Sburb.deleteOldVersionStates(local);
-	for(key in storage)
+	for(var key in storage)
 	{
+	    if(!storage.hasOwnProperty(key)) continue;
 		var savedIndex = key.indexOf('_savedState_');
 		if(savedIndex >= 0) // this key is a saved state
 		{
@@ -217,8 +221,9 @@ Sburb.deleteOldVersionStates = function(local)
 	if(!storage)
 		return;
 
-	for(key in storage)
+	for(var key in storage)
 	{
+	    if(!storage.hasOwnProperty(key)) continue;
 		var savedIndex = key.indexOf('_savedState_');
 		if(savedIndex >= 0) // this key is a saved state
 		{
@@ -246,8 +251,9 @@ Sburb.isStateInStorage = function(auto, local)
 	if(!storage)
 		return false;
 
-	for(key in storage)
+	for(var key in storage)
 	{
+	    if(!storage.hasOwnProperty(key)) continue;
 		var savedIndex = key.indexOf('_savedState_');
 		if(savedIndex >= 0) // this key is a saved state
 		{
@@ -273,9 +279,11 @@ function encodeXML(s) {
 function serializeLooseObjects(output,rooms,sprites){
 
 	for(var sprite in sprites){
+	    if(!sprites.hasOwnProperty(sprite)) continue;
 		var theSprite = sprites[sprite];
 		var contained = false;
 		for(var room in rooms){
+	        if(!rooms.hasOwnProperty(room)) continue;
 			if(rooms[room].contains(theSprite)){
 				contained = true;
 				break;
@@ -286,6 +294,7 @@ function serializeLooseObjects(output,rooms,sprites){
 		}
 	}
 	for(var button in Sburb.buttons){
+	    if(!Sburb.buttons.hasOwnProperty(button)) continue;
 		var theButton = Sburb.buttons[button];
 		if(!Sburb.hud[theButton.name]){
 			output = theButton.serialize(output);
@@ -300,6 +309,7 @@ function serializeRooms(output, rooms)
 {
 	output = output.concat("\n<rooms>\n");
 	for(var room in rooms){
+	    if(!rooms.hasOwnProperty(room)) continue;
 		output = rooms[room].serialize(output);
 	}
 	output = output.concat("\n</rooms>\n");
@@ -310,6 +320,7 @@ function serializeGameState(output, gameState)
 {
 	output = output.concat("\n<gameState>\n");
 	for(var key in gameState) {
+	    if(!gameState.hasOwnProperty(key)) continue;
 		output = output.concat("  <"+key+">"+encodeXML(gameState[key])+"</"+key+">");
 	}
 	output = output.concat("\n</gameState>\n");
@@ -321,6 +332,7 @@ function serializeGameState(output, gameState)
 function serializeAssets(output,assets,effects){
 	output = output.concat("\n<assets>");
 	for(var asset in assets){
+	    if(!assets.hasOwnProperty(asset)) continue;
 		var curAsset = assets[asset];
 		var innerHTML = "";
 
@@ -360,6 +372,7 @@ function serializeAssets(output,assets,effects){
 	output = output.concat("\n</assets>\n");
 	output = output.concat("\n<effects>");
 	for(var effect in effects){
+	    if(!effects.hasOwnProperty(effect)) continue;
 		var curEffect = effects[effect];
 		output = curEffect.serialize(output);
 	}
@@ -375,11 +388,13 @@ function serializeTemplates(output,templates){
 		// XMLSerializer exists in current Mozilla browsers
 		serializer = new XMLSerializer();
 		for(var template in templates){
+	        if(!templates.hasOwnProperty(template)) continue;
 			output = output.concat(serializer.serializeToString(templates[template]));
 		}
 	}catch (e) {
 		// Internet Explorer has a different approach to serializing XML
 		for(var template in templates){
+	        if(!templates.hasOwnProperty(template)) continue;
 			output = output.concat(templates[template].xml);
 		}
 	}
@@ -391,12 +406,14 @@ function serializeTemplates(output,templates){
 function serializeHud(output,hud,dialoger){
 	output = output.concat("\n<hud>");
 	for(var content in hud){
+        if(!hud.hasOwnProperty(content)) continue;
 		output = hud[content].serialize(output);
 	}
 	output = Sburb.dialoger.serialize(output);
 	var animations = dialoger.dialogSpriteLeft.animations;
 	output = output.concat("\n<dialogsprites>");
 	for(var animation in animations){
+        if(!animations.hasOwnProperty(animation)) continue;
 		output = animations[animation].serialize(output);
 	}
 	output = output.concat("\n</dialogsprites>");
@@ -681,6 +698,7 @@ function parseTemplateClasses(input){
 
 function applyTemplateClasses(input){
 	for(var className in templateClasses){
+        if(!templateClasses.hasOwnProperty(className)) continue;
 		var templateNode = templateClasses[className];
 	 	var candidates = input.getElementsByTagName(templateNode.nodeName);
 	 	for(var j=0;j<candidates.length;j++){
@@ -819,6 +837,7 @@ function parseState(input){
   		Sburb.curRoom.enter();
   	}else if(Sburb.curRoom==null && Sburb.char!=null){
   		for(var roomName in Sburb.rooms){
+            if(!Sburb.rooms.hasOwnProperty(roomName)) continue;
   			var room = Sburb.rooms[roomName];
   			if(room.contains(Sburb.char)){
   				Sburb.curRoom = room;
