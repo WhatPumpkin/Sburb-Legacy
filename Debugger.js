@@ -22,11 +22,11 @@ Sburb.Debugger = function() {
         "log":       "#AAAAAA",
         "debug":     "#777777",
         // Test messages
-        "success":   "#CC0000",
-        "failure":   "#00CC00",
+        "success":   "#00CC00",
+        "failure":   "#CC0000",
     };
     // Run tests
-    this.tests["Audio Support"] = Modernizr.audio.ogg || Modernizr.audio.mp3;
+    this.tests["Audio Support"] = !!(Modernizr.audio.ogg || Modernizr.audio.mp3);
     this.tests["Save Support"] = Modernizr.sessionstorage;
     this.tests["Better File Loading"] = Modernizr.xhr2 && Modernizr.blob_slice;
     // Replace the console with this
@@ -47,6 +47,8 @@ Sburb.Debugger.prototype.handleInputs = function(pressed) {
         this.tilde = false;
     if(!pressed[Sburb.Keys.space])
         this.space = false;
+    if(pressed[Sburb.Keys.escape])
+        this.open = false;
 }
 
 Sburb.Debugger.prototype.draw = function() {
@@ -97,13 +99,14 @@ Sburb.Debugger.prototype.draw = function() {
         }
         // Add title
         Sburb.stage.fillStyle = "#000000";
-        Sburb.stage.fillRect(200,10,250,50);
+        Sburb.stage.fillRect(200,10,250,65);
         Sburb.stage.textAlign = "center";
         Sburb.stage.fillStyle = "#FFFFFF";
         Sburb.stage.font="bold 28px Verdana";
-        Sburb.stage.fillText("Sburb Debugger",325,36);
+        Sburb.stage.fillText("Sburb Debugger",325,33);
         Sburb.stage.font="14px Verdana";
-        Sburb.stage.fillText("Press SPACE to send bug report",325,54);
+        Sburb.stage.fillText("Press SPACE to send bug report",325,51);
+        Sburb.stage.fillText("Press ~ or ESC to exit",325,67);
         // Add FPS
         Sburb.stage.fillStyle = "#000000";
         Sburb.stage.fillRect(600,425,50,25);
