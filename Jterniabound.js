@@ -19,16 +19,18 @@ if(typeof Array.prototype.remove !== 'function') {
 
 var Sburb = (function(Sburb){
 //650x450 screen
-Sburb.Keys = {backspace:8,tab:9,enter:13,shift:16,ctrl:17,alt:18,escape:27,space:32,left:37,up:38,right:39,down:40,w:87,a:65,s:83,d:68};
+Sburb.Keys = {backspace:8,tab:9,enter:13,shift:16,ctrl:17,alt:18,escape:27,space:32,left:37,up:38,right:39,down:40,w:87,a:65,s:83,d:68,tilde:192};
 
 Sburb.name = 'Jterniabound';
 Sburb.version = '1.0';
 Sburb.Stage = null; //the canvas, we're gonna load it up with a bunch of flash-like game data like fps and scale factors
 Sburb.cam = {x:0,y:0}
+Sburb.crashed = false; // In case of catastrophic failure
 Sburb.stage = null; //its context
 Sburb.gameState = {};
 Sburb.pressed = null; //the pressed keys
 Sburb.pressedOrder = null; //reverse stack of keypress order. Higher index = pushed later
+Sburb.debugger = null;
 Sburb.assetManager = null; //the asset loader
 Sburb.assets = null; //all images, sounds, paths
 Sburb.sprites = null; //all sprites that were Serial loaded
@@ -85,11 +87,13 @@ Sburb.testCompatibility = function(div) {
     deploy += '<p>Maybe try Chrome instead?</p>';
     deploy += '</div>';
     document.getElementById(div).innerHTML = deploy;
-    return false; // Stop initialization
+    Sburb.crashed = true; // Stop initialization
 }
 
 Sburb.initialize = function(div,levelName,includeDevTools){
-    if(!Sburb.testCompatibility(div))
+    Sburb.testCompatibility(div);
+	Sburb.debugger = new Sburb.Debugger(); // Load debugger first!
+    if(Sburb.crashed)
         return; // Hard crash if the browser is too old. testCompatibility() will handle the error message
     
 	var deploy = '   \
@@ -218,6 +222,8 @@ function draw(){
 	
 		Sburb.stage.restore();
 		Sburb.Stage.offset = false;
+		
+	    Sburb.debugger.draw();
 	}
 }
 
@@ -350,6 +356,7 @@ function handleInputs(){
 	}else{
 		Sburb.char.moveNone();
 	}
+	Sburb.debugger.handleInputs(Sburb.pressed);
 }
 
 function handleHud(){
