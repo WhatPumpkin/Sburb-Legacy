@@ -182,7 +182,7 @@ Sburb.loadGenericAsset = function(asset, path, id) {
     
     // Doesn't support happy file loading. Fallback to sad file loading
     if(!Modernizr.xhr2 || !Modernizr.blob_slice) {
-        setTimeout(function() { asset.success(assetPath, id); }, 0); // Async call success so things don't blow up
+        setTimeout(function() { asset.success(assetPath, id, true); }, 0); // Async call success so things don't blow up
         return;
     }
     
@@ -382,7 +382,7 @@ Sburb.createAudioAsset = function(name,sources) {
             return false;
         }
     };
-    ret.success = function(url) {
+    ret.success = function(url,id,notBlob) {
         var tmp = document.createElement("source");
         tmp.src = url;
         ret.appendChild(tmp);
@@ -390,7 +390,9 @@ Sburb.createAudioAsset = function(name,sources) {
         if(!ret.remaining) {
 	        if(window.chrome) ret.load();
             ret.addEventListener('loadeddata', ret.isLoaded, false);
-            Sburb.assetManager.recurrences[name] = setTimeout(ret.checkLoaded, ret.check_interval);
+	        if(!notBlob) {
+                Sburb.assetManager.recurrences[name] = setTimeout(ret.checkLoaded, ret.check_interval);
+            }
         }
     }
     ret.reload = function() {
