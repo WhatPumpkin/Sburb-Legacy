@@ -340,6 +340,7 @@ commands.loadStateFile = function(info){
 //syntax: none
 commands.fadeOut = function(info){
 	Sburb.fading = true;
+	commands.waitFor("noActions");
 }
 
 //go to a room that may not have been loaded yet
@@ -348,8 +349,8 @@ commands.changeRoomRemote = function(info){
 	var params = parseParams(info);
 	var lastAction;
 	var newAction = lastAction = new Sburb.Action("fadeOut");
-	lastAction = lastAction.followUp = new Sburb.Action("loadStateFile",params[0]+","+true);
-	lastAction = lastAction.followUp = new Sburb.Action("changeRoom",params[1]+","+params[2]+","+params[3]);
+	lastAction = lastAction.followUp = new Sburb.Action("loadStateFile",params[0]+","+true); lastAction.noWait = true;
+	lastAction = lastAction.followUp = new Sburb.Action("changeRoom",params[1]+","+params[2]+","+params[3]); lastAction.noWait = true;
 	lastAction.followUp = Sburb.curAction.followUp;
 	Sburb.performAction(newAction);
 }
