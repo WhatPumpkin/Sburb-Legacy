@@ -180,6 +180,7 @@ Sburb.loadGenericAsset = function(asset, path, id) {
     var URL = window.URL || window.webkitURL;  // Take care of vendor prefixes.
     var assetPath = Sburb.assetManager.resolvePath(path);
     if(assetPath in Sburb.assetManager.blobs) {
+        /* WARNING: AutoRevoke will probably break this
         var blob_url = Sburb.assetManager.blobs[assetPath];
         // This may be overkill
         var blob_xhr = new XMLHttpRequest();
@@ -189,6 +190,11 @@ Sburb.loadGenericAsset = function(asset, path, id) {
             setTimeout(function() { asset.success(blob_url, id); }, 0); // Async call success so things don't blow up
             return;
         }
+        */
+        var blob = Sburb.assetManager.blobs[assetPath];
+        var url = URL.createObjectURL(blob);
+        setTimeout(function() { asset.success(url, id); }, 0); // Async call success so things don't blow up
+        return;
     }
     var xhr = new XMLHttpRequest();
     xhr.total = 0;
@@ -230,7 +236,7 @@ Sburb.loadGenericAsset = function(asset, path, id) {
             var type = Sburb.assetManager.mimes[ext];
             var blob = this.response[sliceMethod](0,this.response.size,type); //new Blob([this.response],{type: type});
             var url = URL.createObjectURL(blob); // Apparently we can't do this yet, {"autoRevoke": false}); // Make the blob persist until page unload
-            Sburb.assetManager.blobs[assetPath] = url; // Save for later use
+            Sburb.assetManager.blobs[assetPath] = blob; // Save for later use
             var diff = xhr.total - xhr.loaded;
             xhr.loaded = xhr.total;
             Sburb.assetManager.loadedSize += diff;
