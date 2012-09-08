@@ -19,16 +19,18 @@ if(typeof Array.prototype.remove !== 'function') {
 
 var Sburb = (function(Sburb){
 //650x450 screen
-Sburb.Keys = {backspace:8,tab:9,enter:13,shift:16,ctrl:17,alt:18,escape:27,space:32,left:37,up:38,right:39,down:40,w:87,a:65,s:83,d:68};
+Sburb.Keys = {backspace:8,tab:9,enter:13,shift:16,ctrl:17,alt:18,escape:27,space:32,left:37,up:38,right:39,down:40,w:87,a:65,s:83,d:68,tilde:192};
 
 Sburb.name = 'Jterniabound';
 Sburb.version = '1.0';
 Sburb.Stage = null; //the canvas, we're gonna load it up with a bunch of flash-like game data like fps and scale factors
 Sburb.cam = {x:0,y:0}
+Sburb.crashed = false; // In case of catastrophic failure
 Sburb.stage = null; //its context
 Sburb.gameState = {};
 Sburb.pressed = null; //the pressed keys
 Sburb.pressedOrder = null; //reverse stack of keypress order. Higher index = pushed later
+Sburb.debugger = null;
 Sburb.assetManager = null; //the asset loader
 Sburb.assets = null; //all images, sounds, paths
 Sburb.sprites = null; //all sprites that were Serial loaded
@@ -52,6 +54,7 @@ Sburb.engineMode = "wander";
 Sburb.fading = false;
 Sburb.lastMusicTime = -1;
 Sburb.musicStoppedFor = 0;
+Sburb.loaded = false; // Disable the event handlers until we are ready
 
 Sburb.updateLoop = null; //the main updateLoop, used to interrupt updating
 Sburb.initFinished = null; //only used when _hardcode_load is true
@@ -66,13 +69,13 @@ Sburb.testCompatibility = function(div) {
     Modernizr.addTest('blob_slice',function() { return ("slice" in Blob.prototype || "mozSlice" in Blob.prototype || "webkitSlice" in Blob.prototype); });
     
     // Use Modernizr to test compatibility
-    if(!Modernizr.fontface)                          errors.push("- Lack of CSS @font-face support.");
-    if(!Modernizr.canvas)                            errors.push("- Lack of canvas support.");
-    if(!Modernizr.canvastext)                        errors.push("- Lack of canvas text support.");
-    if(!Modernizr.audio.ogg && !Modernizr.audio.mp3) errors.push("- Lack of audio support.");
-    if(!Modernizr.sessionstorage)                    errors.push("- Lack of session storage support.");
-    if(!Modernizr.xhr2)                              errors.push("- Lack of XHR2 support.");
-    if(!Modernizr.blob_slice)                        errors.push("- Lack of Blob.slice support.");
+    if(!Modernizr.fontface)                                     errors.push("- Lack of CSS @font-face support.");
+    if(!Modernizr.canvas)                                       errors.push("- Lack of canvas support.");
+    if(!Modernizr.canvastext)                                   errors.push("- Lack of canvas text support.");
+    //if(!Modernizr.audio.ogg && !Modernizr.audio.mp3)            errors.push("- Lack of audio support.");
+    //if(!Modernizr.sessionstorage && !Modernizr.localstorage)    errors.push("- Lack of storage support.");
+    //if(!Modernizr.xhr2)                                         errors.push("- Lack of XHR2 support.");
+    //if(!Modernizr.blob_slice)                                   errors.push("- Lack of Blob.slice support.");
     
     if(!errors.length)
         return true; // We're ok!    
@@ -85,11 +88,13 @@ Sburb.testCompatibility = function(div) {
     deploy += '<p>Maybe try Chrome instead?</p>';
     deploy += '</div>';
     document.getElementById(div).innerHTML = deploy;
-    return false; // Stop initialization
+    Sburb.crashed = true; // Stop initialization
 }
 
 Sburb.initialize = function(div,levelName,includeDevTools){
-    if(!Sburb.testCompatibility(div))
+    Sburb.testCompatibility(div);
+	Sburb.debugger = new Sburb.Debugger(); // Load debugger first!
+    if(Sburb.crashed)
         return; // Hard crash if the browser is too old. testCompatibility() will handle the error message
     
 	var deploy = '   \
@@ -164,6 +169,7 @@ function startUpdateProcess(){
 	haltUpdateProcess();
 	Sburb.updateLoop=setInterval(update,1000/Sburb.Stage.fps);
 	Sburb.drawLoop=setInterval(draw,1000/Sburb.Stage.fps);
+	Sburb.loaded = true; // Is this really the best place for this?
 }
 
 function haltUpdateProcess(){
@@ -172,6 +178,7 @@ function haltUpdateProcess(){
 		clearInterval(Sburb.drawLoop);
 		Sburb.updateLoop = Sburb.drawLoop = null;
 	}
+	Sburb.loaded = false; // Is this really the best place for this?
 }
 
 function update(){
@@ -218,10 +225,13 @@ function draw(){
 	
 		Sburb.stage.restore();
 		Sburb.Stage.offset = false;
+		
+	    Sburb.debugger.draw();
 	}
 }
 
 var _onkeydown = function(e){
+    if(!Sburb.loaded) return; // Make sure we are loaded before trying to do things
 	if(Sburb.chooser.choosing){
 		if(e.keyCode == Sburb.Keys.down || e.keyCode==Sburb.Keys.s){
 			Sburb.chooser.nextChoice();
@@ -265,23 +275,27 @@ var _onkeydown = function(e){
 }
 
 var _onkeyup = function(e){
+    if(!Sburb.loaded) return; // Make sure we are loaded before trying to do things
     if(Sburb.pressed[e.keyCode])
     	Sburb.pressedOrder.destroy(e.keyCode);
 	Sburb.pressed[e.keyCode] = false;
 }
 
 var _onblur = function(e){
+    if(!Sburb.loaded) return; // Make sure we are loaded before trying to do things
 	Sburb.pressed = {};
 	Sburb.pressedOrder = [];
 }
 
 Sburb.onMouseMove = function(e,canvas){
+    if(!Sburb.loaded) return; // Make sure we are loaded before trying to do things
 	var point = relMouseCoords(e,canvas);
 	Sburb.Mouse.x = point.x;
 	Sburb.Mouse.y = point.y;
 }
 
 Sburb.onMouseDown = function(e,canvas){
+    if(!Sburb.loaded) return; // Make sure we are loaded before trying to do things
 	if(Sburb.engineMode=="strife" && hasControl()){
 		Sburb.chooser.choices = Sburb.curRoom.queryActionsVisual(Sburb.char,Sburb.Stage.x+Sburb.Mouse.x,Sburb.Stage.y+Sburb.Mouse.y);
 		if(Sburb.chooser.choices.length>0){
@@ -294,6 +308,7 @@ Sburb.onMouseDown = function(e,canvas){
 }
 
 Sburb.onMouseUp = function(e,canvas){
+    if(!Sburb.loaded) return; // Make sure we are loaded before trying to do things
 	Sburb.Mouse.down = false;
 	if(Sburb.dialoger && Sburb.dialoger.box && Sburb.dialoger.box.isVisuallyUnder(Sburb.Mouse.x,Sburb.Mouse.y)){
 		Sburb.dialoger.nudge();
@@ -350,6 +365,7 @@ function handleInputs(){
 	}else{
 		Sburb.char.moveNone();
 	}
+	Sburb.debugger.handleInputs(Sburb.pressed);
 }
 
 function handleHud(){
