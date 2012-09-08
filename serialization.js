@@ -69,13 +69,16 @@ Sburb.saveStateToStorage = function(description, auto, local)
 	auto = typeof auto !== 'undefined' ? auto : false;
 	local = typeof local !== 'undefined' ? local : false;
 
-	var storage = local ? localStorage : sessionStorage;
-
-	if(!storage)
-	{
-		return false;
-	}
-
+    var storage;
+    if(Modernizr.sessionstorage && Modernizr.localstorage) {
+        storage = local ? localStorage : sessionStorage;
+    } else if(Modernizr.localstorage) {
+        storage = localStorage;
+    } else if(Modernizr.sessionstorage) {
+        storage = sessionStorage;
+    } else {
+        return false;
+    }
 
 	var serialized = Sburb.serialize(Sburb);
 	compressed = base32k.encodeBytes(serialized);
@@ -103,11 +106,16 @@ Sburb.loadStateFromStorage = function(auto, local)
 	auto = typeof auto !== 'undefined' ? auto : false;
 	local = typeof local !== 'undefined' ? local : false;
 
-	var storage = local ? localStorage : sessionStorage;
-
-	if(!storage)
-		return false;
-
+    var storage;
+    if(Modernizr.sessionstorage && Modernizr.localstorage) {
+        storage = local ? localStorage : sessionStorage;
+    } else if(Modernizr.localstorage) {
+        storage = localStorage;
+    } else if(Modernizr.sessionstorage) {
+        storage = sessionStorage;
+    } else {
+        return false;
+    }
 
 	var saveStateName = "";
 
@@ -154,10 +162,16 @@ Sburb.getStateDescription = function(auto, local)
 	auto = typeof auto !== 'undefined' ? auto : false;
 	local = typeof local !== 'undefined' ? local : false;
 
-	var storage = local ? localStorage : sessionStorage;
-
-	if(!storage)
-		return null;
+    var storage;
+    if(Modernizr.sessionstorage && Modernizr.localstorage) {
+        storage = local ? localStorage : sessionStorage;
+    } else if(Modernizr.localstorage) {
+        storage = localStorage;
+    } else if(Modernizr.sessionstorage) {
+        storage = sessionStorage;
+    } else {
+        return null;
+    }
 
 	for(var key in storage)
 	{
@@ -187,10 +201,16 @@ Sburb.deleteStateFromStorage = function(auto, local)
 	auto = typeof auto !== 'undefined' ? auto : false;
 	local = typeof local !== 'undefined' ? local : false;
 
-	var storage = local ? localStorage : sessionStorage;
-
-	if(!storage)
-		return;
+    var storage;
+    if(Modernizr.sessionstorage && Modernizr.localstorage) {
+        storage = local ? localStorage : sessionStorage;
+    } else if(Modernizr.localstorage) {
+        storage = localStorage;
+    } else if(Modernizr.sessionstorage) {
+        storage = sessionStorage;
+    } else {
+        return;
+    }
 
 	Sburb.deleteOldVersionStates(local);
 	for(var key in storage)
@@ -216,10 +236,17 @@ Sburb.deleteStateFromStorage = function(auto, local)
 Sburb.deleteOldVersionStates = function(local)
 {
 	local = typeof local !== 'undefined' ? local : false;
-	var storage = local ? localStorage : sessionStorage;
 
-	if(!storage)
-		return;
+    var storage;
+    if(Modernizr.sessionstorage && Modernizr.localstorage) {
+        storage = local ? localStorage : sessionStorage;
+    } else if(Modernizr.localstorage) {
+        storage = localStorage;
+    } else if(Modernizr.sessionstorage) {
+        storage = sessionStorage;
+    } else {
+        return;
+    }
 
 	for(var key in storage)
 	{
@@ -246,10 +273,17 @@ Sburb.isStateInStorage = function(auto, local)
 {
 	auto = typeof auto !== 'undefined' ? auto : false;
 	local = typeof local !== 'undefined' ? local : false;
-	var storage = local ? localStorage : sessionStorage;
 
-	if(!storage)
-		return false;
+    var storage;
+    if(Modernizr.sessionstorage && Modernizr.localstorage) {
+        storage = local ? localStorage : sessionStorage;
+    } else if(Modernizr.localstorage) {
+        storage = localStorage;
+    } else if(Modernizr.sessionstorage) {
+        storage = sessionStorage;
+    } else {
+        return false;
+    }
 
 	for(var key in storage)
 	{
