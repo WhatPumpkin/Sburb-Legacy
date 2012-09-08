@@ -3,7 +3,7 @@ rm -r output
 mkdir output
 cd input
 FILES=*
-size=1000
+size=500
 
 for file in $FILES 
 do

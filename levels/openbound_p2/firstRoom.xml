@@ -1,0 +1,67 @@
+<sburb description="first room">
+
+<dependencies>
+	<dependency>meenah.xml</dependency>
+</dependencies>
+
+<assets>
+  <asset name='firstRoomBG_0_0' type='graphic'>backgrounds/slices/firstRoomBG_0_0.png</asset>
+	<asset name='firstRoomBG_0_1' type='graphic'>backgrounds/slices/firstRoomBG_0_1.png</asset>
+	<asset name='firstRoomBG_0_2' type='graphic'>backgrounds/slices/firstRoomBG_0_2.png</asset>
+	<asset name='firstRoomBG_0_3' type='graphic'>backgrounds/slices/firstRoomBG_0_3.png</asset>
+	<asset name='firstRoomBG_0_4' type='graphic'>backgrounds/slices/firstRoomBG_0_4.png</asset>
+	<asset name='firstRoomBG_0_5' type='graphic'>backgrounds/slices/firstRoomBG_0_5.png</asset>
+	<asset name='firstRoomBG_0_6' type='graphic'>backgrounds/slices/firstRoomBG_0_6.png</asset>
+	<asset name='firstRoomBG_1_0' type='graphic'>backgrounds/slices/firstRoomBG_1_0.png</asset>
+	<asset name='firstRoomBG_1_1' type='graphic'>backgrounds/slices/firstRoomBG_1_1.png</asset>
+	<asset name='firstRoomBG_1_2' type='graphic'>backgrounds/slices/firstRoomBG_1_2.png</asset>
+	<asset name='firstRoomBG_1_3' type='graphic'>backgrounds/slices/firstRoomBG_1_3.png</asset>
+	<asset name='firstRoomBG_1_4' type='graphic'>backgrounds/slices/firstRoomBG_1_4.png</asset>
+	<asset name='firstRoomBG_1_5' type='graphic'>backgrounds/slices/firstRoomBG_1_5.png</asset>
+	<asset name='firstRoomBG_1_6' type='graphic'>backgrounds/slices/firstRoomBG_1_6.png</asset>
+	
+	<asset name='firstRoomFG_0_0' type='graphic'>backgrounds/slices/firstRoomFG_0_0.png</asset>
+	<asset name='firstRoomFG_0_1' type='graphic'>backgrounds/slices/firstRoomFG_0_1.png</asset>
+	<asset name='firstRoomFG_0_2' type='graphic'>backgrounds/slices/firstRoomFG_0_2.png</asset>
+	<asset name='firstRoomFG_0_3' type='graphic'>backgrounds/slices/firstRoomFG_0_3.png</asset>
+	<asset name='firstRoomFG_0_5' type='graphic'>backgrounds/slices/firstRoomFG_0_5.png</asset>
+	<asset name='firstRoomFG_1_0' type='graphic'>backgrounds/slices/firstRoomFG_1_0.png</asset>
+	<asset name='firstRoomFG_1_1' type='graphic'>backgrounds/slices/firstRoomFG_1_1.png</asset>
+	<asset name='firstRoomFG_1_2' type='graphic'>backgrounds/slices/firstRoomFG_1_2.png</asset>
+	<asset name='firstRoomFG_1_5' type='graphic'>backgrounds/slices/firstRoomFG_1_5.png</asset>
+	
+	<asset name='firstRoomBG' type='graphic'>backgrounds/firstRoomMap.png</asset>
+</assets>
+
+
+<rooms>
+  <room name='firstRoom' width='4800' height='3872' walkableMap='firstRoomMap' mapScale='2'>
+  	<sprite class='meenah'/>
+  
+		<sprite name='firstRoomBG_0_0' x='0' y='0'><animation sheet='firstRoomBG_0_0' /></sprite>
+		<sprite name='firstRoomBG_0_1' x='500' y='0'><animation sheet='firstRoomBG_0_1' /></sprite>
+		<sprite name='firstRoomBG_0_2' x='1000' y='0'><animation sheet='firstRoomBG_0_2' /></sprite>
+		<sprite name='firstRoomBG_0_3' x='1500' y='0'><animation sheet='firstRoomBG_0_3' /></sprite>
+		<sprite name='firstRoomBG_0_4' x='2000' y='0'><animation sheet='firstRoomBG_0_4' /></sprite>
+		<sprite name='firstRoomBG_0_5' x='2500' y='0'><animation sheet='firstRoomBG_0_5' /></sprite>
+		<sprite name='firstRoomBG_0_6' x='3000' y='0'><animation sheet='firstRoomBG_0_6' /></sprite>
+		<sprite name='firstRoomBG_1_0' x='0' y='500'><animation sheet='firstRoomBG_1_0' /></sprite>
+		<sprite name='firstRoomBG_1_1' x='500' y='500'><animation sheet='firstRoomBG_1_1' /></sprite>
+		<sprite name='firstRoomBG_1_2' x='1000' y='500'><animation sheet='firstRoomBG_1_2' /></sprite>
+		<sprite name='firstRoomBG_1_3' x='1500' y='500'><animation sheet='firstRoomBG_1_3' /></sprite>
+		<sprite name='firstRoomBG_1_4' x='2000' y='500'><animation sheet='firstRoomBG_1_4' /></sprite>
+		<sprite name='firstRoomBG_1_5' x='2500' y='500'><animation sheet='firstRoomBG_1_5' /></sprite>
+		<sprite name='firstRoomBG_1_6' x='3000' y='500'><animation sheet='firstRoomBG_1_6' /></sprite>
+		<sprite name='firstRoomFG_0_0' x='0' y='0'><animation sheet='firstRoomFG_0_0' /></sprite>
+		
+		<sprite depthing='2' name='firstRoomFG_0_1' x='500' y='0'><animation sheet='firstRoomFG_0_1' /></sprite>
+		<sprite depthing='2' name='firstRoomFG_0_2' x='1000' y='0'><animation sheet='firstRoomFG_0_2' /></sprite>
+		<sprite depthing='2' name='firstRoomFG_0_3' x='1500' y='0'><animation sheet='firstRoomFG_0_3' /></sprite>
+		<sprite depthing='2' name='firstRoomFG_0_5' x='2500' y='0'><animation sheet='firstRoomFG_0_5' /></sprite>
+		<sprite depthing='2' name='firstRoomFG_1_0' x='0' y='500'><animation sheet='firstRoomFG_1_0' /></sprite>
+		<sprite depthing='2' name='firstRoomFG_1_1' x='500' y='500'><animation sheet='firstRoomFG_1_1' /></sprite>
+		<sprite depthing='2' name='firstRoomFG_1_2' x='1000' y='500'><animation sheet='firstRoomFG_1_2' /></sprite>
+		<sprite depthing='2' name='firstRoomFG_1_5' x='2500' y='500'><animation sheet='firstRoomFG_1_5' /></sprite>
+  </room> 
+</rooms>
+</sburb>

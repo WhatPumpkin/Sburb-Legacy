@@ -1,0 +1,58 @@
+<sburb description='meenah'>
+
+<classes>
+	<animation class='meenahDialog' frameInterval='6' x='-180' y='-524'/>
+	
+	<character class='meenah' name='meenah' x='1490' y='630' sx='-50' sy='-110' sWidth='100' sHeight='130' width='30' height='15' sheet='meenahSheet' state='walkFront' facing='Front'>
+	</character>
+</classes>
+
+<assets>
+
+	<asset name='meenahSheet' type='graphic'>chars/meenah.png</asset>
+
+	<asset name='fusciaRuler' type='audio'>audio/music/FuschiaRulerQuiet.oga;audio/music/FuschiaRulerQuiet.mp3</asset>
+
+	<asset name='meenah_idle' type='graphic'>dialogs/meenah_idle.png</asset>
+	<asset name='meenah_talk' type='graphic'>dialogs/meenah_talk.png</asset>
+	<asset name='meenah_angry' type='graphic'>dialogs/meenah_angry.png</asset>
+	<asset name='meenah_angrytalk' type='graphic'>dialogs/meenah_angrytalk.png</asset>
+	<asset name='meenah_annoyed' type='graphic'>dialogs/meenah_annoyed.png</asset>
+	<asset name='meenah_annoyedtalk' type='graphic'>dialogs/meenah_annoyedtalk.png</asset>
+	<asset name='meenah_creepy' type='graphic'>dialogs/meenah_creepy.png</asset>
+	<asset name='meenah_creepytalk' type='graphic'>dialogs/meenah_creepytalk.png</asset>
+	<asset name='meenah_creepylaugh' type='graphic'>dialogs/meenah_creepylaugh.png</asset>
+	<asset name='meenah_fish' type='graphic'>dialogs/meenah_fish.png</asset>
+	<asset name='meenah_fishtalk' type='graphic'>dialogs/meenah_fishtalk.png</asset>
+	<asset name='meenah_happy' type='graphic'>dialogs/meenah_happy.png</asset>
+	<asset name='meenah_happytalk' type='graphic'>dialogs/meenah_happytalk.png</asset>
+	<asset name='meenah_happier' type='graphic'>dialogs/meenah_happier.png</asset>
+	<asset name='meenah_ohyes' type='graphic'>dialogs/meenah_ohyes.png</asset>
+	<asset name='meenah_wink' type='graphic'>dialogs/meenah_wink.png</asset>
+	<asset name='meenah_wut' type='graphic'>dialogs/meenah_wut.png</asset>
+	<asset name='meenah_wut2' type='graphic'>dialogs/meenah_wut2.png</asset>
+</assets>
+
+<hud>
+	<dialogsprites>	
+  		<animation name='meenah_idle' class='meenahDialog' sheet='meenah_idle'/>
+  		<animation name='meenah_talk' class='meenahDialog' sheet='meenah_talk' length='2'/>
+  		<animation name='meenah_angry' class='meenahDialog' sheet='meenah_angry'/>
+  		<animation name='meenah_angrytalk' class='meenahDialog' sheet='meenah_angrytalk' length='2'/>
+  		<animation name='meenah_annoyed' class='meenahDialog' sheet='meenah_annoyed'/>
+  		<animation name='meenah_annoyedtalk' class='meenahDialog' sheet='meenah_annoyedtalk' length='2'/>
+  		<animation name='meenah_creepy' class='meenahDialog' sheet='meenah_creepy'/>
+  		<animation name='meenah_creepytalk' class='meenahDialog' sheet='meenah_creepytalk' length='2'/>
+  		<animation name='meenah_creepylaugh' class='meenahDialog' sheet='meenah_creepylaugh' length='2'/>
+  		<animation name='meenah_fish' class='meenahDialog' sheet='meenah_fish'/>
+  		<animation name='meenah_fishtalk' class='meenahDialog' sheet='meenah_fishtalk' length='2'/>
+  		<animation name='meenah_happy' class='meenahDialog' sheet='meenah_happy'/>
+  		<animation name='meenah_happytalk' class='meenahDialog' sheet='meenah_happytalk' length='2'/>
+  		<animation name='meenah_happier' class='meenahDialog' sheet='meenah_happier'/>
+  		<animation name='meenah_ohyes' class='meenahDialog' sheet='meenah_ohyes'/>
+  		<animation name='meenah_wink' class='meenahDialog' sheet='meenah_wink' length='2'/>
+  		<animation name='meenah_wut' class='meenahDialog' sheet='meenah_wut'/>
+  		<animation name='meenah_wut2' class='meenahDialog' sheet='meenah_wut2'/>
+  </dialogsprites>
+</hud>
+</sburb>

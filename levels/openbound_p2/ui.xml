@@ -1,0 +1,77 @@
+<sburb description='ui configuration'>
+<assets>
+  <asset name='SburbFont' type='font'>
+  	local:Courier New Bold, 
+  	local:Courier New, 
+  	url:fonts/cour.woff, 
+  	url:fonts/cour.ttf, 
+  	weight:bold
+  </asset>
+  
+  <asset name='preloaderBG' type='graphic'>backgrounds/load.png</asset>
+	<asset name='volumeControl' type='graphic'>interface/volumeControl.png</asset>
+	<asset name='saveControl' type='graphic'>interface/captcha.png</asset>
+	<asset name='helpControl' type='graphic'>interface/helpControl.png</asset>
+
+  <asset name='dialogBox' type='graphic'>interface/dialogBoxBig.png</asset>
+  <asset name='alttextbox_twitter' type='graphic'>interface/alttextbox_twitter.png</asset>
+  <asset name='hashTagBarSheet' type='graphic'>interface/hashtagbar.png</asset>
+  <asset name='heartButtonSheet' type='graphic'>interface/icons_heart.png</asset>
+  <asset name='spadeButtonSheet' type='graphic'>interface/icons_spade.png</asset>
+  <asset name='bubbleButtonSheet' type='graphic'>interface/icons_bub.png</asset>
+  <asset name='closeButtonSheet' type='graphic'>interface/closeconversation.png</asset>
+  
+  <asset name='closeSound' type='audio'>audio/sfx/Close1.oga;audio/sfx/Close1.mp3</asset>
+  <asset name='grindSound' type='audio'>audio/sfx/Grind.oga;audio/sfx/Grind.mp3</asset>
+  <asset name='hitPowerfulSound' type='audio'>audio/sfx/HitPowerful.oga;audio/sfx/HitPowerful.mp3</asset>
+  <asset name='hitWeakSound' type='audio'>audio/sfx/HitWeak.oga;audio/sfx/HitWeak.mp3</asset>
+  <asset name='itemGetSound' type='audio'>audio/sfx/ItemGetNoVoice.oga;audio/sfx/ItemGetNoVoice.mp3</asset>
+  <asset name='itemGetVoiceSound' type='audio'>audio/sfx/ItemGetVoice.oga;audio/sfx/ItemGetVoice.mp3</asset>
+  <asset name='openSound' type='audio'>audio/sfx/Open1.oga;audio/sfx/Open1.mp3</asset>
+  <asset name='openSound2' type='audio'>audio/sfx/Open2.oga;audio/sfx/Open2.mp3</asset>
+  <asset name='stairSound' type='audio'>audio/sfx/Staircase.oga;audio/sfx/Staircase.mp3</asset>
+</assets>
+
+<hud>
+  	<spritebutton name='volumeButton' x='9' y='9' width='54' height='36' sheet='volumeControl'>
+  		<action command='toggleVolume' silent='true'></action>
+  	</spritebutton>
+  	<spritebutton name='helpButton' x='591' y='9' width='54' height='63' sheet='helpControl'>
+  		<action command='talk' soft='true'>
+  			<args>@! Use the arrow keys or WASD to move, and space to interact.</args>
+  		</action>
+  	</spritebutton>
+  	<spritebutton name='saveButton' x='595' y='390' sheet='saveControl'>
+  		<action command='saveOrLoad' soft='true'>
+  			<args></args>
+  		</action>
+  	</spritebutton>
+  	
+  	
+	<dialoger alertPos="56,120" talkPosRight="20,120" talkPosLeft="90,120" hiddenPos="-1000,120"
+		spriteStartLeft="-300,450" spriteEndLeft="100,450" spriteStartRight="950,450" spriteEndRight="550,450"
+		alertTextDimensions="30,30,450,220" leftTextDimensions="150,30,350,220" rightTextDimensions="30,30,350,220"
+		box="dialogBox" type="social">
+	</dialoger>
+</hud>
+
+<sprite name='hashTagBar'>
+	<animation sheet='hashTagBarSheet'/>
+</sprite>
+
+<spritebutton name='spadeButton' x='440' y='300' width='30' height='26' sheet='spadeButtonSheet'>
+	<action command='setButtonState' silent='true'>heartButton,0</action>
+</spritebutton>
+
+<spritebutton name='heartButton' x='480' y='300' width='30' height='26' sheet='heartButtonSheet'>
+	<action command='setButtonState' silent='true'>spadeButton,0</action>
+</spritebutton>
+
+<spritebutton name='closeButton' x='220' y='60' width='203' height='37' sheet='closeButtonSheet'>
+	<action command='skipDialog' silent='true'> </action>
+</spritebutton>
+
+<spritebutton name='bubbleButton' x='510' y='300' width='30' height='26' sheet='bubbleButtonSheet'>
+	<action class='rebubble' />
+</spritebutton>
+</sburb>
