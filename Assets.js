@@ -179,6 +179,14 @@ Sburb.AssetManager.prototype.assetFailed = function(name) {
 Sburb.loadGenericAsset = function(asset, path, id) {
     var URL = window.URL || window.webkitURL;  // Take care of vendor prefixes.
     var assetPath = Sburb.assetManager.resolvePath(path);
+    
+    // Doesn't support happy file loading. Fallback to sad file loading
+    if(!Modernizr.xhr2 || !Modernizr.blob_slice) {
+        setTimeout(function() { asset.success(assetPath, id); }, 0); // Async call success so things don't blow up
+        return;
+    }
+    
+    // We've loaded this before, don't bother loading it again
     if(assetPath in Sburb.assetManager.blobs) {
         /* WARNING: AutoRevoke will probably break this
         var blob_url = Sburb.assetManager.blobs[assetPath];
