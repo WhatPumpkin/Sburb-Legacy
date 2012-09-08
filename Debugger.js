@@ -30,8 +30,8 @@ Sburb.Debugger = function() {
     this.tests["Save Support"] = Modernizr.sessionstorage;
     this.tests["Better File Loading"] = Modernizr.xhr2 && Modernizr.blob_slice;
     // Replace the console with this
-    var that = this;
-    window.__defineGetter__('console',function() { return that; });
+    //var that = this;
+    //window.__defineGetter__('console',function() { return that; });
 }
 
 Sburb.Debugger.prototype.handleInputs = function(pressed) {
