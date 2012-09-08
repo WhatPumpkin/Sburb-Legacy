@@ -543,7 +543,8 @@ function loadSerial(serialText, keepOld) {
 	var levelPath = rootAttr.getNamedItem("levelPath");
 
     if(levelPath){
-    	Sburb.assetManager.levelPath = levelPath.value+"/";
+    	Sburb.assetManager.levelPath = levelPath.value.charAt(levelPath.value.length-1)=="/" ?
+    		levelPath.value : levelPath.value+"/";
     }
     
     var resourcePath = rootAttr.getNamedItem("resourcePath");
