@@ -39,6 +39,7 @@ commands.randomTalk = function(info){
 commands.changeRoom = function(info){
 	var params = parseParams(info);
 	Sburb.changeRoom(Sburb.rooms[params[0]],parseInt(params[1]),parseInt(params[2]));
+    Sburb.loadingRoom = false; // We did it!
 }
 
 //Change the focus of the camera
@@ -340,17 +341,17 @@ commands.loadStateFile = function(info){
 //syntax: none
 commands.fadeOut = function(info){
 	Sburb.fading = true;
-	commands.waitFor("noActions");
 }
 
 //go to a room that may not have been loaded yet
 //syntax: filepath, roomName, newCharacterX, newCharacterY
 commands.changeRoomRemote = function(info){
+    if(Sburb.loadingRoom) return; Sburb.loadingRoom = true; //Only load one room at a time
 	var params = parseParams(info);
 	var lastAction;
 	var newAction = lastAction = new Sburb.Action("fadeOut");
-	lastAction = lastAction.followUp = new Sburb.Action("loadStateFile",params[0]+","+true); lastAction.noWait = true;
-	lastAction = lastAction.followUp = new Sburb.Action("changeRoom",params[1]+","+params[2]+","+params[3]); lastAction.noWait = true;
+	lastAction = lastAction.followUp = new Sburb.Action("loadStateFile",params[0]+","+true);
+	lastAction = lastAction.followUp = new Sburb.Action("changeRoom",params[1]+","+params[2]+","+params[3]);
 	lastAction.followUp = Sburb.curAction.followUp;
 	Sburb.performAction(newAction);
 }
@@ -358,6 +359,7 @@ commands.changeRoomRemote = function(info){
 //Teleport to a room which may not have been loaded yet
 //syntax: filepath, roomName, newCharacterX, newCharacterY
 commands.teleportRemote = function(info){
+    if(Sburb.loadingRoom) return; Sburb.loadingRoom = true; //Only load one room at a time
 	commands.changeRoomRemote(info);
 	
 	Sburb.playEffect(Sburb.effects["teleportEffect"],Sburb.char.x,Sburb.char.y);
