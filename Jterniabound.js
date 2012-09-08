@@ -120,17 +120,6 @@ Sburb.initialize = function(div,levelName,includeDevTools){
 		</br>';
 	if(includeDevTools){
 		Sburb._include_dev = true;
-		deploy+='\
-		<div> \
-			<button id="saveState" onclick="Sburb.serialize(Sburb)">save state</button>\
-			<button id="loadState" onclick="Sburb.loadSerial(document.getElementById(\'serialText\').value)">load state</button>\
-			<input type="file" name="level" id="levelFile" />\
-			<button id="loadLevelFile" onclick="Sburb.loadLevelFile(document.getElementById(\'levelFile\'))">load level</button>\
-			<button id="strifeTest" onclick="Sburb.loadSerialFromXML(\'levels/strifeTest.xml\')">strife test</button>\
-			<button id="wanderTest" onclick="Sburb.loadSerialFromXML(\'levels/wanderTest.xml\')">wander test</button>\
-			</br>\
-			<textarea id="serialText" style="display:inline; width:650px; height:100px;"></textarea><br/>\
-		</div>';
 	}
 	deploy+='</div>';
 	document.getElementById(div).innerHTML = deploy;
