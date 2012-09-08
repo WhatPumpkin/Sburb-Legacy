@@ -218,6 +218,7 @@ Sburb.loadGenericAsset = function(asset, path, id) {
             var diff = e.loaded - xhr.loaded;
             xhr.loaded = e.loaded;
             Sburb.assetManager.loadedSize += diff;
+            Sburb.assetManager.draw();
         } else {
             console.log("ERROR: Length not computable for " + path);
         }

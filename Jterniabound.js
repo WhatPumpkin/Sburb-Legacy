@@ -54,7 +54,7 @@ Sburb.engineMode = "wander";
 Sburb.fading = false;
 Sburb.lastMusicTime = -1;
 Sburb.musicStoppedFor = 0;
-Sburb.loaded = false; // Disable the event handlers until we are ready
+Sburb.loadingRoom = false; // Only load one room at a time
 
 Sburb.updateLoop = null; //the main updateLoop, used to interrupt updating
 Sburb.initFinished = null; //only used when _hardcode_load is true
@@ -169,7 +169,6 @@ function startUpdateProcess(){
 	haltUpdateProcess();
 	Sburb.updateLoop=setInterval(update,1000/Sburb.Stage.fps);
 	Sburb.drawLoop=setInterval(draw,1000/Sburb.Stage.fps);
-	Sburb.loaded = true; // Is this really the best place for this?
 }
 
 function haltUpdateProcess(){
@@ -178,7 +177,6 @@ function haltUpdateProcess(){
 		clearInterval(Sburb.drawLoop);
 		Sburb.updateLoop = Sburb.drawLoop = null;
 	}
-	Sburb.loaded = false; // Is this really the best place for this?
 }
 
 function update(){
@@ -187,7 +185,8 @@ function update(){
 	handleInputs();
 	handleHud();
 	
-	Sburb.curRoom.update();
+	if(!Sburb.loadingRoom)
+	    Sburb.curRoom.update();
 	
 	focusCamera();
 	handleRoomChange();
@@ -231,7 +230,7 @@ function draw(){
 }
 
 var _onkeydown = function(e){
-    if(!Sburb.loaded) return; // Make sure we are loaded before trying to do things
+    if(!Sburb.updateLoop) return; // Make sure we are loaded before trying to do things
 	if(Sburb.chooser.choosing){
 		if(e.keyCode == Sburb.Keys.down || e.keyCode==Sburb.Keys.s){
 			Sburb.chooser.nextChoice();
@@ -275,27 +274,27 @@ var _onkeydown = function(e){
 }
 
 var _onkeyup = function(e){
-    if(!Sburb.loaded) return; // Make sure we are loaded before trying to do things
+    if(!Sburb.updateLoop) return; // Make sure we are loaded before trying to do things
     if(Sburb.pressed[e.keyCode])
     	Sburb.pressedOrder.destroy(e.keyCode);
 	Sburb.pressed[e.keyCode] = false;
 }
 
 var _onblur = function(e){
-    if(!Sburb.loaded) return; // Make sure we are loaded before trying to do things
+    if(!Sburb.updateLoop) return; // Make sure we are loaded before trying to do things
 	Sburb.pressed = {};
 	Sburb.pressedOrder = [];
 }
 
 Sburb.onMouseMove = function(e,canvas){
-    if(!Sburb.loaded) return; // Make sure we are loaded before trying to do things
+    if(!Sburb.updateLoop) return; // Make sure we are loaded before trying to do things
 	var point = relMouseCoords(e,canvas);
 	Sburb.Mouse.x = point.x;
 	Sburb.Mouse.y = point.y;
 }
 
 Sburb.onMouseDown = function(e,canvas){
-    if(!Sburb.loaded) return; // Make sure we are loaded before trying to do things
+    if(!Sburb.updateLoop) return; // Make sure we are loaded before trying to do things
 	if(Sburb.engineMode=="strife" && hasControl()){
 		Sburb.chooser.choices = Sburb.curRoom.queryActionsVisual(Sburb.char,Sburb.Stage.x+Sburb.Mouse.x,Sburb.Stage.y+Sburb.Mouse.y);
 		if(Sburb.chooser.choices.length>0){
@@ -308,7 +307,7 @@ Sburb.onMouseDown = function(e,canvas){
 }
 
 Sburb.onMouseUp = function(e,canvas){
-    if(!Sburb.loaded) return; // Make sure we are loaded before trying to do things
+    if(!Sburb.updateLoop) return; // Make sure we are loaded before trying to do things
 	Sburb.Mouse.down = false;
 	if(Sburb.dialoger && Sburb.dialoger.box && Sburb.dialoger.box.isVisuallyUnder(Sburb.Mouse.x,Sburb.Mouse.y)){
 		Sburb.dialoger.nudge();
