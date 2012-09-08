@@ -20,10 +20,10 @@ Sburb.Room = function(name,width,height){
 	this.motionPaths = [];
 	this.triggers = [];
 	this.walkableMap = null;
+	this.mapScale = 4;
 }
 
 Sburb.Room.prototype.mapData = null;
-Sburb.Room.prototype.mapScale = 4;
 Sburb.Room.prototype.blockSize = 500;
 
 //add an Effect to the room
@@ -294,6 +294,7 @@ Sburb.Room.prototype.serialize = function(output){
 	"' width='"+this.width+
 	"' height='"+this.height+
 	(this.walkableMap?("' walkableMap='"+this.walkableMap.name):"")+
+	(this.mapScale!=4?("' mapScale='"+this.mapScale):"")+
 	"' >");
 	output = output.concat("\n<paths>");
 	for(var i=0;i<this.walkables.length;i++){
@@ -342,6 +343,10 @@ Sburb.parseRoom = function(roomNode, assetFolder, spriteFolder) {
   	var walkableMap = attributes.getNamedItem("walkableMap");
   	if(walkableMap){
   		newRoom.walkableMap = assetFolder[walkableMap.value];
+  	}
+  	var mapScale = attributes.getNamedItem("mapScale");
+  	if(mapScale){
+  		newRoom.mapScale = parseInt(mapScale.value);
   	}
   	Sburb.serialLoadRoomSprites(newRoom,roomNode.getElementsByTagName("sprite"), spriteFolder);
   	Sburb.serialLoadRoomSprites(newRoom,roomNode.getElementsByTagName("character"), spriteFolder);
