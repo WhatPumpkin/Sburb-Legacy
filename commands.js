@@ -445,7 +445,8 @@ commands.saveOrLoad = function(info){
 	if(Sburb.isStateInStorage(true,local)){
 		actions.push(new Sburb.Action("load","true, "+local,"Load "+Sburb.getStateDescription(true)));
 	}
-	actions.push(new Sburb.Action("save","false,"+local,"Save"));
+	if(Modernizr.sessionstorage || Modernizr.localstorage)
+	    actions.push(new Sburb.Action("save","false,"+local,"Save"));
 	actions.push(new Sburb.Action("cancel",null,"Cancel"));
 	Sburb.chooser.choices = actions;
 	Sburb.chooser.beginChoosing(Sburb.Stage.x+20,Sburb.Stage.y+50);
