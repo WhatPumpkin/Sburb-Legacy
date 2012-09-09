@@ -12,6 +12,7 @@ Sburb.AssetManager = function() {
     // Asset tracking
     this.totalAssets = 0; // Used in calculation of "Are we done yet?"
     this.totalLoaded = 0; // Used in calculation of "Are we done yet?"
+    this.totalMeta = 0; // Used in calculation of "Are we done yet?"
     this.totalSize = 0;   // Used in progress bar
     this.loadedSize = 0;  // Used in progress bar
     this.assets = {};
@@ -70,8 +71,10 @@ Sburb.AssetManager.prototype.draw = function(){
     Sburb.stage.textAlign = "center";
   //Sburb.stage.fillText("Loading "+this.description,Stage.width/2,Stage.height-80);
   var percent = 0;
-  if(this.totalSize){
+  if(this.totalSize && this.totalMeta >= this.totalAssets){
       percent =Math.floor((this.loadedSize/this.totalSize)*100);
+  } else {
+      percent = Math.floor((this.totalLoaded/this.totalAssets)*100);
   }
   Sburb.stage.fillText(percent+"%",Sburb.Stage.width/2,Sburb.Stage.height-50);
   if(this.error.length) {
@@ -111,6 +114,7 @@ Sburb.AssetManager.prototype.purge = function() {
     }
     this.totalLoaded = 0;
     this.totalAssets = 0;
+    this.totalMeta = 0;
     this.totalSize = 0;
     this.loadedSize = 0;
     this.assets = {}
@@ -212,6 +216,7 @@ Sburb.loadGenericAsset = function(asset, path, id) {
     xhr.onprogress = function(e) {
         if(e.lengthComputable) {
             if(!xhr.total) {
+                Sburb.assetManager.totalMeta++;
                 Sburb.assetManager.totalSize += e.total;
                 xhr.total = e.total;
             }
