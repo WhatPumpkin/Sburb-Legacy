@@ -79,6 +79,12 @@
 
 <rooms>
   <room name='firstRoom' width='6050' height='1134' walkableMap='firstRoomMap' mapScale='2'>
+  	<paths>
+  		<motionpath path='firstRoomStairs1' xtox='0.7' xtoy='0.7' />
+  		<motionpath path='firstRoomStairs2' xtox='0.7' xtoy='-0.7' />
+  		<motionpath path='firstRoomStairs3' xtox='0.7' xtoy='0.7' />
+  	</paths>
+  	
   	<character class='meenah' x='427' y='458' />
   
 		<sprite name='firstRoomBG_0_0' x='0' y='0'><animation sheet='firstRoomBG_0_0' /></sprite>
