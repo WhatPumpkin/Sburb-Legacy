@@ -165,6 +165,7 @@ function haltUpdateProcess(){
 		clearInterval(Sburb.updateLoop);
 		clearInterval(Sburb.drawLoop);
 		Sburb.updateLoop = Sburb.drawLoop = null;
+		purgeKeys();
 	}
 }
 
@@ -269,10 +270,14 @@ var _onkeyup = function(e){
 	Sburb.pressed[e.keyCode] = false;
 }
 
-var _onblur = function(e){
-    if(!Sburb.updateLoop) return; // Make sure we are loaded before trying to do things
+function purgeKeys(){
 	Sburb.pressed = {};
 	Sburb.pressedOrder = [];
+}
+
+var _onblur = function(e){
+    if(!Sburb.updateLoop) return; // Make sure we are loaded before trying to do things
+	purgeKeys();
 }
 
 Sburb.onMouseMove = function(e,canvas){

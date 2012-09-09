@@ -87,6 +87,19 @@ events.inBox = function(info) {
 	}
 };
 
+events.inBox2 = function(info){
+	var params = parseParams(info);
+	var x1 = parseInt(params[2]);
+	var y1 = parseInt(params[3]);
+	var x2 = parseInt(params[4]);
+	var y2 = parseInt(params[5]);
+	var x = Math.min(x1,x2);
+	var y = Math.min(y1,y2);
+	var width = Math.abs(x1-x2);
+	var height = Math.abs(y1-y2);
+	return new events.inBox("inBox,"+params[1]+","+x+","+y+","+width+","+height);
+}
+
 //Check if a certain interval of time has elapsed
 //syntax: time
 events.time = function(info) {
