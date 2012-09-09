@@ -12,7 +12,7 @@
 
 
 <rooms>
-  <room name='thirdRoom' width='1640' height='2890' walkableMap='secondRoomMap' mapScale='2'>
+  <room name='thirdRoom' walkableMap='secondRoomMap' mapScale='2'>
   	<sprite name='thirdRoomBG'>
   		<animation sheet='thirdRoomBG'/>
   	</sprite>

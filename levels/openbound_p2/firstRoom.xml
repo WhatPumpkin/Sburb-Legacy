@@ -78,7 +78,7 @@
 
 
 <rooms>
-  <room name='firstRoom' width='6050' height='1134' walkableMap='firstRoomMap' mapScale='2'>
+  <room name='firstRoom' walkableMap='firstRoomMap' mapScale='2'>
   	<paths>
   		<motionpath path='firstRoomStairs1' xtox='0.7' xtoy='0.7' />
   		<motionpath path='firstRoomStairs2' xtox='0.7' xtoy='-0.7' />
