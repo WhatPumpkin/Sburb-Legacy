@@ -989,12 +989,12 @@ function serialLoadRoomPaths(newRoom, paths, assetFolder) {
 		var node = motionPaths[j];
 		var attributes = node.attributes;
 		newRoom.addMotionPath(assetFolder[attributes.getNamedItem("path").value], 
-				      parseFloat(attributes.getNamedItem("xtox").value), 
-				      parseFloat(attributes.getNamedItem("xtoy").value), 
-				      parseFloat(attributes.getNamedItem("ytox").value), 
-				      parseFloat(attributes.getNamedItem("ytoy").value), 
-				      parseFloat(attributes.getNamedItem("dx").value), 
-				      parseFloat(attributes.getNamedItem("dy").value));
+				      attributes.getNamedItem("xtox")?parseFloat(attributes.getNamedItem("xtox").value):1, 
+				      attributes.getNamedItem("xtoy")?parseFloat(attributes.getNamedItem("xtoy").value):0, 
+				      attributes.getNamedItem("ytox")?parseFloat(attributes.getNamedItem("ytox").value):0, 
+				      attributes.getNamedItem("ytoy")?parseFloat(attributes.getNamedItem("ytoy").value):1, 
+				      attributes.getNamedItem("dx")?parseFloat(attributes.getNamedItem("dx").value):0, 
+				      attributes.getNamedItem("dy")?parseFloat(attributes.getNamedItem("dy").value):0);
 	}
 }
 
