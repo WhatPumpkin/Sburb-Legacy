@@ -12,7 +12,14 @@
 
 
 <rooms>
-  <room name='thirdRoom' walkableMap='secondRoomMap' mapScale='2'>
+  <room name='thirdRoom' walkableMap='thirdRoomMap' mapScale='2'>
+  	<triggers>
+  		<trigger>
+  			<args>inBox2,char,168,2612,924,2664</args>
+  			<action command='changeRoomRemote'>firstRoom.xml,firstRoom,5412,99</action>
+  		</trigger>
+  	</triggers>
+  
   	<sprite name='thirdRoomBG'>
   		<animation sheet='thirdRoomBG'/>
   	</sprite>
