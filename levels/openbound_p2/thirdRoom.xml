@@ -1,0 +1,24 @@
+<sburb description="third room">
+
+<dependencies>
+
+</dependencies>
+
+<assets>
+	<asset name='thirdRoomBG' type='graphic'>backgrounds/thirdRoomBG.png</asset>
+	<asset name='thirdRoomFG' type='graphic'>backgrounds/thirdRoomFG.png</asset>
+	<asset name='thirdRoomMap' type='graphic'>backgrounds/thirdRoomMap.png</asset>
+</assets>
+
+
+<rooms>
+  <room name='thirdRoom' width='1640' height='2890' walkableMap='secondRoomMap' mapScale='2'>
+  	<sprite name='thirdRoomBG'>
+  		<animation sheet='thirdRoomBG'/>
+  	</sprite>
+  	<sprite name='thirdRoomFG' depthing='2'>
+  		<animation sheet='thirdRoomFG'/>
+  	</sprite>
+  </room> 
+</rooms>
+</sburb>

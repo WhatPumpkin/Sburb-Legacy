@@ -1,0 +1,21 @@
+<sburb description="second room">
+
+<dependencies>
+
+</dependencies>
+
+<assets>
+	<asset name='secondRoomBG' type='graphic'>backgrounds/secondRoomBG.png</asset>
+	<asset name='secondRoomMap' type='graphic'>backgrounds/secondRoomMap.png</asset>
+</assets>
+
+
+<rooms>
+  <room name='secondRoom' width='1124' height='1134' walkableMap='secondRoomMap' mapScale='2'>
+  	<sprite name='secondRoomBG'>
+  		<animation sheet='secondRoomBG'/>
+  	</sprite>
+  </room> 
+</rooms>
+
+</sburb>
