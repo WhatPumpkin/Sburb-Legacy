@@ -338,16 +338,26 @@ Sburb.Room.prototype.serialize = function(output){
 Sburb.parseRoom = function(roomNode, assetFolder, spriteFolder) {
   	var attributes = roomNode.attributes;
   	var newRoom = new Sburb.Room(attributes.getNamedItem("name").value,
-  			       parseInt(attributes.getNamedItem("width").value),
-  			       parseInt(attributes.getNamedItem("height").value));
-  	var walkableMap = attributes.getNamedItem("walkableMap");
-  	if(walkableMap){
-  		newRoom.walkableMap = assetFolder[walkableMap.value];
-  	}
+  			       attributes.getNamedItem("width")?parseInt(attributes.getNamedItem("width").value):0,
+  			       attributes.getNamedItem("height")?parseInt(attributes.getNamedItem("height").value):0);
+  	
   	var mapScale = attributes.getNamedItem("mapScale");
   	if(mapScale){
   		newRoom.mapScale = parseInt(mapScale.value);
   	}
+  	
+  	var walkableMap = attributes.getNamedItem("walkableMap");
+  	if(walkableMap){
+  		newRoom.walkableMap = assetFolder[walkableMap.value];
+  		if(!newRoom.width){
+  			newRoom.width = newRoom.walkableMap.width*newRoom.mapScale;
+  		}
+  		
+  		if(!newRoom.height){
+  			newRoom.height = newRoom.walkableMap.height*newRoom.mapScale;
+  		}
+  	}
+  	
   	Sburb.serialLoadRoomSprites(newRoom,roomNode.getElementsByTagName("sprite"), spriteFolder);
   	Sburb.serialLoadRoomSprites(newRoom,roomNode.getElementsByTagName("character"), spriteFolder);
   	Sburb.serialLoadRoomSprites(newRoom,roomNode.getElementsByTagName("fighter"), spriteFolder);
