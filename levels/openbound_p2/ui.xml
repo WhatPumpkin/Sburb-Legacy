@@ -8,7 +8,7 @@
   	weight:bold
   </asset>
   
-  <asset name='preloaderBG' type='graphic'>backgrounds/load.png</asset>
+  <asset name='preloaderBG' type='graphic'>interface/load.png</asset>
 	<asset name='volumeControl' type='graphic'>interface/volumeControl.png</asset>
 	<asset name='saveControl' type='graphic'>interface/captcha.png</asset>
 	<asset name='helpControl' type='graphic'>interface/helpControl.png</asset>
@@ -72,6 +72,6 @@
 </spritebutton>
 
 <spritebutton name='bubbleButton' x='510' y='300' width='30' height='26' sheet='bubbleButtonSheet'>
-	<action class='rebubble' />
+	<action command='cancel' />
 </spritebutton>
 </sburb>

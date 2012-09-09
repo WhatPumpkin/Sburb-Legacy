@@ -5,63 +5,148 @@
 </dependencies>
 
 <assets>
-  <asset name='firstRoomBG_0_0' type='graphic'>backgrounds/slices/firstRoomBG_0_0.png</asset>
+	<asset name='firstRoomBG_0_0' type='graphic'>backgrounds/slices/firstRoomBG_0_0.png</asset>
+	<asset name='firstRoomBG_0_10' type='graphic'>backgrounds/slices/firstRoomBG_0_10.png</asset>
+	<asset name='firstRoomBG_0_11' type='graphic'>backgrounds/slices/firstRoomBG_0_11.png</asset>
+	<asset name='firstRoomBG_0_12' type='graphic'>backgrounds/slices/firstRoomBG_0_12.png</asset>
 	<asset name='firstRoomBG_0_1' type='graphic'>backgrounds/slices/firstRoomBG_0_1.png</asset>
 	<asset name='firstRoomBG_0_2' type='graphic'>backgrounds/slices/firstRoomBG_0_2.png</asset>
 	<asset name='firstRoomBG_0_3' type='graphic'>backgrounds/slices/firstRoomBG_0_3.png</asset>
 	<asset name='firstRoomBG_0_4' type='graphic'>backgrounds/slices/firstRoomBG_0_4.png</asset>
 	<asset name='firstRoomBG_0_5' type='graphic'>backgrounds/slices/firstRoomBG_0_5.png</asset>
 	<asset name='firstRoomBG_0_6' type='graphic'>backgrounds/slices/firstRoomBG_0_6.png</asset>
+	<asset name='firstRoomBG_0_7' type='graphic'>backgrounds/slices/firstRoomBG_0_7.png</asset>
+	<asset name='firstRoomBG_0_8' type='graphic'>backgrounds/slices/firstRoomBG_0_8.png</asset>
+	<asset name='firstRoomBG_0_9' type='graphic'>backgrounds/slices/firstRoomBG_0_9.png</asset>
 	<asset name='firstRoomBG_1_0' type='graphic'>backgrounds/slices/firstRoomBG_1_0.png</asset>
+	<asset name='firstRoomBG_1_10' type='graphic'>backgrounds/slices/firstRoomBG_1_10.png</asset>
+	<asset name='firstRoomBG_1_11' type='graphic'>backgrounds/slices/firstRoomBG_1_11.png</asset>
+	<asset name='firstRoomBG_1_12' type='graphic'>backgrounds/slices/firstRoomBG_1_12.png</asset>
 	<asset name='firstRoomBG_1_1' type='graphic'>backgrounds/slices/firstRoomBG_1_1.png</asset>
 	<asset name='firstRoomBG_1_2' type='graphic'>backgrounds/slices/firstRoomBG_1_2.png</asset>
 	<asset name='firstRoomBG_1_3' type='graphic'>backgrounds/slices/firstRoomBG_1_3.png</asset>
 	<asset name='firstRoomBG_1_4' type='graphic'>backgrounds/slices/firstRoomBG_1_4.png</asset>
 	<asset name='firstRoomBG_1_5' type='graphic'>backgrounds/slices/firstRoomBG_1_5.png</asset>
 	<asset name='firstRoomBG_1_6' type='graphic'>backgrounds/slices/firstRoomBG_1_6.png</asset>
-	
+	<asset name='firstRoomBG_1_7' type='graphic'>backgrounds/slices/firstRoomBG_1_7.png</asset>
+	<asset name='firstRoomBG_1_8' type='graphic'>backgrounds/slices/firstRoomBG_1_8.png</asset>
+	<asset name='firstRoomBG_1_9' type='graphic'>backgrounds/slices/firstRoomBG_1_9.png</asset>
+	<asset name='firstRoomBG_2_0' type='graphic'>backgrounds/slices/firstRoomBG_2_0.png</asset>
+	<asset name='firstRoomBG_2_10' type='graphic'>backgrounds/slices/firstRoomBG_2_10.png</asset>
+	<asset name='firstRoomBG_2_11' type='graphic'>backgrounds/slices/firstRoomBG_2_11.png</asset>
+	<asset name='firstRoomBG_2_12' type='graphic'>backgrounds/slices/firstRoomBG_2_12.png</asset>
+	<asset name='firstRoomBG_2_1' type='graphic'>backgrounds/slices/firstRoomBG_2_1.png</asset>
+	<asset name='firstRoomBG_2_2' type='graphic'>backgrounds/slices/firstRoomBG_2_2.png</asset>
+	<asset name='firstRoomBG_2_3' type='graphic'>backgrounds/slices/firstRoomBG_2_3.png</asset>
+	<asset name='firstRoomBG_2_4' type='graphic'>backgrounds/slices/firstRoomBG_2_4.png</asset>
+	<asset name='firstRoomBG_2_5' type='graphic'>backgrounds/slices/firstRoomBG_2_5.png</asset>
+	<asset name='firstRoomBG_2_6' type='graphic'>backgrounds/slices/firstRoomBG_2_6.png</asset>
+	<asset name='firstRoomBG_2_7' type='graphic'>backgrounds/slices/firstRoomBG_2_7.png</asset>
+	<asset name='firstRoomBG_2_8' type='graphic'>backgrounds/slices/firstRoomBG_2_8.png</asset>
+	<asset name='firstRoomBG_2_9' type='graphic'>backgrounds/slices/firstRoomBG_2_9.png</asset>
+	<!--
 	<asset name='firstRoomFG_0_0' type='graphic'>backgrounds/slices/firstRoomFG_0_0.png</asset>
-	<asset name='firstRoomFG_0_1' type='graphic'>backgrounds/slices/firstRoomFG_0_1.png</asset>
 	<asset name='firstRoomFG_0_2' type='graphic'>backgrounds/slices/firstRoomFG_0_2.png</asset>
 	<asset name='firstRoomFG_0_3' type='graphic'>backgrounds/slices/firstRoomFG_0_3.png</asset>
+	<asset name='firstRoomFG_0_4' type='graphic'>backgrounds/slices/firstRoomFG_0_4.png</asset>
 	<asset name='firstRoomFG_0_5' type='graphic'>backgrounds/slices/firstRoomFG_0_5.png</asset>
+	<asset name='firstRoomFG_0_6' type='graphic'>backgrounds/slices/firstRoomFG_0_6.png</asset>
+	<asset name='firstRoomFG_0_7' type='graphic'>backgrounds/slices/firstRoomFG_0_7.png</asset>
 	<asset name='firstRoomFG_1_0' type='graphic'>backgrounds/slices/firstRoomFG_1_0.png</asset>
+	<asset name='firstRoomFG_1_10' type='graphic'>backgrounds/slices/firstRoomFG_1_10.png</asset>
 	<asset name='firstRoomFG_1_1' type='graphic'>backgrounds/slices/firstRoomFG_1_1.png</asset>
 	<asset name='firstRoomFG_1_2' type='graphic'>backgrounds/slices/firstRoomFG_1_2.png</asset>
+	<asset name='firstRoomFG_1_3' type='graphic'>backgrounds/slices/firstRoomFG_1_3.png</asset>
 	<asset name='firstRoomFG_1_5' type='graphic'>backgrounds/slices/firstRoomFG_1_5.png</asset>
+	<asset name='firstRoomFG_1_6' type='graphic'>backgrounds/slices/firstRoomFG_1_6.png</asset>
+	<asset name='firstRoomFG_1_7' type='graphic'>backgrounds/slices/firstRoomFG_1_7.png</asset>
+	<asset name='firstRoomFG_2_10' type='graphic'>backgrounds/slices/firstRoomFG_2_10.png</asset>
+	<asset name='firstRoomFG_2_11' type='graphic'>backgrounds/slices/firstRoomFG_2_11.png</asset>
+	<asset name='firstRoomFG_2_1' type='graphic'>backgrounds/slices/firstRoomFG_2_1.png</asset>
+	<asset name='firstRoomFG_2_2' type='graphic'>backgrounds/slices/firstRoomFG_2_2.png</asset>
+	<asset name='firstRoomFG_2_3' type='graphic'>backgrounds/slices/firstRoomFG_2_3.png</asset>
+	<asset name='firstRoomFG_2_4' type='graphic'>backgrounds/slices/firstRoomFG_2_4.png</asset>
+	<asset name='firstRoomFG_2_5' type='graphic'>backgrounds/slices/firstRoomFG_2_5.png</asset>
+	-->
+	<asset name='firstRoomFG' type='graphic'>backgrounds/firstRoomFG.png</asset>
+	<asset name='firstRoomMap' type='graphic'>backgrounds/firstRoomMap.png</asset>
 	
-	<asset name='firstRoomBG' type='graphic'>backgrounds/firstRoomMap.png</asset>
+	<asset name='firstRoomStairs1' type='path'>1387,707;1720,997;1720,1036;1387,771</asset>
+	<asset name='firstRoomStairs2' type='path'>4245,882;4390,732;4389,846;4245,990</asset>
+	<asset name='firstRoomStairs3' type='path'>5136,738;5281,880;5281,988;5136,859</asset>
 </assets>
 
 
 <rooms>
-  <room name='firstRoom' width='4800' height='3872' walkableMap='firstRoomMap' mapScale='2'>
-  	<sprite class='meenah'/>
+  <room name='firstRoom' width='6050' height='1134' walkableMap='firstRoomMap' mapScale='2'>
+  	<character class='meenah' x='427' y='458' />
   
 		<sprite name='firstRoomBG_0_0' x='0' y='0'><animation sheet='firstRoomBG_0_0' /></sprite>
-		<sprite name='firstRoomBG_0_1' x='500' y='0'><animation sheet='firstRoomBG_0_1' /></sprite>
-		<sprite name='firstRoomBG_0_2' x='1000' y='0'><animation sheet='firstRoomBG_0_2' /></sprite>
-		<sprite name='firstRoomBG_0_3' x='1500' y='0'><animation sheet='firstRoomBG_0_3' /></sprite>
-		<sprite name='firstRoomBG_0_4' x='2000' y='0'><animation sheet='firstRoomBG_0_4' /></sprite>
-		<sprite name='firstRoomBG_0_5' x='2500' y='0'><animation sheet='firstRoomBG_0_5' /></sprite>
-		<sprite name='firstRoomBG_0_6' x='3000' y='0'><animation sheet='firstRoomBG_0_6' /></sprite>
-		<sprite name='firstRoomBG_1_0' x='0' y='500'><animation sheet='firstRoomBG_1_0' /></sprite>
-		<sprite name='firstRoomBG_1_1' x='500' y='500'><animation sheet='firstRoomBG_1_1' /></sprite>
-		<sprite name='firstRoomBG_1_2' x='1000' y='500'><animation sheet='firstRoomBG_1_2' /></sprite>
-		<sprite name='firstRoomBG_1_3' x='1500' y='500'><animation sheet='firstRoomBG_1_3' /></sprite>
-		<sprite name='firstRoomBG_1_4' x='2000' y='500'><animation sheet='firstRoomBG_1_4' /></sprite>
-		<sprite name='firstRoomBG_1_5' x='2500' y='500'><animation sheet='firstRoomBG_1_5' /></sprite>
-		<sprite name='firstRoomBG_1_6' x='3000' y='500'><animation sheet='firstRoomBG_1_6' /></sprite>
-		<sprite name='firstRoomFG_0_0' x='0' y='0'><animation sheet='firstRoomFG_0_0' /></sprite>
-		
-		<sprite depthing='2' name='firstRoomFG_0_1' x='500' y='0'><animation sheet='firstRoomFG_0_1' /></sprite>
-		<sprite depthing='2' name='firstRoomFG_0_2' x='1000' y='0'><animation sheet='firstRoomFG_0_2' /></sprite>
-		<sprite depthing='2' name='firstRoomFG_0_3' x='1500' y='0'><animation sheet='firstRoomFG_0_3' /></sprite>
-		<sprite depthing='2' name='firstRoomFG_0_5' x='2500' y='0'><animation sheet='firstRoomFG_0_5' /></sprite>
-		<sprite depthing='2' name='firstRoomFG_1_0' x='0' y='500'><animation sheet='firstRoomFG_1_0' /></sprite>
-		<sprite depthing='2' name='firstRoomFG_1_1' x='500' y='500'><animation sheet='firstRoomFG_1_1' /></sprite>
-		<sprite depthing='2' name='firstRoomFG_1_2' x='1000' y='500'><animation sheet='firstRoomFG_1_2' /></sprite>
-		<sprite depthing='2' name='firstRoomFG_1_5' x='2500' y='500'><animation sheet='firstRoomFG_1_5' /></sprite>
+<sprite name='firstRoomBG_0_10' x='5000' y='0'><animation sheet='firstRoomBG_0_10' /></sprite>
+<sprite name='firstRoomBG_0_11' x='5500' y='0'><animation sheet='firstRoomBG_0_11' /></sprite>
+<sprite name='firstRoomBG_0_12' x='6000' y='0'><animation sheet='firstRoomBG_0_12' /></sprite>
+<sprite name='firstRoomBG_0_1' x='500' y='0'><animation sheet='firstRoomBG_0_1' /></sprite>
+<sprite name='firstRoomBG_0_2' x='1000' y='0'><animation sheet='firstRoomBG_0_2' /></sprite>
+<sprite name='firstRoomBG_0_3' x='1500' y='0'><animation sheet='firstRoomBG_0_3' /></sprite>
+<sprite name='firstRoomBG_0_4' x='2000' y='0'><animation sheet='firstRoomBG_0_4' /></sprite>
+<sprite name='firstRoomBG_0_5' x='2500' y='0'><animation sheet='firstRoomBG_0_5' /></sprite>
+<sprite name='firstRoomBG_0_6' x='3000' y='0'><animation sheet='firstRoomBG_0_6' /></sprite>
+<sprite name='firstRoomBG_0_7' x='3500' y='0'><animation sheet='firstRoomBG_0_7' /></sprite>
+<sprite name='firstRoomBG_0_8' x='4000' y='0'><animation sheet='firstRoomBG_0_8' /></sprite>
+<sprite name='firstRoomBG_0_9' x='4500' y='0'><animation sheet='firstRoomBG_0_9' /></sprite>
+<sprite name='firstRoomBG_1_0' x='0' y='500'><animation sheet='firstRoomBG_1_0' /></sprite>
+<sprite name='firstRoomBG_1_10' x='5000' y='500'><animation sheet='firstRoomBG_1_10' /></sprite>
+<sprite name='firstRoomBG_1_11' x='5500' y='500'><animation sheet='firstRoomBG_1_11' /></sprite>
+<sprite name='firstRoomBG_1_12' x='6000' y='500'><animation sheet='firstRoomBG_1_12' /></sprite>
+<sprite name='firstRoomBG_1_1' x='500' y='500'><animation sheet='firstRoomBG_1_1' /></sprite>
+<sprite name='firstRoomBG_1_2' x='1000' y='500'><animation sheet='firstRoomBG_1_2' /></sprite>
+<sprite name='firstRoomBG_1_3' x='1500' y='500'><animation sheet='firstRoomBG_1_3' /></sprite>
+<sprite name='firstRoomBG_1_4' x='2000' y='500'><animation sheet='firstRoomBG_1_4' /></sprite>
+<sprite name='firstRoomBG_1_5' x='2500' y='500'><animation sheet='firstRoomBG_1_5' /></sprite>
+<sprite name='firstRoomBG_1_6' x='3000' y='500'><animation sheet='firstRoomBG_1_6' /></sprite>
+<sprite name='firstRoomBG_1_7' x='3500' y='500'><animation sheet='firstRoomBG_1_7' /></sprite>
+<sprite name='firstRoomBG_1_8' x='4000' y='500'><animation sheet='firstRoomBG_1_8' /></sprite>
+<sprite name='firstRoomBG_1_9' x='4500' y='500'><animation sheet='firstRoomBG_1_9' /></sprite>
+<sprite name='firstRoomBG_2_0' x='0' y='1000'><animation sheet='firstRoomBG_2_0' /></sprite>
+<sprite name='firstRoomBG_2_10' x='5000' y='1000'><animation sheet='firstRoomBG_2_10' /></sprite>
+<sprite name='firstRoomBG_2_11' x='5500' y='1000'><animation sheet='firstRoomBG_2_11' /></sprite>
+<sprite name='firstRoomBG_2_12' x='6000' y='1000'><animation sheet='firstRoomBG_2_12' /></sprite>
+<sprite name='firstRoomBG_2_1' x='500' y='1000'><animation sheet='firstRoomBG_2_1' /></sprite>
+<sprite name='firstRoomBG_2_2' x='1000' y='1000'><animation sheet='firstRoomBG_2_2' /></sprite>
+<sprite name='firstRoomBG_2_3' x='1500' y='1000'><animation sheet='firstRoomBG_2_3' /></sprite>
+<sprite name='firstRoomBG_2_4' x='2000' y='1000'><animation sheet='firstRoomBG_2_4' /></sprite>
+<sprite name='firstRoomBG_2_5' x='2500' y='1000'><animation sheet='firstRoomBG_2_5' /></sprite>
+<sprite name='firstRoomBG_2_6' x='3000' y='1000'><animation sheet='firstRoomBG_2_6' /></sprite>
+<sprite name='firstRoomBG_2_7' x='3500' y='1000'><animation sheet='firstRoomBG_2_7' /></sprite>
+<sprite name='firstRoomBG_2_8' x='4000' y='1000'><animation sheet='firstRoomBG_2_8' /></sprite>
+<sprite name='firstRoomBG_2_9' x='4500' y='1000'><animation sheet='firstRoomBG_2_9' /></sprite>
+<!--
+<sprite depthing='2' name='firstRoomFG_0_0' x='0' y='0'><animation sheet='firstRoomFG_0_0' /></sprite>
+<sprite depthing='2' name='firstRoomFG_0_2' x='1000' y='0'><animation sheet='firstRoomFG_0_2' /></sprite>
+<sprite depthing='2' name='firstRoomFG_0_3' x='1500' y='0'><animation sheet='firstRoomFG_0_3' /></sprite>
+<sprite depthing='2' name='firstRoomFG_0_4' x='2000' y='0'><animation sheet='firstRoomFG_0_4' /></sprite>
+<sprite depthing='2' name='firstRoomFG_0_5' x='2500' y='0'><animation sheet='firstRoomFG_0_5' /></sprite>
+<sprite depthing='2' name='firstRoomFG_0_6' x='3000' y='0'><animation sheet='firstRoomFG_0_6' /></sprite>
+<sprite depthing='2' name='firstRoomFG_0_7' x='3500' y='0'><animation sheet='firstRoomFG_0_7' /></sprite>
+<sprite depthing='2' name='firstRoomFG_1_0' x='0' y='500'><animation sheet='firstRoomFG_1_0' /></sprite>
+<sprite depthing='2' name='firstRoomFG_1_10' x='5000' y='500'><animation sheet='firstRoomFG_1_10' /></sprite>
+<sprite depthing='2' name='firstRoomFG_1_1' x='500' y='500'><animation sheet='firstRoomFG_1_1' /></sprite>
+<sprite depthing='2' name='firstRoomFG_1_2' x='1000' y='500'><animation sheet='firstRoomFG_1_2' /></sprite>
+<sprite depthing='2' name='firstRoomFG_1_3' x='1500' y='500'><animation sheet='firstRoomFG_1_3' /></sprite>
+<sprite depthing='2' name='firstRoomFG_1_5' x='2500' y='500'><animation sheet='firstRoomFG_1_5' /></sprite>
+<sprite depthing='2' name='firstRoomFG_1_6' x='3000' y='500'><animation sheet='firstRoomFG_1_6' /></sprite>
+<sprite depthing='2' name='firstRoomFG_1_7' x='3500' y='500'><animation sheet='firstRoomFG_1_7' /></sprite>
+<sprite depthing='2' name='firstRoomFG_2_10' x='5000' y='1000'><animation sheet='firstRoomFG_2_10' /></sprite>
+<sprite depthing='2' name='firstRoomFG_2_11' x='5500' y='1000'><animation sheet='firstRoomFG_2_11' /></sprite>
+<sprite depthing='2' name='firstRoomFG_2_1' x='500' y='1000'><animation sheet='firstRoomFG_2_1' /></sprite>
+<sprite depthing='2' name='firstRoomFG_2_2' x='1000' y='1000'><animation sheet='firstRoomFG_2_2' /></sprite>
+<sprite depthing='2' name='firstRoomFG_2_3' x='1500' y='1000'><animation sheet='firstRoomFG_2_3' /></sprite>
+<sprite depthing='2' name='firstRoomFG_2_4' x='2000' y='1000'><animation sheet='firstRoomFG_2_4' /></sprite>
+<sprite depthing='2' name='firstRoomFG_2_5' x='2500' y='1000'><animation sheet='firstRoomFG_2_5' /></sprite>
+-->
+		<sprite name='firstRoomFG' depthing='2'>
+  		<animation sheet='firstRoomFG'/>
+  	</sprite>
   </room> 
 </rooms>
 </sburb>
