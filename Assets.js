@@ -9,6 +9,10 @@ var Sburb = (function(Sburb){
 
 //Constructor
 Sburb.AssetManager = function() {
+    // Loop tracking
+    this.loopID = false;
+    this.space = false;
+    this.refresh = false;
     // Asset tracking
     this.totalAssets = 0; // Used in calculation of "Are we done yet?"
     this.totalLoaded = 0; // Used in calculation of "Are we done yet?"
@@ -39,6 +43,30 @@ Sburb.AssetManager = function() {
         "swf": "application/x-shockwave-flash",
         "flv": "application/x-shockwave-flash"
     };
+}
+
+Sburb.AssetManager.prototype.start = function() {
+    this.stop();
+    this.loopID = setInterval(function() { Sburb.assetManager.loop(); }, 33);
+}
+
+Sburb.AssetManager.prototype.stop = function() {
+    if(this.loopID) {
+        clearInterval(this.loopID);
+        this.loopID = false;
+    }
+}
+
+Sburb.AssetManager.prototype.loop = function() {
+    if(Sburb.pressed[Sburb.Keys.space] && !this.space) {
+        this.space = true;
+        this.refresh = true;
+    } else {
+        this.refresh = false;
+    }
+    if(!Sburb.pressed[Sburb.Keys.space])
+        this.space = false;
+    this.draw();
 }
 
 Sburb.AssetManager.prototype.resolvePath = function(path){
@@ -82,20 +110,16 @@ Sburb.AssetManager.prototype.draw = function(){
       for(var i = 0; i < this.error.length; i++)
           Sburb.stage.fillText("Error: "+this.error[i],10,20+15*i);
       Sburb.stage.textAlign = "center";
-      if(!this.refreshButton && this.failed.length) {
-          var refreshButton = document.createElement("button");
-          var assetManager = this;
-          refreshButton.onclick = function() {
-              assetManager.error = ["Refreshing..."];
-              this.parentNode.removeChild(this);
-              assetManager.refreshButton = null;
-              for(var i=0; i<assetManager.failed.length;i++)
-                assetManager.assets[assetManager.failed[i]].reload();
-              assetManager.failed = [];
-          };
-          refreshButton.appendChild(document.createTextNode("REFRESH"));
-          document.body.appendChild(refreshButton);
-          this.refreshButton = refreshButton;
+      if(this.failed.length) {
+          if(this.refresh) {
+              this.error = ["Refreshing..."];
+              for(var i=0; i<this.failed.length;i++)
+                this.assets[this.failed[i]].reload();
+              this.failed = [];
+          } else {
+              Sburb.stage.font="18px Verdana";
+              Sburb.stage.fillText("Press SPACE to reload failed assets",Sburb.Stage.width/2,Sburb.Stage.height-70);
+          }
       }
   }
 }
@@ -137,7 +161,6 @@ Sburb.AssetManager.prototype.loadAsset = function(assetObj) {
     var loadedAsset = this.assets[name].assetOnLoadFunction(function() { oThis.assetLoaded(name); });
     if(!loadedAsset)
         this.assets[name].assetOnFailFunction(function() { oThis.assetFailed(name); });
-    this.draw();
 }
 
 //log that the asset was added
@@ -152,8 +175,6 @@ Sburb.AssetManager.prototype.assetLoaded = function(name){
         if(!this.loaded[name]){
             this.loaded[name] = true
             this.totalLoaded++;
-            
-            this.draw();
             
             if(this.finishedLoading() && Sburb._hardcode_load){
                 // only really here to work for old hard-loading
@@ -170,7 +191,6 @@ Sburb.AssetManager.prototype.assetFailed = function(name) {
     console.log(msg);
     this.error.push(msg);
     this.failed.push(name);
-    this.draw();
 };
 
 
@@ -223,7 +243,6 @@ Sburb.loadGenericAsset = function(asset, path, id) {
             var diff = e.loaded - xhr.loaded;
             xhr.loaded = e.loaded;
             Sburb.assetManager.loadedSize += diff;
-            Sburb.assetManager.draw();
         } else {
             console.log("ERROR: Length not computable for " + path);
         }

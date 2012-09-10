@@ -156,6 +156,7 @@ Sburb.initialize = function(div,levelName,includeDevTools){
 
 function startUpdateProcess(){
 	haltUpdateProcess();
+	Sburb.assetManager.stop();
 	Sburb.updateLoop=setInterval(update,1000/Sburb.Stage.fps);
 	Sburb.drawLoop=setInterval(draw,1000/Sburb.Stage.fps);
 }
@@ -165,8 +166,8 @@ function haltUpdateProcess(){
 		clearInterval(Sburb.updateLoop);
 		clearInterval(Sburb.drawLoop);
 		Sburb.updateLoop = Sburb.drawLoop = null;
-		purgeKeys();
 	}
+	Sburb.assetManager.start();
 }
 
 function update(){
@@ -220,38 +221,46 @@ function draw(){
 }
 
 var _onkeydown = function(e){
-    if(!Sburb.updateLoop) return; // Make sure we are loaded before trying to do things
-	if(Sburb.chooser.choosing){
-		if(e.keyCode == Sburb.Keys.down || e.keyCode==Sburb.Keys.s){
-			Sburb.chooser.nextChoice();
-		}
-		if(e.keyCode == Sburb.Keys.up || e.keyCode==Sburb.Keys.w){
-			Sburb.chooser.prevChoice();
-		}
-		if(e.keyCode == Sburb.Keys.space && !Sburb.pressed[Sburb.Keys.space]){
-			Sburb.performAction(Sburb.chooser.choices[Sburb.chooser.choice]);
-			Sburb.chooser.choosing = false;
-		}
-	}else if(Sburb.dialoger.talking){
-		if(e.keyCode == Sburb.Keys.space && !Sburb.pressed[Sburb.Keys.space]){
-			Sburb.dialoger.nudge();
-		}
-	}else if(hasControl()){
-		if(e.keyCode == Sburb.Keys.space && !Sburb.pressed[Sburb.Keys.space] && Sburb.engineMode=="wander"){
-			Sburb.chooser.choices = [];
-			var queries = Sburb.char.getActionQueries();
-			for(var i=0;i<queries.length;i++){
-				Sburb.chooser.choices = Sburb.curRoom.queryActions(Sburb.char,queries[i].x,queries[i].y);
-				if(Sburb.chooser.choices.length>0){
-					break;
-				}
-			}
-			if(Sburb.chooser.choices.length>0){
-				Sburb.chooser.choices.push(new Sburb.Action("cancel","cancel","cancel"));
-				beginChoosing();
-			}
-		}
+    if(Sburb.updateLoop) { // Make sure we are loaded before trying to do things
+	    if(Sburb.chooser.choosing){
+		    if(e.keyCode == Sburb.Keys.down || e.keyCode==Sburb.Keys.s){
+			    Sburb.chooser.nextChoice();
+		    }
+		    if(e.keyCode == Sburb.Keys.up || e.keyCode==Sburb.Keys.w){
+			    Sburb.chooser.prevChoice();
+		    }
+		    if(e.keyCode == Sburb.Keys.space && !Sburb.pressed[Sburb.Keys.space]){
+			    Sburb.performAction(Sburb.chooser.choices[Sburb.chooser.choice]);
+			    Sburb.chooser.choosing = false;
+		    }
+	    }else if(Sburb.dialoger.talking){
+		    if(e.keyCode == Sburb.Keys.space && !Sburb.pressed[Sburb.Keys.space]){
+			    Sburb.dialoger.nudge();
+		    }
+	    }else if(hasControl()){
+		    if(e.keyCode == Sburb.Keys.space && !Sburb.pressed[Sburb.Keys.space] && Sburb.engineMode=="wander"){
+			    Sburb.chooser.choices = [];
+			    var queries = Sburb.char.getActionQueries();
+			    for(var i=0;i<queries.length;i++){
+				    Sburb.chooser.choices = Sburb.curRoom.queryActions(Sburb.char,queries[i].x,queries[i].y);
+				    if(Sburb.chooser.choices.length>0){
+					    break;
+				    }
+			    }
+			    if(Sburb.chooser.choices.length>0){
+				    Sburb.chooser.choices.push(new Sburb.Action("cancel","cancel","cancel"));
+				    beginChoosing();
+			    }
+		    }
+	    }
 	}
+    /* There is a theoretical race condition here
+       in which pressing a key within the milliseconds
+       between injecting the canvas into the dom
+       and initializing Sburb.pressed and Sburb.pressedOrder
+       could throw an exception.
+       
+       I'm not too worried about it. -Fugi */
 	if(!Sburb.pressed[e.keyCode])
 	    Sburb.pressedOrder.push(e.keyCode);
 	Sburb.pressed[e.keyCode] = true;
@@ -264,24 +273,25 @@ var _onkeydown = function(e){
 }
 
 var _onkeyup = function(e){
-    if(!Sburb.updateLoop) return; // Make sure we are loaded before trying to do things
+    // See _onkeydown for race condition warning
     if(Sburb.pressed[e.keyCode])
     	Sburb.pressedOrder.destroy(e.keyCode);
 	Sburb.pressed[e.keyCode] = false;
 }
 
 function purgeKeys(){
+    // See _onkeydown for race condition warning
 	Sburb.pressed = {};
 	Sburb.pressedOrder = [];
 }
 
 var _onblur = function(e){
-    if(!Sburb.updateLoop) return; // Make sure we are loaded before trying to do things
+    // See _onkeydown for race condition warning
 	purgeKeys();
 }
 
 Sburb.onMouseMove = function(e,canvas){
-    if(!Sburb.updateLoop) return; // Make sure we are loaded before trying to do things
+    // See _onkeydown for race condition warning
 	var point = relMouseCoords(e,canvas);
 	Sburb.Mouse.x = point.x;
 	Sburb.Mouse.y = point.y;
@@ -301,8 +311,8 @@ Sburb.onMouseDown = function(e,canvas){
 }
 
 Sburb.onMouseUp = function(e,canvas){
-    if(!Sburb.updateLoop) return; // Make sure we are loaded before trying to do things
 	Sburb.Mouse.down = false;
+    if(!Sburb.updateLoop) return; // Make sure we are loaded before trying to do things
 	if(Sburb.dialoger && Sburb.dialoger.box && Sburb.dialoger.box.isVisuallyUnder(Sburb.Mouse.x,Sburb.Mouse.y)){
 		Sburb.dialoger.nudge();
 	}
