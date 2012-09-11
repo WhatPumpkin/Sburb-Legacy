@@ -463,7 +463,7 @@ Sburb.createGraphicAsset = function(name, path) {
 //create an audio Asset
 Sburb.createAudioAsset = function(name,sources) {
     // Return a dummy object if no audio support
-    if(!Modernizr.audio.ogg && !Modernizr.audio.mp3) {
+    if(!Modernizr.audio) {
         return {
             name: name,
             type: "audio",
