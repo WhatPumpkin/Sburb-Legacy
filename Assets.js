@@ -207,7 +207,7 @@ Sburb.base64ArrayBuffer = function(arrayBuffer) {
   var base64    = ''
   var encodings = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
 
-  var bytes         = new Uint8Array(arrayBuffer)
+  var bytes         = new (Sburb.prefixed("Uint8Array",window,false))(arrayBuffer)
   var byteLength    = bytes.byteLength
   var byteRemainder = byteLength % 3
   var mainLength    = byteLength - byteRemainder

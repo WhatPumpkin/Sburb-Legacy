@@ -227,7 +227,7 @@ window.Modernizr = (function(window, document, undefined) {
         try {
             if(bool = 'ArrayBuffer' in window) {
                 bool = new Boolean(bool);
-                bool.dataview = !!(new Uint8Array(5));
+                bool.dataview = !!(prefixed("Uint8Array",window,false));
             }
         } catch(e) {}
         return bool;
