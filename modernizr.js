@@ -211,10 +211,10 @@ window.Modernizr = (function(window, document, undefined) {
                 bool.url = !!(prefixed("URL", window, false));
                 bool.constructor = !!new Blob();
                 try {
-                    var url = prefixed("URL", window, false);
-                    var u = url.createObjectURL(new Blob(),{autoRevoke: false});
+                    var URLCreator = window[prefixed("URL", window, false)];
+                    var u = URLCreator.createObjectURL(new Blob([0,0]),{autoRevoke: false});
                     bool.revoke = true;
-                    url.revokeObjectURL(u);
+                    URLCreator.revokeObjectURL(u);
                 } catch(e) {
                     bool.revoke = false;
                 }

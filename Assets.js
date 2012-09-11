@@ -262,7 +262,7 @@ Sburb.loadGenericAsset = function(asset, path, id) {
     
     // We've loaded this before, don't bother loading it again
     if(assetPath in Sburb.assetManager.cache) {
-        var url = Sburb.assetManager.cache[assetPath];
+        var url = Sburb.assetManager.cache[assetPath]();
         setTimeout(function() { asset.success(url, id); }, 0); // Async call success so things don't blow up
         return;
     }    
@@ -324,8 +324,10 @@ Sburb.loadGenericAsset = function(asset, path, id) {
                     }
                     if(Sburb.tests.blobrevoke) {
                         url = URLCreator.createObjectURL(blob, {autoRevoke: false});
+                        Sburb.assetManager.cache[assetPath] = function() { return URLCreator.createObjectURL(blob, {autoRevoke: false}); };
                     } else {
                         url = URLCreator.createObjectURL(blob); // I hope this doesn't expire...
+                        Sburb.assetManager.cache[assetPath] = function() { return URLCreator.createObjectURL(blob); };
                     }
                 } else if(Sburb.tests.loading == 8) {
                     var reader = new FileReader();
@@ -336,7 +338,7 @@ Sburb.loadGenericAsset = function(asset, path, id) {
                         }
                         // TODO: Replace mime-type with actual type
                         // TODO: Verify this is base64 encoded
-                        Sburb.assetManager.cache[assetPath] = url;
+                        Sburb.assetManager.cache[assetPath] = function() { return url; };
                         asset.success(url,id);
                     }
                     reader.onabort = function() { asset.failure(id); };
@@ -346,12 +348,11 @@ Sburb.loadGenericAsset = function(asset, path, id) {
                 } else if(Sburb.tests.loading == 4) {
                     var b64 = Sburb.base64ArrayBuffer(this.response);
                     url = "data:"+type+";base64,"+b64;
+                    Sburb.assetManager.cache[assetPath] = function() { return url; };
                 } // No else, this covers all the methods in this block
                 if(!url) {
                     return asset.failure(id); // Uh what happened here?
                 }
-                // Save for later use
-                Sburb.assetManager.cache[assetPath] = url;
                 asset.success(url,id);
             } else {
                 asset.failure(id);
@@ -383,18 +384,20 @@ Sburb.loadGenericAsset = function(asset, path, id) {
                     }
                     if(Sburb.tests.blobrevoke) {
                         url = URLCreator.createObjectURL(blob, {autoRevoke: false});
+                        Sburb.assetManager.cache[assetPath] = function() { return URLCreator.createObjectURL(blob, {autoRevoke: false}); };
                     } else {
                         url = URLCreator.createObjectURL(blob); // I hope this doesn't expire...
+                        Sburb.assetManager.cache[assetPath] = function() { return URLCreator.createObjectURL(blob); };
                     }
                 } else if(Sburb.tests.loading == 1) {
                     var b64 = window.btoa(this.responseText);
                     url = "data:"+type+";base64,"+b64;
+                    Sburb.assetManager.cache[assetPath] = function() { return url; };
                 } // No else, this covers all the methods in this block
                 if(!url) {
                     return asset.failure(id); // Uh what happened here?
                 }
                 // Save for later use
-                Sburb.assetManager.cache[assetPath] = url;
                 asset.success(url,id);
             } else {
                 asset.failure(id);
@@ -405,6 +408,7 @@ Sburb.loadGenericAsset = function(asset, path, id) {
         xhr.send();
     } else if(Sburb.tests.loading == 0) {
         // DANGER DANGER we can't track anything! PANIC!!!
+        Sburb.assetManager.cache[assetPath] = function() { return assetPath; };
         asset.success(assetPath,id,true);
     } else {
         // Somebody added another fallback without editting this function. Yell at them.
