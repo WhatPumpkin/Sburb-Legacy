@@ -26,6 +26,7 @@ Sburb.AssetManager = function() {
     this.failed = [];
     // Cache urls
     this.cache = {}
+    this.blobs = {}
     // Descriptors
     this.description = "";
     this.resourcePath = "";
@@ -261,11 +262,23 @@ Sburb.loadGenericAsset = function(asset, path, id) {
     var type = Sburb.assetManager.mimes[ext];
     
     // We've loaded this before, don't bother loading it again
-    if(assetPath in Sburb.assetManager.cache) {
-        var url = Sburb.assetManager.cache[assetPath]();
+    if(assetPath in Sburb.assetManager.blobs) {
+        var URLCreator = window[Sburb.prefixed("URL",window,false)];
+        var blob = Sburb.assetManager.blobs[assetPath];
+        var url = false;
+        if(Sburb.tests.blobrevoke) {
+            url = URLCreator.createObjectURL(blob, {autoRevoke: false});
+        } else {
+            url = URLCreator.createObjectURL(blob); // I hope this doesn't expire...
+        }
         setTimeout(function() { asset.success(url, id); }, 0); // Async call success so things don't blow up
         return;
-    }    
+    }
+    if(assetPath in Sburb.assetManager.cache) {
+        var url = Sburb.assetManager.cache[assetPath];
+        setTimeout(function() { asset.success(url, id); }, 0); // Async call success so things don't blow up
+        return;
+    }
     // Welcome to fallback hell
     // NOTE: We use array.contains because future fallbacks will just get a higher number
     //       Hence inequalities won't work and multiple == would get messy fast
@@ -324,11 +337,10 @@ Sburb.loadGenericAsset = function(asset, path, id) {
                     }
                     if(Sburb.tests.blobrevoke) {
                         url = URLCreator.createObjectURL(blob, {autoRevoke: false});
-                        Sburb.assetManager.cache[assetPath] = function() { return URLCreator.createObjectURL(blob, {autoRevoke: false}); };
                     } else {
                         url = URLCreator.createObjectURL(blob); // I hope this doesn't expire...
-                        Sburb.assetManager.cache[assetPath] = function() { return URLCreator.createObjectURL(blob); };
                     }
+                    Sburb.assetManager.blobs[assetPath] = blob; // Save for later
                 } else if(Sburb.tests.loading == 8) {
                     var reader = new FileReader();
                     reader.onload = function(e) {
@@ -338,7 +350,7 @@ Sburb.loadGenericAsset = function(asset, path, id) {
                         }
                         // TODO: Replace mime-type with actual type
                         // TODO: Verify this is base64 encoded
-                        Sburb.assetManager.cache[assetPath] = function() { return url; };
+                        Sburb.assetManager.cache[assetPath] = url;
                         asset.success(url,id);
                     }
                     reader.onabort = function() { asset.failure(id); };
@@ -348,11 +360,11 @@ Sburb.loadGenericAsset = function(asset, path, id) {
                 } else if(Sburb.tests.loading == 4) {
                     var b64 = Sburb.base64ArrayBuffer(this.response);
                     url = "data:"+type+";base64,"+b64;
-                    Sburb.assetManager.cache[assetPath] = function() { return url; };
                 } // No else, this covers all the methods in this block
                 if(!url) {
                     return asset.failure(id); // Uh what happened here?
                 }
+                Sburb.assetManager.cache[assetPath] = url; // Save for later
                 asset.success(url,id);
             } else {
                 asset.failure(id);
@@ -384,20 +396,18 @@ Sburb.loadGenericAsset = function(asset, path, id) {
                     }
                     if(Sburb.tests.blobrevoke) {
                         url = URLCreator.createObjectURL(blob, {autoRevoke: false});
-                        Sburb.assetManager.cache[assetPath] = function() { return URLCreator.createObjectURL(blob, {autoRevoke: false}); };
                     } else {
                         url = URLCreator.createObjectURL(blob); // I hope this doesn't expire...
-                        Sburb.assetManager.cache[assetPath] = function() { return URLCreator.createObjectURL(blob); };
                     }
+                    Sburb.assetManager.blobs[assetPath] = blob; // Save for later
                 } else if(Sburb.tests.loading == 1) {
                     var b64 = window.btoa(this.responseText);
                     url = "data:"+type+";base64,"+b64;
-                    Sburb.assetManager.cache[assetPath] = function() { return url; };
                 } // No else, this covers all the methods in this block
                 if(!url) {
                     return asset.failure(id); // Uh what happened here?
                 }
-                // Save for later use
+                Sburb.assetManager.cache[assetPath] = url; // Save for later
                 asset.success(url,id);
             } else {
                 asset.failure(id);
@@ -408,7 +418,7 @@ Sburb.loadGenericAsset = function(asset, path, id) {
         xhr.send();
     } else if(Sburb.tests.loading == 0) {
         // DANGER DANGER we can't track anything! PANIC!!!
-        Sburb.assetManager.cache[assetPath] = function() { return assetPath; };
+        Sburb.assetManager.cache[assetPath] = assetPath; // Save for later
         asset.success(assetPath,id,true);
     } else {
         // Somebody added another fallback without editting this function. Yell at them.
