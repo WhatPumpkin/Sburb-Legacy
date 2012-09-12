@@ -209,7 +209,6 @@ window.Modernizr = (function(window, document, undefined) {
                 bool.slice = !!(prefixed("slice", Blob.prototype, false));
                 bool.builder = !!(prefixed("BlobBuilder", window, false));
                 bool.url = !!(prefixed("URL", window, false));
-                bool.constructor = !!new Blob();
                 try {
                     var URLCreator = window[prefixed("URL", window, false)];
                     var u = URLCreator.createObjectURL(new Blob([0,0]),{autoRevoke: false});
@@ -218,6 +217,7 @@ window.Modernizr = (function(window, document, undefined) {
                 } catch(e) {
                     bool.revoke = false;
                 }
+                bool.creator = !!new Blob();
             }
         } catch(e) {}
         return bool;
@@ -281,14 +281,14 @@ window.Modernizr = (function(window, document, undefined) {
 })();
 // This whole test is stupid as it relies on the blob constructor. WTF is with that?
 (function(){
-    if(!(Modernizr.xhr2 && Modernizr.blob && Modernizr.blob.url && (Modernizr.blob.constructor || Modernizr.blob.builder))) {
+    if(!(Modernizr.xhr2 && Modernizr.blob && Modernizr.blob.url && (Modernizr.blob.creator || Modernizr.blob.builder))) {
         Modernizr.addTest('xhrblob', function () { return false; });
         Modernizr.addTest('xhrarraybuffer', function () { return false; });
         return;
     }
     // Generate blob URL
     var blob = false;
-	if(Modernizr.blob.constructor) {
+	if(Modernizr.blob.creator) {
 		blob = new Blob([0,0,0,0,0]);
 	} else {
 		var builder = new window[Modernizr.prefixed("BlobBuilder", window, false)]();
