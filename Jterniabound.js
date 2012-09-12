@@ -125,7 +125,7 @@ Sburb.testCompatibility = function(div, a, b) {
         // To deprecate a test, move it to the bottom of the list. To make it obsolete, comment it out.
         // Assets.js and Debugger.js are the only files to reference these constants
         Sburb.tests['loading'] = 0; // Just pass raw URL to elements
-        if(Modernizr.xhrblob && Modernizr.blob && Modernizr.blob.url && Modernizr.blob.constructor) {
+        if(Modernizr.xhrblob && Modernizr.blob && Modernizr.blob.url && Modernizr.blob.creator) {
             Sburb.tests.loading = 11; // Load as blob, pass to blob constructor and generate Blob URI
         } else if(Modernizr.xhrblob && Modernizr.blob && Modernizr.blob.url && Modernizr.blob.builder) {
             Sburb.tests.loading = 10; // Load as blob, pass to blob builder and generate Blob URI
@@ -133,15 +133,15 @@ Sburb.testCompatibility = function(div, a, b) {
             Sburb.tests.loading = 9; // Load as blob, pass to blob.slice and generate Blob URI
         } else if(Modernizr.xhrblob && Modernizr.datauri && Modernizr.filereader) {
             Sburb.tests.loading = 8; // Load as blob, pass to file reader and generate Data URI
-        } else if(Modernizr.xhrarraybuffer && Modernizr.arraybuffer && Modernizr.arraybuffer.dataview && Modernizr.blob && Modernizr.blob.url && Modernizr.blob.constructor) {
+        } else if(Modernizr.xhrarraybuffer && Modernizr.arraybuffer && Modernizr.arraybuffer.dataview && Modernizr.blob && Modernizr.blob.url && Modernizr.blob.creator) {
             Sburb.tests.loading = 7; // Load as arraybuffer, convert to data view, pass to blob constructor and generate Blob URI
-        } else if(Modernizr.xhrarraybuffer && Modernizr.arraybuffer && Modernizr.blob && Modernizr.blob.url && Modernizr.blob.constructor) {
+        } else if(Modernizr.xhrarraybuffer && Modernizr.arraybuffer && Modernizr.blob && Modernizr.blob.url && Modernizr.blob.creator) {
             Sburb.tests.loading = 6; // Load as arraybuffer, use hacks to pass to blob constructor and generate Blob URI
         } else if(Modernizr.xhrarraybuffer && Modernizr.arraybuffer && Modernizr.blob && Modernizr.blob.url && Modernizr.blob.builder) {
             Sburb.tests.loading = 5; // Load as arraybuffer, pass to blob builder and generate Blob URI
         } else if(Modernizr.xhrarraybuffer && Modernizr.arraybuffer && Modernizr.arraybuffer.dataview && Modernizr.datauri) {
             Sburb.tests.loading = 4; // Load as arraybuffer, convert to base 64 and generate Data URI
-        } else if(Modernizr.blob && Modernizr.blob.url && Modernizr.blob.constructor) {
+        } else if(Modernizr.blob && Modernizr.blob.url && Modernizr.blob.creator) {
             Sburb.tests.loading = 3; // Load as string, pass to blob constructor and generate Blob URI
         } else if(Modernizr.blob && Modernizr.blob.url && Modernizr.blob.builder) {
             Sburb.tests.loading = 2; // Load as string, pass to blob builder and generate Blob URI
