@@ -281,14 +281,22 @@ window.Modernizr = (function(window, document, undefined) {
 })();
 // This whole test is stupid as it relies on the blob constructor. WTF is with that?
 (function(){
-    if(!Modernizr.xhr2) {
+    if(!(Modernizr.xhr2 && Modernizr.blob && Modernizr.blob.url && (Modernizr.blob.constructor || Modernizr.blob.builder))) {
         Modernizr.addTest('xhrblob', function () { return false; });
         Modernizr.addTest('xhrarraybuffer', function () { return false; });
         return;
     }
     // Generate blob URL
-    var blob = new Blob([0,0,0,0,0]);
-    var URL = window.URL || window.webkitURL;
+    var blob = false;
+	if(Modernizr.blob.constructor) {
+		blob = new Blob([0,0,0,0,0]);
+	} else {
+		var builder = new window[Modernizr.prefixed("BlobBuilder", window, false)]();
+		for(var i = 0; i < 5; i++)
+			builder.append(0);
+		blob = builder.getBlob();
+	}
+    var URL = window[Modernizr.prefixed("URL", window, false)];
     var url = URL.createObjectURL(blob);
     
     // Test blob response
