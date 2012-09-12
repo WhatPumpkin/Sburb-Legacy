@@ -217,7 +217,11 @@ window.Modernizr = (function(window, document, undefined) {
                 } catch(e) {
                     bool.revoke = false;
                 }
-                bool.creator = !!new Blob();
+                try {
+                    bool.creator = !!new Blob();
+                } catch(e) {
+                    bool.creator = false;
+                }
             }
         } catch(e) {}
         return bool;
