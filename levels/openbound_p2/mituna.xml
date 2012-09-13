@@ -1,0 +1,20 @@
+<sburb description='mituna'>
+
+<classes>
+	<sprite class='mituna' name='mituna' width='90' height='50' depthing='1' collidable='true'>
+		<animation name='skate' sheet='mitunaSkate' x='-32' y='-100'/>
+		<animation name='crash' sheet='mitunaLand' x='-45' y='-25'/>
+	</sprite>
+</classes>
+
+<assets>
+	<asset name='mitunaSkate' type='graphic'>chars/mituna/mituna_skate1.png</asset>
+	<asset name='mitunaLand' type='graphic'>chars/mituna/mituna_skate2.png</asset>
+</assets>
+
+<hud>
+  <dialogsprites>	
+    		
+  </dialogsprites>
+</hud>
+</sburb>

@@ -1,0 +1,18 @@
+<sburb description='bicyclops'>
+
+<classes>
+	<sprite class='bicyclops' name='bicyclops' depthing='1' width='150' height='50' collidable='true'>
+		<animation sheet='bicyclops-stamp' length='8' x='-77' y='-194' frameInterval='5'/>
+	</sprite>
+</classes>
+
+<assets>
+	<asset name='bicyclops-stamp' type='graphic'>chars/bicyclops/bicyclops-stamp.png</asset>
+</assets>
+
+<hud>
+  <dialogsprites>	
+    		
+  </dialogsprites>
+</hud>
+</sburb>

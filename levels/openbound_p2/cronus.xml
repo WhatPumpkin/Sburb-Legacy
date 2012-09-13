@@ -1,0 +1,21 @@
+<sburb description='cronus'>
+
+<classes>
+	<!--<animation class='meenahDialog' frameInterval='6' x='-180' y='-524'/>-->
+	
+	<character class='cronus' name='cronus' sx='-50' sy='-110' sWidth='100' sHeight='130' width='30' height='15' sheet='cronusSheet' state='walkFront' facing='Front'>
+	</character>
+</classes>
+
+<assets>
+
+	<asset name='cronusSheet' type='graphic'>chars/cronus/cronus.png</asset>
+
+</assets>
+
+<hud>
+	<dialogsprites>	
+
+  </dialogsprites>
+</hud>
+</sburb>

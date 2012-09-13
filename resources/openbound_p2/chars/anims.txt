@@ -1,0 +1,7 @@
+
+<animation name='anims' class='anims-dialog' sheet='anims' />
+<animation name='bicyclops-stamp' class='bicyclops-stamp-dialog' sheet='bicyclops-stamp' />
+<animation name='seahorsedad-anim' class='seahorsedad-anim-dialog' sheet='seahorsedad-anim' />
+<asset name='anims' type='graphic'>anims.txt</asset>
+<asset name='bicyclops-stamp' type='graphic'>bicyclops-stamp.png</asset>
+<asset name='seahorsedad-anim' type='graphic'>seahorsedad-anim.png</asset>

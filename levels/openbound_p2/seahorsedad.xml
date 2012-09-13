@@ -1,0 +1,18 @@
+<sburb description='seahorsedad'>
+
+<classes>
+	<sprite class='seahorsedad' name='seahorsedad' depthing='1' width='80' height='40' collidable='true'>
+		<animation sheet='seahorsedad' length='4' x='-34' y='-194' frameInterval='8'/>
+	</sprite>
+</classes>
+
+<assets>
+	<asset name='seahorsedad' type='graphic'>chars/seahorsedad/seahorsedad.png</asset>
+</assets>
+
+<hud>
+  <dialogsprites>	
+    		
+  </dialogsprites>
+</hud>
+</sburb>
