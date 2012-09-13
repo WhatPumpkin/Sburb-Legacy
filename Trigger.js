@@ -11,9 +11,11 @@ var Sburb = (function(Sburb){
 
 //constructor
 Sburb.Trigger = function(info,action,followUp,restart,detonate){
+	console.log("Trigger constructor with: "+info, info);
 	if(typeof info == "string"){
 		info = [info];
 	}
+	
 	this.info = info;
 	this.followUp = followUp?followUp:null;
 	this.action = action?action:null;
@@ -25,6 +27,7 @@ Sburb.Trigger = function(info,action,followUp,restart,detonate){
 		var inf = unescape(this.info[i].trim());
 		var params = inf.split(",");
 		var type = params[0];
+		console.log("parsed trigger args: "+type+"("+inf+")");
 		this.events[i] = new Sburb.events[type](inf);
 	}
 	this.reset();
