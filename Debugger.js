@@ -136,7 +136,7 @@ Sburb.Debugger.prototype.draw = function() {
 }
 
 Sburb.Debugger.prototype.sendDebugReport = function() {
-    this.console.log("sendDebugReport not yet implemented");
+    console.debug("sendDebugReport not yet implemented");
 }
 
 // ===================
