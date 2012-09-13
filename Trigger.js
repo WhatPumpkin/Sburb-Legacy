@@ -11,6 +11,9 @@ var Sburb = (function(Sburb){
 
 //constructor
 Sburb.Trigger = function(info,action,followUp,restart,detonate){
+	if(typeof info == "string"){
+		info = [info];
+	}
 	this.info = info;
 	this.followUp = followUp?followUp:null;
 	this.action = action?action:null;
