@@ -24,11 +24,23 @@ Sburb.Debugger = function() {
         // Test messages
         "success":   "#00CC00",
         "failure":   "#CC0000",
+        "variant11": "#00CC00",
+        "variant10": "#00CC00",
+        "variant9":  "#00CC00",
+        "variant8":  "#00CC00",
+        "variant7":  "#CCAA00",
+        "variant6":  "#CCAA00",
+        "variant5":  "#CCAA00",
+        "variant4":  "#CCAA00",
+        "variant3":  "#FF6600",
+        "variant2":  "#FF6600",
+        "variant1":  "#FF6600",
+        "variant0":  "#CC0000",
     };
     // Run tests
-    this.tests["Audio Support"] = !!(Modernizr.audio.ogg || Modernizr.audio.mp3);
-    this.tests["Save Support"] = Modernizr.sessionstorage;
-    this.tests["Better File Loading"] = Modernizr.xhr2 && Modernizr.blob_slice;
+    this.tests["Audio Support"] = Sburb.tests.audio ? "success" : "failure";
+    this.tests["Save Support"] = Sburb.tests.storage ? "success" : "failure";
+    this.tests["File Loading ["+Sburb.tests.loading+"]"] = "variant"+Sburb.tests.loading;
     // Get them errors
     var that = this;
     this.console = new Sburb.Console();
@@ -92,7 +104,7 @@ Sburb.Debugger.prototype.draw = function() {
         Sburb.stage.font="bold 18px Verdana";
         for(var test in this.tests) {
             if(!this.tests.hasOwnProperty(test)) continue;
-            var color = this.tests[test] ? "success" : "failure";
+            var color = this.tests[test];
             var width = Sburb.stage.measureText(test).width;
             Sburb.stage.fillStyle = this.colors[color];
             Sburb.stage.fillRect(630-width,y,width+10,24);
@@ -124,7 +136,7 @@ Sburb.Debugger.prototype.draw = function() {
 }
 
 Sburb.Debugger.prototype.sendDebugReport = function() {
-    this.console.log("sendDebugReport not yet implemented");
+    console.debug("sendDebugReport not yet implemented");
 }
 
 // ===================

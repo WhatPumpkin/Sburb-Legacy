@@ -24,7 +24,8 @@ Sburb.AssetManager = function() {
     this.recurrences = {};
     this.error = [];
     this.failed = [];
-    // Master blob map
+    // Cache urls
+    this.cache = {}
     this.blobs = {}
     // Descriptors
     this.description = "";
@@ -105,6 +106,10 @@ Sburb.AssetManager.prototype.draw = function(){
       percent = Math.floor((this.totalLoaded/this.totalAssets)*100);
   }
   Sburb.stage.fillText(percent+"%",Sburb.Stage.width/2,Sburb.Stage.height-50);
+  if(Sburb.tests.loading == 0) {
+      // Warn the user that we have no clue what's going on
+      Sburb.stage.fillText("Warning: File loading is unreliable. Use a newer browser, like Chrome.",Sburb.Stage.width/2,Sburb.Stage.height-35);
+  }
   if(this.error.length) {
       Sburb.stage.textAlign = "left";
       for(var i = 0; i < this.error.length; i++)
@@ -200,89 +205,250 @@ Sburb.AssetManager.prototype.assetFailed = function(name) {
 //Related Utility functions
 ////////////////////////////////////////////
 
-Sburb.loadGenericAsset = function(asset, path, id) {
-    var URL = window.URL || window.webkitURL;  // Take care of vendor prefixes.
-    var assetPath = Sburb.assetManager.resolvePath(path);
+// Converts an ArrayBuffer directly to base64, without any intermediate 'convert to string then
+// use window.btoa' step. According to my tests, this appears to be a faster approach:
+// http://jsperf.com/encoding-xhr-image-data/5
+Sburb.base64ArrayBuffer = function(arrayBuffer) {
+  var base64    = ''
+  var encodings = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+
+  var bytes         = new window[Sburb.prefixed("Uint8Array",window,false)](arrayBuffer)
+  var byteLength    = bytes.byteLength
+  var byteRemainder = byteLength % 3
+  var mainLength    = byteLength - byteRemainder
+
+  var a, b, c, d
+  var chunk
+
+  // Main loop deals with bytes in chunks of 3
+  for (var i = 0; i < mainLength; i = i + 3) {
+    // Combine the three bytes into a single integer
+    chunk = (bytes[i] << 16) | (bytes[i + 1] << 8) | bytes[i + 2]
+
+    // Use bitmasks to extract 6-bit segments from the triplet
+    a = (chunk & 16515072) >> 18 // 16515072 = (2^6 - 1) << 18
+    b = (chunk & 258048)   >> 12 // 258048   = (2^6 - 1) << 12
+    c = (chunk & 4032)     >>  6 // 4032     = (2^6 - 1) << 6
+    d = chunk & 63               // 63       = 2^6 - 1
+
+    // Convert the raw binary segments to the appropriate ASCII encoding
+    base64 += encodings[a] + encodings[b] + encodings[c] + encodings[d]
+  }
+
+  // Deal with the remaining bytes and padding
+  if (byteRemainder == 1) {
+    chunk = bytes[mainLength]
     
-    // Doesn't support happy file loading. Fallback to sad file loading
-    if(!Modernizr.xhr2 || !Modernizr.blob_slice) {
-        setTimeout(function() { asset.success(assetPath, id, true); }, 0); // Async call success so things don't blow up
-        return;
-    }
+    a = (chunk & 252) >> 2 // 252 = (2^6 - 1) << 2
+    
+    // Set the 4 least significant bits to zero
+    b = (chunk & 3)   << 4 // 3   = 2^2 - 1
+
+    base64 += encodings[a] + encodings[b] + '=='
+  } else if (byteRemainder == 2) {
+    chunk = (bytes[mainLength] << 8) | bytes[mainLength + 1]
+
+    a = (chunk & 64512) >> 10 // 64512 = (2^6 - 1) << 10
+    b = (chunk & 1008)  >>  4 // 1008  = (2^6 - 1) << 4
+
+    // Set the 2 least significant bits to zero
+    c = (chunk & 15)    <<  2 // 15    = 2^4 - 1
+
+    base64 += encodings[a] + encodings[b] + encodings[c] + '='
+  }
+  
+  return base64
+}
+
+Sburb.loadGenericAsset = function(asset, path, id) {
+    var assetPath = Sburb.assetManager.resolvePath(path);
+    var ext = path.substring(path.indexOf(".")+1,path.length);
+    var type = Sburb.assetManager.mimes[ext];
     
     // We've loaded this before, don't bother loading it again
     if(assetPath in Sburb.assetManager.blobs) {
-        /* WARNING: AutoRevoke will probably break this
-        var blob_url = Sburb.assetManager.blobs[assetPath];
-        // This may be overkill
-        var blob_xhr = new XMLHttpRequest();
-        blob_xhr.open("GET", blob_url, false);
-        blob_xhr.send();
-        if(blob_xhr.status == 200) {
-            setTimeout(function() { asset.success(blob_url, id); }, 0); // Async call success so things don't blow up
-            return;
-        }
-        */
+        var URLCreator = window[Sburb.prefixed("URL",window,false)];
         var blob = Sburb.assetManager.blobs[assetPath];
-        var url = URL.createObjectURL(blob);
+        var url = false;
+        if(Sburb.tests.blobrevoke) {
+            url = URLCreator.createObjectURL(blob, {autoRevoke: false});
+        } else {
+            url = URLCreator.createObjectURL(blob); // I hope this doesn't expire...
+        }
         setTimeout(function() { asset.success(url, id); }, 0); // Async call success so things don't blow up
         return;
     }
-    var xhr = new XMLHttpRequest();
-    xhr.total = 0;
-    xhr.loaded = 0;
-    xhr.open('GET', assetPath, true);
-    xhr.responseType = 'blob';
-    xhr.onprogress = function(e) {
-        if(e.lengthComputable) {
-            if(!xhr.total) {
-                Sburb.assetManager.totalMeta++;
-                Sburb.assetManager.totalSize += e.total;
-                xhr.total = e.total;
-            }
-            var diff = e.loaded - xhr.loaded;
-            xhr.loaded = e.loaded;
-            Sburb.assetManager.loadedSize += diff;
-        } else {
-            console.log("ERROR: Length not computable for " + path);
-        }
+    if(assetPath in Sburb.assetManager.cache) {
+        var url = Sburb.assetManager.cache[assetPath];
+        setTimeout(function() { asset.success(url, id); }, 0); // Async call success so things don't blow up
+        return;
     }
-    xhr.onload = function() {
-        var status = this.status;
-
-        if(this.status === 0 && this.response)
-        {
-            status = 200;
+    // Welcome to fallback hell
+    // NOTE: We use array.contains because future fallbacks will just get a higher number
+    //       Hence inequalities won't work and multiple == would get messy fast
+    if([4,5,6,7,8,9,10,11].contains(Sburb.tests.loading)) {
+        // XHR2 supported, we're going to have a good day
+        var xhr = new XMLHttpRequest();
+        xhr.total = 0;
+        xhr.loaded = 0;
+        xhr.open('GET', assetPath, true);
+        if([8,9,10,11].contains(Sburb.tests.loading)) {
+            xhr.responseType = 'blob';
+        } else {
+            xhr.responseType = 'arraybuffer';
         }
-
-        if (status == 200) {
-            var sliceMethod = false;
-            if("mozSlice" in this.response)    sliceMethod = "mozSlice";
-            if("webkitSlice" in this.response) sliceMethod = "webkitSlice";
-            if("slice" in this.response)       sliceMethod = "slice";
-            if(!sliceMethod) {
-                console.log("No way to generate blob properly. Aborting.");
+        xhr.onprogress = function(e) {
+            if(e.lengthComputable) {
+                if(!xhr.total) {
+                    Sburb.assetManager.totalMeta++;
+                    Sburb.assetManager.totalSize += e.total;
+                    xhr.total = e.total;
+                }
+                var diff = e.loaded - xhr.loaded;
+                xhr.loaded = e.loaded;
+                Sburb.assetManager.loadedSize += diff;
+            } else {
+                console.log("ERROR: Length not computable for " + path);
+            }
+        }
+        xhr.onload = function() {
+            if((this.status == 200 || this.status == 0) && this.response) {
+                // First, let the loader know we're done
+                var diff = xhr.total - xhr.loaded;
+                xhr.loaded = xhr.total;
+                Sburb.assetManager.loadedSize += diff;
+                // Now make a URL out of the asset
+                var url = false;
+                if([5,6,7,9,10,11].contains(Sburb.tests.loading)) {
+                    var URLCreator = window[Sburb.prefixed("URL",window,false)];
+                    var blob = false;
+                    if(Sburb.tests.loading == 11) {
+                        blob = new Blob([this.response],{type: type});
+                    } else if([5,10].contains(Sburb.tests.loading)) {
+                        var builder = new window[Sburb.prefixed("BlobBuilder",window,false)]();
+                        builder.append(this.response);
+                        blob = builder.getBlob(type);
+                    } else if(Sburb.tests.loading == 9) {
+                        blob = this.response[Sburb.prefixed("slice",Blob.prototype,false)](0,this.response.size,type);
+                    } else if(Sburb.tests.loading == 7) {
+                        var dataview = new Uint8Array(this.response);
+                        blob = new Blob([dataview],{type: type});
+                    } else if(Sburb.tests.loading == 6) {
+                        blob = new Blob([this.response],{type: type});
+                    } // No else, this covers all the methods in this block
+                    if(!blob) {
+                        return asset.failure(id); // Uh what happened here?
+                    }
+                    if(Sburb.tests.blobrevoke) {
+                        url = URLCreator.createObjectURL(blob, {autoRevoke: false});
+                    } else {
+                        url = URLCreator.createObjectURL(blob); // I hope this doesn't expire...
+                    }
+                    Sburb.assetManager.blobs[assetPath] = blob; // Save for later
+                } else if(Sburb.tests.loading == 8) {
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        var url = e.target.result;
+                        if(!url) {
+                            return asset.failure(id);
+                        }
+                        // TODO: Replace mime-type with actual type
+                        // TODO: Verify this is base64 encoded
+                        Sburb.assetManager.cache[assetPath] = url;
+                        asset.success(url,id);
+                    }
+                    reader.onabort = function() { asset.failure(id); };
+                    reader.onerror = function() { asset.failure(id); };
+                    reader.readAsDataURL(this.response);
+                    return; // Async inception
+                } else if(Sburb.tests.loading == 4) {
+                    var b64 = Sburb.base64ArrayBuffer(this.response);
+                    url = "data:"+type+";base64,"+b64;
+                } // No else, this covers all the methods in this block
+                if(!url) {
+                    return asset.failure(id); // Uh what happened here?
+                }
+                Sburb.assetManager.cache[assetPath] = url; // Save for later
+                asset.success(url,id);
+            } else {
                 asset.failure(id);
-                return;
             }
-            var ext = path.substring(path.indexOf(".")+1,path.length);
-            var type = Sburb.assetManager.mimes[ext];
-            var blob = this.response[sliceMethod](0,this.response.size,type); //new Blob([this.response],{type: type});
-            var url = URL.createObjectURL(blob); // Apparently we can't do this yet, {"autoRevoke": false}); // Make the blob persist until page unload
-            Sburb.assetManager.blobs[assetPath] = blob; // Save for later use
-            var diff = xhr.total - xhr.loaded;
-            xhr.loaded = xhr.total;
-            Sburb.assetManager.loadedSize += diff;
-
-            asset.success(url,id);
-        } else {
-            asset.failure(id);
         }
+        xhr.onabort = function() { asset.failure(id) };
+        xhr.onerror = function() { asset.failure(id) };
+        xhr.send();
+    } else if([1,2,3].contains(Sburb.tests.loading)) {
+        // XHR 1, not bad
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', assetPath, true);
+        xhr.overrideMimeType('text/plain; charset=x-user-defined');
+        xhr.onload = function() {
+            if((this.status == 200 || this.status == 0) && this.responseText) {
+                var url = false;
+                if([2,3].contains(Sburb.tests.loading)) {
+                    // Convert response to ArrayBuffer (But why though :( )
+                    var binstr = this.responseText;
+                    var len = binstr.length;
+                    var bytes = new Uint8Array(len);
+                    for(var i = 0; i < len; i += 1) {
+                        bytes[i] = binstr.charCodeAt(i) & 0xFF;
+                    }
+                    var URLCreator = window[Sburb.prefixed("URL",window,false)];
+                    var blob = false;
+                    if(Sburb.tests.loading == 3) {
+                        blob = new Blob([bytes],{type: type});
+                    } else if(Sburb.tests.loading == 2) {
+                        var builder = new window[Sburb.prefixed("BlobBuilder",window,false)]();
+                        builder.append(bytes.buffer);
+                        blob = builder.getBlob(type);
+                    } // No else, this covers all the methods in this block
+                    if(!blob) {
+                        return asset.failure(id); // Uh what happened here?
+                    }
+                    if(Sburb.tests.blobrevoke) {
+                        url = URLCreator.createObjectURL(blob, {autoRevoke: false});
+                    } else {
+                        url = URLCreator.createObjectURL(blob); // I hope this doesn't expire...
+                    }
+                    Sburb.assetManager.blobs[assetPath] = blob; // Save for later
+                } else if(Sburb.tests.loading == 1) {
+                    // Clean the string
+                    var binstr = this.responseText;
+                    var len = binstr.length;
+                    var bytes = new Array(len);
+                    for(var i = 0; i < len; i += 1) {
+                        bytes[i] = binstr.charCodeAt(i) & 0xFF;
+                    }
+                    binstr = '';
+                    // Don't break the stack - Thanks MDN!
+                    var QUANTUM = 65000;
+                    for(var i = 0; i < len; i += QUANTUM) {
+                        binstr += String.fromCharCode.apply(null, bytes.slice(i, Math.min(i + QUANTUM, len)));
+                    }
+                    var b64 = window.btoa(binstr);
+                    url = "data:"+type+";base64,"+b64;
+                } // No else, this covers all the methods in this block
+                if(!url) {
+                    return asset.failure(id); // Uh what happened here?
+                }
+                Sburb.assetManager.cache[assetPath] = url; // Save for later
+                asset.success(url,id);
+            } else {
+                asset.failure(id);
+            }
+        }
+        xhr.onabort = function() { asset.failure(id) };
+        xhr.onerror = function() { asset.failure(id) };
+        xhr.send();
+    } else if(Sburb.tests.loading == 0) {
+        // DANGER DANGER we can't track anything! PANIC!!!
+        Sburb.assetManager.cache[assetPath] = assetPath; // Save for later
+        asset.success(assetPath,id,true);
+    } else {
+        // Somebody added another fallback without editting this function. Yell at them.
+        console.error("Invalid Sburb.tests.loading. Value = "+Sburb.tests.loading);
+        asset.failure(id);
     }
-
-    xhr.onabort = function() { asset.failure(id) };
-    xhr.onerror = function() { asset.failure(id) };
-    xhr.send();
 };
 
 //Create a graphic Asset
@@ -335,7 +501,7 @@ Sburb.createGraphicAsset = function(name, path) {
 //create an audio Asset
 Sburb.createAudioAsset = function(name,sources) {
     // Return a dummy object if no audio support
-    if(!Modernizr.audio.ogg && !Modernizr.audio.mp3) {
+    if(!Modernizr.audio) {
         return {
             name: name,
             type: "audio",
