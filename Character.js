@@ -348,9 +348,11 @@ Sburb.Character.prototype.serialize = function(output){
 		}else{
 			output = output.concat("' bootstrap='true");
 		}
-		if(this.following)
-		{
+		if(this.following){
 			output = output.concat("' following='"+this.following.name+"");
+		}
+		if(this.follower){
+			output = output.concat("' follower='"+this.follower.name+"");
 		}
 		output = output.concat("'>");
 	for(var animation in this.animations){
@@ -395,11 +397,22 @@ Sburb.parseCharacter = function(charNode, assetFolder) {
   				    parseInt(attributes.getNamedItem("sWidth").value),
   				    parseInt(attributes.getNamedItem("sHeight").value),
   				    assetFolder[attributes.getNamedItem("sheet").value]);
+  	
   	var temp = attributes.getNamedItem("following");
   	if(temp){
   		var following = Sburb.sprites[temp.value];
-  		newChar.follow(following);
-  	} 			    
+  		if(following){
+  			newChar.follow(following);
+  		}
+  	} 			 
+  	var temp = attributes.getNamedItem("follower");
+  	if(temp){
+  		var follower = Sburb.sprites[temp.value];
+  		if(follower){
+  			follower.follow(newChar);
+  		}
+  	} 	   
+  	
   	var anims = charNode.getElementsByTagName("animation");
 	for(var j=0;j<anims.length;j++){
 		var newAnim = Sburb.parseAnimation(anims[j],assetFolder);
