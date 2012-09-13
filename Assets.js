@@ -401,7 +401,15 @@ Sburb.loadGenericAsset = function(asset, path, id) {
                     }
                     Sburb.assetManager.blobs[assetPath] = blob; // Save for later
                 } else if(Sburb.tests.loading == 1) {
-                    var b64 = window.btoa(this.responseText);
+                    // Clean the response
+                    var bin = this.responseText;
+                    var len = bin.length;
+                    var bytes = new Array(len);
+                    for(var i = 0; i < len; i += 1) {
+                        bytes[i] = string.charCodeAt(i) & 0xFF;
+                    }
+                    var binstr = String.fromCharCode.apply(null, bytes);
+                    var b64 = window.btoa(binstr);
                     url = "data:"+type+";base64,"+b64;
                 } // No else, this covers all the methods in this block
                 if(!url) {
