@@ -3,7 +3,7 @@
 <classes>
 	<character class='mituna' name='mituna' sx='-50' sy='-110' sWidth='100' sHeight='130' width='40' height='30' sheet='mitunaSheet'  facing='Front' state='skate' >
 		<animation name='skate' sheet='mitunaSkate' x='-32' y='-90'/>
-		<animation name='crash' sheet='mitunaLand' x='-45' y='-25'/>
+		<animation name='crash' sheet='mitunaLand' x='-35' y='-15'/>
 	</character>
 </classes>
 
