@@ -101,15 +101,27 @@
   			<action command='changeRoomRemote'>thirdRoom.xml,thirdRoom,520,2544</action>
   		</trigger>
   		<trigger detonate='true'>
-  			<args>spritePos,char,x GREATER 5300</args>
+  			<args>spriteProperty,char,x &gt; 5300</args>
   			<action command='waitFor'>
   				<args>noActions</args>
   				<action command='addSprite' noWait='true'>
   					<args>mituna,firstRoom</args>
   					<action command='changeFocus' noWait='true'>
 							<args>mituna</args>
-							<action command='deltaSprite' noWait='true' loops='12'>
-								<args>mituna,12,0</args>
+							<action command='deltaSprite' noWait='true' for='32'>
+								<args>mituna,16,0</args>
+								<action command='deltaSprite' noWait='true' for='18'>
+									<args>mituna,12,-12</args>
+									<action command='deltaSprite' noWait='true' for='15'>
+										<args>mituna,18,18</args>
+										<action command='playAnimation' noWait='true' noDelay='true'>
+											<args>mituna,crash</args>
+											<action command='changeFocus' noWait='true'>
+												<args>char</args>
+											</action>
+										</action>
+									</action>
+								</action>
 							</action>
 						</action>
   				</action>

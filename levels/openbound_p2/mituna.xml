@@ -1,7 +1,7 @@
 <sburb description='mituna'>
 
 <classes>
-	<sprite class='mituna' name='mituna' width='90' height='50' depthing='1' collidable='true'>
+	<sprite class='mituna' name='mituna' width='90' height='50' depthing='2' collidable='true'>
 		<animation name='skate' sheet='mitunaSkate' x='-32' y='-100'/>
 		<animation name='crash' sheet='mitunaLand' x='-45' y='-25'/>
 	</sprite>
