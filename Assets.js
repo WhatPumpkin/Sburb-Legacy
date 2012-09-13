@@ -406,7 +406,7 @@ Sburb.loadGenericAsset = function(asset, path, id) {
                     var len = bin.length;
                     var bytes = new Array(len);
                     for(var i = 0; i < len; i += 1) {
-                        bytes[i] = string.charCodeAt(i) & 0xFF;
+                        bytes[i] = bin.charCodeAt(i) & 0xFF;
                     }
                     var binstr = String.fromCharCode.apply(null, bytes);
                     var b64 = window.btoa(binstr);
