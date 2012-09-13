@@ -1,7 +1,7 @@
 <sburb description='meenah'>
 
 <classes>
-	<animation class='meenahDialog' frameInterval='6' x='-180' y='-524'/>
+	<!--<animation class='meenahDialog' frameInterval='6' x='-180' y='-524'/>-->
 	
 	<character class='meenah' name='meenah' sx='-50' sy='-110' sWidth='100' sHeight='130' width='30' height='15' sheet='meenahSheet' state='walkFront' facing='Front'>
 	</character>
@@ -9,28 +9,28 @@
 
 <assets>
 
-	<asset name='meenahSheet' type='graphic'>chars/meenah.png</asset>
+	<asset name='meenahSheet' type='graphic'>chars/meenah/meenah.png</asset>
 
 	<asset name='fusciaRuler' type='audio'>audio/music/FuschiaRulerQuiet.oga;audio/music/FuschiaRulerQuiet.mp3</asset>
 
-	<asset name='meenah_idle' type='graphic'>dialogs/meenah_idle.png</asset>
-	<asset name='meenah_talk' type='graphic'>dialogs/meenah_talk.png</asset>
-	<asset name='meenah_angry' type='graphic'>dialogs/meenah_angry.png</asset>
-	<asset name='meenah_angrytalk' type='graphic'>dialogs/meenah_angrytalk.png</asset>
-	<asset name='meenah_annoyed' type='graphic'>dialogs/meenah_annoyed.png</asset>
-	<asset name='meenah_annoyedtalk' type='graphic'>dialogs/meenah_annoyedtalk.png</asset>
-	<asset name='meenah_creepy' type='graphic'>dialogs/meenah_creepy.png</asset>
-	<asset name='meenah_creepytalk' type='graphic'>dialogs/meenah_creepytalk.png</asset>
-	<asset name='meenah_creepylaugh' type='graphic'>dialogs/meenah_creepylaugh.png</asset>
-	<asset name='meenah_fish' type='graphic'>dialogs/meenah_fish.png</asset>
-	<asset name='meenah_fishtalk' type='graphic'>dialogs/meenah_fishtalk.png</asset>
-	<asset name='meenah_happy' type='graphic'>dialogs/meenah_happy.png</asset>
-	<asset name='meenah_happytalk' type='graphic'>dialogs/meenah_happytalk.png</asset>
-	<asset name='meenah_happier' type='graphic'>dialogs/meenah_happier.png</asset>
-	<asset name='meenah_ohyes' type='graphic'>dialogs/meenah_ohyes.png</asset>
-	<asset name='meenah_wink' type='graphic'>dialogs/meenah_wink.png</asset>
-	<asset name='meenah_wut' type='graphic'>dialogs/meenah_wut.png</asset>
-	<asset name='meenah_wut2' type='graphic'>dialogs/meenah_wut2.png</asset>
+	<asset name='meenah_idle' type='graphic'>dialogs/meenah/meenah_idle.png</asset>
+	<asset name='meenah_talk' type='graphic'>dialogs/meenah/meenah_talk.png</asset>
+	<asset name='meenah_angry' type='graphic'>dialogs/meenah/meenah_angry.png</asset>
+	<asset name='meenah_angrytalk' type='graphic'>dialogs/meenah/meenah_angrytalk.png</asset>
+	<asset name='meenah_annoyed' type='graphic'>dialogs/meenah/meenah_annoyed.png</asset>
+	<asset name='meenah_annoyedtalk' type='graphic'>dialogs/meenah/meenah_annoyedtalk.png</asset>
+	<asset name='meenah_creepy' type='graphic'>dialogs/meenah/meenah_creepy.png</asset>
+	<asset name='meenah_creepytalk' type='graphic'>dialogs/meenah/meenah_creepytalk.png</asset>
+	<asset name='meenah_creepylaugh' type='graphic'>dialogs/meenah/meenah_creepylaugh.png</asset>
+	<asset name='meenah_fish' type='graphic'>dialogs/meenah/meenah_fish.png</asset>
+	<asset name='meenah_fishtalk' type='graphic'>dialogs/meenah/meenah_fishtalk.png</asset>
+	<asset name='meenah_happy' type='graphic'>dialogs/meenah/meenah_happy.png</asset>
+	<asset name='meenah_happytalk' type='graphic'>dialogs/meenah/meenah_happytalk.png</asset>
+	<asset name='meenah_happier' type='graphic'>dialogs/meenah/meenah_happier.png</asset>
+	<asset name='meenah_ohyes' type='graphic'>dialogs/meenah/meenah_ohyes.png</asset>
+	<asset name='meenah_wink' type='graphic'>dialogs/meenah/meenah_wink.png</asset>
+	<asset name='meenah_wut' type='graphic'>dialogs/meenah/meenah_wut.png</asset>
+	<asset name='meenah_wut2' type='graphic'>dialogs/meenah/meenah_wut2.png</asset>
 </assets>
 
 <hud>

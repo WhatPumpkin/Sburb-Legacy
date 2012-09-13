@@ -2,9 +2,17 @@
 
 <dependencies>
 	<dependency>meenah.xml</dependency>
+	<dependency>mituna.xml</dependency>
+	<dependency>bicyclops.xml</dependency>
+	<dependency>seahorsedad.xml</dependency>
+	<dependency>cronus.xml</dependency>
 </dependencies>
 
 <assets>
+
+	<asset name='megaDoorClosed' type='graphic'>objects/door_closed.png</asset>
+	<asset name='megaDoorOpen' type='graphic'>objects/door_open.png</asset>
+
 	<asset name='firstRoomBG_0_0' type='graphic'>backgrounds/slices/firstRoomBG_0_0.png</asset>
 	<asset name='firstRoomBG_0_10' type='graphic'>backgrounds/slices/firstRoomBG_0_10.png</asset>
 	<asset name='firstRoomBG_0_11' type='graphic'>backgrounds/slices/firstRoomBG_0_11.png</asset>
@@ -44,6 +52,9 @@
 	<asset name='firstRoomBG_2_7' type='graphic'>backgrounds/slices/firstRoomBG_2_7.png</asset>
 	<asset name='firstRoomBG_2_8' type='graphic'>backgrounds/slices/firstRoomBG_2_8.png</asset>
 	<asset name='firstRoomBG_2_9' type='graphic'>backgrounds/slices/firstRoomBG_2_9.png</asset>
+	
+	
+	
 	<!--
 	<asset name='firstRoomFG_0_0' type='graphic'>backgrounds/slices/firstRoomFG_0_0.png</asset>
 	<asset name='firstRoomFG_0_2' type='graphic'>backgrounds/slices/firstRoomFG_0_2.png</asset>
@@ -76,6 +87,7 @@
 	<asset name='firstRoomStairs3' type='path'>5136,738;5281,880;5281,988;5136,859</asset>
 </assets>
 
+<sprite class='mituna' x='4534' y='670'/>
 
 <rooms>
   <room name='firstRoom' walkableMap='firstRoomMap' mapScale='2'>
@@ -88,6 +100,21 @@
   			<args>inBox2,char,5116,0,5580,66</args>
   			<action command='changeRoomRemote'>thirdRoom.xml,thirdRoom,520,2544</action>
   		</trigger>
+  		<trigger detonate='true'>
+  			<args>spritePos,char,x GREATER 5300</args>
+  			<action command='waitFor'>
+  				<args>noActions</args>
+  				<action command='addSprite' noWait='true'>
+  					<args>mituna,firstRoom</args>
+  					<action command='changeFocus' noWait='true'>
+							<args>mituna</args>
+							<action command='deltaSprite' noWait='true' loops='12'>
+								<args>mituna,12,0</args>
+							</action>
+						</action>
+  				</action>
+  			</action>
+  		</trigger>
   	</triggers>
   
   	<paths>
@@ -97,7 +124,15 @@
   	</paths>
   	
   	<character class='meenah' x='427' y='458' />
-  
+  	<character class='cronus' x='2022' y='958' />
+  	<sprite class='seahorsedad' x='1702' y='844' />
+  	<sprite class='bicyclops' x='5173' y='627' />
+  	
+  	<sprite name='megaDoor' x='2124' y='644' width='50' height='30'>
+  		<animation name='closed' sheet='megaDoorClosed' x='-60' y='-144'/>
+  		<animation name='open' sheet='megaDoorOpen' x='-60' y='-144'/>
+  	</sprite>
+  	
 		<sprite name='firstRoomBG_0_0' x='0' y='0'><animation sheet='firstRoomBG_0_0' /></sprite>
 <sprite name='firstRoomBG_0_10' x='5000' y='0'><animation sheet='firstRoomBG_0_10' /></sprite>
 <sprite name='firstRoomBG_0_11' x='5500' y='0'><animation sheet='firstRoomBG_0_11' /></sprite>
