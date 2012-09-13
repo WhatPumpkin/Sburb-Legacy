@@ -158,6 +158,15 @@
   				</action>
   			</action>
   		</trigger>
+  		<trigger detonate='true'>
+  			<args>gameState,spadeKeyUsed=true</args>
+  			<args>gameState,heartKeyUsed=true</args>
+  			<args>gameState,clubKeyUsed=true</args>
+  			<args>gameState,diamondKeyUsed=true</args>
+  			<action command='startAnimation'>
+  				<args>megaDoor,open</args>
+  			</action>
+  		</trigger>
   	</triggers>
   
   	<paths>
