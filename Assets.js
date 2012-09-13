@@ -106,6 +106,10 @@ Sburb.AssetManager.prototype.draw = function(){
       percent = Math.floor((this.totalLoaded/this.totalAssets)*100);
   }
   Sburb.stage.fillText(percent+"%",Sburb.Stage.width/2,Sburb.Stage.height-50);
+  if(Sburb.tests.loading == 0) {
+      // Warn the user that we have no clue what's going on
+      Sburb.stage.fillText("Warning: File loading is unreliable. Use a newer browser, like Chrome.",Sburb.Stage.width/2,Sburb.Stage.height-35);
+  }
   if(this.error.length) {
       Sburb.stage.textAlign = "left";
       for(var i = 0; i < this.error.length; i++)
@@ -208,7 +212,7 @@ Sburb.base64ArrayBuffer = function(arrayBuffer) {
   var base64    = ''
   var encodings = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
 
-  var bytes         = new (Sburb.prefixed("Uint8Array",window,false))(arrayBuffer)
+  var bytes         = new window[Sburb.prefixed("Uint8Array",window,false)](arrayBuffer)
   var byteLength    = bytes.byteLength
   var byteRemainder = byteLength % 3
   var mainLength    = byteLength - byteRemainder
@@ -327,10 +331,10 @@ Sburb.loadGenericAsset = function(asset, path, id) {
                     } else if(Sburb.tests.loading == 9) {
                         blob = this.response[Sburb.prefixed("slice",Blob.prototype,false)](0,this.response.size,type);
                     } else if(Sburb.tests.loading == 7) {
-                        var dataview = new DataView(this.response);
+                        var dataview = new Uint8Array(this.response);
                         blob = new Blob([dataview],{type: type});
                     } else if(Sburb.tests.loading == 6) {
-                        blob = new Blob([this.response.buffer],{type: type});
+                        blob = new Blob([this.response],{type: type});
                     } // No else, this covers all the methods in this block
                     if(!blob) {
                         return asset.failure(id); // Uh what happened here?
@@ -382,13 +386,20 @@ Sburb.loadGenericAsset = function(asset, path, id) {
             if((this.status == 200 || this.status == 0) && this.responseText) {
                 var url = false;
                 if([2,3].contains(Sburb.tests.loading)) {
+                    // Convert response to ArrayBuffer (But why though :( )
+                    var binstr = this.responseText;
+                    var len = binstr.length;
+                    var bytes = new Uint8Array(len);
+                    for(var i = 0; i < len; i += 1) {
+                        bytes[i] = binstr.charCodeAt(i) & 0xFF;
+                    }
                     var URLCreator = window[Sburb.prefixed("URL",window,false)];
                     var blob = false;
                     if(Sburb.tests.loading == 3) {
-                        blob = new Blob([this.responseText],{type: type});
+                        blob = new Blob([bytes],{type: type});
                     } else if(Sburb.tests.loading == 2) {
                         var builder = new window[Sburb.prefixed("BlobBuilder",window,false)]();
-                        builder.append(this.responseText);
+                        builder.append(bytes.buffer);
                         blob = builder.getBlob(type);
                     } // No else, this covers all the methods in this block
                     if(!blob) {
@@ -401,14 +412,14 @@ Sburb.loadGenericAsset = function(asset, path, id) {
                     }
                     Sburb.assetManager.blobs[assetPath] = blob; // Save for later
                 } else if(Sburb.tests.loading == 1) {
-                    // Clean the response
-                    var bin = this.responseText;
-                    var len = bin.length;
+                    // Clean the string
+                    var binstr = this.responseText;
+                    var len = binstr.length;
                     var bytes = new Array(len);
                     for(var i = 0; i < len; i += 1) {
-                        bytes[i] = bin.charCodeAt(i) & 0xFF;
+                        bytes[i] = binstr.charCodeAt(i) & 0xFF;
                     }
-                    var binstr = '';
+                    binstr = '';
                     // Don't break the stack - Thanks MDN!
                     var QUANTUM = 65000;
                     for(var i = 0; i < len; i += QUANTUM) {
