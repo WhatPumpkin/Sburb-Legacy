@@ -65,6 +65,7 @@ Sburb.parseAction = function(node) {
 		if(attributes.getNamedItem("sprite") && attributes.getNamedItem("sprite").value!="null"){
 			targSprite = attributes.getNamedItem("sprite").value;
 		}
+		var times = attributes.getNamedItem("times") || attributes.getNamedItem("loops") || attributes.getNamedItem("for");
 		var newAction = new Sburb.Action(
 					 attributes.getNamedItem("command").value,
 					 node.firstChild?unescape(getNodeText(node)).trim():"",
@@ -73,7 +74,7 @@ Sburb.parseAction = function(node) {
 					 null,
 					 attributes.getNamedItem("noWait")?attributes.getNamedItem("noWait").value=="true":false,
 					 attributes.getNamedItem("noDelay")?attributes.getNamedItem("noDelay").value=="true":false,
-					 attributes.getNamedItem("times")?parseInt(attributes.getNamedItem("times").value):1,
+					 times?parseInt(times.value):1,
 					 attributes.getNamedItem("soft")?attributes.getNamedItem("soft").value=="true":false,
 					 attributes.getNamedItem("silent")?attributes.getNamedItem("silent").value=="true":false);
 
