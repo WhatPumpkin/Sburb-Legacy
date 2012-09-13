@@ -38,7 +38,7 @@ Sburb.Debugger = function() {
         "variant0":  "#CC0000",
     };
     // Run tests
-    this.tests["Audio Support"] = !!(Sburb.tests.audio.ogg || Sburb.tests.audio.mp3) ? "success" : "failure";
+    this.tests["Audio Support"] = Sburb.tests.audio ? "success" : "failure";
     this.tests["Save Support"] = Sburb.tests.storage ? "success" : "failure";
     this.tests["File Loading ["+Sburb.tests.loading+"]"] = "variant"+Sburb.tests.loading;
     // Get them errors
