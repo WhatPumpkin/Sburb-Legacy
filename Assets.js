@@ -408,7 +408,12 @@ Sburb.loadGenericAsset = function(asset, path, id) {
                     for(var i = 0; i < len; i += 1) {
                         bytes[i] = bin.charCodeAt(i) & 0xFF;
                     }
-                    var binstr = String.fromCharCode.apply(null, bytes);
+                    var binstr = '';
+                    // Don't break the stack - Thanks MDN!
+                    var QUANTUM = 65000;
+                    for(var i = 0; i < len; i += QUANTUM) {
+                        binstr += String.fromCharCode.apply(null, bytes.slice(i, Math.min(i + QUANTUM, len)));
+                    }
                     var b64 = window.btoa(binstr);
                     url = "data:"+type+";base64,"+b64;
                 } // No else, this covers all the methods in this block
