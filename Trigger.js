@@ -17,12 +17,9 @@ Sburb.Trigger = function(info,action,followUp,restart,detonate){
 	this.restart = restart?restart:false;
 	this.detonate = detonate?detonate:false;
 	
-	
-console.log(info);
 	this.events = [];
 	for(var i=0;i<info.length;i++){
 		var inf = unescape(this.info[i].trim());
-		console.log(inf);
 		var params = inf.split(",");
 		var type = params[0];
 		this.events[i] = new Sburb.events[type](inf);
