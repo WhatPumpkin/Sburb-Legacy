@@ -1,0 +1,13 @@
+<sburb description='sfx'>
+<assets>
+  <asset name='closeSound' type='audio'>audio/sfx/Close1.oga;audio/sfx/Close1.mp3</asset>
+  <asset name='grindSound' type='audio'>audio/sfx/Grind.oga;audio/sfx/Grind.mp3</asset>
+  <asset name='hitPowerfulSound' type='audio'>audio/sfx/HitPowerful.oga;audio/sfx/HitPowerful.mp3</asset>
+  <asset name='hitWeakSound' type='audio'>audio/sfx/HitWeak.oga;audio/sfx/HitWeak.mp3</asset>
+  <asset name='itemGetSound' type='audio'>audio/sfx/ItemGetNoVoice.oga;audio/sfx/ItemGetNoVoice.mp3</asset>
+  <asset name='itemGetVoiceSound' type='audio'>audio/sfx/ItemGetVoice.oga;audio/sfx/ItemGetVoice.mp3</asset>
+  <asset name='openSound' type='audio'>audio/sfx/Open1.oga;audio/sfx/Open1.mp3</asset>
+  <asset name='openSound2' type='audio'>audio/sfx/Open2.oga;audio/sfx/Open2.mp3</asset>
+  <asset name='stairSound' type='audio'>audio/sfx/Staircase.oga;audio/sfx/Staircase.mp3</asset>
+</assets>
+</sburb>
