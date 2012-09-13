@@ -3,6 +3,7 @@
 	<dependencies>
 		<dependency>ui.xml</dependency>
 		<dependency>standardTemplates.xml</dependency>
+		<dependency>sfx.xml</dependency>
 		<dependency>firstRoom.xml</dependency>
 	</dependencies>
 

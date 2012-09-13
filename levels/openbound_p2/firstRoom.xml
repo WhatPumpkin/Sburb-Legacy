@@ -13,6 +13,11 @@
 	<asset name='megaDoorClosed' type='graphic'>objects/door_closed.png</asset>
 	<asset name='megaDoorOpen' type='graphic'>objects/door_open.png</asset>
 
+	<asset name='spadeKeySheet' type='graphic'>objects/item_spade.png</asset>
+	<asset name='diamondKeySheet' type='graphic'>objects/item_diamond.png</asset>
+	<asset name='clubKeySheet' type='graphic'>objects/item_club.png</asset>
+	<asset name='heartKeySheet' type='graphic'>objects/item_heart.png</asset>
+
 	<asset name='firstRoomBG_0_0' type='graphic'>backgrounds/slices/firstRoomBG_0_0.png</asset>
 	<asset name='firstRoomBG_0_10' type='graphic'>backgrounds/slices/firstRoomBG_0_10.png</asset>
 	<asset name='firstRoomBG_0_11' type='graphic'>backgrounds/slices/firstRoomBG_0_11.png</asset>
@@ -89,6 +94,20 @@
 
 <sprite class='mituna' x='4534' y='670'/>
 
+<sprite name='spadeKey' depthing='2'>
+	<animation sheet='spadeKeySheet' x='-50' y='-50'/>
+</sprite>
+<sprite name='heartKey' depthing='2'>
+	<animation sheet='heartKeySheet' x='-50' y='-50'/>
+</sprite>
+<sprite name='clubKey' depthing='2'>
+	<animation sheet='clubKeySheet' x='-50' y='-50'/>
+</sprite>
+<sprite name='diamondKey' depthing='2'>
+	<animation sheet='diamondKeySheet' x='-50' y='-50'/>
+</sprite>
+
+
 <rooms>
   <room name='firstRoom' walkableMap='firstRoomMap' mapScale='2'>
   	<triggers>
@@ -106,18 +125,27 @@
   				<args>noActions</args>
   				<action command='addSprite' noWait='true'>
   					<args>mituna,firstRoom</args>
-  					<action command='changeFocus' noWait='true'>
-							<args>mituna</args>
-							<action command='deltaSprite' noWait='true' for='32'>
-								<args>mituna,16,0</args>
-								<action command='deltaSprite' noWait='true' for='18'>
-									<args>mituna,12,-12</args>
-									<action command='deltaSprite' noWait='true' for='15'>
-										<args>mituna,18,18</args>
-										<action command='playAnimation' noWait='true' noDelay='true'>
-											<args>mituna,crash</args>
-											<action command='changeFocus' noWait='true'>
-												<args>char</args>
+  					<action command='playSound' noWait='true'>
+							<args>grindSound</args>
+							<action command='changeFocus' noWait='true'>
+								<args>mituna</args>
+								<action command='deltaSprite' noWait='true' for='32'>
+									<args>mituna,16,0</args>
+									<action command='deltaSprite' noWait='true' for='18'>
+										<args>mituna,12,-12</args>
+										<action command='deltaSprite' noWait='true' for='15'>
+											<args>mituna,18,18</args>
+											<action command='playAnimation' noWait='true' noDelay='true'>
+												<args>mituna,crash</args>
+												<action command='playSound' noWait='true' noDelay='true'>
+													<args>hitPowerfulSound</args>
+													<action command='depthSprite' noWait='true'>
+														<args>mituna,1</args>
+														<action command='changeFocus' noWait='true'>
+															<args>char</args>
+														</action>
+													</action>
+												</action>
 											</action>
 										</action>
 									</action>
@@ -143,6 +171,71 @@
   	<sprite name='megaDoor' x='2124' y='644' width='50' height='30'>
   		<animation name='closed' sheet='megaDoorClosed' x='-60' y='-144'/>
   		<animation name='open' sheet='megaDoorOpen' x='-60' y='-144'/>
+  	</sprite>
+  	
+  	<sprite class='chest1' name='firstRoomChest1' x='2250' y='700'>
+  		<action command='openChest' name='Open.'>
+  			<args>firstRoomChest1,spadeKey,@! you got a spade key!</args>
+  			<action command='addAction'>
+  				<args>megaDoor,
+  					<action name='Use spade key.' command='removeAction'>
+  						<args>megaDoor,Use spade key.</args>
+  						<action command='setGameState'>
+  							<args>spadeKeyUsed,true</args>
+  						</action>
+  					</action>
+  				</args>
+  			</action>
+  		</action>
+  	</sprite>
+  	
+  	<sprite class='chest1' name='firstRoomChest2' x='2300' y='700'>
+  		<action command='openChest' name='Open.'>
+  			<args>firstRoomChest2,heartKey,@! you got a heart key!</args>
+  			<action command='addAction'>
+  				<args>megaDoor,
+  					<action name='Use heart key.' command='removeAction'>
+  						<args>megaDoor,Use heart key.</args>
+  						<action command='setGameState'>
+  							<args>heartKeyUsed,true</args>
+  						</action>
+  					</action>
+  				</args>
+  			</action>
+  		</action>
+  	</sprite>
+  	
+  	<sprite class='chest1' name='firstRoomChest3' x='2350' y='700'>
+  		<action command='openChest' name='Open.'>
+  			<args>firstRoomChest3,clubKey,@! you got a club key!</args>
+  			<action command='addAction'>
+  				<args>megaDoor,
+  					<action name='Use club key.' command='removeAction'>
+  						<args>megaDoor,Use club key.</args>
+  						<action command='setGameState'>
+  							<args>clubKeyUsed,true</args>
+  						</action>
+  					</action>
+  				</args>
+  			</action>
+  		</action>
+  	</sprite>
+  	
+  	
+  	<sprite class='chest1' name='firstRoomChest4' x='2400' y='700'>
+  		<action command='openChest' name='Open.'>
+  			<args>firstRoomChest4,diamondKey,@! you got a diamond key!</args>
+  			<action command='addAction'>
+  				<args>megaDoor,
+  					<action name='Use diamond key.' command='removeAction'>
+  						<args>megaDoor,Use diamond key.</args>
+  						<action command='setGameState'>
+  							<args>diamondKeyUsed,true</args>
+  						</action>
+  					</action>
+  				</args>
+  			</action>
+  		</action>
   	</sprite>
   	
 		<sprite name='firstRoomBG_0_0' x='0' y='0'><animation sheet='firstRoomBG_0_0' /></sprite>
