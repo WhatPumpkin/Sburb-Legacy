@@ -1,13 +1,14 @@
 <sburb description='mituna'>
 
 <classes>
-	<sprite class='mituna' name='mituna' width='90' height='50' depthing='2' collidable='true'>
-		<animation name='skate' sheet='mitunaSkate' x='-32' y='-100'/>
+	<character class='mituna' name='mituna' sx='-50' sy='-110' sWidth='100' sHeight='130' width='40' height='30' sheet='mitunaSheet' state='walkFront' facing='Front' state='skate'>
+		<animation name='skate' sheet='mitunaSkate' x='-32' y='-90'/>
 		<animation name='crash' sheet='mitunaLand' x='-45' y='-25'/>
-	</sprite>
+	</character>
 </classes>
 
 <assets>
+	<asset name='mitunaSheet' type='graphic'>chars/mituna/mituna.png</asset>
 	<asset name='mitunaSkate' type='graphic'>chars/mituna/mituna_skate1.png</asset>
 	<asset name='mitunaLand' type='graphic'>chars/mituna/mituna_skate2.png</asset>
 </assets>

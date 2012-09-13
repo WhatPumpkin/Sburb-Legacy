@@ -92,7 +92,7 @@
 	<asset name='firstRoomStairs3' type='path'>5136,738;5281,880;5281,988;5136,859</asset>
 </assets>
 
-<sprite class='mituna' x='4534' y='670'/>
+<character class='mituna' x='4534' y='670'/>
 
 <sprite name='spadeKey' depthing='2'>
 	<animation sheet='spadeKeySheet' x='-50' y='-50'/>
@@ -125,24 +125,27 @@
   				<args>noActions</args>
   				<action command='addSprite' noWait='true'>
   					<args>mituna,firstRoom</args>
-  					<action command='playSound' noWait='true'>
-							<args>grindSound</args>
-							<action command='changeFocus' noWait='true'>
-								<args>mituna</args>
-								<action command='deltaSprite' noWait='true' for='32'>
-									<args>mituna,16,0</args>
-									<action command='deltaSprite' noWait='true' for='18'>
-										<args>mituna,12,-12</args>
-										<action command='deltaSprite' noWait='true' for='15'>
-											<args>mituna,18,18</args>
-											<action command='playAnimation' noWait='true' noDelay='true'>
-												<args>mituna,crash</args>
-												<action command='playSound' noWait='true' noDelay='true'>
-													<args>hitPowerfulSound</args>
-													<action command='depthSprite' noWait='true'>
-														<args>mituna,1</args>
-														<action command='changeFocus' noWait='true'>
-															<args>char</args>
+  					<action command='depthSprite' noWait='true'>
+							<args>mituna,2</args>
+							<action command='playSound' noWait='true'>
+								<args>grindSound</args>
+								<action command='changeFocus' noWait='true'>
+									<args>mituna</args>
+									<action command='deltaSprite' noWait='true' for='30'>
+										<args>mituna,16,0</args>
+										<action command='deltaSprite' noWait='true' for='18'>
+											<args>mituna,12,-12</args>
+											<action command='deltaSprite' noWait='true' for='15'>
+												<args>mituna,18,18</args>
+												<action command='playAnimation' noWait='true' noDelay='true'>
+													<args>mituna,crash</args>
+													<action command='playSound' noWait='true' noDelay='true'>
+														<args>hitPowerfulSound</args>
+														<action command='depthSprite' noWait='true'>
+															<args>mituna,1</args>
+															<action command='changeFocus' noWait='true'>
+																<args>char</args>
+															</action>
 														</action>
 													</action>
 												</action>
