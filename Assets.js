@@ -381,7 +381,7 @@ Sburb.loadGenericAsset = function(asset, path, id) {
         // XHR 1, not bad
         var xhr = new XMLHttpRequest();
         xhr.open('GET', assetPath, true);
-        xhr.overrideMimeType('text/plain; charset=x-user-defined');
+        if(xhr.overrideMimeType){xhr.overrideMimeType('text/plain; charset=x-user-defined');}
         xhr.onload = function() {
             if((this.status == 200 || this.status == 0) && this.responseText) {
                 var url = false;
@@ -413,11 +413,20 @@ Sburb.loadGenericAsset = function(asset, path, id) {
                     Sburb.assetManager.blobs[assetPath] = blob; // Save for later
                 } else if(Sburb.tests.loading == 1) {
                     // Clean the string
-                    var binstr = this.responseText;
-                    var len = binstr.length;
-                    var bytes = new Array(len);
-                    for(var i = 0; i < len; i += 1) {
-                        bytes[i] = binstr.charCodeAt(i) & 0xFF;
+                    var bytes;
+                    var binstr
+                    var len;
+                    if(!xhr.overrideMimeType){
+                    bytes = new VBArray(this.responseBody).toArray();
+                    len = bytes.length;
+                    }
+                    else{
+                       binstr = this.responseText;
+                       len = binstr.length;
+                       bytes = new Array(len);
+                       for(var i = 0; i < len; i += 1) {
+                           bytes[i] = binstr.charCodeAt(i) & 0xFF;
+                       }
                     }
                     binstr = '';
                     // Don't break the stack - Thanks MDN!
@@ -623,7 +632,7 @@ Sburb.createMovieAsset = function(name,path){
     
     ret.done = function(url) {
         ret.src = url;
-        document.getElementById("SBURBmovieBin").innerHTML += '<div id="'+name+'"><object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" id="movie" width="'+Sburb.Stage.width+'" height="'+Sburb.Stage.height+'"><param name="allowScriptAccess" value="always" /\><param name="wmode" value="transparent"/\><param name="movie" value="'+name+'" /\><param name="quality" value="high" /\><embed src="'+ret.src+'" quality="high" WMODE="transparent" width="'+Sburb.Stage.width+'" height="'+Sburb.Stage.height+'" swLiveConnect="true" id="movie'+name+'" name="movie'+name+'" allowScriptAccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /\></object></div>';
+        document.getElementById("SBURBmovieBin").innerHTML += '<div id="'+name+'"><object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" id="movie" width="'+Sburb.Stage.width+'" height="'+Sburb.Stage.height+'"><param name="allowScriptAccess" value="always" /\><param name="wmode" value="transparent"/\><param name="movie" value="'+ret.src+'" /\><param name="quality" value="high" /\><embed src="'+ret.src+'" quality="high" WMODE="transparent" width="'+Sburb.Stage.width+'" height="'+Sburb.Stage.height+'" swLiveConnect="true" id="movie'+name+'" name="movie'+name+'" allowScriptAccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /\></object></div>';
         document.getElementById(name).style.display = "none";
     }
     ret.success = function(url) { ret.done(url); ret.loaded = true; };
