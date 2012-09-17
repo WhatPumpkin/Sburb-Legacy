@@ -1,11 +1,11 @@
 <sburb description="first room">
 
 <dependencies>
-	<dependency>meenah.xml</dependency>
-	<dependency>mituna.xml</dependency>
-	<dependency>bicyclops.xml</dependency>
-	<dependency>seahorsedad.xml</dependency>
-	<dependency>cronus.xml</dependency>
+	<dependency>chars/meenah.xml</dependency>
+	<dependency>chars/mituna.xml</dependency>
+	<dependency>chars/bicyclops.xml</dependency>
+	<dependency>chars/seahorsedad.xml</dependency>
+	<dependency>chars/cronus.xml</dependency>
 </dependencies>
 
 <assets>
@@ -131,11 +131,11 @@
   	<triggers>
   		<trigger>
   			<args>inBox2,char,3874,1056,4302,1141</args>
-  			<action command='changeRoomRemote'>secondRoom.xml,secondRoom,559,94</action>
+  			<action command='changeRoomRemote'>rooms/secondRoom.xml,secondRoom,559,94</action>
   		</trigger>
   		<trigger>
   			<args>inBox2,char,5116,0,5580,66</args>
-  			<action command='changeRoomRemote'>thirdRoom.xml,thirdRoom,520,2544</action>
+  			<action command='changeRoomRemote'>rooms/thirdRoom.xml,thirdRoom,520,2544</action>
   		</trigger>
   		<trigger detonate='true'>
   			<args>spriteProperty,char,x &gt; 5300</args>

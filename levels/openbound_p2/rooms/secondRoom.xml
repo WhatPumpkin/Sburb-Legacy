@@ -15,7 +15,7 @@
   	<triggers>
   		<trigger>
   			<args>inBox2,char,302,0,806,56</args>
-  			<action command='changeRoomRemote'>firstRoom.xml,firstRoom,4011,1026</action>
+  			<action command='changeRoomRemote'>rooms/firstRoom.xml,firstRoom,4011,1026</action>
   		</trigger>
   	</triggers>
   	<sprite name='secondRoomBG'>

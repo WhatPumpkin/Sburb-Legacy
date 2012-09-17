@@ -1,0 +1,46 @@
+<sburb description='cronus'>
+
+<classes>
+	<animation class='cronus-dialog' frameInterval='6' x='-180' y='-524'/>
+	
+	<character class='cronus' name='cronus' sx='-50' sy='-110' sWidth='100' sHeight='130' width='30' height='15' sheet='cronusSheet' state='walkFront' facing='Front'>
+	</character>
+</classes>
+
+<assets>
+
+	<asset name='cronusSheet' type='graphic'>chars/cronus/cronus.png</asset>
+	
+	<asset name='cronus_angry' type='graphic'>dialogs/cronus/cronus_angry.png</asset>
+	<asset name='cronus_bored' type='graphic'>dialogs/cronus/cronus_bored.png</asset>
+	<asset name='cronus_happy' type='graphic'>dialogs/cronus/cronus_happy.png</asset>
+	<asset name='cronus_happytalk' type='graphic'>dialogs/cronus/cronus_happytalk.png</asset>
+	<asset name='cronus_huh' type='graphic'>dialogs/cronus/cronus_huh.png</asset>
+	<asset name='cronus_idle' type='graphic'>dialogs/cronus/cronus_idle.png</asset>
+	<asset name='cronus_sad2' type='graphic'>dialogs/cronus/cronus_sad2.png</asset>
+	<asset name='cronus_sad' type='graphic'>dialogs/cronus/cronus_sad.png</asset>
+	<asset name='cronus_smug' type='graphic'>dialogs/cronus/cronus_smug.png</asset>
+	<asset name='cronus_surprised' type='graphic'>dialogs/cronus/cronus_surprised.png</asset>
+	<asset name='cronus_talk' type='graphic'>dialogs/cronus/cronus_talk.png</asset>
+	<asset name='cronus_upset2' type='graphic'>dialogs/cronus/cronus_upset2.png</asset>
+	<asset name='cronus_upset' type='graphic'>dialogs/cronus/cronus_upset.png</asset>
+</assets>
+
+<hud>
+	<dialogsprites>	
+		<animation name='cronus_angry' class='cronus-dialog' sheet='cronus_angry' length='2' />
+		<animation name='cronus_bored' class='cronus-dialog' sheet='cronus_bored' length='2' />
+		<animation name='cronus_happy' class='cronus-dialog' sheet='cronus_happy' />
+		<animation name='cronus_happytalk' class='cronus-dialog' sheet='cronus_happytalk' length='2' />
+		<animation name='cronus_huh' class='cronus-dialog' sheet='cronus_huh' />
+		<animation name='cronus_idle' class='cronus-dialog' sheet='cronus_idle' />
+		<animation name='cronus_sad2' class='cronus-dialog' sheet='cronus_sad2' length='2' />
+		<animation name='cronus_sad' class='cronus-dialog' sheet='cronus_sad' />
+		<animation name='cronus_smug' class='cronus-dialog' sheet='cronus_smug' />
+		<animation name='cronus_surprised' class='cronus-dialog' sheet='cronus_surprised' />
+		<animation name='cronus_talk' class='cronus-dialog' sheet='cronus_talk' length='2' />
+		<animation name='cronus_upset2' class='cronus-dialog' sheet='cronus_upset2' />
+		<animation name='cronus_upset' class='cronus-dialog' sheet='cronus_upset' />
+  </dialogsprites>
+</hud>
+</sburb>

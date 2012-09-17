@@ -1,10 +1,10 @@
 <sburb name="Openbound_p2" version="1.0" char='meenah' bgm='fusciaRuler, 32.0830' description="first area" scale='2' levelPath='levels/openbound_p2' resourcePath='resources/openbound_p2'>
 
 	<dependencies>
-		<dependency>ui.xml</dependency>
-		<dependency>standardTemplates.xml</dependency>
-		<dependency>sfx.xml</dependency>
-		<dependency>firstRoom.xml</dependency>
+		<dependency>etc/ui.xml</dependency>
+		<dependency>etc/standardTemplates.xml</dependency>
+		<dependency>etc/sfx.xml</dependency>
+		<dependency>rooms/firstRoom.xml</dependency>
 	</dependencies>
 
 	

@@ -1,0 +1,49 @@
+<sburb description='mituna'>
+
+<classes>
+	<animation class='mituna-dialog' frameInterval='6' x='-180' y='-524'/>
+
+	<character class='mituna' name='mituna' sx='-50' sy='-110' sWidth='100' sHeight='130' width='40' height='30' sheet='mitunaSheet'  facing='Front' state='skate' >
+		<animation name='skate' sheet='mitunaSkate' x='-32' y='-90'/>
+		<animation name='crash' sheet='mitunaLand' x='-35' y='-15'/>
+	</character>
+</classes>
+
+<assets>
+	<asset name='mitunaSheet' type='graphic'>chars/mituna/mituna.png</asset>
+	<asset name='mitunaSkate' type='graphic'>chars/mituna/mituna_skate1.png</asset>
+	<asset name='mitunaLand' type='graphic'>chars/mituna/mituna_skate2.png</asset>
+	
+	<asset name='mituna_agitated' type='graphic'>dialogs/mituna/mituna_agitated.png</asset>
+	<asset name='mituna_angry2' type='graphic'>dialogs/mituna/mituna_angry2.png</asset>
+	<asset name='mituna_angry' type='graphic'>dialogs/mituna/mituna_angry.png</asset>
+	<asset name='mituna_facepalm' type='graphic'>dialogs/mituna/mituna_facepalm.png</asset>
+	<asset name='mituna_happy' type='graphic'>dialogs/mituna/mituna_happy.png</asset>
+	<asset name='mituna_happytalk' type='graphic'>dialogs/mituna/mituna_happytalk.png</asset>
+	<asset name='mituna_idle' type='graphic'>dialogs/mituna/mituna_idle.png</asset>
+	<asset name='mituna_laugh' type='graphic'>dialogs/mituna/mituna_laugh.png</asset>
+	<asset name='mituna_sad' type='graphic'>dialogs/mituna/mituna_sad.png</asset>
+	<asset name='mituna_shine' type='graphic'>dialogs/mituna/mituna_shine.png</asset>
+	<asset name='mituna_spaz1' type='graphic'>dialogs/mituna/mituna_spaz1.png</asset>
+	<asset name='mituna_spaz2' type='graphic'>dialogs/mituna/mituna_spaz2.png</asset>
+	<asset name='mituna_talk' type='graphic'>dialogs/mituna/mituna_talk.png</asset>
+</assets>
+
+<hud>
+  <dialogsprites>	
+    <animation name='mituna_agitated' class='mituna-dialog' sheet='mituna_agitated' length='4' />
+		<animation name='mituna_angry2' class='mituna-dialog' sheet='mituna_angry2' length='4' />
+		<animation name='mituna_angry' class='mituna-dialog' sheet='mituna_angry' length='4' />
+		<animation name='mituna_facepalm' class='mituna-dialog' sheet='mituna_facepalm' />
+		<animation name='mituna_happy' class='mituna-dialog' sheet='mituna_happy' />
+		<animation name='mituna_happytalk' class='mituna-dialog' sheet='mituna_happytalk' length='2' />
+		<animation name='mituna_idle' class='mituna-dialog' sheet='mituna_idle' />
+		<animation name='mituna_laugh' class='mituna-dialog' sheet='mituna_laugh' length='4' />
+		<animation name='mituna_sad' class='mituna-dialog' sheet='mituna_sad' />
+		<animation name='mituna_shine' class='mituna-dialog' sheet='mituna_shine' length='4' />
+		<animation name='mituna_spaz1' class='mituna-dialog' sheet='mituna_spaz1' length='8' />
+		<animation name='mituna_spaz2' class='mituna-dialog' sheet='mituna_spaz2' length='14' />
+		<animation name='mituna_talk' class='mituna-dialog' sheet='mituna_talk' length='2' />
+  </dialogsprites>
+</hud>
+</sburb>

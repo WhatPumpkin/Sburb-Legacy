@@ -1,0 +1,19 @@
+<sburb description='kankri'>
+
+<classes>
+	<animation class='kankri-dialog' frameInterval='6' x='-180' y='-524'/>
+	<!--
+	<character class='meenah' name='meenah' sx='-50' sy='-110' sWidth='100' sHeight='130' width='30' height='15' sheet='meenahSheet' state='walkFront' facing='Front'>
+	</character>-->
+</classes>
+
+<assets>
+	<asset name='kankri_pray' type='graphic'>dialogs/kankri/kankri_pray.png</asset>
+</assets>
+
+<hud>
+	<dialogsprites>	
+  	<animation name='kankri_pray' class='kankri-dialog' sheet='kankri_pray' />
+  </dialogsprites>
+</hud>
+</sburb>
