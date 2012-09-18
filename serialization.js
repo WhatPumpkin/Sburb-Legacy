@@ -70,11 +70,14 @@ Sburb.saveStateToStorage = function(description, auto, local)
 	local = typeof local !== 'undefined' ? local : false;
 
     var storage;
-    if(Modernizr.sessionstorage && Modernizr.localstorage) {
+    if(!Sburb.tests.storage) {
+        return false;
+    }
+    if(Sburb.tests.storage.local && Sburb.tests.storage.session) {
         storage = local ? localStorage : sessionStorage;
-    } else if(Modernizr.localstorage) {
+    } else if(Sburb.tests.storage.local) {
         storage = localStorage;
-    } else if(Modernizr.sessionstorage) {
+    } else if(Sburb.tests.storage.session) {
         storage = sessionStorage;
     } else {
         return false;
@@ -107,11 +110,14 @@ Sburb.loadStateFromStorage = function(auto, local)
 	local = typeof local !== 'undefined' ? local : false;
 
     var storage;
-    if(Modernizr.sessionstorage && Modernizr.localstorage) {
+    if(!Sburb.tests.storage) {
+        return false;
+    }
+    if(Sburb.tests.storage.local && Sburb.tests.storage.session) {
         storage = local ? localStorage : sessionStorage;
-    } else if(Modernizr.localstorage) {
+    } else if(Sburb.tests.storage.local) {
         storage = localStorage;
-    } else if(Modernizr.sessionstorage) {
+    } else if(Sburb.tests.storage.session) {
         storage = sessionStorage;
     } else {
         return false;
@@ -163,11 +169,14 @@ Sburb.getStateDescription = function(auto, local)
 	local = typeof local !== 'undefined' ? local : false;
 
     var storage;
-    if(Modernizr.sessionstorage && Modernizr.localstorage) {
+    if(!Sburb.tests.storage) {
+        return null;
+    }
+    if(Sburb.tests.storage.local && Sburb.tests.storage.session) {
         storage = local ? localStorage : sessionStorage;
-    } else if(Modernizr.localstorage) {
+    } else if(Sburb.tests.storage.local) {
         storage = localStorage;
-    } else if(Modernizr.sessionstorage) {
+    } else if(Sburb.tests.storage.session) {
         storage = sessionStorage;
     } else {
         return null;
@@ -202,11 +211,14 @@ Sburb.deleteStateFromStorage = function(auto, local)
 	local = typeof local !== 'undefined' ? local : false;
 
     var storage;
-    if(Modernizr.sessionstorage && Modernizr.localstorage) {
+    if(!Sburb.tests.storage) {
+        return;
+    }
+    if(Sburb.tests.storage.local && Sburb.tests.storage.session) {
         storage = local ? localStorage : sessionStorage;
-    } else if(Modernizr.localstorage) {
+    } else if(Sburb.tests.storage.local) {
         storage = localStorage;
-    } else if(Modernizr.sessionstorage) {
+    } else if(Sburb.tests.storage.session) {
         storage = sessionStorage;
     } else {
         return;
@@ -238,11 +250,14 @@ Sburb.deleteOldVersionStates = function(local)
 	local = typeof local !== 'undefined' ? local : false;
 
     var storage;
-    if(Modernizr.sessionstorage && Modernizr.localstorage) {
+    if(!Sburb.tests.storage) {
+        return;
+    }
+    if(Sburb.tests.storage.local && Sburb.tests.storage.session) {
         storage = local ? localStorage : sessionStorage;
-    } else if(Modernizr.localstorage) {
+    } else if(Sburb.tests.storage.local) {
         storage = localStorage;
-    } else if(Modernizr.sessionstorage) {
+    } else if(Sburb.tests.storage.session) {
         storage = sessionStorage;
     } else {
         return;
@@ -275,11 +290,14 @@ Sburb.isStateInStorage = function(auto, local)
 	local = typeof local !== 'undefined' ? local : false;
 
     var storage;
-    if(Modernizr.sessionstorage && Modernizr.localstorage) {
+    if(!Sburb.tests.storage) {
+        return false;
+    }
+    if(Sburb.tests.storage.local && Sburb.tests.storage.session) {
         storage = local ? localStorage : sessionStorage;
-    } else if(Modernizr.localstorage) {
+    } else if(Sburb.tests.storage.local) {
         storage = localStorage;
-    } else if(Modernizr.sessionstorage) {
+    } else if(Sburb.tests.storage.session) {
         storage = sessionStorage;
     } else {
         return false;
