@@ -216,6 +216,7 @@ Sburb.initialize = function(div,levelName,includeDevTools){
 		</div>\
 		<div id="SBURBmovieBin" style="position: absolute; z-index:200"> </div>\
 		<div id="SBURBfontBin"></div>\
+		<div id="SBURBgifBin" style="width: 0; height: 0; overflow: hidden;"></div>\
 		</br>';
 	if(includeDevTools){
 		Sburb._include_dev = true;
