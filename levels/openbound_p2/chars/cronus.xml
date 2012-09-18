@@ -1,5 +1,9 @@
 <sburb description='cronus'>
 
+<dependencies>
+	<dependency>dialogs/cronusDialog.xml</dependency>
+</dependencies>
+
 <classes>
 	<animation class='cronus-dialog' frameInterval='6' x='-180' y='-524'/>
 	
@@ -10,6 +14,8 @@
 <assets>
 
 	<asset name='cronusSheet' type='graphic'>chars/cronus/cronus.png</asset>
+	
+	<asset name='violetPrinceSong' type='audio'>audio/music/VioletPrinceLoop.oga;audio/music/VioletPrinceLoop.mp3</asset> <!-- loops to 0 -->
 	
 	<asset name='cronus_angry' type='graphic'>dialogs/cronus/cronus_angry.png</asset>
 	<asset name='cronus_bored' type='graphic'>dialogs/cronus/cronus_bored.png</asset>

@@ -1,0 +1,83 @@
+<sburb description='meenah dialogs'>
+	<templates>
+		<action sprite='mituna' class='meenahTalk1' command='talk' name='Talk to Meenah.'><args>
+      @meenah_talk MEENAH: dogg before you even start with your junk i just wanna point out i can barely understand a word you say
+      @mituna_sad%alttextbox_4chan MITUNA: 1M 50RRY
+      @meenah_talk MEENAH: like between your codawful quirk
+      @meenah_talk MEENAH: and your variety of weird conflicting speech impediments
+      @meenah_talk MEENAH: and the fact that even aside from all the shitty numbers you stick in words youre still misspellin half a what you say
+      @meenah_fish:#give-STRAIT-the-fuck-up-yo#uncle-motherglubber MEENAH: i just gtfu
+      @mituna_angry%alttextbox_4chan MITUNA: 817H1CH WH4Y D0N7 Y0U 5H00V3 M0Y R4D 1NJURJY P4N3L 1N7H0 URR N457H7Y 53XXXU4L3 PR1V457 P4R7H 0RF P3R3RF3R3R4NC3
+      @meenah_annoyedtalk:#way-minor-character-yo MEENAH: thank fuck you were never a major playa at least from my personal vantage over the course a this ridicu huge narrative
+      @meenah_annoyedtalk:#really-too-bad-since-you-got-the-bestest-fishiest-name-of-anyone#3G( MEENAH: probably woulda offed my shellf even schooner if i had to hear you talk much
+      @mituna_idle%alttextbox_4chan MITUNA: ..,.,..,,...,..,.,.
+      @mituna_sad%alttextbox_4chan MITUNA: 50RRY
+      <!--  -->
+		</args></action>
+		
+		<!--@ MEENAH AFTER MEENAH RETURNS-->
+
+<action sprite='cronus' class='meenahTalk2' command='talk' name='Talk to Meenah.'><args>
+      @meenah_annoyedtalk MEENAH: yo that was some scuzzy repartee there even for you crodog
+      @cronus_angry CRONUS: the last thing my feelings need is your harsh judgment. i just cant handle that, on top of evwerything else youvwe done to me.
+      @meenah_wut MEENAH: what the fuck else i done to you??
+      @cronus_sad CRONUS: you ignored me.
+      @meenah_wut2 MEENAH: ugh
+      @cronus_upset2 CRONUS: this is serious. please dont dismiss my emotions like that.
+      @cronus_talk:#eh?#ehhhh? CRONUS: look, i havwe an especially tortured and confused sole. i reelly cant afjord anemone more greef from you.
+      @meenah_annoyed MEENAH: i cannot
+      @meenah_annoyed MEENAH: B-ELI-EV-E
+      @meenah_annoyed MEENAH: you are doing my fish pun thing while youre still tryin to hit on me
+      @cronus_bored CRONUS: nyeh. vworth a shot.
+      @meenah_angrytalk MEENAH: dont ever say a fish thing again or ill gut you
+      @cronus_huh CRONUS: you knowv, youre being a bit hypocritical here, dont you think?
+      @meenah_idle MEENAH: what
+      @cronus_talk CRONUS: taking me to task for ripping captor a sorely deservwed newv nook.
+      @cronus_smug CRONUS: like you arent evwen more guilty of abusing the poor fella.
+      @meenah_fishtalk MEENAH: youre such a glubbin liar
+      @cronus_smug CRONUS: oh am i?
+      @cronus_happytalk:#helmsman CRONUS: tell me, pray tell, vwho vwas it exactly, in vwhich alternate univwerse, that used growvnup captor as a livwing vwarp drivwe in her spaceship for millenia?
+      @meenah_fish MEENAH: hey that wasnt me
+      @meenah_idle MEENAH: i mean
+      @meenah_idle MEENAH: not yet... uh
+      @meenah_wut2:#38| MEENAH: alternate ways
+      @cronus_talk CRONUS: oh sure. no grub sauce on your hands! 
+      @meenah_idle MEENAH: wow you did it
+      @meenah_creepytalk:#not MEENAH: ampora you totally changed my mind about you lets start makin out immediately
+      @cronus_smug:#helmchan CRONUS: just admit it. you havwe it vwithin you to be just as harsh to our behelmeted buddy as i am, if not more.
+      @meenah_idle MEENAH: man
+      @meenah_talk MEENAH: a girls gotta have fuel for her pimp ride know what im sayin
+      @meenah_idle MEENAH: like
+      @meenah_fish MEENAH: i probably took care of him good
+      @meenah_fishtalk MEENAH: you know how it is someones gotta take care of the guy anyways
+      @meenah_wut2:#38( MEENAH: and... yeah
+      @cronus_bored:#i.e.-literally-evweryone CRONUS: oh, howv the rationalizations begin to flowv vwhen it suits your ovwerinflated ego. so vwery typical of the kind of people vwho reject me.
+      @meenah_annoyedtalk MEENAH: at least i dont think im an alien
+      @cronus_huh CRONUS: vwhat? vwhat are you talking about?
+      @meenah_annoyedtalk MEENAH: look at you all frontin in that stupid getup
+      @meenah_annoyedtalk MEENAH: with your slicked hair and that dumb little wand in your mouth
+      @cronus_bored CRONUS: excuse me. its not a vwand. you knovw perfectly vwell my vwizarding days are behind me. its called a "human cigarette" and apparently youre supposed to set it on fire.
+      @cronus_talk CRONUS: although if you ask me, burning it seems like a vwaste of a perfectly good and cool "cigarette."
+      @meenah_annoyedtalk MEENAH: i heard a rumor you think youre a human now
+      @meenah_wut MEENAH: that true
+      @cronus_upset2 CRONUS: its a privwate matter. i dont see vwhy i should havwe to talk about it vwith you, and open myself up to more of your judgmental scorn.
+      @meenah_happytalk MEENAH: sounds like another desperate cry for attention imo
+      @kankri_talk KANKRI: I feel I sh9uld jump in here at this m9ment, Meenah, 6ef9re y9u inadvertently shame Cr9nus f9r his extremely delicate feelings 9f species dysph9ria.
+      @cronus_surprised CRONUS: no, kankri... man, you dont need to jump in here and defend me like this. i got it.
+      @meenah_annoyed MEENAH: aaaand im gone
+      @meenah_annoyedtalk MEENAH: you bros can figure out your boring feelings without me
+      @cronus_sad2 CRONUS: meenah vwait... awv man. just like that, shes out of my life again. you had to go and fuck it up for me, didnt you? some "friends" i havwe.
+      @kankri_talk KANKRI: Listen, I was d9ing y9u a fav9r. Y9u d9n't need t9 6e dating any9ne wh9 can't appreciate y9u f9r wh9 y9u really are, 9r m9re imp9rtantly, which fantasy versi9n 9f y9urself y9u m9st str9ngly identify with.
+      @cronus_bored:#evwen-the-ones-vwho-literally-identify-as-cats CRONUS: yeah, youre probably right. she doesnt appreciate me. so fevw of you cats do, really. 
+      @cronus_upset2 CRONUS: to be honest, she might be right. sometimes i think i might only be saying im a human to get attention. maybe i should givwe it up.
+      @kankri_talk4:#TW#invalidated-struggles#triggered-emotions KANKRI: I'd be extremely disappointed to hear that, if it were true. That would be such a slap in the face to all those who know themselves to be an alien while trapped in the pedestrian body of their own race. It would be unspeakably invalidating of their struggles and massively triggering to their emotions. 
+      @kankri_talk2 KANKRI: 6ut f9rtunately, I kn9w y9u w9uld never st99p as l9w as that. Y9u understanda6ly have d9u6ts a69ut y9ur feelings and pr96a6ly d9wnplay them as a defense mechanism, since s9 few are prepared t9 rec9gnize the legitimacy 9f y9ur plight. 6ut I am, and I just wanted y9u t9 kn9w that I'm here f9r y9u, and am prepared t9 lecture t9 y9u extensively, I mean, listen t9 y9u extensively, a69ut y9ur ultra-imp9rtant pr96lem.
+      @cronus_happy CRONUS: vwowv. thanks, pal.
+      @cronus_happytalk CRONUS: youre right. my feelings really are real. not fake, like the huge disappointing fraud that magic turned out to be. 
+      @cronus_talk CRONUS: i guess the truth is, deep dowvn i alvways knewv i vwas a 1950s-style human greaser.
+      @cronus_talk CRONUS: i just needed to finally be introduced to human culture to make sense of those feelings.
+      @kankri_pray KANKRI: W9nderful. I'm s9 happy y9u have f9und the light 9f truth within y9urself. N9w j9in me in tagging 9ur discussi9n with righte9us warnings, as we c9nsecrate y9ur disadvantage in the h9ly annals 9f Pr96lematics.
+      <!--  -->
+</args></action>
+	</templates>
+</sburb>

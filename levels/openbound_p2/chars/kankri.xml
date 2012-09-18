@@ -8,6 +8,9 @@
 </classes>
 
 <assets>
+
+	<asset name='hateYouSong' type='audio'>audio/music/HateYouLoop.oga;audio/music/HateYouLoop.mp3</asset> <!-- loops to 0 -->
+
 	<asset name='kankri_pray' type='graphic'>dialogs/kankri/kankri_pray.png</asset>
 </assets>
 

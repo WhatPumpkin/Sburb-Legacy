@@ -1,5 +1,9 @@
 <sburb description='meenah'>
 
+<dependencies>
+	<dependency>dialogs/meenahDialog.xml</dependency>
+</dependencies>
+
 <classes>
 	<animation class='meenah-dialog' frameInterval='2' x='-180' y='-524'/>
 	
@@ -11,8 +15,8 @@
 
 	<asset name='meenahSheet' type='graphic'>chars/meenah/meenah.png</asset>
 
-	<asset name='fusciaRuler' type='audio'>audio/music/FuschiaRulerQuiet.oga;audio/music/FuschiaRulerQuiet.mp3</asset>
-
+	<asset name='hateYouSong' type='audio'>audio/music/HateYouLoop.oga;audio/music/HateYouLoop.mp3</asset> <!-- loops to 0 -->
+	
 	<asset name='meenah_idle' type='graphic'>dialogs/meenah/meenah_idle.png</asset>
 	<asset name='meenah_talk' type='graphic'>dialogs/meenah/meenah_talk.png</asset>
 	<asset name='meenah_angry' type='graphic'>dialogs/meenah/meenah_angry.png</asset>
