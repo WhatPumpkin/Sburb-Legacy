@@ -467,7 +467,6 @@ Sburb.createGraphicAsset = function(name, path) {
         ret.src = url;
         if(type == "image/gif") {
             document.getElementById("SBURBgifBin").appendChild(ret);
-            ret.style.display = "none";
         }
     };
     ret.failure = function() { ret.failed = true; };
