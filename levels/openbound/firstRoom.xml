@@ -222,8 +222,7 @@
     <sprite name='questSwitch'>
     	<animation sheet='eightBallsSheet'/>
     </sprite>
-    
-    
+
     <character name='meenah' x='1490' y='630' sx='-50' sy='-110' sWidth='100' sHeight='130' width='30' height='15' 
 	       sheet='meenahSheet' state='walkFront' facing='Front'>
 	  	<animation name='skate' sheet='meenahSkate' x='-60' y='-80' />
