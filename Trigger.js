@@ -11,26 +11,41 @@ var Sburb = (function(Sburb){
 
 //constructor
 Sburb.Trigger = function(info,action,followUp,restart,detonate){
+	//console.log("Trigger constructor with: "+info, info);
+	if(typeof info == "string"){
+		info = [info];
+	}
+	
 	this.info = info;
 	this.followUp = followUp?followUp:null;
 	this.action = action?action:null;
 	this.restart = restart?restart:false;
 	this.detonate = detonate?detonate:false;
 	
-	var params = this.info.split(",");
-	this.type = params[0];
-
-	this.event = new Sburb.events[this.type](this.info);
+	this.events = [];
+	for(var i=0;i<info.length;i++){
+		var inf = this.info[i].trim();
+		var params = inf.split(",");
+		var type = params[0];
+		//console.log("parsed trigger args: "+type+"("+inf+")");
+		this.events[i] = new Sburb.events[type](inf);
+	}
 	this.reset();
 }
 
 //parse the trigger info into an actual event to watch
 Sburb.Trigger.prototype.reset = function(){
-	return this.event.reset();
+	for(var i=0; i<this.events.length; i++){
+		this.events[i].reset();
+	}
 }
 
 Sburb.Trigger.prototype.checkCompletion = function() {
-	return this.event.checkCompletion();
+	var result = true;
+	for(var i=0;i<this.events.length;i++){
+		result = result && this.events[i].checkCompletion();
+	}
+	return result;
 }
 
 //check if the trigger has been satisfied
@@ -57,7 +72,9 @@ Sburb.Trigger.prototype.serialize = function(output){
 		(this.restart?" restart='true'":"")+
 		(this.detonate?" detonate='true'":"")+
 		">");
-	output = output.concat("<args>"+escape(this.info)+"</args>");
+		for(var i=0;i<this.info.length;i++){
+			output = output.concat("<args>"+escape(this.info[i])+"</args>");
+		}
 	if(this.action){
 		output = this.action.serialize(output);
 	}
@@ -84,7 +101,10 @@ Sburb.parseTrigger = function(triggerNode){
 	var oldTrigger = null;
 	do{
 		var attributes = triggerNode.attributes;
-		var info = unescape(getNodeText(triggerNode).trim());
+		var info = getNodeText(triggerNode);
+		for(var i=0;i<info.length;i++){
+			info[i] = unescape(info[i]);
+		}
 		var actions = triggerNode.getElementsByTagName("action");
 		
 		var action = null;
@@ -118,7 +138,8 @@ Sburb.parseTrigger = function(triggerNode){
 
 
 function getNodeText(xmlNode){
-  if(!xmlNode) return '';
+  if(!xmlNode) return [];
+  var outputs = [];
   for(var i=0;i<xmlNode.childNodes.length;i++){
   	var child = xmlNode.childNodes[i];
   	if(child.tagName=="args"){
@@ -129,16 +150,20 @@ function getNodeText(xmlNode){
 					for(var j=0; j<child.childNodes.length; j++){
 						output += serializer.serializeToString(child.childNodes[j]);
 					}
-					return output;
+					outputs.push(output);
 				}
 			}
 			if(typeof(child.textContent) != "undefined"){
-				return child.textContent;
+				outputs.push(child.textContent);
+			}else{
+				outputs.push(child.firstChild.nodeValue);
 			}
-			return child.firstChild.nodeValue;
 		}
 	}
-	return xmlNode.firstChild.nodeValue;
+	if(outputs.length==0){
+		outputs.push(xmlNode.firstChild.nodeValue);
+	}
+	return outputs;
 }
 
 

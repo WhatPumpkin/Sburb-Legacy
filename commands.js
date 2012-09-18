@@ -101,7 +101,7 @@ commands.playEffect = function(info){
 
 //Have the specified sprite play the specified animation
 //syntax: spriteName, animationName
-commands.playAnimation = function(info){
+commands.playAnimation = commands.startAnimation = function(info){
 	var params = parseParams(info);
 	var sprite = parseCharacterString(params[0]);
 	
@@ -204,6 +204,16 @@ commands.moveSprite = function(info){
 	sprite.x = newX;
 	sprite.y = newY;
 }
+
+//Move the specified sprite to the specified depth
+//syntax: spriteName, depth
+commands.depthSprite = function(info){
+	var params = parseParams(info);
+	var sprite = parseCharacterString(params[0]);
+	var depth = parseInt(params[1]);
+	sprite.depthing = depth;
+}
+
 
 //Play the specified flash movie
 //syntax: movieName

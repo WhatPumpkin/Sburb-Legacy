@@ -152,7 +152,7 @@ events.movie = function(info) {
 events.gameState = function(info) {
 	var params = parseParams(info);
 	var token;
-	var query = params[2];
+	var query = params[1];
 	if(query.indexOf(">")>-1 || query.indexOf("GREATER") > -1){
 		token = ">";
 		this.trigger = function(property,target){
