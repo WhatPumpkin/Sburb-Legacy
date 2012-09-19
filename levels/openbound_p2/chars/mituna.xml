@@ -44,6 +44,7 @@
 	<asset name='mituna_spaz1' type='graphic'>dialogs/mituna/mituna_spaz1.png</asset>
 	<asset name='mituna_spaz2' type='graphic'>dialogs/mituna/mituna_spaz2.png</asset>
 	<asset name='mituna_talk' type='graphic'>dialogs/mituna/mituna_talk.png</asset>
+	<asset name='mituna_fall' type='graphic'>dialogs/mituna/mituna_fall.png</asset>
 </assets>
 
 <hud>
@@ -61,6 +62,7 @@
 		<animation name='mituna_spaz1' class='mituna-dialog' sheet='mituna_spaz1' length='8' />
 		<animation name='mituna_spaz2' class='mituna-dialog' sheet='mituna_spaz2' length='14' />
 		<animation name='mituna_talk' class='mituna-dialog' sheet='mituna_talk' length='2' />
+		<animation name='mituna_fall' class='mituna-dialog' sheet='mituna_fall' length='4'/>
   </dialogsprites>
 </hud>
 </sburb>
