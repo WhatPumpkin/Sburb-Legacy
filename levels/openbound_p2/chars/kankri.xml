@@ -1,10 +1,12 @@
 <sburb description='kankri'>
 
 <classes>
-	<animation class='kankri-dialog' frameInterval='6' x='-180' y='-524'/>
 	<!--
 	<character class='meenah' name='meenah' sx='-50' sy='-110' sWidth='100' sHeight='130' width='30' height='15' sheet='meenahSheet' state='walkFront' facing='Front'>
 	</character>-->
+	<animation class='kankri-dialog' frameInterval='6' x='-180' y='-454'/>
+	
+		
 </classes>
 
 <assets>
@@ -12,11 +14,25 @@
 	<asset name='hateYouSong' type='audio'>audio/music/HateYouLoop.oga;audio/music/HateYouLoop.mp3</asset> <!-- loops to 0 -->
 
 	<asset name='kankri_pray' type='graphic'>dialogs/kankri/kankri_pray.png</asset>
+	<asset name='kankri_glance' type='graphic'>dialogs/kankri_glance.png</asset>
+	<asset name='kankri_idle' type='graphic'>dialogs/kankri_idle.png</asset>
+	<asset name='kankri_rage' type='graphic'>dialogs/kankri_rage.png</asset>
+	<asset name='kankri_talk2' type='graphic'>dialogs/kankri_talk2.png</asset>
+	<asset name='kankri_talk3' type='graphic'>dialogs/kankri_talk3.png</asset>
+	<asset name='kankri_talk4' type='graphic'>dialogs/kankri_talk4.png</asset>
+	<asset name='kankri_talk' type='graphic'>dialogs/kankri_talk.png</asset>
 </assets>
 
 <hud>
 	<dialogsprites>	
   	<animation name='kankri_pray' class='kankri-dialog' sheet='kankri_pray' />
+  	<animation name='kankri_glance' class='kankri-dialog' sheet='kankri_glance'/>
+		<animation name='kankri_idle' class='kankri-dialog' sheet='kankri_idle' />
+		<animation name='kankri_rage' class='kankri-dialog' sheet='kankri_rage'  length='2'/>
+		<animation name='kankri_talk2' class='kankri-dialog' sheet='kankri_talk2'  length='2'/>
+		<animation name='kankri_talk3' class='kankri-dialog' sheet='kankri_talk3'  length='2'/>
+		<animation name='kankri_talk4' class='kankri-dialog' sheet='kankri_talk4'  length='2'/>
+		<animation name='kankri_talk' class='kankri-dialog' sheet='kankri_talk'  length='2'/>
   </dialogsprites>
 </hud>
 </sburb>
