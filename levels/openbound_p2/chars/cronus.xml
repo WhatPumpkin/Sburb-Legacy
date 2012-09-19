@@ -9,14 +9,6 @@
 	<animation class='cronus-dialog2' frameInterval='6' x='-170' y='-504'/>
 	
 	<character class='cronus' name='cronus' sx='-50' sy='-110' sWidth='100' sHeight='130' width='30' height='15' sheet='cronusSheet' state='walkFront' facing='Front'>
-		<action class='cronusTalk1'/>
-		<action class='cronusTalk2'/>
-		<action class='cronusTalk3'/>
-		<action class='cronusTalk4'/>
-		
-		<action class='cronusTalk6'/>
-		<action class='cronusTalk7'/>
-	
 	</character>
 </classes>
 

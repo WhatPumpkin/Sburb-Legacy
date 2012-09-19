@@ -10,17 +10,17 @@
 </classes>
 
 <assets>
-
-	<asset name='hateYouSong' type='audio'>audio/music/HateYouLoop.oga;audio/music/HateYouLoop.mp3</asset> <!-- loops to 0 -->
+<!--
+	<asset name='hateYouSong' type='audio'>audio/music/HateYouLoop.oga;audio/music/HateYouLoop.mp3</asset> --><!-- loops to 0 -->
 
 	<asset name='kankri_pray' type='graphic'>dialogs/kankri/kankri_pray.png</asset>
-	<asset name='kankri_glance' type='graphic'>dialogs/kankri_glance.png</asset>
-	<asset name='kankri_idle' type='graphic'>dialogs/kankri_idle.png</asset>
-	<asset name='kankri_rage' type='graphic'>dialogs/kankri_rage.png</asset>
-	<asset name='kankri_talk2' type='graphic'>dialogs/kankri_talk2.png</asset>
-	<asset name='kankri_talk3' type='graphic'>dialogs/kankri_talk3.png</asset>
-	<asset name='kankri_talk4' type='graphic'>dialogs/kankri_talk4.png</asset>
-	<asset name='kankri_talk' type='graphic'>dialogs/kankri_talk.png</asset>
+	<asset name='kankri_glance' type='graphic'>dialogs/kankri/kankri_glance.png</asset>
+	<asset name='kankri_idle' type='graphic'>dialogs/kankri/kankri_idle.png</asset>
+	<asset name='kankri_rage' type='graphic'>dialogs/kankri/kankri_rage.png</asset>
+	<asset name='kankri_talk2' type='graphic'>dialogs/kankri/kankri_talk2.png</asset>
+	<asset name='kankri_talk3' type='graphic'>dialogs/kankri/kankri_talk3.png</asset>
+	<asset name='kankri_talk4' type='graphic'>dialogs/kankri/kankri_talk4.png</asset>
+	<asset name='kankri_talk' type='graphic'>dialogs/kankri/kankri_talk.png</asset>
 </assets>
 
 <hud>

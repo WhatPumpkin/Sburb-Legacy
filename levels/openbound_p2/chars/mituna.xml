@@ -5,22 +5,11 @@
 </dependencies>
 
 <classes>
-	<animation class='mituna-dialog' frameInterval='6' x='-340' y='-524'/>
+	<animation class='mituna-dialog' frameInterval='6' x='-350' y='-524'/>
 
 	<character class='mituna' name='mituna' sx='-50' sy='-110' sWidth='100' sHeight='130' width='40' height='30' sheet='mitunaSheet'  facing='Front' state='skate' >
 		<animation name='skate' sheet='mitunaSkate' x='-32' y='-90'/>
 		<animation name='crash' sheet='mitunaLand' x='-35' y='-15'/>
-		
-		<action class='mitunaTalk1'/>
-		<action class='mitunaTalk2'/>
-		<action class='mitunaTalk5'/>
-		
-		<action command='changeChar' name='Be Mituna.'>
-			<args>mituna</args>
-			<action command='playSong'>
-				<args>gameBroSong,6.58</args>
-			</action>
-		</action>
 	</character>
 </classes>
 
@@ -44,7 +33,7 @@
 	<asset name='mituna_spaz1' type='graphic'>dialogs/mituna/mituna_spaz1.png</asset>
 	<asset name='mituna_spaz2' type='graphic'>dialogs/mituna/mituna_spaz2.png</asset>
 	<asset name='mituna_talk' type='graphic'>dialogs/mituna/mituna_talk.png</asset>
-	<asset name='mituna_fall' type='graphic'>dialogs/mituna/mituna_fall.png</asset>
+	<asset name='mituna_fall' type='graphic' >dialogs/mituna/mituna_fall.png</asset>
 </assets>
 
 <hud>
@@ -62,7 +51,7 @@
 		<animation name='mituna_spaz1' class='mituna-dialog' sheet='mituna_spaz1' length='8' />
 		<animation name='mituna_spaz2' class='mituna-dialog' sheet='mituna_spaz2' length='14' />
 		<animation name='mituna_talk' class='mituna-dialog' sheet='mituna_talk' length='2' />
-		<animation name='mituna_fall' class='mituna-dialog' sheet='mituna_fall' length='4'/>
+		<animation name='mituna_fall' class='mituna-dialog' sheet='mituna_fall' length='4' x='-140'/>
   </dialogsprites>
 </hud>
 </sburb>

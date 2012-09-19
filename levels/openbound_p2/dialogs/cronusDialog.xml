@@ -102,10 +102,6 @@
 
 <!-- mituna -->
 
-<action sprite='mituna' class='cronusTalk6' command='talk' name='Be Cronus.'>
-	<args>cronus</args>
-</action>
-
 <action sprite='mituna' class='cronusTalk7' command='talk' name='Talk to Cronus.'><args>
       @cronus_talk CRONUS: hey, chief. looking good today. is that a newv helmet?
       @mituna_idle%alttextbox_4chan:#1GLVNWLDN01Z1XJ01N0V4 MITUNA: N0 U FUCFK7H7H7HHH
@@ -146,17 +142,7 @@
       @! Be Cronus?
       <!--Yes. / No. -->
 	</args>
-	<action command='presentActions'>
-		<args>
-			<action name='Yes.' command='changeChar'>
-				<args>cronus</args>
-				<action command='playSong'>
-					<args>violetPrinceSong</args>
-				</action>
-			</action>
-			<action name='No.' command='cancel'/>
-		</args>
-	</action>
+	
 </action>
 
 <!-- @ CRONUS AFTER MEENAH RETURNS -->

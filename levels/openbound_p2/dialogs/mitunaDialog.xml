@@ -119,6 +119,29 @@
 </action>
 
 
+<!--@ MITUNA AFTER MEENAH RETURNS-->
+
+<action sprite='cronus' class='mitunaTalk7' command='talk' name='Talk to Mituna.'>
+      @cronus_sad CRONUS: vwelp.
+      @cronus_sad CRONUS: i fucked up vwith her, probably beyond repair this time.
+      @mituna_laugh%alttextbox_4chan:#L4UGUH#L4GUHG#LUGH4HGH#4LU4GH#LU4HGGUH4 MITUNA: 4H4H4H4HH44H4H
+      @cronus_bored CRONUS: guess ill attempt ghost suicide YET AGAIN.
+      @cronus_bored CRONUS: of course by vwhich i mean, tell people i did, to vwin sympathy points.
+      @mituna_idle%alttextbox_4chan MITUNA: D0357H H47 W0RK
+      @cronus_bored CRONUS: not really.
+      @mituna_happytalk%alttextbox_4chan MITUNA: WHY D0NK Y0U 7RY 17
+      @cronus_huh CRONUS: vwhat... vwith you?
+      @mituna_happy%alttextbox_4chan MITUNA: Y37H
+      @cronus_bored CRONUS: vwell, this is clearly absurd, but nyeh, vwhat the heck.
+      @cronus_bored CRONUS: mituna, i just cant take it anymore. i think my ghost is going to kill itself.
+      @mituna_spaz1%alttextbox_4chan MITUNA: WH0W4H L375 FUCK!!!!!
+      @cronus_surprised CRONUS: vwait...
+      @cronus_surprised CRONUS: really?
+      @mituna_agitated%alttextbox_4chan:#FUCKY0UFUCKY0UFUCKY0UFUCKY0UFUCKY0U MITUNA: N0 0Y0 P135H3 0FF 1ND107 FUGG1NG G4R484G3 
+      @cronus_sad2 CRONUS: oh.
+      <!--  -->
+</action>
+
 <!--@ MITUNA AFTER DISCOVERING MEENAH MISSING-->
 
 <action sprite='cronus' class='mitunaTalk6' command='talk' name='Grill Mituna.'><args>
@@ -157,28 +180,5 @@
       </args>
 </action>
 
-
-<!--@ MITUNA AFTER MEENAH RETURNS-->
-
-<action sprite='cronus' class='mitunaTalk7' command='talk' name='Talk to Mituna.'>
-      @cronus_sad CRONUS: vwelp.
-      @cronus_sad CRONUS: i fucked up vwith her, probably beyond repair this time.
-      @mituna_laugh%alttextbox_4chan:#L4UGUH#L4GUHG#LUGH4HGH#4LU4GH#LU4HGGUH4 MITUNA: 4H4H4H4HH44H4H
-      @cronus_bored CRONUS: guess ill attempt ghost suicide YET AGAIN.
-      @cronus_bored CRONUS: of course by vwhich i mean, tell people i did, to vwin sympathy points.
-      @mituna_idle%alttextbox_4chan MITUNA: D0357H H47 W0RK
-      @cronus_bored CRONUS: not really.
-      @mituna_happytalk%alttextbox_4chan MITUNA: WHY D0NK Y0U 7RY 17
-      @cronus_huh CRONUS: vwhat... vwith you?
-      @mituna_happy%alttextbox_4chan MITUNA: Y37H
-      @cronus_bored CRONUS: vwell, this is clearly absurd, but nyeh, vwhat the heck.
-      @cronus_bored CRONUS: mituna, i just cant take it anymore. i think my ghost is going to kill itself.
-      @mituna_spaz1%alttextbox_4chan MITUNA: WH0W4H L375 FUCK!!!!!
-      @cronus_surprised CRONUS: vwait...
-      @cronus_surprised CRONUS: really?
-      @mituna_agitated%alttextbox_4chan:#FUCKY0UFUCKY0UFUCKY0UFUCKY0UFUCKY0U MITUNA: N0 0Y0 P135H3 0FF 1ND107 FUGG1NG G4R484G3 
-      @cronus_sad2 CRONUS: oh.
-      <!--  -->
-</action>
 	</classes>
 </sburb>

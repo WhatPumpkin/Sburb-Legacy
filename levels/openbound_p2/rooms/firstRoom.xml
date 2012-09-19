@@ -6,6 +6,7 @@
 	<dependency>chars/bicyclops.xml</dependency>
 	<dependency>chars/seahorsedad.xml</dependency>
 	<dependency>chars/cronus.xml</dependency>
+	<dependency>chars/kankri.xml</dependency>
 </dependencies>
 
 <assets>
@@ -97,7 +98,18 @@
 	<asset name='firstRoomStairs3' type='path'>5136,738;5281,880;5281,988;5136,859</asset>
 </assets>
 
-<character class='mituna' x='4534' y='670'/>
+<character class='mituna' x='4534' y='670'>	
+	<action class='mitunaTalk1'/>
+	<action class='mitunaTalk2'/>
+	<action class='mitunaTalk5'/>
+	
+	<action command='changeChar' name='Be Mituna.'>
+		<args>mituna</args>
+		<action command='playSong'>
+			<args>gameBroSong,6.58</args>
+		</action>
+	</action>
+</character>
 
 <sprite name='spadeKey' depthing='2'>
 	<animation sheet='spadeKeySheet' x='-50' y='-50'/>
@@ -129,14 +141,17 @@
 <rooms>
   <room name='firstRoom' walkableMap='firstRoomMap' mapScale='2'>
   	<triggers>
+  	
   		<trigger>
   			<args>inBox2,char,3874,1056,4302,1141</args>
   			<action command='changeRoomRemote'>rooms/secondRoom.xml,secondRoom,559,94</action>
   		</trigger>
+  		
   		<trigger>
   			<args>inBox2,char,5116,0,5580,66</args>
   			<action command='changeRoomRemote'>rooms/thirdRoom.xml,thirdRoom,520,2544</action>
   		</trigger>
+  		
   		<trigger detonate='true'>
   			<args>spriteProperty,char,x &gt; 5300</args>
   			<action command='waitFor'>
@@ -176,6 +191,7 @@
   				</action>
   			</action>
   		</trigger>
+  		
   		<trigger detonate='true'>
   			<args>gameState,spadeKeyUsed=true</args>
   			<args>gameState,heartKeyUsed=true</args>
@@ -197,6 +213,61 @@
   				</action>
   			</action>
   		</trigger>
+  		
+  		<trigger detonate='true'>
+  			<args>gameState,meenahGone=true</args>
+  			<args>spriteProperty,cronus,x &gt; 5300</args>
+  			<action command='talk'>
+  				<args>@!:#story-of-your-life Wait... where'd she go? Dang it. Looks like she ditched you again.</args>
+  				<action command='setGameState'>
+  					<args>meenahGone,false</args>
+  					<action command='removeActions'>
+  						<args>mituna,Talk to Mituna.,Talk to Mituna.</args> <!-- yes, twice! -->
+  						<action command='removeActions'>
+								<args>cronus,Talk to Cronus.,Ask Cronus to join.,Where's Karkat?,Talk to Cronus.</args> <!-- yes, twice! -->
+								<action command='addAction'>
+									<args>mituna,
+										<action class='mitunaTalk6'>
+											<action command='addSprite'>
+												<args>meenah,firstRoom</args>
+												<action command='moveSprite' noDelay='true'>
+													<args>meenah,2150,800</args>
+													<action command='addActions' noDelay='true'>
+														<args>mituna,
+															<action class='mitunaTalk4'/>
+															<action class='mitunaTalk7'/>
+														</args>
+														<action command='removeAction' noDelay='true'>
+															<args>mituna,Grill Mituna.</args>
+															<action command='addActions' noDelay='true'>
+																<args>cronus,
+																	<action class='cronusTalk5'/>
+																	<action class='cronusTalk8'/>
+																	<action sprite='mituna' name='Be Cronus.' command='changeChar'>
+																		<args>cronus</args>
+																		<action command='playSong'>
+																			<args>violetPrinceSong</args>
+																		</action>
+																	</action>
+																</args>
+																<action command='addActions' noDelay='true'>
+																	<args>meenah,
+																		<action class='meenahTalk2' />
+																	</args>
+																</action>
+															</action>
+														</action>
+													</action>
+												</action>      	
+											</action>
+										</action>
+									</args>
+								</action>
+							</action>
+						</action>
+  				</action>
+  			</action>
+  		</trigger>
   	</triggers>
   
   	<paths>
@@ -205,8 +276,42 @@
   		<motionpath path='firstRoomStairs3' xtox='0.7' xtoy='0.7' />
   	</paths>
   	
-  	<character class='meenah' x='427' y='458' />
-  	<character class='cronus' x='2022' y='958' />
+  	<character class='meenah' x='427' y='458' >
+  		<action class='meenahTalk1'/>
+			<action command='changeChar' name='Be Meenah.'>
+				<args>meenah</args>
+				<action command='playSong'>
+					<args>hateYouSong</args>
+				</action>
+			</action>
+  	</character>
+  	
+  	<character class='cronus' x='2022' y='958' >
+  		<action class='cronusTalk1'/>
+			<action class='cronusTalk2'/>
+			<action class='cronusTalk3'/>
+			<action class='cronusTalk4'/>
+			<action class='cronusTalk7'>
+				<action command='presentActions'>
+					<args>
+						<action name='Yes.' command='changeChar'>
+							<args>cronus</args>
+							<action command='playSong'>
+								<args>violetPrinceSong</args>
+								<action command='setGameState'>
+									<args>meenahGone,true</args>
+									<action command='removeSprite'>
+										<args>meenah,firstRoom</args>
+									</action>
+								</action>
+							</action>
+						</action>
+						<action name='No.' command='cancel'/>
+					</args>
+				</action>
+			</action>
+  	</character>
+  	
   	<sprite class='seahorsedad' x='1702' y='844' />
   	<sprite class='bicyclops' x='5173' y='627' />
   	
