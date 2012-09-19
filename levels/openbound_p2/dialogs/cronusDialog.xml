@@ -1,5 +1,5 @@
 <sburb description='cronus dialogs'>
-	<templates>
+	<classes>
 		<action sprite='meenah' class='cronusTalk1' command='talk' name='Talk to Cronus.'><args>
       @cronus_happytalk CRONUS: wvell vwell wvelvlw...
       @meenah_annoyed MEENAH: ...
@@ -7,7 +7,7 @@
       @meenah_annoyed:#3G? MEENAH: wha
       @cronus_bored CRONUS: i sawv you vwalking my vway, and i had this smooth line all ready to go.
       @cronus_angry CRONUS: but for some reason i decided to open it vwith a tongue tvwister?
-      @cronus_upset2#W's-are-hard#theyre-hard-and-no-one-understands#(V's-too) CRONUS: vwery nice ampora, starting your killer line with three consecutivwe 'W' vwords in a rowv.
+      @cronus_upset2:#W's-are-hard#theyre-hard-and-no-one-understands#(V's-too) CRONUS: vwery nice ampora, starting your killer line with three consecutivwe 'W' vwords in a rowv.
       @meenah_idle MEENAH: what uh
       @meenah_talk MEENAH: was your killer pickup line goin to be
       @meenah_annoyed:#no MEENAH: or should i ask
@@ -145,7 +145,19 @@
       @cronus_idle CRONUS: thank you for the inspiration, friend.
       @! Be Cronus?
       <!--Yes. / No. -->
-</args></action>
+	</args>
+	<action command='presentActions'>
+		<args>
+			<action name='Yes.' command='changeChar'>
+				<args>cronus</args>
+				<action command='playSong'>
+					<args>violetPrinceSong</args>
+				</action>
+			</action>
+			<action name='No.' command='cancel'/>
+		</args>
+	</action>
+</action>
 
 <!-- @ CRONUS AFTER MEENAH RETURNS -->
 
@@ -155,5 +167,5 @@
 </args>
 </action>
 
-	</templates>
+	</classes>
 </sburb>

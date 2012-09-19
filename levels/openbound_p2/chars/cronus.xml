@@ -5,9 +5,18 @@
 </dependencies>
 
 <classes>
-	<animation class='cronus-dialog' frameInterval='6' x='-180' y='-524'/>
+	<animation class='cronus-dialog' frameInterval='6' x='-210' y='-524'/>
+	<animation class='cronus-dialog2' frameInterval='6' x='-170' y='-504'/>
 	
 	<character class='cronus' name='cronus' sx='-50' sy='-110' sWidth='100' sHeight='130' width='30' height='15' sheet='cronusSheet' state='walkFront' facing='Front'>
+		<action class='cronusTalk1'/>
+		<action class='cronusTalk2'/>
+		<action class='cronusTalk3'/>
+		<action class='cronusTalk4'/>
+		
+		<action class='cronusTalk6'/>
+		<action class='cronusTalk7'/>
+	
 	</character>
 </classes>
 
@@ -42,11 +51,11 @@
 		<animation name='cronus_idle' class='cronus-dialog' sheet='cronus_idle' />
 		<animation name='cronus_sad2' class='cronus-dialog' sheet='cronus_sad2' length='2' />
 		<animation name='cronus_sad' class='cronus-dialog' sheet='cronus_sad' />
-		<animation name='cronus_smug' class='cronus-dialog' sheet='cronus_smug' />
-		<animation name='cronus_surprised' class='cronus-dialog' sheet='cronus_surprised' />
+		<animation name='cronus_smug' class='cronus-dialog2' sheet='cronus_smug' />
+		<animation name='cronus_surprised' class='cronus-dialog2' sheet='cronus_surprised' />
 		<animation name='cronus_talk' class='cronus-dialog' sheet='cronus_talk' length='2' />
-		<animation name='cronus_upset2' class='cronus-dialog' sheet='cronus_upset2' />
-		<animation name='cronus_upset' class='cronus-dialog' sheet='cronus_upset' />
+		<animation name='cronus_upset2' class='cronus-dialog2' sheet='cronus_upset2' />
+		<animation name='cronus_upset' class='cronus-dialog2' sheet='cronus_upset' />
   </dialogsprites>
 </hud>
 </sburb>

@@ -5,11 +5,22 @@
 </dependencies>
 
 <classes>
-	<animation class='mituna-dialog' frameInterval='6' x='-180' y='-524'/>
+	<animation class='mituna-dialog' frameInterval='6' x='-340' y='-524'/>
 
 	<character class='mituna' name='mituna' sx='-50' sy='-110' sWidth='100' sHeight='130' width='40' height='30' sheet='mitunaSheet'  facing='Front' state='skate' >
 		<animation name='skate' sheet='mitunaSkate' x='-32' y='-90'/>
 		<animation name='crash' sheet='mitunaLand' x='-35' y='-15'/>
+		
+		<action class='mitunaTalk1'/>
+		<action class='mitunaTalk2'/>
+		<action class='mitunaTalk5'/>
+		
+		<action command='changeChar' name='Be Mituna.'>
+			<args>mituna</args>
+			<action command='playSong'>
+				<args>gameBroSong,6.58</args>
+			</action>
+		</action>
 	</character>
 </classes>
 

@@ -1,5 +1,5 @@
 <sburb description='meenah dialogs'>
-	<templates>
+	<classes>
 		<action sprite='mituna' class='meenahTalk1' command='talk' name='Talk to Meenah.'><args>
       @meenah_talk MEENAH: dogg before you even start with your junk i just wanna point out i can barely understand a word you say
       @mituna_sad%alttextbox_4chan MITUNA: 1M 50RRY
@@ -79,5 +79,5 @@
       @kankri_pray KANKRI: W9nderful. I'm s9 happy y9u have f9und the light 9f truth within y9urself. N9w j9in me in tagging 9ur discussi9n with righte9us warnings, as we c9nsecrate y9ur disadvantage in the h9ly annals 9f Pr96lematics.
       <!--  -->
 </args></action>
-	</templates>
+	</classes>
 </sburb>

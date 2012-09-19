@@ -1,5 +1,5 @@
 <sburb description='mituna dialogs'>
-	<templates>
+	<classes>
 		<action sprite='meenah' class='mitunaTalk1' command='talk' name='Talk to Mituna.'> <args>
       @meenah_happy MEENAH: hey bro
       @meenah_happytalk MEENAH: pretty nice stunt there
@@ -91,10 +91,6 @@
   </args>
 </action>
 
-<action sprite='meenah' class='mitunaTalk3' command='changeChar' name='Be Mituna.'>
-   <args>mituna</args>
-</action>
-
 
 <!--@ MITUNA AFTER MEENAH RETURNS-->
 
@@ -184,5 +180,5 @@
       @cronus_sad2 CRONUS: oh.
       <!--  -->
 </action>
-	</templates>
+	</classes>
 </sburb>
