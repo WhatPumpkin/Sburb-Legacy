@@ -1,15 +1,28 @@
 <sburb description="third room">
 
 <dependencies>
-
+	<dependency>chars/meulin.xml</dependency>
+	<dependency>chars/kurloz.xml</dependency>
 </dependencies>
 
 <assets>
 	<asset name='thirdRoomBG' type='graphic'>backgrounds/thirdRoomBG.png</asset>
 	<asset name='thirdRoomFG' type='graphic'>backgrounds/thirdRoomFG.png</asset>
 	<asset name='thirdRoomMap' type='graphic'>backgrounds/thirdRoomMap.png</asset>
+	
+	<asset name='catLusus' type='graphic'>objects/daww3.png</asset>
+	<asset name='codpiece' type='graphic'>objects/codpiece.png</asset>
+	<asset name='thirdRoomDoor' type='graphic'>objects/map3_door.png</asset>
+	<asset name='thirdRoomLily' type='graphic'>objects/map3_lilypad.png</asset>
 </assets>
 
+<sprite name='codpiece'>
+	<animation sheet='codpiece' x='-50' y='-50'/>
+</sprite>
+
+<sprite name='thirdRoomLily' x='1031' y='1891'>
+	<animation sheet='thirdRoomLily'/>
+</sprite>
 
 <rooms>
   <room name='thirdRoom' walkableMap='thirdRoomMap' mapScale='2'>
@@ -18,14 +31,82 @@
   			<args>inBox2,char,168,2612,924,2664</args>
   			<action command='changeRoomRemote'>rooms/firstRoom.xml,firstRoom,5412,99</action>
   		</trigger>
+  		
+  		<trigger>
+  			<args>gameState,givingCod=true</args>
+  			<trigger>
+  				<args>gameState,hasCod=true</args>
+  				<action command='playSong'>
+  					<args>purpleBardSong,6.30</args>
+  					<action class='kurlozTalk6'>
+  						<action command='changeChar'>
+  							<args>kurloz</args>
+  						</action>
+  					</action>
+  				</action>
+  			<trigger>
+  			<action command='setGameState'>
+  				<args>givingCod,false</args>
+  			</action>
+  		</trigger>
+  		<!--
+  		<trigger>
+  			<args>spriteProperty,char,name=kurloz</args>
+  			<args>kurloz is near meenah</args>
+  			<action command='goBack'>
+  				<args>char</args>
+  				<action class='kurlozTalk7' />
+  			</action>
+  		</trigger>
+  		-->
   	</triggers>
+  
+  	<character class='meulin' x='948' y='534'>
+  		<action class='meulinTalk1' />
+  		<action class='meulinTalk2' />
+  		<action class='meulinTalk3' />
+  		<action sprite='meenah' command='changeChar' name='Be Meulin.'>
+				<args>meulin</args>
+				<action command='playSong'>
+					<args>oliveRogueSong,9.61</args>
+				</action>
+			</action>
+			
+  	</character>
+  	
+  	<character class='kurloz' x='624' y='1668'>
+  		<action class='kurlozTalk1' />
+  		<action class='kurlozTalk2' />
+  		<action class='kurlozTalk3' />
+  		<action class='kurlozTalk4'>
+  			<action command='presentActions'>
+  				<args>
+  					<action command='setGameState' name='Yes.'>
+  						<args>givingCod,true</args>
+  					</action>
+  					<action command='cancel' name='No.' />
+  				</args>
+  			</action>
+  		</action> <!-- y/n -->
+  		<action class='kurlozTalk5' />
+  	</character>
+  
+  	<sprite name='catLusus' x='246' y='831' width='160' height='120'>
+  		<animation sheet='catLusus' x='-80' y='-60' length='12'/>
+  	</sprite>
+  	
+  	<sprite name='thirdRoomDoor' x='765' y='336' width='100' height='60'>
+  		<animation sheet='thirdRoomDoor' x='-60' y='-144'/>
+  	</sprite>
   
   	<sprite name='thirdRoomBG'>
   		<animation sheet='thirdRoomBG'/>
   	</sprite>
+  	
   	<sprite name='thirdRoomFG' depthing='2'>
   		<animation sheet='thirdRoomFG'/>
   	</sprite>
+  
   </room> 
 </rooms>
 </sburb>

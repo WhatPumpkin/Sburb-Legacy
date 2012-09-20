@@ -24,19 +24,7 @@
   <asset name='alttextbox_4chan' type='graphic'>interface/boxes/alttextbox_4chan.gif</asset>
   
  
-<asset name='kurbox' type='graphic'>interface/boxes/kurbox.png</asset>
-<asset name='kurtalk10' type='graphic'>interface/backgrounds/kurtalk10.png</asset>
-<asset name='kurtalk11' type='graphic'>interface/backgrounds/kurtalk11.png</asset>
-<asset name='kurtalk12' type='graphic'>interface/backgrounds/kurtalk12.png</asset>
-<asset name='kurtalk1' type='graphic'>interface/backgrounds/kurtalk1.png</asset>
-<asset name='kurtalk2' type='graphic'>interface/backgrounds/kurtalk2.png</asset>
-<asset name='kurtalk3' type='graphic'>interface/backgrounds/kurtalk3.png</asset>
-<asset name='kurtalk4' type='graphic'>interface/backgrounds/kurtalk4.png</asset>
-<asset name='kurtalk5' type='graphic'>interface/backgrounds/kurtalk5.png</asset>
-<asset name='kurtalk6' type='graphic'>interface/backgrounds/kurtalk6.png</asset>
-<asset name='kurtalk7' type='graphic'>interface/backgrounds/kurtalk7.png</asset>
-<asset name='kurtalk8' type='graphic'>interface/backgrounds/kurtalk8.png</asset>
-<asset name='kurtalk9' type='graphic'>interface/backgrounds/kurtalk9.png</asset>
+
  
 <asset name='dialogimg_cronus1' type='graphic'>interface/backgrounds/dialogimg_cronus1.png</asset>
 <asset name='dialogimg_cronus2' type='graphic'>interface/backgrounds/dialogimg_cronus2.png</asset>
@@ -45,15 +33,7 @@
 <asset name='dialogimg_mituna1' type='graphic'>interface/backgrounds/dialogimg_mituna1.gif</asset>
 <asset name='dialogimg_mituna2' type='graphic'>interface/backgrounds/dialogimg_mituna2.png</asset>
 <asset name='dialogimg_mituna3' type='graphic'>interface/backgrounds/dialogimg_mituna3.png</asset>
-<asset name='kurmeme1' type='graphic'>interface/backgrounds/kurmeme1.gif</asset>
-<asset name='kurmeme2' type='graphic'>interface/backgrounds/kurmeme2.gif</asset>
-<asset name='kurmeme3' type='graphic'>interface/backgrounds/kurmeme3.gif</asset>
-<asset name='kurmeme4' type='graphic'>interface/backgrounds/kurmeme4.gif</asset>
-<asset name='kurmeme5' type='graphic'>interface/backgrounds/kurmeme5.gif</asset>
-<asset name='kurmeme6' type='graphic'>interface/backgrounds/kurmeme6.gif</asset>
-<asset name='kurmeme7' type='graphic'>interface/backgrounds/kurmeme7.gif</asset>
-<asset name='kurmeme8' type='graphic'>interface/backgrounds/kurmeme8.gif</asset>
-<asset name='kurmeme9' type='graphic'>interface/backgrounds/kurmeme9.gif</asset>
+
 <asset name='meenahmeme' type='graphic'>interface/backgrounds/meenahmeme.gif</asset>
 <asset name='meme10' type='graphic'>interface/backgrounds/meme10.gif</asset>
 <asset name='meme11' type='graphic'>interface/backgrounds/meme11.gif</asset>

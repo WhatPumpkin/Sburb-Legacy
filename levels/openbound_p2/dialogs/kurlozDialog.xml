@@ -1,0 +1,114 @@
+<sburb description='kurloz dialogs'>
+	<classes>
+		<action sprite='meenah' class='kurlozTalk1' command='talk' name='Talk to Kurloz.'>
+      <args>
+      @meenah_idle MEENAH: yo freak remember me
+      @kurloz_smile:#:o) KURLOZ: 
+      @meenah_idle MEENAH: so 
+      @meenah_talk MEENAH: so what kinda conversation could we even have that wouldnt be weird and awkward
+      @kurloz_smile:#:o) KURLOZ: 
+      @meenah_idle MEENAH: i sea
+      @meenah_talk MEENAH: got anyfin for me other than an eerie glare and a gross stiched up smile
+      @kurloz_smile:#:o) KURLOZ: 
+      @meenah_talk MEENAH: whats the wicked word these days
+      @kurloz_finger:#:o) KURLOZ: 
+      @meenah_annoyed MEENAH: shit be cold home skillet
+      <!--  -->
+      </args>
+		</action>
+
+		<action sprite='meenah' class='kurlozTalk2' command='talk' name='Ask Kurloz to join.'>
+      <args>
+      @meenah_talk MEENAH: so i guess i want you to join my army
+      @meenah_idle MEENAH: maybe
+      @meenah_talk MEENAH: if you promise you aint gonna be too capricious or clown ass batshit or whatever
+      @kurloz_no:#:o) KURLOZ: 
+      @meenah_talk MEENAH: well least your honest about it
+      @meenah_talk MEENAH: got any crazy chucklevoodoo tips on how to kill a cherub?
+      @kurloz_shrug:#:o) KURLOZ: 
+      @meenah_idle MEENAH: so
+      @meenah_talk MEENAH: nothing to say as usual then
+      @kurloz_zip:#:o) KURLOZ: 
+      @meenah_talk MEENAH: its awesome we had this talk
+      <!--  -->
+      </args>
+		</action>
+
+		<action sprite='meenah' class='kurlozTalk3' command='talk' name='Be Kurloz.'>
+      <args>
+      @! You wouldn't even know how to BEGIN being this oddball. Best to just leave him alone.
+      <!--  -->
+      </args>
+		</action>
+
+
+		<action sprite='meenah' class='kurlozTalk4' command='talk' name="Wait... what's that Kurloz?">
+      <args>
+      @kurloz_thumbsup:#:o) KURLOZ: 
+      @! It seems all those jujus you've been collecting have caught his eye.
+      @! REST OF THIS CONVERSATION COMING LATER
+      <!--  -->
+      </args>
+		</action>
+		
+		<action sprite='meulin' class='kurlozTalk5' command='talk' name='Talk to Kurloz.'>
+      <args>
+      @meulin_mime4~meme10  
+      @kurloz_mime1~kurmeme1:#:o)  
+      @meulin_mime2~meme11  
+      @kurloz_mime2~kurmeme2:#:o)  
+      @meulin_mime3~meme12  
+      @kurloz_mime3~kurmeme3:#:o)  
+      @meulin_mime5~meme13  
+      @meulin_mime5~meme14  
+      @kurloz_mime1~kurmeme4:#:o)  
+      @kurloz_mime2~kurmeme5:#:o)  
+      @! Give Kurloz a COD PIECE?
+      <!-- y/n -->
+      </args>
+		</action>
+		
+		<action class='kurlozTalk6' command='talk'>
+			<args>
+			@kurloz_hypno2%kurbox~kurtalk1  
+      @kurloz_hypno2%kurbox~kurtalk2  
+      @kurloz_hypno2%kurbox~kurtalk3  
+      @meulin_hypno%kurbox:#OTM#RYDAS-AND-NINJETTES-REPRESENT MEULIN: (=ﾟ･ﾟ=) &lt; ALL HAIL THE ONE TRUE MESSIAH. 
+      @kurloz_hypno2%kurbox~kurtalk4  
+      @meulin_hypno%kurbox:#MUCH-CLOWN-LOVE MEULIN: (=ﾟ･ﾟ=) &lt; MAY THE BARD'S RIOTOUS CHUCKLEVOODOOS INSPIRE NIGHTMARES IN ALL WHO WOULD OPPAWS CALICORN, AND MAY THE JOCULARKITTY OF HIS VAST HONK RING LOUD AND MOTHER FUCKIN TRUE ALL THE WAY TO SHANGRI LOL.
+      @kurloz_hypno1%kurbox~kurtalk5  
+      @kurloz_hypno1%kurbox~kurtalk6  
+      @meulin_hypno%kurbox MEULIN: (=ﾟ･ﾟ=) &lt; MAY THIS LUDICROUS PAIR OF SHORTS ASSNIFFST HIS HOLY MISSION, AND FLUMMOX ALL WHO WOULD CATST THEIR UNWORTHY GAZE PON ITS FRESH FUCKIN BULGE.
+      @kurloz_hypno1%kurbox~kurtalk7  
+      <!--  --> 
+      </args>
+		</action>
+		
+		<action class='kurlozTalk7' command='talk' >
+		  <args>
+		  @kurloz_angry%kurbox~kurtalk8  
+		  @kurloz_annoyed%kurbox~kurtalk9  
+		  @kurloz_dead%kurbox~kurtalk10  
+		  @kurloz_fist%kurbox~kurtalk11  
+		  @kurloz_hypno2%kurbox~kurtalk12  
+		  <!--  -->
+		  </args>
+		</action>
+		
+		<action class='kurlozTalk8' command='talk'>
+      <args>
+      @kurloz_angry%kurbox~kurtalk13  
+      @kurloz_angry%kurbox~kurtalk14  
+      @kurloz_angry%kurbox~kurtalk15  
+      @kurloz_angry%kurbox~kurtalk16  
+      @kurloz_angry%kurbox~kurtalk17  
+      @kurloz_angry%kurbox~kurtalk18  
+      @kurloz_smile%kurbox~kurtalk19:#:o)  
+      @gamzee_idle%kurbox shut your mother fucking mouth and give me the cod piece
+      @kurloz_zip%kurbox KURLOZ:
+      <!--  -->
+      </args>
+		</action>
+		
+	</classes>
+</sburb>

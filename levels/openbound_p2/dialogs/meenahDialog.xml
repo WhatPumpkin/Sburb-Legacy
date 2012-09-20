@@ -79,5 +79,67 @@
       @kankri_pray KANKRI: W9nderful. I'm s9 happy y9u have f9und the light 9f truth within y9urself. N9w j9in me in tagging 9ur discussi9n with righte9us warnings, as we c9nsecrate y9ur disadvantage in the h9ly annals 9f Pr96lematics.
       <!--  -->
 </args></action>
+	
+	<action sprite='meulin' class='meenahTalk3' command='talk' name='Talk to Meenah.'>
+      <args>
+      @meulin_talk2 MEULIN: (=^･ω･^) &lt; OH!!!!!!!!! I MEANT TO ASK...
+      @meulin_talk2 MEULIN: ヽ(=^･ω･^=)丿 &lt; HAVE YOU MET THE HUMANS YET?
+      @meenah_idle MEENAH: yeah
+      @meulin_happiertalk MEULIN: (=^-ω-^=) &lt; OMG AREN'T THE JUST SO PERF???
+      @meenah_idle MEENAH: nah
+      @meenah_talk MEENAH: dont see what the big deal with em is
+      @meulin_worry MEULIN: (^・x・^) &lt; M33NAH, NO.
+      @meulin_worrytalk MEULIN: (^-人-^) &lt; THEY ARE ALL SO PERFECTLY ADORABLE.
+      @meulin_talk MEULIN: (^・ω・^ ) &lt; EACH IS LITTERALLY MORE PRECIOUS AND PURRFECT THAN THE LAST.
+      @meenah_annoyedtalk MEENAH: if only you could hear how bonkers you sound
+      @meulin_worry:#M33NAH. MEULIN:  ~(=^‥^)/ &lt; M33NAH. M33NAH. NO.
+      @meulin_worrytalk MEULIN: (^._.^)ﾉ &lt; YOU DON'T UNDERSTAND.
+      @meulin_worrytalk MEULIN: ヾ(=ﾟ･ﾟ=)ﾉ &lt; THEY ARE MY BABIES.
+      @meenah_annoyed MEENAH: wtfs a babie
+      @meulin_happiertalk MEULIN: (=^･^=) &lt; THEY ARE MY PERFECT PRECIOUS GAY LITTLE BABIES!!!!!!!!!
+      @meenah_annoyed MEENAH: uh
+      @meenah_annoyed MEENAH: whats gay
+      @meulin_happy MEULIN:  (=^ω^=) &lt; IT'S A THING THAT HUMAN BABIES ARE SOMETIMES I THINK!
+      @meenah_annoyed:#failing-to-can#when-it-comes-to-dealin-w-it MEENAH: cant even deal w this meu
+      @meulin_happiertalk MEULIN: (^･o･^) &lt; OH AND DO YOU EVEN HAVE THE SLIGHTEST IDEA WHAT THE SHIPPING IMPLICATPUNS ARE???
+      @meulin_happiertalk MEULIN: ヽ(=^･ω･^=)丿 &lt; BY ADDING THE HUMANS INTO THE PICTURE, BOTH PRE-SCRATCH AND SCRATCH-POST, IT HAS INCREASED THE PAIRING PAWSIBILITIES EXPOUNCENENTIALLY!
+      @meulin_wut MEULIN: (^-人-^) &lt; IT'S REALLY B33N OVERWHELMING, I CAN'T EVEN...
+      @meulin_wut:#NO MEULIN: (^・x・^) &lt; I JUST
+      @meulin_worry:#I-CAN'T MEULIN: (=ﾟ･ﾟ=) &lt; THAT'S IT.
+      @meulin_worrytalk MEULIN: (=ＴェＴ=) &lt; I'M SO DONE.
+      @meulin_mime5~meme7  
+      @meulin_mime1~meme8  
+      @meulin_mime2~meme9  
+      @meenah_talk:#not-really MEENAH: hate to change the subject
+      @meenah_talk:#didnt-wanna-get-tangled-up-in-his-hair MEENAH: but i kinda side stepped past kurloz back there whilst granting him a wide berth
+      @meenah_talk MEENAH: he obviously wont say a thing to me which is probs for tha best
+      @meenah_talk MEENAH: but since he actually talks to you maybe you can answer stuff
+      @meulin_idle:#HAIR-POOFING-TIPS? MEULIN: (=^ω^=) &lt; LIKE WHAT!
+      @meenah_talk MEENAH: like do you know if hes god tier
+      @meenah_talk MEENAH: im building this army and its going horribubbly so far and im sure it would be unimaginably horrendous havin him along but i needs all the muscle i can get know what im sayin
+      @meulin_idle MEULIN: (=^‥^) &lt; I ACTUALLY DON'T KNOW!
+      @meulin_happy MEULIN: (=^･ω･^=) &lt; YES WE ARE PRETTY CLOSE, BUT YOU KNOW HOW HE IS. HE'S STILL VERY SNEAKRETIVE AND STILL LOVES MAKING RIDDLES OUT OF EVERYTHING.
+      @meulin_talk2 MEULIN: (=^･ω･^=) &lt; HE'S B33N VERY EXCITED LATELY. HE F33LS THAT SO MANY OF HIS SPOOKY RELIGION'S PROPHECIES ARE ON THE VERGE OF COMING TRUE, AND THE STARS ARE COMING INTO FELINEMENT.
+      @meulin_oops MEULIN: (=^･ω･^=) &lt; REMEMBER HOW HE USED TO GO ON AND ON ABOUT THE MESSIAHS, ANGELS OF DOUBLE DEATH, AND ALL THAT WACKY STUFF?
+      @meenah_talk MEENAH: yeah we always had way waaay too many religious nutjobs in our party
+      @meenah_talk:#moar-slammin-puns#or-should-i-say...#salmon MEENAH: so i always tuna'd him trout
+      @meenah_talk MEENAH: back when he could talk at least
+      @meenah_happytalk:#angels-of-double-win-more-like MEENAH: then he did us all the psycho favor of sewing his mouth shut so it was win win
+      @meulin_wut MEULIN: (^‥^) &lt; HEH. I SUPPOSE.
+      @meenah_talk MEENAH: please dont take this for interest in shippin talk
+      @meenah_talk MEENAH: but you and he arent a red item anymore right
+      @meulin_talk MEULIN: (=^ω^=) &lt; OH NO NO NO THAT WAS A LONG TIME AGO.
+      @meulin_happy MEULIN: (=^ω^=) &lt; WE'RE JUST REALLY GOOD FRIENDS NOW. WE HANG OUT AND JOKE AROUND ALL THE TIME. HE EVEN HELPS ME WITH MY GRIDS!
+      @meulin_laugh MEULIN: ~(=^‥^)ノ &lt; GENERALLY I STICK TO THE RED MATCHUPS WHILE HE ADVISES ON BLACK. HE'S 33RILY TALENTED AT PICKING BLACKROM PAIRS! PROBABLY EVEN BETTER THAN ME... (EMOTE)
+      @meenah_idle MEENAH: dag what a boring fact
+      @meenah_talk MEENAH: but its cool youre good fronds still
+      @meenah_happytalk MEENAH: i thought i picked up heavy planktonic vibes from you
+      @meenah_happytalk MEENAH: now why dontcha run along and talk to him
+      @meenah_happytalk:#unabilitied-mofos-errywhere MEENAH: make use a your mutually compatible disabilities for communicatin and whatnot
+      @meenah_fish~meenahmeme  
+      <!--  -->
+      </args>
+</action>
+
 	</classes>
 </sburb>

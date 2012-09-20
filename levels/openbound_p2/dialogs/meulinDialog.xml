@@ -1,0 +1,140 @@
+<sburb description='meulin dialogs'>
+	<classes>
+		<action sprite='meenah' class='meulinTalk1' command='talk' name='Talk to Meulin.'>
+      <args>
+      @meulin_happier MEULIN: (=｀ω´=) &lt; 33333333333!!!!!!!!!
+      @meulin_happiertalk:#EM#OH#G33 MEULIN: (^・ω・^ ) &lt; GOMGOMGOGOMGOGMMGOMGOMGOGMOGMOGMOG. MOG!!!
+      @meenah_idle MEENAH: whoa leijon
+      @meenah_talk MEENAH: your rumble spheres
+      @meenah_talk MEENAH: clam those suckas this instant
+      @meulin_worry MEULIN: (^・x・^) &lt; NO.
+      @meulin_talk MEULIN: (=^･^=) &lt; I WILL NOT CLAM THEM.
+      @meulin_talk2 MEULIN: ヽ(=^･ω･^=)丿 &lt; THEY WILL STAY WILDLY AND GL33FURRY UNCLAMMED, BECAUSE, AND I REPEAT:
+      @meulin_happier MEULIN: (^･o･^)ﾉ &lt; MOG.
+      @meenah_idle MEENAH: mog
+      @meulin_talk MEULIN: (=^･^=) &lt; MOG, M33NAH.
+      @meulin_happier:#:33 MEULIN: ~(=^‥^)ノ &lt; _MOG_!!!!!!!!!
+      @meenah_annoyed MEENAH: idgi
+      @meulin_happy:#UNLESS-SPELLED-CORRECTLY MEULIN: (^._.^)ﾉ &lt; M33NAH. MOG COULD NOT BE ANY SIMPLER.
+      @meenah_annoyedtalk MEENAH: dude fuck mog
+      @meenah_talk MEENAH: oh wait you mean omg
+      @meulin_oops MEULIN: (=^･ω･^=) &lt; (=^-ω-^=)
+      @meenah_annoyed MEENAH: well fuck that too
+      @meenah_annoyed MEENAH: i know you cant physically monitor the volume of your piercing fangirly shrieks but try to keep it down
+      @meenah_annoyed MEENAH: like just be normal excited for once
+      @meulin_wut MEULIN: (^._.^)
+      @meenah_idle MEENAH: or
+      @meenah_talk MEENAH: should i say
+      @meenah_happy:#3;) MEENAH: "fur pounce"
+      @meulin_happier:#SO-MANY-33'S MEULIN: (=^ω^=) &lt; 333333333333333333333333333333333!!!!!!!!!
+      @meulin_happiertalk MEULIN: (^･o･^) &lt; M33NAH I MISSED YOU SOOOOOOO MUUUUUUUUCH! WHY DIDN'T WE EVER HANG OUT WHEN WE WERE ALIVE???
+      @meulin_worrytalk MEULIN: (=^‥^=) &lt; I HAD SO MUCH TIME TO PAWNDER THAT AND IT'S ONE OF MY D33PEST REGRETS. <EMOTE>
+      @meenah_talk MEENAH: it was probably cause you didnt like me very much
+      @meenah_talk MEENAH: but s'chool no one really did
+      @meulin_talk2:#YOU-WERE-INVOLVED-IN-SOME-OF-MY-FINEST-SHIPS! MEULIN: (=^･ｪ･^=) &lt; WHAAAT. THAT'S NOT TRUE! I'M SURE I LIKED YOU! DIDN'T I?
+      @meenah_talk MEENAH: i mean i did try to kill you a couple times
+      @meulin_wut MEULIN: (^・x・^) &lt; YOU DID? I DON'T REMEMBER THAT...
+      @meenah_talk MEENAH: water under the crossing trestle
+      @meulin_idle MEULIN:  (^･o･^) &lt; YES!!!
+      @meulin_worrytalk MEULIN: (^._.^)ﾉ  &lt; BUT, UM, IF YOU TRIED TO KILL ME, SHOULDN'T I BE THE ONE TO SAY THAT TO YOU?
+      @meenah_idle MEENAH: ...
+      @meenah_talk:#feel-free-to-unclam-those-tatas MEENAH: lejayjay how about you shut up and go back to being excited to see me
+      @meulin_happier MEULIN: (=ＴェＴ=)  &lt; 3333333333333333333333333333333333333333333!!!!!!!!!
+      @meulin_mime4~meme1  
+      @meulin_mime3~meme2  
+      @meulin_mime2~meme3  
+      @meenah_annoyedtalk MEENAH: can we plz cool it on the shitty mimes tho
+      @meenah_annoyedtalk:#the-literal-worst-form-of-communication-ever MEENAH: seriously cant understand what your tryin to say half the time
+      @meulin_talk:#"CATCH"#!!!#LIKE-A-FISH!#S33-I'M-YOUR-FRIEND!!! MEULIN: (=^･ω･^=) &lt; WE HAVE TO CATCH UP RIGHT AWAY. YOU MISSED OUT ON SO MUCH WHILE YOU WERE GONE!
+      @meenah_idle MEENAH: did i really
+      @meenah_talk MEENAH: to be conchnest that sounds mad unlikely
+      @meenah_annoyedtalk:#even-ones-where-i-technically-wasnt-even-"being-me" MEENAH: you would not even believe the boring conversations i just slogged through with some a you glubbin windbaggers
+      @meulin_happy:#ETERNITY-HAS-ONLY-STRENGTHENED-MY-COMMITMENT-TO-CAT-PUNS!!!#:33 MEULIN: (=^･^=) &lt; YOU SOOO DID THOUGH. WE'VE ALL B33N THROUGH A LOT TOGETHER SINCE WE DIED. I BELIEVE WE'VE MADE A LOT OF PROGRESS IN DEALING WITH OUR PURRSONAL ISSUES AND PUTTING OUR OLD DIFURRENCES BEHIND US.
+      @meenah_talk MEENAH: dont sound like you put much time into your fightin skills though
+      @meenah_annoyedtalk MEENAH: yall do realize you might be on the verge of dying AGAIN right?
+      @meulin_happier MEULIN: (=^･ｪ･^=) &lt; AND THE SHIPPING!!!!!!!!!
+      @meulin_happiertalk MEULIN: ＼(=^‥^)/ &lt; OMG M33NAH, THE SHIIIIIIIIIPPING! (=；ェ；=)  ヾ(=ﾟ･ﾟ=)ﾉ  (^・ω・^ ) 
+      @meulin_happiertalk MEULIN: (^・ω・^ ) &lt; YOU WON'T EVEN _BELIEVE_ WHO GOT TOGETHER OVER THE SW33PS. AND THE QUADRANTS! THE QUADRANTS THEY PAIRED UP IN... IT WILL _BLOW_. _YOUR_. _MIND_.
+      @meulin_oops:#DON'T#I... MEULIN: (=^･^=) &lt; I DON'T THINK I CAN EVEN CONVEY HOW MUCH... I JUST...
+      @meulin_worry:#NO#THAT'S-IT MEULIN: (^・x・^) &lt; I CAN'T.
+      @meulin_talk2:#HAVE-EXACTLY-ZERO-CANS MEULIN: └(=^‥^=)┐ &lt; I AM COMPLETELY UNABLE TO CAN RIGHT NOW.
+      @meenah_wut2 MEENAH: 38|
+      @meulin_worrytalk MEULIN: (=；ェ；=)  &lt; YOU DON'T UNDERSTAND, M33NAH. THE F33LS.
+      @meulin_happiertalk:#MIMES-INCOMING!!! MEULIN: (=ＴωＴ=) &lt; THE F33333333ELS!!!!!!!!!
+      @meulin_mime3~meme4  
+      @meulin_mime2~meme5  
+      @meulin_mime4~meme6  
+      @meenah_talk MEENAH: had a suspicion this chat would devolve into gossip about who banged who
+      @meenah_talk:#heres-ma-math#yall-got-shell-phones-here-right MEENAH: let me know if you wanna catch up on actual relevant shit some time
+      @meenah_talk MEENAH: holla at ya girl meumix
+      <!--  -->
+      </args>
+</action>
+
+<action sprite='meenah' class='meulinTalk2' command='talk' name='Ask Meulin to join.'>
+      <args>
+      @meenah_idle MEENAH: so tell me
+      @meenah_talk MEENAH: what exactlys the bullshit reason you cant join me to go fight lord bad guy
+      @meulin_wut MEULIN: (^._.^) &lt; YOU WANT ME TO GO FIGHT _THAT GUY_ WITH YOU??? (EMOTE)
+      @meulin_worrytalk MEULIN: (^･o･^) &lt; OH BUT I DO NOT THINK THAT WILL BE FLEASIBLE...
+      @meenah_annoyed MEENAH: noooooo shit
+      @meulin_talk2 MEULIN: (=^‥^=) &lt; I DON'T WANT TO COMPLETELY WASH MY PAWS OF THE IDEA, BUT I JUST HAVE SO MANY BALLS OF YARN IN THE AIR RIGHT NOW.
+      @meulin_happy MEULIN: ＼(=^‥^)/ &lt; SO MANY POTENTIAL SHIPS TO JUGGLE. A BUSY HYPOTHETICAL MATCHMAKER'S JOB IS NEVER DONE!
+      @meenah_talk MEENAH: that isnt anything even close to resemblin a real responsibility
+      @meulin_talk MEULIN: (=^･ｪ･^=) &lt; I DON'T WANT YOU TO THINK I DON'T GIVE A LICK ABOUT JOINING YOUR FIGHT, BUT I JUST DON'T THINK I WILL BE VERY USEFUL!
+      @meulin_happy:#(EMOTE) MEULIN: ~(=^‥^)ノ &lt; BY THE WAY, "LICK" WAS A SUBTLE CAT PUN. 
+      @meenah_talk MEENAH: dunno it doesnt sound like you give much a carp about anyfin that isnt shipping or sayin cat things
+      @meenah_happytalk:#also#'carp'-is-a-fish#and-'anyfin'-is-just-a-thing-i-say-all-the-time-duh MEENAH: btw "sound" was a subtle pun pertainin to oceanic geography
+      @meulin_talk MEULIN: (^・ω・^ )  &lt; COME OOOOOOOOON M33NAH, DON'T YOU WANT TO RELAX JUST A NIP BEFORE YOU GO RIGHT OFF TO ROUGHHIVE SOME MORE?
+      @meulin_talk MEULIN: (^･o･^) &lt; I HEARD YOU HAVE TAKEN A K33N INTEREST IN KANKRI'S ANCESTOR. 
+      @meenah_wut MEENAH: sunnuva fish
+      @meulin_happiertalk:#HMMM????????? MEULIN: ヽ(^‥^=ゞ) &lt; WELL, M33NAH? IS THAT TRUE?
+      @meenah_annoyedtalk MEENAH: even if it was true
+      @meenah_angry MEENAH: which it is the very definition of AINT
+      @meenah_annoyedtalk:#not-literally-heard#w-ur-ears#yaknowatimean MEENAH: how the shit could you have even heard something like that already
+      @meulin_laugh MEULIN: (=^ω^=) &lt; H3333333! IT'S TRUE, I JUST KNOW IT!!!!!!!!!
+      @meulin_dies:#*IS-DEAD* MEULIN: (=ｘェｘ=) &lt; _DIES_ 
+      @meenah_annoyed MEENAH: yes please do that
+      @meulin_idle MEULIN: ヾ(=ﾟ･ﾟ=)ﾉ &lt; DO YOU WANT ME TO SET YOU UP WITH HIM? BEFORE YOU SAY NO, I URGE YOU NOT TO UNDERESTIMATE THE POWER OF MY ROMANTIC SORCERIES. 
+      @meulin_happy MEULIN: (^･o･^)ﾉ &lt; YOU HAVE B33N OUT OF THE LOOP FOR A LONG TIME, SO YOU HAVE NO IDEA WHAT KIND OF MIRACLES HAVE B33N WROUGHT BY THE MAGE OF HEART!
+      @meulin_talk2 MEULIN: (=^-ω-^=) &lt; NOW, BEFORE I WORK MY MAGIC, WE SHOULD GET ONE THING CLEAR. IS YOUR YEARNING RED OR BLACK?
+      @meulin_wink MEULIN: (=ＴωＴ=) &lt; I AM ONLY ASKING TO BE ABSOLUTELY CERTAIN, BUT METHINKS THERE IS BARELY ANY DOUBT ABOUT IT. SOMMMEONE IS WAXING SCARLET FOR A LOUD, YOUNGER KANKRI, HMMMMMMMMM? (EMOTE)
+      @meenah_idle MEENAH: leijon
+      @meenah_talk MEENAH: are you readin my lips
+      @meenah_talk MEENAH: pretend you can hear me and that im saying this so loud your kittycat ears hurt
+      @meenah_talk MEENAH: shhhut thhhe fuuuuck uuup
+      @meulin_oops MEULIN:  (^･ω･^)
+      @meenah_annoyedtalk:#anemonebouy#&lt;&lt;how-fishpuns-be-DONE#bouyeah MEENAH: dont set me up with anemonebouy kay
+      @meenah_annoyedtalk MEENAH: just keep it in your friendfics
+      @meenah_angrytalk MEENAH: write about us doin it or whatever just S)(UT UP
+      @meulin_idle MEULIN: (^･o･^) &lt; OHHH. G33E. EMMM.
+      @meulin_happiertalk MEULIN: (=^･^=) &lt; I HAVE THE _BEST_ IDEA FOR A FIC LIKE THAT.
+      @meulin_happy MEULIN: ~(=^‥^)ノ &lt; BUT DON'T WORRY, MY POLICKSY WITH SUCH LICENTIOUS MATERIAL IS THE SAME AS IT'S ALWAYS B33N. I WILL NOT SHOW A SOUL UNTIL I HAVE SHOWN IT TO YOU AND THE YOUNGER VANTAS, AND YOU BOTH APPURRVE. I PROMISE!!! (EMOTE)
+      @meenah_creepytalk:#belt-w-a-bedazzled-fuchsia-strap-and-a-solid-gold-buckle MEENAH: yay another worthless conversation under ma belt!
+      @meenah_idle MEENAH: TIM-E TO BOUNC-E
+      <!--  -->
+      </args>
+</action>
+
+<action sprite='kurloz' class='meulinTalk3' command='talk' name='Talk to Meulin.'>
+      <args>
+      @meulin_wut MEULIN: ヾ(=ﾟ･ﾟ=)ﾉ &lt; WHEW...
+      @meulin_wut MEULIN: (^._.^) &lt; KURZORZ, MY HEAD F33LS REALLY FOGGY.
+      @meulin_wut:#DID-WE-JUST-TOKE-ON-SOME-BAD-NIP-OR-SOMETHING? MEULIN: (^._.^) &lt; WHAT JUST HAPPENED? I DON'T EVEN REMEMBER WALKING OVER HERE.
+      @kurloz_mime1~kurmeme6:#:o)  
+      @meulin_laugh MEULIN: (=^ω^=) &lt; H33H33H33!!! YOU'RE RIGHT, I SHOULDN'T WORRY ABOUT IT.
+      @meulin_mime4~meme15  
+      @kurloz_mime2~kurmeme7:#:o)  
+      @meulin_mime5~meme16  
+      @kurloz_mime3~kurmeme8:#:o)  
+      @meulin_mime3~meme17  
+      @kurloz_bye KURLOZ: :o) 
+      @meulin_wut MEULIN: ~(=^‥^) &lt; WHAT'S THAT? YOU HAVE TO GO RUN AN ERRAND?
+      @meulin_happy MEULIN: (=^-ω-^=) &lt; OK33DOK33, HAVE FUN!
+      @kurloz_smile~kurmeme9 
+      <!--  -->
+      </args>
+</action>
+
+	</classes>
+</sburb>

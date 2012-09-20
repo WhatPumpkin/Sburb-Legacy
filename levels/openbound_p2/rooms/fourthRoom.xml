@@ -1,0 +1,30 @@
+<sburb description="fourth room">
+
+<dependencies>
+	<dependency>chars/meulin.xml</dependency>
+	<dependency>chars/kurloz.xml</dependency>
+</dependencies>
+
+<assets>
+	<asset name='fourthRoomBG' type='graphic'>backgrounds/fourthRoomBG.png</asset>
+	<asset name='fourthRoomMap' type='graphic'>backgrounds/fourthRoomMap.png</asset>
+	<asset name='gamzee_idle' type='graphic'>dialogs/gamzee/gamzee_idle.png</asset>
+</assets>
+
+<hud>
+	<dialogsprites>
+		<animation name='gamzee_idle' sheet='gamzee_idle' x='-270' y='-420'/>
+	</dialogsprites>
+</hud>
+
+<rooms>
+  <room name='fourthRoom' walkableMap='fourthRoomMap' mapScale='2'>
+  	
+  
+  	<sprite name='fourthRoomBG'>
+  		<animation sheet='fourthRoomBG'/>
+  	</sprite>
+  
+  </room> 
+</rooms>
+</sburb>

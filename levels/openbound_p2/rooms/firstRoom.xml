@@ -284,6 +284,7 @@
 					<args>hateYouSong</args>
 				</action>
 			</action>
+			<action class='meenahTalk3'/>
   	</character>
   	
   	<character class='cronus' x='2022' y='958' >

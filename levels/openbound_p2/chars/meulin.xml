@@ -1,0 +1,66 @@
+<sburb description='meulin'>
+
+<dependencies>
+	<dependency>dialogs/meulinDialog.xml</dependency>
+</dependencies>
+
+<classes>
+	<animation class='meulin-dialog' frameInterval='2' x='-180' y='-524'/>
+	
+	<character class='meulin' name='meulin' sx='-50' sy='-110' sWidth='100' sHeight='130' width='30' height='15' sheet='meulinSheet' state='walkFront' facing='Front'>
+		
+	</character>
+</classes>
+
+<assets>
+
+	<asset name='meulinSheet' type='graphic'>chars/meulin/meulin.png</asset>
+
+	<asset name='oliveRogueSong' type='audio'>audio/music/OliveRogueLoop.oga;audio/music/OliveRogueLoop.mp3</asset> <!-- loops to 9.61 -->
+	
+	<asset name='meulin_dies' type='graphic'>dialogs/meulin/meulin_dies.png</asset>
+	<asset name='meulin_happier' type='graphic'>dialogs/meulin/meulin_happier.png</asset>
+	<asset name='meulin_happiertalk' type='graphic'>dialogs/meulin/meulin_happiertalk.png</asset>
+	<asset name='meulin_happy' type='graphic'>dialogs/meulin/meulin_happy.png</asset>
+	<asset name='meulin_hypno' type='graphic'>dialogs/meulin/meulin_hypno.png</asset>
+	<asset name='meulin_idle' type='graphic'>dialogs/meulin/meulin_idle.png</asset>
+	<asset name='meulin_laugh' type='graphic'>dialogs/meulin/meulin_laugh.png</asset>
+	<asset name='meulin_mime1' type='graphic'>dialogs/meulin/meulin_mime1.png</asset>
+	<asset name='meulin_mime2' type='graphic'>dialogs/meulin/meulin_mime2.png</asset>
+	<asset name='meulin_mime3' type='graphic'>dialogs/meulin/meulin_mime3.png</asset>
+	<asset name='meulin_mime4' type='graphic'>dialogs/meulin/meulin_mime4.png</asset>
+	<asset name='meulin_mime5' type='graphic'>dialogs/meulin/meulin_mime5.png</asset>
+	<asset name='meulin_oops' type='graphic'>dialogs/meulin/meulin_oops.png</asset>
+	<asset name='meulin_talk2' type='graphic'>dialogs/meulin/meulin_talk2.png</asset>
+	<asset name='meulin_talk' type='graphic'>dialogs/meulin/meulin_talk.png</asset>
+	<asset name='meulin_wink' type='graphic'>dialogs/meulin/meulin_wink.png</asset>
+	<asset name='meulin_worry' type='graphic'>dialogs/meulin/meulin_worry.png</asset>
+	<asset name='meulin_worrytalk' type='graphic'>dialogs/meulin/meulin_worrytalk.png</asset>
+	<asset name='meulin_wut' type='graphic'>dialogs/meulin/meulin_wut.png</asset>
+	
+</assets>
+
+<hud>
+	<dialogsprites>	
+		<animation name='meulin_dies' class='meulin-dialog' sheet='meulin_dies' />
+		<animation name='meulin_happier' class='meulin-dialog' sheet='meulin_happier' />
+		<animation name='meulin_happiertalk' class='meulin-dialog' sheet='meulin_happiertalk' length='2'/>
+		<animation name='meulin_happy' class='meulin-dialog' sheet='meulin_happy' length='2'/>
+		<animation name='meulin_hypno' class='meulin-dialog' sheet='meulin_hypno' length='4'/>
+		<animation name='meulin_idle' class='meulin-dialog' sheet='meulin_idle' />
+		<animation name='meulin_laugh' class='meulin-dialog' sheet='meulin_laugh' length='2'/>
+		<animation name='meulin_mime1' class='meulin-dialog' sheet='meulin_mime1' length='8'/>
+		<animation name='meulin_mime2' class='meulin-dialog' sheet='meulin_mime2' length='8'/>
+		<animation name='meulin_mime3' class='meulin-dialog' sheet='meulin_mime3' length='8'/>
+		<animation name='meulin_mime4' class='meulin-dialog' sheet='meulin_mime4' length='8'/>
+		<animation name='meulin_mime5' class='meulin-dialog' sheet='meulin_mime5' length='8'/>
+		<animation name='meulin_oops' class='meulin-dialog' sheet='meulin_oops' />
+		<animation name='meulin_talk2' class='meulin-dialog' sheet='meulin_talk2' length='2'/>
+		<animation name='meulin_talk' class='meulin-dialog' sheet='meulin_talk' length='2'/>
+		<animation name='meulin_wink' class='meulin-dialog' sheet='meulin_wink' />
+		<animation name='meulin_worry' class='meulin-dialog' sheet='meulin_worry' />
+		<animation name='meulin_worrytalk' class='meulin-dialog' sheet='meulin_worrytalk' length='2'/>
+		<animation name='meulin_wut' class='meulin-dialog' sheet='meulin_wut' />
+  </dialogsprites>
+</hud>
+</sburb>

@@ -1,0 +1,94 @@
+<sburb description='kurloz'>
+
+<dependencies>
+	<dependency>dialogs/kurlozDialog.xml</dependency>
+</dependencies>
+
+<classes>
+	<animation class='kurloz-dialog' frameInterval='2' x='-180' y='-524'/>
+	
+	<character class='kurloz' name='kurloz' sx='-50' sy='-110' sWidth='100' sHeight='130' width='30' height='15' sheet='kurlozSheet' state='walkFront' facing='Front'>
+		
+	</character>
+</classes>
+
+<assets>
+
+	<asset name='kurlozSheet' type='graphic'>chars/kurloz/kurloz.png</asset>
+
+	<asset name='purpleBardSong' type='audio'>audio/music/PurpleBardLoop.oga;audio/music/PurpleBardLoop.mp3</asset> <!-- loops to 6.30 -->
+	
+	<asset name='kurloz_angry' type='graphic'>dialogs/kurloz/kurloz_angry.png</asset>
+	<asset name='kurloz_annoyed' type='graphic'>dialogs/kurloz/kurloz_annoyed.png</asset>
+	<asset name='kurloz_bye' type='graphic'>dialogs/kurloz/kurloz_bye.png</asset>
+	<asset name='kurloz_dead' type='graphic'>dialogs/kurloz/kurloz_dead.png</asset>
+	<asset name='kurloz_finger' type='graphic'>dialogs/kurloz/kurloz_finger.png</asset>
+	<asset name='kurloz_fist' type='graphic'>dialogs/kurloz/kurloz_fist.png</asset>
+	<asset name='kurloz_hypno1' type='graphic'>dialogs/kurloz/kurloz_hypno1.png</asset>
+	<asset name='kurloz_hypno2' type='graphic'>dialogs/kurloz/kurloz_hypno2.png</asset>
+	<asset name='kurloz_idle' type='graphic'>dialogs/kurloz/kurloz_idle.png</asset>
+	<asset name='kurloz_mime1' type='graphic'>dialogs/kurloz/kurloz_mime1.png</asset>
+	<asset name='kurloz_mime2' type='graphic'>dialogs/kurloz/kurloz_mime2.png</asset>
+	<asset name='kurloz_mime3' type='graphic'>dialogs/kurloz/kurloz_mime3.png</asset>
+	<asset name='kurloz_no' type='graphic'>dialogs/kurloz/kurloz_no.png</asset>
+	<asset name='kurloz_shrug' type='graphic'>dialogs/kurloz/kurloz_shrug.png</asset>
+	<asset name='kurloz_smile' type='graphic'>dialogs/kurloz/kurloz_smile.png</asset>
+	<asset name='kurloz_thumbsup' type='graphic'>dialogs/kurloz/kurloz_thumbsup.png</asset>
+	<asset name='kurloz_zip' type='graphic'>dialogs/kurloz/kurloz_zip.png</asset>
+	
+	<asset name='kurbox' type='graphic'>interface/boxes/kurbox.png</asset>
+	<asset name='kurtalk10' type='graphic'>interface/backgrounds/kurtalk10.png</asset>
+	<asset name='kurtalk11' type='graphic'>interface/backgrounds/kurtalk11.png</asset>
+	<asset name='kurtalk12' type='graphic'>interface/backgrounds/kurtalk12.png</asset>
+	<asset name='kurtalk13' type='graphic'>interface/backgrounds/kurtalk13.png</asset>
+	<asset name='kurtalk14' type='graphic'>interface/backgrounds/kurtalk14.png</asset>
+	<asset name='kurtalk15' type='graphic'>interface/backgrounds/kurtalk15.png</asset>
+	<asset name='kurtalk16' type='graphic'>interface/backgrounds/kurtalk16.png</asset>
+	<asset name='kurtalk17' type='graphic'>interface/backgrounds/kurtalk17.png</asset>
+	<asset name='kurtalk18' type='graphic'>interface/backgrounds/kurtalk18.png</asset>
+	<asset name='kurtalk19' type='graphic'>interface/backgrounds/kurtalk19.png</asset>
+	<asset name='kurtalk1' type='graphic'>interface/backgrounds/kurtalk1.png</asset>
+	<asset name='kurtalk2' type='graphic'>interface/backgrounds/kurtalk2.png</asset>
+	<asset name='kurtalk3' type='graphic'>interface/backgrounds/kurtalk3.png</asset>
+	<asset name='kurtalk4' type='graphic'>interface/backgrounds/kurtalk4.png</asset>
+	<asset name='kurtalk5' type='graphic'>interface/backgrounds/kurtalk5.png</asset>
+	<asset name='kurtalk6' type='graphic'>interface/backgrounds/kurtalk6.png</asset>
+	<asset name='kurtalk7' type='graphic'>interface/backgrounds/kurtalk7.png</asset>
+	<asset name='kurtalk8' type='graphic'>interface/backgrounds/kurtalk8.png</asset>
+	<asset name='kurtalk9' type='graphic'>interface/backgrounds/kurtalk9.png</asset>
+	
+	<asset name='kurmeme1' type='graphic'>interface/backgrounds/kurmeme1.gif</asset>
+	<asset name='kurmeme2' type='graphic'>interface/backgrounds/kurmeme2.gif</asset>
+	<asset name='kurmeme3' type='graphic'>interface/backgrounds/kurmeme3.gif</asset>
+	<asset name='kurmeme4' type='graphic'>interface/backgrounds/kurmeme4.gif</asset>
+	<asset name='kurmeme5' type='graphic'>interface/backgrounds/kurmeme5.gif</asset>
+	<asset name='kurmeme6' type='graphic'>interface/backgrounds/kurmeme6.gif</asset>
+	<asset name='kurmeme7' type='graphic'>interface/backgrounds/kurmeme7.gif</asset>
+	<asset name='kurmeme8' type='graphic'>interface/backgrounds/kurmeme8.gif</asset>
+	<asset name='kurmeme9' type='graphic'>interface/backgrounds/kurmeme9.gif</asset>
+	
+</assets>
+
+<hud>
+	<dialogsprites>	
+  	<animation name='kurloz_angry' class='kurloz-dialog' sheet='kurloz_angry' />
+		<animation name='kurloz_annoyed' class='kurloz-dialog' sheet='kurloz_annoyed' />
+		<animation name='kurloz_bye' class='kurloz-dialog' sheet='kurloz_bye' />
+		<animation name='kurloz_dead' class='kurloz-dialog' sheet='kurloz_dead' length='2'/>
+		<animation name='kurloz_finger' class='kurloz-dialog' sheet='kurloz_finger' />
+		<animation name='kurloz_fist' class='kurloz-dialog' sheet='kurloz_fist' length='2'/>
+		<animation name='kurloz_hypno1' class='kurloz-dialog' sheet='kurloz_hypno1' length='4'/>
+		<animation name='kurloz_hypno2' class='kurloz-dialog' sheet='kurloz_hypno2' length='4'/>
+		<animation name='kurloz_idle' class='kurloz-dialog' sheet='kurloz_idle' />
+		<animation name='kurloz_mime1' class='kurloz-dialog' sheet='kurloz_mime1' length='8'/>
+		<animation name='kurloz_mime2' class='kurloz-dialog' sheet='kurloz_mime2' length='8'/>
+		<animation name='kurloz_mime3' class='kurloz-dialog' sheet='kurloz_mime3' length='8'/>
+		<animation name='kurloz_no' class='kurloz-dialog' sheet='kurloz_no' length='2'/>
+		<animation name='kurloz_shrug' class='kurloz-dialog' sheet='kurloz_shrug' />
+		<animation name='kurloz_smile' class='kurloz-dialog' sheet='kurloz_smile' />
+		<animation name='kurloz_thumbsup' class='kurloz-dialog' sheet='kurloz_thumbsup' length='2'/>
+		<animation name='kurloz_zip' class='kurloz-dialog' sheet='kurloz_zip' length='3'/>
+
+  </dialogsprites>
+</hud>
+</sburb>
