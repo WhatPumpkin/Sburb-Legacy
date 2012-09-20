@@ -66,6 +66,7 @@ Sburb.parseAction = function(node) {
 			targSprite = attributes.getNamedItem("sprite").value;
 		}
 		var times = attributes.getNamedItem("times") || attributes.getNamedItem("loops") || attributes.getNamedItem("for");
+
 		var newAction = new Sburb.Action(
 					 attributes.getNamedItem("command").value,
 					 node.firstChild?unescape(getNodeText(node)).trim():"",

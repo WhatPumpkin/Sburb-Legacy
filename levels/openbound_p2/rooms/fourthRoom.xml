@@ -19,7 +19,17 @@
 
 <rooms>
   <room name='fourthRoom' walkableMap='fourthRoomMap' mapScale='2'>
-  	
+  	<triggers>
+			<trigger>
+				<args>spriteProperty,char,y&gt;1470</args>
+				<action command='goBack'>
+					<args>char</args>
+					<action class='kurlozTalk8'>
+						<action class='beMeenah'/>
+					</action>
+				</action>
+			</trigger>
+  	</triggers>
   
   	<sprite name='fourthRoomBG'>
   		<animation sheet='fourthRoomBG'/>

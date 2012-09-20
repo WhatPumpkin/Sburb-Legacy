@@ -16,6 +16,8 @@
   		<asset name='chest5ClosedSheet' type='graphic'>objects/chest5.png</asset>
   		<asset name='chest6OpenSheet' type='graphic'>objects/chest6o.png</asset>
   		<asset name='chest6ClosedSheet' type='graphic'>objects/chest6.png</asset>
+  		
+  		 <asset name='blueBubbleSheet' type='graphic'>objects/bluebubble.png</asset>
 	</assets>
 
 	<classes>
@@ -48,6 +50,10 @@
 		<sprite class='teleporter' width='110' height='60'>
 		  <animation sheet='teleporterPad' x='-66' y='-120'/>
 	  </sprite>
+	  
+	  <sprite class='blueBubble' width='20' height='20' depthing='1' collidable='true'>
+  		<animation sheet='blueBubbleSheet' x='-20' y='-40' />
+  	</sprite>
 	  
 	</classes>
 	

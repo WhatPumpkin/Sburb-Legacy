@@ -11,6 +11,13 @@
 		<animation name='skate' sheet='mitunaSkate' x='-32' y='-90'/>
 		<animation name='crash' sheet='mitunaLand' x='-35' y='-15'/>
 	</character>
+	
+	<action class='beMituna' command='changeChar' name='Be Mituna.'>
+		<args>mituna</args>
+		<action command='playSong'>
+			<args>gameBroSong,6.58</args>
+		</action>
+	</action>
 </classes>
 
 <assets>

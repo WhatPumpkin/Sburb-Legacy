@@ -5,11 +5,17 @@
 </dependencies>
 
 <classes>
-	<animation class='meulin-dialog' frameInterval='2' x='-180' y='-524'/>
+	<animation class='meulin-dialog' frameInterval='2' x='-230' y='-524'/>
 	
-	<character class='meulin' name='meulin' sx='-50' sy='-110' sWidth='100' sHeight='130' width='30' height='15' sheet='meulinSheet' state='walkFront' facing='Front'>
-		
+	<character class='meulin' name='meulin' sx='-50' sy='-110' sWidth='100' sHeight='130' width='30' height='15' sheet='meulinSheet' state='walkFront' facing='Front'>	
 	</character>
+	
+	<action class='beMeulin' command='changeChar' name='Be Meulin.'>
+		<args>meulin</args>
+		<action command='playSong'>
+			<args>oliveRogueSong,9.61</args>
+		</action>
+	</action>
 </classes>
 
 <assets>
@@ -43,8 +49,8 @@
 <hud>
 	<dialogsprites>	
 		<animation name='meulin_dies' class='meulin-dialog' sheet='meulin_dies' />
-		<animation name='meulin_happier' class='meulin-dialog' sheet='meulin_happier' />
-		<animation name='meulin_happiertalk' class='meulin-dialog' sheet='meulin_happiertalk' length='2'/>
+		<animation name='meulin_happier' class='meulin-dialog' x='-280' sheet='meulin_happier' />
+		<animation name='meulin_happiertalk' class='meulin-dialog' x='-280' sheet='meulin_happiertalk' length='2'/>
 		<animation name='meulin_happy' class='meulin-dialog' sheet='meulin_happy' length='2'/>
 		<animation name='meulin_hypno' class='meulin-dialog' sheet='meulin_hypno' length='4'/>
 		<animation name='meulin_idle' class='meulin-dialog' sheet='meulin_idle' />

@@ -102,13 +102,7 @@
 	<action class='mitunaTalk1'/>
 	<action class='mitunaTalk2'/>
 	<action class='mitunaTalk5'/>
-	
-	<action command='changeChar' name='Be Mituna.'>
-		<args>mituna</args>
-		<action command='playSong'>
-			<args>gameBroSong,6.58</args>
-		</action>
-	</action>
+	<action class='beMituna'/>
 </character>
 
 <sprite name='spadeKey' depthing='2'>
@@ -243,12 +237,7 @@
 																<args>cronus,
 																	<action class='cronusTalk5'/>
 																	<action class='cronusTalk8'/>
-																	<action sprite='mituna' name='Be Cronus.' command='changeChar'>
-																		<args>cronus</args>
-																		<action command='playSong'>
-																			<args>violetPrinceSong</args>
-																		</action>
-																	</action>
+																	<action sprite='mituna' class='beCronus'/>
 																</args>
 																<action command='addActions' noDelay='true'>
 																	<args>meenah,
@@ -278,12 +267,7 @@
   	
   	<character class='meenah' x='427' y='458' >
   		<action class='meenahTalk1'/>
-			<action command='changeChar' name='Be Meenah.'>
-				<args>meenah</args>
-				<action command='playSong'>
-					<args>hateYouSong</args>
-				</action>
-			</action>
+			<action class='beMeenah'/>
 			<action class='meenahTalk3'/>
   	</character>
   	
@@ -295,15 +279,11 @@
 			<action class='cronusTalk7'>
 				<action command='presentActions'>
 					<args>
-						<action name='Yes.' command='changeChar'>
-							<args>cronus</args>
-							<action command='playSong'>
-								<args>violetPrinceSong</args>
-								<action command='setGameState'>
-									<args>meenahGone,true</args>
-									<action command='removeSprite'>
-										<args>meenah,firstRoom</args>
-									</action>
+						<action name='Yes.' class='beCronus'>
+							<action command='setGameState'>
+								<args>meenahGone,true</args>
+								<action command='removeSprite'>
+									<args>meenah,firstRoom</args>
 								</action>
 							</action>
 						</action>

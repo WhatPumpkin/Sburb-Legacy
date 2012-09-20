@@ -5,6 +5,10 @@
 	<dependency>chars/kurloz.xml</dependency>
 </dependencies>
 
+<classes>
+	
+</classes>
+
 <assets>
 	<asset name='thirdRoomBG' type='graphic'>backgrounds/thirdRoomBG.png</asset>
 	<asset name='thirdRoomFG' type='graphic'>backgrounds/thirdRoomFG.png</asset>
@@ -14,6 +18,10 @@
 	<asset name='codpiece' type='graphic'>objects/codpiece.png</asset>
 	<asset name='thirdRoomDoor' type='graphic'>objects/map3_door.png</asset>
 	<asset name='thirdRoomLily' type='graphic'>objects/map3_lilypad.png</asset>
+	
+	<asset name='thirdRoomStairs' type='path'>1064,1897;1214,2048;1214,2147;1064,1982</asset>
+	<asset name='thirdRoomPost1' type='path'>696,312;696,336;727,336;727,312</asset>
+	<asset name='thirdRoomPost2' type='path'>817,317;847,317;847,337;817,337</asset>
 </assets>
 
 <sprite name='codpiece'>
@@ -24,6 +32,10 @@
 	<animation sheet='thirdRoomLily'/>
 </sprite>
 
+<sprite name='thirdRoomDoor' x='765' y='336' width='100' height='60'>
+	<animation sheet='thirdRoomDoor' x='-60' y='-144'/>
+</sprite>
+
 <rooms>
   <room name='thirdRoom' walkableMap='thirdRoomMap' mapScale='2'>
   	<triggers>
@@ -31,11 +43,21 @@
   			<args>inBox2,char,168,2612,924,2664</args>
   			<action command='changeRoomRemote'>rooms/firstRoom.xml,firstRoom,5412,99</action>
   		</trigger>
+  		<!-- NOTE TO SELF: invert hasCod=true for these two triggers!!!-->
+  		<trigger>
+  			<args>gameState,givingCod=true</args>
+				<args>gameState,hasCod=true</args>
+				<action command='talk'>
+					<args>
+						@! You don't have a COD PIECE! You have not obtained such exquisite finery yet. Perhaps you should do a bit more treasure hunting?
+					</args>
+				</action>
+  		</trigger>
   		
   		<trigger>
   			<args>gameState,givingCod=true</args>
-  			<trigger>
-  				<args>gameState,hasCod=true</args>
+  			<trigger detonate='true'>
+  				<args>gameState,hasCod!=true</args>
   				<action command='playSong'>
   					<args>purpleBardSong,6.30</args>
   					<action class='kurlozTalk6'>
@@ -44,11 +66,12 @@
   						</action>
   					</action>
   				</action>
-  			<trigger>
+  			</trigger>
   			<action command='setGameState'>
   				<args>givingCod,false</args>
   			</action>
   		</trigger>
+  		
   		<!--
   		<trigger>
   			<args>spriteProperty,char,name=kurloz</args>
@@ -59,26 +82,26 @@
   			</action>
   		</trigger>
   		-->
+  		<trigger>
+  			<args>inBox2,kurloz,726,317,817,336</args>
+  			<args>gameState,thirdDoorOpen=true</args>
+  			<action command='changeRoomRemote'>rooms/fourthRoom.xml,fourthRoom,180,240</action>
+  		</trigger>
   	</triggers>
   
   	<character class='meulin' x='948' y='534'>
   		<action class='meulinTalk1' />
   		<action class='meulinTalk2' />
   		<action class='meulinTalk3' />
-  		<action sprite='meenah' command='changeChar' name='Be Meulin.'>
-				<args>meulin</args>
-				<action command='playSong'>
-					<args>oliveRogueSong,9.61</args>
-				</action>
-			</action>
-			
+  		<action sprite='meenah' class='beMeulin'/>
   	</character>
   	
   	<character class='kurloz' x='624' y='1668'>
   		<action class='kurlozTalk1' />
   		<action class='kurlozTalk2' />
   		<action class='kurlozTalk3' />
-  		<action class='kurlozTalk4'>
+  		<action class='kurlozTalk4' />
+  		<action class='kurlozTalk5' >
   			<action command='presentActions'>
   				<args>
   					<action command='setGameState' name='Yes.'>
@@ -87,16 +110,38 @@
   					<action command='cancel' name='No.' />
   				</args>
   			</action>
-  		</action> <!-- y/n -->
-  		<action class='kurlozTalk5' />
+  		</action>
   	</character>
   
-  	<sprite name='catLusus' x='246' y='831' width='160' height='120'>
-  		<animation sheet='catLusus' x='-80' y='-60' length='12'/>
+  	<sprite name='catLusus' x='246' y='831' width='160' height='120' collidable='true'>
+  		<animation sheet='catLusus' x='-80' y='-60' length='12' frameInterval='4'/>
   	</sprite>
   	
-  	<sprite name='thirdRoomDoor' x='765' y='336' width='100' height='60'>
-  		<animation sheet='thirdRoomDoor' x='-60' y='-144'/>
+  	<sprite name='thirdRoomBubble1' class='blueBubble' x='999' y='1875'>
+  		<action name='shutthefuckup' command='addWalkable'>
+  			<args>thirdRoomStairs,thirdRoom</args>
+  			<action command='addMotionPath' noDelay='true'>
+					<args>thirdRoomStairs,0.7,0.7,0,1,0,0,thirdRoom</args>
+					<action command='addSprite' noDelay='true'>
+						<args>thirdRoomLily,thirdRoom</args>
+					</action>
+				</action>
+  		</action>
+  	</sprite>
+  
+  	<sprite name='thirdRoomBubble2' class='blueBubble' x='663' y='375'>
+  		<action sprite='kurloz' name='arrrggggh' command='addUnwalkable'>
+  			<args>thirdRoomPost1,thirdRoom</args>
+  			<action command='addUnwalkable' noDelay='true'>
+					<args>thirdRoomPost2,thirdRoom</args>
+					<action command='addSprite' noDelay='true'>
+						<args>thirdRoomDoor,thirdRoom</args>
+						<action command='setGameState' noDelay='true'>
+							<args>thirdDoorOpen,true</args>
+						</action>
+					</action>
+				</action>
+  		</action>
   	</sprite>
   
   	<sprite name='thirdRoomBG'>

@@ -5,7 +5,7 @@
 </dependencies>
 
 <classes>
-	<animation class='kurloz-dialog' frameInterval='2' x='-180' y='-524'/>
+	<animation class='kurloz-dialog' frameInterval='2' x='-380' y='-524'/>
 	
 	<character class='kurloz' name='kurloz' sx='-50' sy='-110' sWidth='100' sHeight='130' width='30' height='15' sheet='kurlozSheet' state='walkFront' facing='Front'>
 		
