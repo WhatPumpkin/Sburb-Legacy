@@ -34,8 +34,7 @@ Sprite.prototype.addAnimation = function(anim){
 }
 
 Sprite.prototype.startAnimation = function(name){
-	
-	if(this.state!=name){
+	if(this.state!=name && this.animations[name]){
 		this.animation = this.animations[name];
 		this.animation.reset();
 		this.state = name;
@@ -43,18 +42,17 @@ Sprite.prototype.startAnimation = function(name){
 }
 
 Sprite.prototype.update = function(curRoom){
-	if(this.animation.hasPlayed() && this.animation.followUp){
-		this.startAnimation(this.animation.followUp);
-	}else{
-		this.animation.update();
+	if(this.animation){
+		if(this.animation.hasPlayed() && this.animation.followUp){
+			this.startAnimation(this.animation.followUp);
+		}else{
+			this.animation.update();
+		}
 	}
-}
-Sprite.prototype.staticImg = function() {
-	return this.animation.staticImg();
 }
 
 Sprite.prototype.draw = function(){
-	if(this.animation!=null){
+	if(this.animation){
 		this.animation.draw(this.x,this.y);
 	}
 }
@@ -92,7 +90,7 @@ Sprite.prototype.hitsPoint = function(x,y){
 }
 
 Sprite.prototype.isVisuallyUnder = function(x,y){
-	return this.animation.isVisuallyUnder(x-this.x,y-this.y);
+	return this.animation && this.animation.isVisuallyUnder(x-this.x,y-this.y);
 }
 
 Sprite.prototype.addAction = function(action){

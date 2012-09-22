@@ -470,7 +470,14 @@ Sburb.createGraphicAsset = function(name, path) {
     // AJAX pre-load shenanigans
     // Load via AJAX, call success or failure
     // If success, set src attribute, call onload or onerror
-    ret.success = function(url) { ret.src = url; };
+    ret.success = function(url) {
+        var ext = path.substring(path.indexOf(".")+1,path.length);
+        var type = Sburb.assetManager.mimes[ext];
+        ret.src = url;
+        if(type == "image/gif") {
+            document.getElementById("SBURBgifBin").appendChild(ret);
+        }
+    };
     ret.failure = function() { ret.failed = true; };
     ret.onload = function() { ret.loaded = true; }
     ret.onerror = ret.failure;

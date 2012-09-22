@@ -461,7 +461,7 @@ Sburb.FontEngine.prototype.batchLength = function(){
 
 //show the contents of the current "box"
 Sburb.FontEngine.prototype.showAll = function(){
-	this.end = this.batchLength();
+	this.end = this.batchLength()+1;
 }
 
 
