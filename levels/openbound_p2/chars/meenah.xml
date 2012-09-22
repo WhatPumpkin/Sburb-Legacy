@@ -5,7 +5,7 @@
 </dependencies>
 
 <classes>
-	<animation class='meenah-dialog' frameInterval='2' x='-180' y='-524'/>
+	<animation class='meenah-dialog' frameInterval='1' x='-180' y='-524'/>
 	
 	<character class='meenah' name='meenah' sx='-50' sy='-110' sWidth='100' sHeight='130' width='30' height='15' sheet='meenahSheet' state='walkFront' facing='Front'>
 		

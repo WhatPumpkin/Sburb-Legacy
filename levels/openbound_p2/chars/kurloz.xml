@@ -5,7 +5,7 @@
 </dependencies>
 
 <classes>
-	<animation class='kurloz-dialog' frameInterval='2' x='-380' y='-524'/>
+	<animation class='kurloz-dialog' frameInterval='6' x='-380' y='-584'/>
 	
 	<character class='kurloz' name='kurloz' sx='-50' sy='-110' sWidth='100' sHeight='130' width='30' height='15' sheet='kurlozSheet' state='walkFront' facing='Front'>
 		
@@ -80,14 +80,14 @@
 		<animation name='kurloz_hypno1' class='kurloz-dialog' sheet='kurloz_hypno1' length='4'/>
 		<animation name='kurloz_hypno2' class='kurloz-dialog' sheet='kurloz_hypno2' length='4'/>
 		<animation name='kurloz_idle' class='kurloz-dialog' sheet='kurloz_idle' />
-		<animation name='kurloz_mime1' class='kurloz-dialog' sheet='kurloz_mime1' length='8'/>
-		<animation name='kurloz_mime2' class='kurloz-dialog' sheet='kurloz_mime2' length='8'/>
-		<animation name='kurloz_mime3' class='kurloz-dialog' sheet='kurloz_mime3' length='8'/>
-		<animation name='kurloz_no' class='kurloz-dialog' sheet='kurloz_no' length='2'/>
-		<animation name='kurloz_shrug' class='kurloz-dialog' sheet='kurloz_shrug' />
+		<animation name='kurloz_mime1' class='kurloz-dialog' sheet='kurloz_mime1' length='8' frameInterval='2'/>
+		<animation name='kurloz_mime2' class='kurloz-dialog' sheet='kurloz_mime2' length='8' frameInterval='2'/>
+		<animation name='kurloz_mime3' class='kurloz-dialog' sheet='kurloz_mime3' length='8' frameInterval='2'/>
+		<animation name='kurloz_no' class='kurloz-dialog' sheet='kurloz_no' length='2' x='-280'/>
+		<animation name='kurloz_shrug' class='kurloz-dialog' sheet='kurloz_shrug'  x='-280'/>
 		<animation name='kurloz_smile' class='kurloz-dialog' sheet='kurloz_smile' />
 		<animation name='kurloz_thumbsup' class='kurloz-dialog' sheet='kurloz_thumbsup' length='2'/>
-		<animation name='kurloz_zip' class='kurloz-dialog' sheet='kurloz_zip' length='3'/>
+		<animation name='kurloz_zip' class='kurloz-dialog' sheet='kurloz_zip' length='3' frameInterval='0:30,2:150'  x='-280'/>
 
   </dialogsprites>
 </hud>

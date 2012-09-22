@@ -18,6 +18,17 @@
 	<asset name='diamondKeyOverlay' type='graphic'>objects/doorkey_diamond.png</asset>
 	<asset name='clubKeyOverlay' type='graphic'>objects/doorkey_club.png</asset>
 	<asset name='heartKeyOverlay' type='graphic'>objects/doorkey_heart.png</asset>
+	
+	<asset name='obj01' type='graphic'>objects/items/obj01.png</asset>
+	<asset name='obj02' type='graphic'>objects/items/obj02.png</asset>
+	<asset name='obj03' type='graphic'>objects/items/obj03.png</asset>
+	<asset name='obj04' type='graphic'>objects/items/obj04.png</asset>
+	<asset name='obj05' type='graphic'>objects/items/obj05.png</asset>
+	<asset name='obj06' type='graphic'>objects/items/obj06.png</asset>
+	<asset name='obj07' type='graphic'>objects/items/obj07.png</asset>
+	<asset name='obj08' type='graphic'>objects/items/obj08.png</asset>
+	
+	
 
 	<asset name='firstRoomBG_0_0' type='graphic'>backgrounds/slices/firstRoomBG_0_0.png</asset>
 	<asset name='firstRoomBG_0_10' type='graphic'>backgrounds/slices/firstRoomBG_0_10.png</asset>
@@ -100,18 +111,35 @@
 	<action class='beMituna'/>
 </character>
 
-<sprite name='spadeKey' depthing='2'>
-	<animation sheet='spadeKeySheet' x='-50' y='-50'/>
+<sprite name='obj01'>
+<animation x='-50' y='-50'  sheet='obj01'/>
 </sprite>
-<sprite name='heartKey' depthing='2'>
-	<animation sheet='heartKeySheet' x='-50' y='-50'/>
+<sprite name='obj02'>
+<animation x='-50' y='-50'  sheet='obj02'/>
 </sprite>
-<sprite name='clubKey' depthing='2'>
-	<animation sheet='clubKeySheet' x='-50' y='-50'/>
+<sprite name='obj03'>
+<animation x='-50' y='-50'  sheet='obj03'/>
 </sprite>
-<sprite name='diamondKey' depthing='2'>
-	<animation sheet='diamondKeySheet' x='-50' y='-50'/>
+<sprite name='obj04'>
+<animation x='-50' y='-50'  sheet='obj04'/>
 </sprite>
+<sprite name='obj05'>
+<animation x='-50' y='-50'  sheet='obj05'/>
+</sprite>
+<sprite name='obj06'>
+<animation x='-50' y='-50'  sheet='obj06'/>
+</sprite>
+<sprite name='obj07'>
+<animation x='-50' y='-50'  sheet='obj07'/>
+</sprite>
+<sprite name='obj08'>
+<animation x='-50' y='-50'  sheet='obj08'/>
+</sprite>
+
+
+
+
+
 
 <sprite name='spadeKeyOverlay' x='2124' y='644'>
   <animation sheet='spadeKeyOverlay' x='-60' y='-144'/>
@@ -165,8 +193,11 @@
 														<args>hitPowerfulSound</args>
 														<action command='depthSprite' noWait='true'>
 															<args>mituna,1</args>
-															<action command='changeFocus' noWait='true'>
-																<args>char</args>
+															<action command='waitFor' noWait='true'>
+																<args>time,60</args>
+																<action command='changeFocus'>
+																	<args>char</args>
+																</action>
 															</action>
 														</action>
 													</action>
@@ -207,7 +238,7 @@
   			<args>gameState,meenahGone=true</args>
   			<args>spriteProperty,cronus,x &gt; 5300</args>
   			<action command='talk'>
-  				<args>@!:#story-of-your-life Wait... where'd she go? Dang it. Looks like she ditched you again.</args>
+  				<args>@!:#story-of-your-life#this-is-probably-CAPTAIN-HELMET'S-fault#you-should-go-grill-him Wait... where'd she go? Dang it. Looks like she ditched you again.</args>
   				<action command='setGameState'>
   					<args>meenahGone,false</args>
   					<action command='removeActions'>
@@ -252,6 +283,56 @@
   				</action>
   			</action>
   		</trigger>
+  		
+  		<trigger detonate='true'>
+  			<args>gameState,horseLook=true</args>
+  			<args>spriteProperty,char,name=cronus</args>
+  			<args>gameState,hussieFollow=true</args>
+  			<action command='setGameState' noDelay='true'>
+  				<args>horseLook,false</args>
+					<action command='talk'>
+						<args>
+						@! Sorry bro, I was only using you to get close to your beautiful floating seahorse!
+	    			@!:#NYEIGH Giddyup, seahorse dad. Up, up, and away!
+						</args>
+						<action command='waitFor'>
+  						<args>noActions</args>
+  						<action command='removeSprite' noDelay='true'>
+  							<args>andrew,firstRoom</args>
+  							<action command='startAnimation' noDelay='true'>
+  								<args>seahorsedad,ride</args>
+  								<action command='unfollow' noDelay='true'>
+  									<args>andrew</args>
+										<action command='deltaSprite' for='170' noWait='true'>
+  										<args>seahorsedad,-2,-2</args>
+  										<action command='removeSprite' noWait='true'>
+  											<args>seahorsedad,firstRoom</args>
+  											<action command='talk' noWait='true'>
+  												<args>@cronus_sad2 CRONUS: this is literally the vworst case scenario for my feelings.</args>
+  											</action>
+  										</action>
+  									</action>
+  								</action>
+  							</action>
+  						</action>
+						</action> 	
+					</action>
+				</action>
+  		</trigger>
+  		
+  		<trigger>
+  			<args>gameState,horseLook=true</args>
+  			<action command='setGameState' noDelay='true'>
+  				<args>horseLook,false</args>
+					<action command='talk' name='Examine.'>
+						<args>
+						@!:#seahorse-dad The hovering maritime stallion issues a stern, fatherly neigh.
+						<!--  -->
+						</args>
+					</action>
+				</action> 
+  		</trigger>
+  		
   	</triggers>
   
   	<paths>
@@ -288,76 +369,123 @@
 			</action>
   	</character>
   	
-  	<sprite class='seahorsedad' x='1702' y='844' />
-  	<sprite class='bicyclops' x='5173' y='627' />
+  	<sprite class='seahorsedad' x='1702' y='844' >
+			<action command='setGameState' name='Examine.'>
+				<args>horseLook,true</args>
+			</action>
+  	</sprite>
+  	
+  	<sprite class='bicyclops' x='5173' y='627' >
+			<action command='talk' name='Examine.'>
+						<args>
+						@!:#biclops-dad This custodian really has his hands full, taking care of that guy. You kind of feel for the hideous monster.
+						@!:#but-what-if-im-cronus?#lets-not-worry-about-that-ok Or at least that's your observation if you're being Meenah right now. If you're being Mituna, you beg your enormous parental unit for some mind honey. The huge beast grunts dismissively and bops you on the helmet. You fall on your ass and throw a tantrum.
+						<!--  -->
+						</args>
+			</action>
+  	</sprite>
+  	
+  	<sprite name='firstRoomDoor1' x='620' y='324' width='80' height='20' >
+  		<action command='talk' name='Examine.'>
+		    <args>
+		    @! The door is locked. You knock, but no one answers.
+		    @! This seems to be an Alternian neighborhood. Aside from all the violence, Alternian culture seems like it must have been pretty similar to life on Beforus, lawn rings and all. Then again, as a spoiled runaway princess, you never did spend much time in the burbs, so what do you know.
+		    <!--  -->
+		    </args>
+			</action>
+  	</sprite>
+		
+		<sprite name='firstRoomGarbage' x='372' y='306' width='50' height='30' >
+  		<action command='talk' name='Examine.'>
+				<args>
+				@! An ordinary domestic DROSS COFFER. It's full of smelly garbage, but it hasn't been dragged outside the ring yet. Maybe the waste collection drone isn't scheduled to make a pickup tonight?
+				<!--  -->
+				</args>
+			</action>
+  	</sprite>
+  	
+  	<sprite name='firstRoomHose' x='237' y='308' width='100' height='38' >
+			<action command='talk' name='Examine.'>
+				<args>
+				@! No self respecting Alternian troll kid would dare keep a dry, unwatered lawn ring. Letting the grass outside your hive turn yellow is just begging to get yourself culled. Harsh, but fair, you think. God life on Alternia was so great.
+				<!--  -->
+				</args>
+			</action>
+  	</sprite>
+  	
+  	<sprite name='firstRoomPlant' x='1118' y='304' width='100' height='40' >
+			<action command='talk' name='Examine.'>
+						<args>
+						@! Better leave it alone. Might have the troll rabies.
+						<!--  -->
+						</args>
+			</action>
+  	</sprite>
+  	
+  	<sprite name='firstRoomGrub' x='2576' y='578' width='115' height='100' >
+			<action command='talk' name='Examine.'>
+						<args>
+						@! What?? Some careless soul has left this poor infant grub all alone to fend for itself!
+						@! So in other words, just like all grubs on Alternia. Big whoop.
+						<!--  -->
+						</args>
+			</action>
+  	</sprite>
+  	
+  	<sprite name='firstRoomDoor2' x='3348' y='298' width='100' height='40' >
+			<action command='talk' name='Examine.'>
+						<args>
+						@! BANG BANG BANG! Is anybody home??? you say. But of course no one is, because most of these hives are just memory projections.
+						<!--  -->
+						</args>
+			</action>
+  	</sprite>
   	
   	<sprite name='megaDoor' x='2124' y='644' width='100' height='60'>
   		<animation name='closed' sheet='megaDoorClosed' x='-60' y='-144'/>
   		<animation name='open' sheet='megaDoorOpen' x='-60' y='-144'/>
   	</sprite>
-  	<!--
-  	<sprite class='chest1' name='firstRoomChest1' x='2250' y='700'>
-  		<action command='openChest' name='Open.'>
-  			<args>firstRoomChest1,spadeKey,@! you got a spade key!</args>
-  			<action command='addAction'>
-  				<args>megaDoor,
-  					<action name='Use spade key.' command='removeAction'>
-  						<args>megaDoor,Use spade key.</args>
-  						<action command='setGameState'>
-  							<args>spadeKeyUsed,true</args>
-  							<action command='addSprite'>
-  								<args>spadeKeyOverlay,firstRoom</args>
-  							</action>
-  						</action>
-  					</action>
-  				</args>
-  			</action>
-  		</action>
+  	
+  	<sprite class='chest2' name='firstRoomChest1' x='1230' y='208'>
+			<action command='openChest' name='open'>
+					<args>firstRoomChest1,obj01,
+						@! You got an ALTERNIAN SOFT DRINK!
+						@! You're not really up on Alternian history, but apparently at some point the empress got fed up with the Subjugglators' stranglehold on the soda market, and released a drink that was said to be more loaded with sugar than even the wicked elixir itself. The Highbloods considered such marketing reports to be blasphemous lies, however. And they were right. The beverage actually contained zero calories, which she secretly mandated so as to preserve her slim figure. But the all the lowblood suckers guzzled cans down by the billions none the wiser, while the crafty Condesce raked in the cash.
+						@! If someone actually told you this story, you'd spend the next ten minutes fangirling on the floor.
+					</args>
+			</action>
   	</sprite>
   	
-  	<sprite class='chest1' name='firstRoomChest2' x='2300' y='700'>
-  		<action command='openChest' name='Open.'>
-  			<args>firstRoomChest2,heartKey,@! you got a heart key!</args>
-  			<action command='addAction'>
-  				<args>megaDoor,
-  					<action name='Use heart key.' command='removeAction'>
-  						<args>megaDoor,Use heart key.</args>
-  						<action command='setGameState'>
-  							<args>heartKeyUsed,true</args>
-  							<action command='addSprite'>
-  								<args>heartKeyOverlay,firstRoom</args>
-  							</action>
-  						</action>
-  					</action>
-  				</args>
-  			</action>
-  		</action>
+  	<sprite class='chest2' name='firstRoomChest2' x='1194' y='1090'>
+			<action sprite='!cronus' command='talk' name='open'>
+				<args> @! Can't open it! Maybe if you try with someone else...</args>
+			</action>
+			
+			<action sprite='cronus' command='openChest' name='open'>
+				<args>firstRoomChest2,obj02,
+				  @! Hey Eridan! Or whatever your name is! I'll go on a date with you!!!
+				  @cronus_surprised CRONUS: you vwill?
+				  @! Absolutely. I find you attractive, and your personality is basically tolerable to me.
+				  @cronus_huh CRONUS: um... alright, sure. guess beggars cant be choosers.
+				</args>
+				<action command='addSprite'>
+					<args>andrew,firstRoom</args>
+					<action command='follow'>
+						<args>andrew,cronus</args>
+						<action command='setGameState'>
+							<args>hussieFollow,true</args>
+						</action>
+					</action>
+				</action>
+    	</action>
   	</sprite>
   	
-  	<sprite class='chest1' name='firstRoomChest3' x='2350' y='700'>
-  		<action command='openChest' name='Open.'>
-  			<args>firstRoomChest3,clubKey,@! you got a club key!</args>
-  			<action command='addAction'>
-  				<args>megaDoor,
-  					<action name='Use club key.' command='removeAction'>
-  						<args>megaDoor,Use club key.</args>
-  						<action command='setGameState'>
-  							<args>clubKeyUsed,true</args>
-  							<action command='addSprite'>
-  								<args>clubKeyOverlay,firstRoom</args>
-  							</action>
-  						</action>
-  					</action>
-  				</args>
-  			</action>
-  		</action>
-  	</sprite>
-  	
-  	
-  	<sprite class='chest1' name='firstRoomChest4' x='2400' y='700'>
-  		<action command='openChest' name='Open.'>
-  			<args>firstRoomChest4,diamondKey,@! you got a diamond key!</args>
-  			<action command='addAction'>
+  	<sprite class='chest2' name='firstRoomChest3' x='2274' y='658'>
+			<action command='openChest' name='open'>
+				<args>firstRoomChest3,obj03,
+				  @! You got a DIAMOND KEY!
+				</args>
+				<action command='addAction'>
   				<args>megaDoor,
   					<action name='Use diamond key.' command='removeAction'>
   						<args>megaDoor,Use diamond key.</args>
@@ -370,9 +498,70 @@
   					</action>
   				</args>
   			</action>
-  		</action>
+		  </action>
   	</sprite>
-  	-->
+  	
+  	<sprite class='chest2' name='firstRoomChest4' x='2364' y='236'>
+			<action command='openChest' name='open'>
+				<args>firstRoomChest4,obj04,
+					@! You got a CLAWSICKLE!
+					@!:#so,#there's-that-too You absolutely love this due to its nautical nature. Also, hoarding items such as this will nicely complement your increasingly manic obsession with Karkat.
+				</args>
+    	</action>
+  	</sprite>
+  	
+  	<sprite class='chest2' name='firstRoomChest5' x='3106' y='290'>
+			<action command='openChest' name='open'>
+				<args>firstRoomChest5,obj05,
+				  @! You got a whole bunch of SEA DWELLER BLING!
+				  @! It's pretty obvious this all belongs to Cronus over there. He's just not wearing it right now so he can convince everyone he doesn't feel like his royalty status is a big deal, even though he does.
+				  @! You have no problem whatsoever selling this shit to the highest bidder though. You pocket the gaudy loot while giggling.
+				</args>
+		  </action>
+  	</sprite>
+  	
+  	<sprite class='chest2' name='firstRoomChest6' x='3950' y='230'>
+			<action command='openChest' name='open'>
+				<args>firstRoomChest6,obj06,
+				  @! You got AHAB'S CROSSHAIRS!
+				  @! You raise this awesome legendary weapon to the heavens and watch it sparkle a bit...
+				  @! Just before you bring it down on your knee and snap it in half, while laughing maniacally. You hear a muffled sob from Ampora's direction.
+				</args>
+		  </action>
+  	</sprite>
+  	
+  	<sprite class='chest2' name='firstRoomChest7' x='4300' y='1024'>
+			<action command='openChest' name='open'>
+				<args>firstRoomChest7,obj07,
+				  @! You got GAME GRUB MAGAZINE!
+				  @! This publication is absolutely dripping with exclusive grub leaks. Actually it's a pretty disgusting magazine.
+				</args>
+		  </action>
+  	</sprite>
+  	
+  	
+  	
+  	<sprite class='chest2' name='firstRoomChest8' x='5936' y='146'>
+			 <action command='openChest' name='open'>
+				<args>firstRoomChest8,obj08,
+				  @! You got a CLUB KEY!
+				</args>
+				<action command='addAction'>
+  				<args>megaDoor,
+  					<action name='Use club key.' command='removeAction'>
+  						<args>megaDoor,Use club key.</args>
+  						<action command='setGameState'>
+  							<args>clubKeyUsed,true</args>
+  							<action command='addSprite'>
+  								<args>clubKeyOverlay,firstRoom</args>
+  							</action>
+  						</action>
+  					</action>
+  				</args>
+  			</action>
+		  </action>
+  	</sprite>
+
 		<sprite name='firstRoomBG_0_0' x='0' y='0'><animation sheet='firstRoomBG_0_0' /></sprite>
 <sprite name='firstRoomBG_0_10' x='5000' y='0'><animation sheet='firstRoomBG_0_10' /></sprite>
 <sprite name='firstRoomBG_0_11' x='5500' y='0'><animation sheet='firstRoomBG_0_11' /></sprite>

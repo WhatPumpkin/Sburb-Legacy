@@ -52,7 +52,7 @@
 		<animation name='mituna_happy' class='mituna-dialog' sheet='mituna_happy' />
 		<animation name='mituna_happytalk' class='mituna-dialog' sheet='mituna_happytalk' length='2' />
 		<animation name='mituna_idle' class='mituna-dialog' sheet='mituna_idle' />
-		<animation name='mituna_laugh' class='mituna-dialog' sheet='mituna_laugh' length='4' />
+		<animation name='mituna_laugh' class='mituna-dialog' sheet='mituna_laugh' length='4' x='-310'/>
 		<animation name='mituna_sad' class='mituna-dialog' sheet='mituna_sad' />
 		<animation name='mituna_shine' class='mituna-dialog' sheet='mituna_shine' length='4' />
 		<animation name='mituna_spaz1' class='mituna-dialog' sheet='mituna_spaz1' length='8' />

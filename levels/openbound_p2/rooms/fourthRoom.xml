@@ -9,13 +9,23 @@
 	<asset name='fourthRoomBG' type='graphic'>backgrounds/fourthRoomBG.png</asset>
 	<asset name='fourthRoomMap' type='graphic'>backgrounds/fourthRoomMap.png</asset>
 	<asset name='gamzee_idle' type='graphic'>dialogs/gamzee/gamzee_idle.png</asset>
+	
+	<asset name='obj18' type='graphic'>objects/items/obj18.png</asset>
+	<asset name='obj19' type='graphic'>objects/items/obj19.png</asset>
 </assets>
 
 <hud>
 	<dialogsprites>
-		<animation name='gamzee_idle' sheet='gamzee_idle' x='-270' y='-420'/>
+		<animation name='gamzee_idle' sheet='gamzee_idle' x='-220' y='-420'/>
 	</dialogsprites>
 </hud>
+
+<sprite name='obj18'>
+<animation x='-50' y='-50'  sheet='obj18'/>
+</sprite>
+<sprite name='obj19'>
+<animation x='-50' y='-50'  sheet='obj19'/>
+</sprite>
 
 <rooms>
   <room name='fourthRoom' walkableMap='fourthRoomMap' mapScale='2'>
@@ -30,6 +40,24 @@
 				</action>
 			</trigger>
   	</triggers>
+  
+  	<sprite class='chest2' name='fourthRoomChest18' x='250' y='240'>
+			<action command='openChest' name='open'>
+		  <args>fourthRoomChest18,obj18,
+		    @! You got a JUJU BREAKER!
+		    @! This is an extremely rare, dangerous, and particularly blasphemous item. The thought of destroying a precious juju makes your blood boil. This must be guarded carefully. You cannot let it fall into the wrong hands.
+		  </args>
+		  </action>
+  	</sprite>
+  	
+  	<sprite class='chest2' name='fourthRoomChest19' x='478' y='240'>
+			<action command='openChest' name='open'>
+		  <args>fourthRoomChest19,obj19,
+		    @! You got a JUJU CHEST!
+		    @! Only a cherub can open it. You would be double-dying of curiosity to know what's inside, except for the fact that it would be heresy to even wonder. And you would bite your tongue for having the thought, if you hadn't already chewed it off long ago.
+		  </args>
+		  </action>
+  	</sprite>
   
   	<sprite name='fourthRoomBG'>
   		<animation sheet='fourthRoomBG'/>
