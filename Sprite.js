@@ -42,10 +42,12 @@ Sprite.prototype.startAnimation = function(name){
 }
 
 Sprite.prototype.update = function(curRoom){
-	if(this.animation && this.animation.hasPlayed() && this.animation.followUp){
-		this.startAnimation(this.animation.followUp);
-	}else{
-		this.animation.update();
+	if(this.animation){
+		if(this.animation.hasPlayed() && this.animation.followUp){
+			this.startAnimation(this.animation.followUp);
+		}else{
+			this.animation.update();
+		}
 	}
 }
 
