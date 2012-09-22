@@ -13,11 +13,6 @@
 
 	<asset name='megaDoorClosed' type='graphic'>objects/door_closed.png</asset>
 	<asset name='megaDoorOpen' type='graphic'>objects/door_open.png</asset>
-
-	<asset name='spadeKeySheet' type='graphic'>objects/item_spade.png</asset>
-	<asset name='diamondKeySheet' type='graphic'>objects/item_diamond.png</asset>
-	<asset name='clubKeySheet' type='graphic'>objects/item_club.png</asset>
-	<asset name='heartKeySheet' type='graphic'>objects/item_heart.png</asset>
 	
 	<asset name='spadeKeyOverlay' type='graphic'>objects/doorkey_spade.png</asset>
 	<asset name='diamondKeyOverlay' type='graphic'>objects/doorkey_diamond.png</asset>
@@ -300,7 +295,7 @@
   		<animation name='closed' sheet='megaDoorClosed' x='-60' y='-144'/>
   		<animation name='open' sheet='megaDoorOpen' x='-60' y='-144'/>
   	</sprite>
-  	
+  	<!--
   	<sprite class='chest1' name='firstRoomChest1' x='2250' y='700'>
   		<action command='openChest' name='Open.'>
   			<args>firstRoomChest1,spadeKey,@! you got a spade key!</args>
@@ -377,7 +372,7 @@
   			</action>
   		</action>
   	</sprite>
-  	
+  	-->
 		<sprite name='firstRoomBG_0_0' x='0' y='0'><animation sheet='firstRoomBG_0_0' /></sprite>
 <sprite name='firstRoomBG_0_10' x='5000' y='0'><animation sheet='firstRoomBG_0_10' /></sprite>
 <sprite name='firstRoomBG_0_11' x='5500' y='0'><animation sheet='firstRoomBG_0_11' /></sprite>

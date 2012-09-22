@@ -85,7 +85,7 @@
   		<trigger>
   			<args>inBox2,kurloz,726,317,817,336</args>
   			<args>gameState,thirdDoorOpen=true</args>
-  			<action command='changeRoomRemote'>rooms/fourthRoom.xml,fourthRoom,180,240</action>
+  			<action command='changeRoomRemote'>rooms/fourthRoom.xml,fourthRoom,325,240</action>
   		</trigger>
   	</triggers>
   
