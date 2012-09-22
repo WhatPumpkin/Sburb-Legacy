@@ -13,7 +13,7 @@ do
 		for y in $(seq 0 $size $height)
 		do
 			#echo $x $y
-			convert $file -crop "$size"x"$size"+"$x"+"$y" "../output/$purename"_"$(($y/$size))_$(($x/$size)).png"
+			convert $file -crop "$size"x"$size"+"$x"+"$y" "../output/$purename"_"$(($x/$size))_$(($y/$size)).png"
 		done
 	done
 done
