@@ -2,6 +2,7 @@
 	<classes>
 		<action sprite='meenah' class='meulinTalk1' command='talk' name='Talk to Meulin.'>
       <args>
+      @meenah_idle MEENAH: sup meu
       @meulin_happier MEULIN: (=｀ω´=) &lt; 33333333333!!!!!!!!!
       @meulin_happiertalk:#EM#OH#G33 MEULIN: (^・ω・^ ) &lt; GOMGOMGOGOMGOGMMGOMGOMGOGMOGMOGMOG. MOG!!!
       @meenah_idle MEENAH: whoa leijon

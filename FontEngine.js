@@ -69,7 +69,8 @@ Sburb.FontEngine.prototype.prefixColours = {
 	rose:"#b536da",aranea : "#005682",
 	kankri:"#ff0000",porrim: "#008141",
 	latula:"#008282",cronus: "#6a006a",
-	mituna:"#a1a100", kurloz: "#6c00da"
+	mituna:"#a1a100", kurloz: "#6c00da",
+	meulin:"#416600"
 };
 
 //set the style

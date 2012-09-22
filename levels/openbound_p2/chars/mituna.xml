@@ -5,7 +5,7 @@
 </dependencies>
 
 <classes>
-	<animation class='mituna-dialog' frameInterval='6' x='-350' y='-524'/>
+	<animation class='mituna-dialog' frameInterval='1' x='-350' y='-524'/>
 
 	<character class='mituna' name='mituna' sx='-50' sy='-110' sWidth='100' sHeight='130' width='40' height='30' sheet='mitunaSheet'  facing='Front' state='skate' >
 		<animation name='skate' sheet='mitunaSkate' x='-32' y='-90'/>
@@ -58,7 +58,7 @@
 		<animation name='mituna_spaz1' class='mituna-dialog' sheet='mituna_spaz1' length='8' />
 		<animation name='mituna_spaz2' class='mituna-dialog' sheet='mituna_spaz2' length='14' />
 		<animation name='mituna_talk' class='mituna-dialog' sheet='mituna_talk' length='2' />
-		<animation name='mituna_fall' class='mituna-dialog' sheet='mituna_fall' length='4' x='-140'/>
+		<animation name='mituna_fall' class='mituna-dialog' sheet='mituna_fall' length='4' x='-140' y='-270'/>
   </dialogsprites>
 </hud>
 </sburb>

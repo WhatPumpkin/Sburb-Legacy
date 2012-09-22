@@ -220,18 +220,21 @@
   			<args>gameState,diamondKeyUsed=true</args>
   			<action command='startAnimation'>
   				<args>megaDoor,open</args>
-  				<action command='removeSprite' noDelay='true'>
-  					<args>spadeKeyOverlay,firstRoom</args>
-  					<action command='removeSprite' noDelay='true'>
-							<args>heartKeyOverlay,firstRoom</args>
+  				<action command='playSound' noDelay='true'>
+						<args>closeSound</args>				
+						<action command='removeSprite' noDelay='true'>
+							<args>spadeKeyOverlay,firstRoom</args>
 							<action command='removeSprite' noDelay='true'>
-								<args>clubKeyOverlay,firstRoom</args>
+								<args>heartKeyOverlay,firstRoom</args>
 								<action command='removeSprite' noDelay='true'>
-									<args>diamondKeyOverlay,firstRoom</args>
+									<args>clubKeyOverlay,firstRoom</args>
+									<action command='removeSprite' noDelay='true'>
+										<args>diamondKeyOverlay,firstRoom</args>
+									</action>
 								</action>
 							</action>
 						</action>
-  				</action>
+					</action>
   			</action>
   		</trigger>
   		
@@ -251,30 +254,33 @@
 										<action class='mitunaTalk6'>
 											<action command='addSprite'>
 												<args>meenah,firstRoom</args>
-												<action command='moveSprite' noDelay='true'>
-													<args>meenah,2150,800</args>
-													<action command='addActions' noDelay='true'>
-														<args>mituna,
-															<action class='mitunaTalk4'/>
-															<action class='mitunaTalk7'/>
-														</args>
-														<action command='removeAction' noDelay='true'>
-															<args>mituna,Grill Mituna.</args>
-															<action command='addActions' noDelay='true'>
-																<args>cronus,
-																	<action class='cronusTalk5'/>
-																	<action class='cronusTalk8'/>
-																	<action sprite='mituna' class='beCronus'/>
-																</args>
+												<action command='startAnimation'>
+													<args>meenah,walkFront</args>
+													<action command='moveSprite' noDelay='true'>
+														<args>meenah,2150,800</args>
+														<action command='addActions' noDelay='true'>
+															<args>mituna,
+																<action class='mitunaTalk4'/>
+																<action class='mitunaTalk7'/>
+															</args>
+															<action command='removeAction' noDelay='true'>
+																<args>mituna,Grill Mituna.</args>
 																<action command='addActions' noDelay='true'>
-																	<args>meenah,
-																		<action class='meenahTalk2' />
+																	<args>cronus,
+																		<action class='cronusTalk5'/>
+																		<action class='cronusTalk8'/>
+																		<action sprite='mituna' class='beCronus'/>
 																	</args>
+																	<action command='addActions' noDelay='true'>
+																		<args>meenah,
+																			<action class='meenahTalk2' />
+																		</args>
+																	</action>
 																</action>
 															</action>
 														</action>
-													</action>
-												</action>      	
+													</action>      	
+												</action>
 											</action>
 										</action>
 									</args>
@@ -283,6 +289,19 @@
 						</action>
   				</action>
   			</action>
+  		</trigger>
+  		
+  		<trigger>
+  			<args>gameState,horseLook=true</args>
+  			<action command='setGameState' noDelay='true'>
+  				<args>horseLook,false</args>
+					<action command='talk' name='Examine.'>
+						<args>
+						@!:#seahorse-dad The hovering maritime stallion issues a stern, fatherly neigh.
+						<!--  -->
+						</args>
+					</action>
+				</action> 
   		</trigger>
   		
   		<trigger detonate='true'>
@@ -321,18 +340,7 @@
 				</action>
   		</trigger>
   		
-  		<trigger>
-  			<args>gameState,horseLook=true</args>
-  			<action command='setGameState' noDelay='true'>
-  				<args>horseLook,false</args>
-					<action command='talk' name='Examine.'>
-						<args>
-						@!:#seahorse-dad The hovering maritime stallion issues a stern, fatherly neigh.
-						<!--  -->
-						</args>
-					</action>
-				</action> 
-  		</trigger>
+  		
   		
   	</triggers>
   
@@ -497,6 +505,9 @@
   							<args>diamondKeyUsed,true</args>
   							<action command='addSprite'>
   								<args>diamondKeyOverlay,firstRoom</args>
+  								<action command='playSound' noDelay='true'>
+										<args>openSound2</args>
+									</action>
   							</action>
   						</action>
   					</action>
@@ -558,6 +569,9 @@
   							<args>clubKeyUsed,true</args>
   							<action command='addSprite'>
   								<args>clubKeyOverlay,firstRoom</args>
+  								<action command='playSound' noDelay='true'>
+										<args>openSound2</args>
+									</action>
   							</action>
   						</action>
   					</action>

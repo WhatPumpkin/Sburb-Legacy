@@ -35,7 +35,16 @@
 				<action command='goBack'>
 					<args>char</args>
 					<action class='kurlozTalk8'>
-						<action class='beMeenah'/>
+						<action command='removeSprite'>
+							<args>thirdRoomDoor,thirdRoom</args>
+							<action command='removeUnwalkable' noDelay='true'>
+								<args>thirdRoomPost1,thirdRoom</args>
+								<action command='removeUnwalkable' noDelay='true'>
+									<args>thirdRoomPost2,thirdRoom</args>
+									<action class='beMeenah' noDelay='true'/>
+								</action>
+							</action>
+						</action>
 					</action>
 				</action>
 			</trigger>
