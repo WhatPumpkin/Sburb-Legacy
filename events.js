@@ -207,9 +207,9 @@ events.noActions = function(info){
 //syntax spriteName1, spriteName2, distance (px)
 events.withinRange = function(info){
 	var params = parseParams(info);
-	var spriteName1 = info[1];
-	var spriteName2 = info[2];
-	var dist = parseFloat(info[3]);
+	var spriteName1 = params[1];
+	var spriteName2 = params[2];
+	var dist = parseFloat(params[3]);
 
 	this.reset = function(){ } //do nothing
 	this.checkCompletion = function(){
