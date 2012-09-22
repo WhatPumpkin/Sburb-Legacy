@@ -145,10 +145,7 @@ Sburb.Debugger.prototype.sendDebugReport = function() {
 Sburb.Console = function() {
     var console = this._console = window.console; // Save the real console
     var that = this;
-    try{
-    Object.defineProperty(window,'console',{get: function() { return that; }});// Replace real console //Klimax mod: use ES5 syntax
-    }
-    catch(E){    }
+    window.console = this;
     // Utilities
     var ignore = {
         "log": 1,

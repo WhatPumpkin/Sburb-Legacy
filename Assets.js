@@ -416,7 +416,7 @@ Sburb.loadGenericAsset = function(asset, path, id) {
                     var bytes;
                     var binstr
                     var len;
-                    if(!xhr.overrideMimeType){
+                    if(Object.getPrototypeOf(VBArray)){
                     bytes = new VBArray(this.responseBody).toArray();
                     len = bytes.length;
                     }
