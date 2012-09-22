@@ -33,8 +33,9 @@ Sburb.Animation = function(name,sheet,x,y,colSize,rowSize,startPos,length,frameI
 		this.sheets = {};
 		for(var colNum = 0;colNum<this.numCols;colNum++){
 			for(var rowNum = 0;rowNum<this.numRows;rowNum++){
-				var sheet = Sburb.assets[this.sheet+"_"+colNum+"_"+rowNum];
+				var sheet = Sburb.assets[this.sheet+"_"+rowNum+"_"+colNum];
 				if(sheet){
+					console.log(colNum,rowNum);
 					if(!this.sheets[colNum]){
 						this.sheets[colNum] = {};
 					}
@@ -220,15 +221,17 @@ Sburb.Animation.prototype.drawSliced = function(x,y){
 	
 	
 	*/
-	var drawWidth = this.colSize;
-	var drawHeight = this.rowSize;
-	for(var colNum = minCol; colNum++; colNum<=maxCol){
-		for(var rowNum = minRow; rowNum++; rowNum<=maxRow){
+	
+	//console.log(what);
+	for(var colNum = minCol; colNum<=maxCol; colNum++){
+		for(var rowNum = minRow; rowNum<=maxRow; rowNum++){
 			if(this.sheets[colNum] && this.sheets[colNum][rowNum]){
 			
 				var sheet = this.sheets[colNum][rowNum];
-				var frameX = this.colSize;
-				var frameY = this.rowSize;
+				var frameX = 0;
+				var frameY = 0;
+				var drawWidth = this.colSize;
+				var drawHeight = this.rowSize;
 				var x = this.x+colNum*this.colSize;
 				var y = this.y+rowNum*this.rowSize;
 				
@@ -237,7 +240,7 @@ Sburb.Animation.prototype.drawSliced = function(x,y){
 					frameX-=delta;
 					drawWidth+=delta;
 					x=stageX;
-					if(frameX>=colSize){
+					if(frameX>=this.colSize){
 						continue;
 					}
 				}
@@ -247,7 +250,7 @@ Sburb.Animation.prototype.drawSliced = function(x,y){
 					frameY-=delta;
 					drawHeight+=delta;
 					y=stageY;
-					if(frameY>=rowSize){
+					if(frameY>=this.rowSize){
 						continue;
 					}
 				}
@@ -284,6 +287,7 @@ Sburb.Animation.prototype.drawSliced = function(x,y){
 				if(scaleX!=1 || scaleY!=1){
 					stage.scale(scaleX,scaleY);
 				}
+				//console.log("drawing "+this.sheet+"_"+rowNum+"_"+colNum,x,y,drawWidth,drawHeight,frameX,frameY);
 				stage.drawImage(sheet,frameX,frameY,drawWidth,drawHeight,x,y,drawWidth,drawHeight);
 				if(scaleX!=1 || scaleY!=1){
 					stage.scale(scaleX,scaleY);
@@ -412,7 +416,7 @@ Sburb.parseAnimation = function(animationNode, assetFolder){
 	
 	var temp;
 	
-	sliced = (temp = attributes.getNamedItem("sliced"))?parseInt(temp.value):sliced;
+	sliced = (temp = attributes.getNamedItem("sliced"))?temp.value!="false":sliced;
 	
 	name = (temp = attributes.getNamedItem("name"))?temp.value:name;
 	
@@ -442,7 +446,6 @@ Sburb.parseAnimation = function(animationNode, assetFolder){
 	followUp = (temp = attributes.getNamedItem("followUp"))?temp.value:followUp;
 	var flipX = (temp = attributes.getNamedItem("flipX"))?temp.value!="false":false;
 	var flipY = (temp = attributes.getNamedItem("flipY"))?temp.value!="false":false;
-	if(
 	return new Sburb.Animation(name,sheet,x,y,colSize,rowSize,startPos,length,frameInterval,loopNum,followUp,flipX,flipY, sliced,numCols,numRows);
 }
 
