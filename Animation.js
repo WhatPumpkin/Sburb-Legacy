@@ -33,7 +33,7 @@ Sburb.Animation = function(name,sheet,x,y,colSize,rowSize,startPos,length,frameI
 		this.sheets = {};
 		for(var colNum = 0;colNum<this.numCols;colNum++){
 			for(var rowNum = 0;rowNum<this.numRows;rowNum++){
-				var sheet = Sburb.assets[this.sheet+"_"+rowNum+"_"+colNum];
+				var sheet = Sburb.assets[this.sheet+"_"+colNum+"_"+rowNum];
 				if(sheet){
 					console.log(colNum,rowNum);
 					if(!this.sheets[colNum]){
