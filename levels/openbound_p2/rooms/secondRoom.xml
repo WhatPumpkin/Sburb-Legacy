@@ -7,7 +7,16 @@
 <assets>
 	<asset name='prospitians' type='graphic'>objects/prospitians.png</asset>
 
-	<asset name='secondRoomBG' type='graphic'>backgrounds/secondRoomBG.png</asset>
+	<asset name='secondRoomBG_0_0' type='graphic'>backgrounds/slices/secondRoomBG_0_0.png</asset>
+	<asset name='secondRoomBG_0_1' type='graphic'>backgrounds/slices/secondRoomBG_0_1.png</asset>
+	<asset name='secondRoomBG_0_2' type='graphic'>backgrounds/slices/secondRoomBG_0_2.png</asset>
+	<asset name='secondRoomBG_1_0' type='graphic'>backgrounds/slices/secondRoomBG_1_0.png</asset>
+	<asset name='secondRoomBG_1_1' type='graphic'>backgrounds/slices/secondRoomBG_1_1.png</asset>
+	<asset name='secondRoomBG_1_2' type='graphic'>backgrounds/slices/secondRoomBG_1_2.png</asset>
+	<asset name='secondRoomBG_2_0' type='graphic'>backgrounds/slices/secondRoomBG_2_0.png</asset>
+	<asset name='secondRoomBG_2_1' type='graphic'>backgrounds/slices/secondRoomBG_2_1.png</asset>
+	<asset name='secondRoomBG_2_2' type='graphic'>backgrounds/slices/secondRoomBG_2_2.png</asset>
+
 	<asset name='secondRoomMap' type='graphic'>backgrounds/secondRoomMap.png</asset>
 </assets>
 
@@ -38,7 +47,7 @@
   	
   	
   	<sprite name='secondRoomBG'>
-  		<animation sheet='secondRoomBG'/>
+  		<animation sheet='secondRoomBG'  sliced='true' colSize='500' rowSize='500' numCols='3' numRows='3'/>
   	</sprite>
   </room> 
 </rooms>

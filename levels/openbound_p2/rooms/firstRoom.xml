@@ -32,71 +32,68 @@
 	
 
 	<asset name='firstRoomBG_0_0' type='graphic'>backgrounds/slices/firstRoomBG_0_0.png</asset>
-	<asset name='firstRoomBG_0_10' type='graphic'>backgrounds/slices/firstRoomBG_0_10.png</asset>
-	<asset name='firstRoomBG_0_11' type='graphic'>backgrounds/slices/firstRoomBG_0_11.png</asset>
-	<asset name='firstRoomBG_0_12' type='graphic'>backgrounds/slices/firstRoomBG_0_12.png</asset>
-	<asset name='firstRoomBG_0_1' type='graphic'>backgrounds/slices/firstRoomBG_0_1.png</asset>
-	<asset name='firstRoomBG_0_2' type='graphic'>backgrounds/slices/firstRoomBG_0_2.png</asset>
-	<asset name='firstRoomBG_0_3' type='graphic'>backgrounds/slices/firstRoomBG_0_3.png</asset>
-	<asset name='firstRoomBG_0_4' type='graphic'>backgrounds/slices/firstRoomBG_0_4.png</asset>
-	<asset name='firstRoomBG_0_5' type='graphic'>backgrounds/slices/firstRoomBG_0_5.png</asset>
-	<asset name='firstRoomBG_0_6' type='graphic'>backgrounds/slices/firstRoomBG_0_6.png</asset>
-	<asset name='firstRoomBG_0_7' type='graphic'>backgrounds/slices/firstRoomBG_0_7.png</asset>
-	<asset name='firstRoomBG_0_8' type='graphic'>backgrounds/slices/firstRoomBG_0_8.png</asset>
-	<asset name='firstRoomBG_0_9' type='graphic'>backgrounds/slices/firstRoomBG_0_9.png</asset>
-	<asset name='firstRoomBG_1_0' type='graphic'>backgrounds/slices/firstRoomBG_1_0.png</asset>
-	<asset name='firstRoomBG_1_10' type='graphic'>backgrounds/slices/firstRoomBG_1_10.png</asset>
-	<asset name='firstRoomBG_1_11' type='graphic'>backgrounds/slices/firstRoomBG_1_11.png</asset>
-	<asset name='firstRoomBG_1_12' type='graphic'>backgrounds/slices/firstRoomBG_1_12.png</asset>
-	<asset name='firstRoomBG_1_1' type='graphic'>backgrounds/slices/firstRoomBG_1_1.png</asset>
-	<asset name='firstRoomBG_1_2' type='graphic'>backgrounds/slices/firstRoomBG_1_2.png</asset>
-	<asset name='firstRoomBG_1_3' type='graphic'>backgrounds/slices/firstRoomBG_1_3.png</asset>
-	<asset name='firstRoomBG_1_4' type='graphic'>backgrounds/slices/firstRoomBG_1_4.png</asset>
-	<asset name='firstRoomBG_1_5' type='graphic'>backgrounds/slices/firstRoomBG_1_5.png</asset>
-	<asset name='firstRoomBG_1_6' type='graphic'>backgrounds/slices/firstRoomBG_1_6.png</asset>
-	<asset name='firstRoomBG_1_7' type='graphic'>backgrounds/slices/firstRoomBG_1_7.png</asset>
-	<asset name='firstRoomBG_1_8' type='graphic'>backgrounds/slices/firstRoomBG_1_8.png</asset>
-	<asset name='firstRoomBG_1_9' type='graphic'>backgrounds/slices/firstRoomBG_1_9.png</asset>
-	<asset name='firstRoomBG_2_0' type='graphic'>backgrounds/slices/firstRoomBG_2_0.png</asset>
-	<asset name='firstRoomBG_2_10' type='graphic'>backgrounds/slices/firstRoomBG_2_10.png</asset>
-	<asset name='firstRoomBG_2_11' type='graphic'>backgrounds/slices/firstRoomBG_2_11.png</asset>
-	<asset name='firstRoomBG_2_12' type='graphic'>backgrounds/slices/firstRoomBG_2_12.png</asset>
-	<asset name='firstRoomBG_2_1' type='graphic'>backgrounds/slices/firstRoomBG_2_1.png</asset>
-	<asset name='firstRoomBG_2_2' type='graphic'>backgrounds/slices/firstRoomBG_2_2.png</asset>
-	<asset name='firstRoomBG_2_3' type='graphic'>backgrounds/slices/firstRoomBG_2_3.png</asset>
-	<asset name='firstRoomBG_2_4' type='graphic'>backgrounds/slices/firstRoomBG_2_4.png</asset>
-	<asset name='firstRoomBG_2_5' type='graphic'>backgrounds/slices/firstRoomBG_2_5.png</asset>
-	<asset name='firstRoomBG_2_6' type='graphic'>backgrounds/slices/firstRoomBG_2_6.png</asset>
-	<asset name='firstRoomBG_2_7' type='graphic'>backgrounds/slices/firstRoomBG_2_7.png</asset>
-	<asset name='firstRoomBG_2_8' type='graphic'>backgrounds/slices/firstRoomBG_2_8.png</asset>
-	<asset name='firstRoomBG_2_9' type='graphic'>backgrounds/slices/firstRoomBG_2_9.png</asset>
-	
-	
-	
-	<!--
-	<asset name='firstRoomFG_0_0' type='graphic'>backgrounds/slices/firstRoomFG_0_0.png</asset>
-	<asset name='firstRoomFG_0_2' type='graphic'>backgrounds/slices/firstRoomFG_0_2.png</asset>
-	<asset name='firstRoomFG_0_3' type='graphic'>backgrounds/slices/firstRoomFG_0_3.png</asset>
-	<asset name='firstRoomFG_0_4' type='graphic'>backgrounds/slices/firstRoomFG_0_4.png</asset>
-	<asset name='firstRoomFG_0_5' type='graphic'>backgrounds/slices/firstRoomFG_0_5.png</asset>
-	<asset name='firstRoomFG_0_6' type='graphic'>backgrounds/slices/firstRoomFG_0_6.png</asset>
-	<asset name='firstRoomFG_0_7' type='graphic'>backgrounds/slices/firstRoomFG_0_7.png</asset>
-	<asset name='firstRoomFG_1_0' type='graphic'>backgrounds/slices/firstRoomFG_1_0.png</asset>
-	<asset name='firstRoomFG_1_10' type='graphic'>backgrounds/slices/firstRoomFG_1_10.png</asset>
-	<asset name='firstRoomFG_1_1' type='graphic'>backgrounds/slices/firstRoomFG_1_1.png</asset>
-	<asset name='firstRoomFG_1_2' type='graphic'>backgrounds/slices/firstRoomFG_1_2.png</asset>
-	<asset name='firstRoomFG_1_3' type='graphic'>backgrounds/slices/firstRoomFG_1_3.png</asset>
-	<asset name='firstRoomFG_1_5' type='graphic'>backgrounds/slices/firstRoomFG_1_5.png</asset>
-	<asset name='firstRoomFG_1_6' type='graphic'>backgrounds/slices/firstRoomFG_1_6.png</asset>
-	<asset name='firstRoomFG_1_7' type='graphic'>backgrounds/slices/firstRoomFG_1_7.png</asset>
-	<asset name='firstRoomFG_2_10' type='graphic'>backgrounds/slices/firstRoomFG_2_10.png</asset>
-	<asset name='firstRoomFG_2_11' type='graphic'>backgrounds/slices/firstRoomFG_2_11.png</asset>
-	<asset name='firstRoomFG_2_1' type='graphic'>backgrounds/slices/firstRoomFG_2_1.png</asset>
-	<asset name='firstRoomFG_2_2' type='graphic'>backgrounds/slices/firstRoomFG_2_2.png</asset>
-	<asset name='firstRoomFG_2_3' type='graphic'>backgrounds/slices/firstRoomFG_2_3.png</asset>
-	<asset name='firstRoomFG_2_4' type='graphic'>backgrounds/slices/firstRoomFG_2_4.png</asset>
-	<asset name='firstRoomFG_2_5' type='graphic'>backgrounds/slices/firstRoomFG_2_5.png</asset>
-	-->
+<asset name='firstRoomBG_0_1' type='graphic'>backgrounds/slices/firstRoomBG_0_1.png</asset>
+<asset name='firstRoomBG_0_2' type='graphic'>backgrounds/slices/firstRoomBG_0_2.png</asset>
+<asset name='firstRoomBG_10_0' type='graphic'>backgrounds/slices/firstRoomBG_10_0.png</asset>
+<asset name='firstRoomBG_10_1' type='graphic'>backgrounds/slices/firstRoomBG_10_1.png</asset>
+<asset name='firstRoomBG_10_2' type='graphic'>backgrounds/slices/firstRoomBG_10_2.png</asset>
+<asset name='firstRoomBG_1_0' type='graphic'>backgrounds/slices/firstRoomBG_1_0.png</asset>
+<asset name='firstRoomBG_11_0' type='graphic'>backgrounds/slices/firstRoomBG_11_0.png</asset>
+<asset name='firstRoomBG_11_1' type='graphic'>backgrounds/slices/firstRoomBG_11_1.png</asset>
+<asset name='firstRoomBG_11_2' type='graphic'>backgrounds/slices/firstRoomBG_11_2.png</asset>
+<asset name='firstRoomBG_1_1' type='graphic'>backgrounds/slices/firstRoomBG_1_1.png</asset>
+<asset name='firstRoomBG_12_0' type='graphic'>backgrounds/slices/firstRoomBG_12_0.png</asset>
+<asset name='firstRoomBG_12_1' type='graphic'>backgrounds/slices/firstRoomBG_12_1.png</asset>
+<asset name='firstRoomBG_12_2' type='graphic'>backgrounds/slices/firstRoomBG_12_2.png</asset>
+<asset name='firstRoomBG_1_2' type='graphic'>backgrounds/slices/firstRoomBG_1_2.png</asset>
+<asset name='firstRoomBG_2_0' type='graphic'>backgrounds/slices/firstRoomBG_2_0.png</asset>
+<asset name='firstRoomBG_2_1' type='graphic'>backgrounds/slices/firstRoomBG_2_1.png</asset>
+<asset name='firstRoomBG_2_2' type='graphic'>backgrounds/slices/firstRoomBG_2_2.png</asset>
+<asset name='firstRoomBG_3_0' type='graphic'>backgrounds/slices/firstRoomBG_3_0.png</asset>
+<asset name='firstRoomBG_3_1' type='graphic'>backgrounds/slices/firstRoomBG_3_1.png</asset>
+<asset name='firstRoomBG_3_2' type='graphic'>backgrounds/slices/firstRoomBG_3_2.png</asset>
+<asset name='firstRoomBG_4_0' type='graphic'>backgrounds/slices/firstRoomBG_4_0.png</asset>
+<asset name='firstRoomBG_4_1' type='graphic'>backgrounds/slices/firstRoomBG_4_1.png</asset>
+<asset name='firstRoomBG_4_2' type='graphic'>backgrounds/slices/firstRoomBG_4_2.png</asset>
+<asset name='firstRoomBG_5_0' type='graphic'>backgrounds/slices/firstRoomBG_5_0.png</asset>
+<asset name='firstRoomBG_5_1' type='graphic'>backgrounds/slices/firstRoomBG_5_1.png</asset>
+<asset name='firstRoomBG_5_2' type='graphic'>backgrounds/slices/firstRoomBG_5_2.png</asset>
+<asset name='firstRoomBG_6_0' type='graphic'>backgrounds/slices/firstRoomBG_6_0.png</asset>
+<asset name='firstRoomBG_6_1' type='graphic'>backgrounds/slices/firstRoomBG_6_1.png</asset>
+<asset name='firstRoomBG_6_2' type='graphic'>backgrounds/slices/firstRoomBG_6_2.png</asset>
+<asset name='firstRoomBG_7_0' type='graphic'>backgrounds/slices/firstRoomBG_7_0.png</asset>
+<asset name='firstRoomBG_7_1' type='graphic'>backgrounds/slices/firstRoomBG_7_1.png</asset>
+<asset name='firstRoomBG_7_2' type='graphic'>backgrounds/slices/firstRoomBG_7_2.png</asset>
+<asset name='firstRoomBG_8_0' type='graphic'>backgrounds/slices/firstRoomBG_8_0.png</asset>
+<asset name='firstRoomBG_8_1' type='graphic'>backgrounds/slices/firstRoomBG_8_1.png</asset>
+<asset name='firstRoomBG_8_2' type='graphic'>backgrounds/slices/firstRoomBG_8_2.png</asset>
+<asset name='firstRoomBG_9_0' type='graphic'>backgrounds/slices/firstRoomBG_9_0.png</asset>
+<asset name='firstRoomBG_9_1' type='graphic'>backgrounds/slices/firstRoomBG_9_1.png</asset>
+<asset name='firstRoomBG_9_2' type='graphic'>backgrounds/slices/firstRoomBG_9_2.png</asset>
+
+<asset name='firstRoomFG_0_0' type='graphic'>backgrounds/slices/firstRoomFG_0_0.png</asset>
+<asset name='firstRoomFG_0_1' type='graphic'>backgrounds/slices/firstRoomFG_0_1.png</asset>
+<asset name='firstRoomFG_10_1' type='graphic'>backgrounds/slices/firstRoomFG_10_1.png</asset>
+<asset name='firstRoomFG_10_2' type='graphic'>backgrounds/slices/firstRoomFG_10_2.png</asset>
+<asset name='firstRoomFG_11_2' type='graphic'>backgrounds/slices/firstRoomFG_11_2.png</asset>
+<asset name='firstRoomFG_1_1' type='graphic'>backgrounds/slices/firstRoomFG_1_1.png</asset>
+<asset name='firstRoomFG_1_2' type='graphic'>backgrounds/slices/firstRoomFG_1_2.png</asset>
+<asset name='firstRoomFG_2_0' type='graphic'>backgrounds/slices/firstRoomFG_2_0.png</asset>
+<asset name='firstRoomFG_2_1' type='graphic'>backgrounds/slices/firstRoomFG_2_1.png</asset>
+<asset name='firstRoomFG_2_2' type='graphic'>backgrounds/slices/firstRoomFG_2_2.png</asset>
+<asset name='firstRoomFG_3_0' type='graphic'>backgrounds/slices/firstRoomFG_3_0.png</asset>
+<asset name='firstRoomFG_3_1' type='graphic'>backgrounds/slices/firstRoomFG_3_1.png</asset>
+<asset name='firstRoomFG_3_2' type='graphic'>backgrounds/slices/firstRoomFG_3_2.png</asset>
+<asset name='firstRoomFG_4_0' type='graphic'>backgrounds/slices/firstRoomFG_4_0.png</asset>
+<asset name='firstRoomFG_4_2' type='graphic'>backgrounds/slices/firstRoomFG_4_2.png</asset>
+<asset name='firstRoomFG_5_0' type='graphic'>backgrounds/slices/firstRoomFG_5_0.png</asset>
+<asset name='firstRoomFG_5_1' type='graphic'>backgrounds/slices/firstRoomFG_5_1.png</asset>
+<asset name='firstRoomFG_5_2' type='graphic'>backgrounds/slices/firstRoomFG_5_2.png</asset>
+<asset name='firstRoomFG_6_0' type='graphic'>backgrounds/slices/firstRoomFG_6_0.png</asset>
+<asset name='firstRoomFG_6_1' type='graphic'>backgrounds/slices/firstRoomFG_6_1.png</asset>
+<asset name='firstRoomFG_7_0' type='graphic'>backgrounds/slices/firstRoomFG_7_0.png</asset>
+<asset name='firstRoomFG_7_1' type='graphic'>backgrounds/slices/firstRoomFG_7_1.png</asset>
+
 	<asset name='firstRoomFG' type='graphic'>backgrounds/firstRoomFG.png</asset>
 	<asset name='firstRoomMap' type='graphic'>backgrounds/firstRoomMap.png</asset>
 	
@@ -585,7 +582,7 @@
 		</sprite>
 
 		<sprite name='firstRoomFG' depthing='2'>
-  		<animation sheet='firstRoomFG'/>
+  		<animation sheet='firstRoomFG'  sliced='true' colSize='500' rowSize='500' numCols='13' numRows='3'/>
   	</sprite>
   </room> 
 </rooms>

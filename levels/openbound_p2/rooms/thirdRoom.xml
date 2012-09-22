@@ -10,8 +10,35 @@
 </classes>
 
 <assets>
-	<asset name='thirdRoomBG' type='graphic'>backgrounds/thirdRoomBG.png</asset>
-	<asset name='thirdRoomFG' type='graphic'>backgrounds/thirdRoomFG.png</asset>
+	<asset name='thirdRoomBG_0_0' type='graphic'>backgrounds/slices/thirdRoomBG_0_0.png</asset>
+	<asset name='thirdRoomBG_0_1' type='graphic'>backgrounds/slices/thirdRoomBG_0_1.png</asset>
+	<asset name='thirdRoomBG_0_2' type='graphic'>backgrounds/slices/thirdRoomBG_0_2.png</asset>
+	<asset name='thirdRoomBG_0_3' type='graphic'>backgrounds/slices/thirdRoomBG_0_3.png</asset>
+	<asset name='thirdRoomBG_0_4' type='graphic'>backgrounds/slices/thirdRoomBG_0_4.png</asset>
+	<asset name='thirdRoomBG_0_5' type='graphic'>backgrounds/slices/thirdRoomBG_0_5.png</asset>
+	<asset name='thirdRoomBG_1_0' type='graphic'>backgrounds/slices/thirdRoomBG_1_0.png</asset>
+	<asset name='thirdRoomBG_1_1' type='graphic'>backgrounds/slices/thirdRoomBG_1_1.png</asset>
+	<asset name='thirdRoomBG_1_2' type='graphic'>backgrounds/slices/thirdRoomBG_1_2.png</asset>
+	<asset name='thirdRoomBG_1_3' type='graphic'>backgrounds/slices/thirdRoomBG_1_3.png</asset>
+	<asset name='thirdRoomBG_1_4' type='graphic'>backgrounds/slices/thirdRoomBG_1_4.png</asset>
+	<asset name='thirdRoomBG_1_5' type='graphic'>backgrounds/slices/thirdRoomBG_1_5.png</asset>
+	<asset name='thirdRoomBG_2_0' type='graphic'>backgrounds/slices/thirdRoomBG_2_0.png</asset>
+	<asset name='thirdRoomBG_2_1' type='graphic'>backgrounds/slices/thirdRoomBG_2_1.png</asset>
+	<asset name='thirdRoomBG_2_2' type='graphic'>backgrounds/slices/thirdRoomBG_2_2.png</asset>
+	<asset name='thirdRoomBG_2_3' type='graphic'>backgrounds/slices/thirdRoomBG_2_3.png</asset>
+	<asset name='thirdRoomBG_2_4' type='graphic'>backgrounds/slices/thirdRoomBG_2_4.png</asset>
+	<asset name='thirdRoomBG_2_5' type='graphic'>backgrounds/slices/thirdRoomBG_2_5.png</asset>
+	<asset name='thirdRoomBG_3_0' type='graphic'>backgrounds/slices/thirdRoomBG_3_0.png</asset>
+	<asset name='thirdRoomBG_3_1' type='graphic'>backgrounds/slices/thirdRoomBG_3_1.png</asset>
+	<asset name='thirdRoomBG_3_2' type='graphic'>backgrounds/slices/thirdRoomBG_3_2.png</asset>
+	<asset name='thirdRoomBG_3_3' type='graphic'>backgrounds/slices/thirdRoomBG_3_3.png</asset>
+	<asset name='thirdRoomBG_3_4' type='graphic'>backgrounds/slices/thirdRoomBG_3_4.png</asset>
+	<asset name='thirdRoomBG_3_5' type='graphic'>backgrounds/slices/thirdRoomBG_3_5.png</asset>
+
+	<asset name='thirdRoomFG_0_1' type='graphic'>backgrounds/slices/thirdRoomFG_0_1.png</asset>
+	<asset name='thirdRoomFG_0_4' type='graphic'>backgrounds/slices/thirdRoomFG_0_4.png</asset>
+	<asset name='thirdRoomFG_1_3' type='graphic'>backgrounds/slices/thirdRoomFG_1_3.png</asset>
+	<asset name='thirdRoomFG_1_4' type='graphic'>backgrounds/slices/thirdRoomFG_1_4.png</asset>
 	<asset name='thirdRoomMap' type='graphic'>backgrounds/thirdRoomMap.png</asset>
 	
 	<asset name='catLusus' type='graphic'>objects/daww3.png</asset>
@@ -365,11 +392,11 @@
   	
   
   	<sprite name='thirdRoomBG'>
-  		<animation sheet='thirdRoomBG'/>
+  		<animation sheet='thirdRoomBG' sliced='true' colSize='500' rowSize='500' numCols='4' numRows='6'/>
   	</sprite>
   	
   	<sprite name='thirdRoomFG' depthing='2'>
-  		<animation sheet='thirdRoomFG'/>
+  		<animation sheet='thirdRoomFG' sliced='true' colSize='500' rowSize='500' numCols='4' numRows='6'/>
   	</sprite>
   
   </room> 
