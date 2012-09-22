@@ -203,6 +203,24 @@ events.noActions = function(info){
 	}
 }
 
+//check if two sprites are near each other
+//syntax spriteName1, spriteName2, distance (px)
+events.withinRange = function(info){
+	var params = parseParams(info);
+	var spriteName1 = params[1];
+	var spriteName2 = params[2];
+	var dist = parseFloat(params[3]);
+
+	this.reset = function(){ } //do nothing
+	this.checkCompletion = function(){
+			var sprite1 = Sburb.parseCharacterString(spriteName1);
+			var sprite2 = Sburb.parseCharacterString(spriteName2);
+			var xDist = sprite1.x-sprite2.x;
+			var yDist = sprite1.y-sprite2.y;
+			return Math.sqrt(xDist*xDist + yDist*yDist) <= dist;
+	}
+}
+
 Sburb.events = events;
 return Sburb;
 
