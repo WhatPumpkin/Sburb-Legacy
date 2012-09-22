@@ -9,8 +9,9 @@ var Sburb = (function(Sburb){
 
 
 //Constructor
-Sburb.Animation = function(name,sheet,x,y,colSize,rowSize,startPos,length,frameInterval,loopNum,followUp,flipX,flipY){
+Sburb.Animation = function(name,sheet,x,y,colSize,rowSize,startPos,length,frameInterval,loopNum,followUp,flipX,flipY, sliced, numCols, numRows){
 	this.sheet = sheet;
+	this.sliced = sliced?true:false;
 	this.x = x;
 	this.y = y;
 	this.rowSize = rowSize;
@@ -19,14 +20,34 @@ Sburb.Animation = function(name,sheet,x,y,colSize,rowSize,startPos,length,frameI
 	this.length = length;
 	this.curInterval = 0;
 	this.curFrame = 0;
-	this.numRows = sheet.height/rowSize;
-	this.numCols = sheet.width/colSize;
 	this.name = name;
 	this.loopNum = typeof loopNum == "number"?loopNum:-1;
 	this.curLoop = 0;
 	this.followUp = followUp;
 	this.flipX = flipX?true:false;
 	this.flipY = flipY?true:false;
+	
+	if(sliced){
+		this.numRows = numRows;
+		this.numCols = numCols;
+		this.sheets = {};
+		for(var colNum = 0;colNum<this.numCols;colNum++){
+			for(var rowNum = 0;rowNum<this.numRows;rowNum++){
+				var sheet = Sburb.assets[this.sheet+"_"+colNum+"_"+rowNum];
+				if(sheet){
+					if(!this.sheets[colNum]){
+						this.sheets[colNum] = {};
+					}
+					this.sheets[colNum][rowNum] = sheet;
+				}
+			}
+		}
+		this.draw = this.drawSliced;
+	}else{
+		this.numRows = sheet.height/rowSize;
+		this.numCols = sheet.width/colSize;
+		this.draw = this.drawNormal;
+	}
 	
 	if(typeof frameInterval == "string"){
 		if(frameInterval.indexOf(":")==-1){
@@ -79,7 +100,7 @@ Sburb.Animation.prototype.update = function(){
 }
 
 //draw the animation
-Sburb.Animation.prototype.draw = function(x,y){
+Sburb.Animation.prototype.drawNormal = function(x,y){
 	var Stage = Sburb.Stage;
 	var stage = Sburb.stage;
 	var stageX = Stage.offset?Stage.x:0;
@@ -164,6 +185,115 @@ Sburb.Animation.prototype.draw = function(x,y){
 	if(scaleX!=1 || scaleY!=1){
 		stage.scale(scaleX,scaleY);
 	}
+}
+
+Sburb.Animation.prototype.drawSliced = function(x,y){
+	var Stage = Sburb.Stage;
+	var stage = Sburb.stage;
+	var stageX = Stage.offset?Stage.x:0;
+	var stageY = Stage.offset?Stage.y:0;
+	var stageWidth = Stage.width;
+	var stageHeight = Stage.height;
+	
+	if(this.flipX){
+		stageX = -stageX-stageWidth;
+		x = -x;
+	}
+	if(this.flipY){
+		stageY = -stageY-stageHeight;
+		y = -y;
+	}
+	
+	
+	
+	x= Math.round((this.x+x)/Stage.scaleX)*Stage.scaleX;
+	y= Math.round((this.y+y)/Stage.scaleY)*Stage.scaleY;
+	
+	var minCol = Math.floor((stageX-x)/this.colSize);
+	var maxCol = Math.floor((stageX+stageWidth-x)/this.colSize);
+	var minRow = Math.floor((stageY-y)/this.rowSize);
+	var maxRow = Math.floor((stageY+stageHeight-y)/this.colSize);
+	
+	/*
+	var colNum = ((this.startPos+this.curFrame)%this.numCols);
+	var rowNum = (Math.floor((this.startPos+this.curFrame-colNum)/this.numRows));
+	
+	
+	*/
+	var drawWidth = this.colSize;
+	var drawHeight = this.rowSize;
+	for(var colNum = minCol; colNum++; colNum<=maxCol){
+		for(var rowNum = minRow; rowNum++; rowNum<=maxRow){
+			if(this.sheets[colNum] && this.sheets[colNum][rowNum]){
+			
+				var sheet = this.sheets[colNum][rowNum];
+				var frameX = this.colSize;
+				var frameY = this.rowSize;
+				var x = this.x+colNum*this.colSize;
+				var y = this.y+rowNum*this.rowSize;
+				
+				var delta = x-stageX;
+				if(delta<0){
+					frameX-=delta;
+					drawWidth+=delta;
+					x=stageX;
+					if(frameX>=colSize){
+						continue;
+					}
+				}
+	
+				delta = y-stageY;
+				if(delta<0){
+					frameY-=delta;
+					drawHeight+=delta;
+					y=stageY;
+					if(frameY>=rowSize){
+						continue;
+					}
+				}
+	
+	
+	
+	
+				delta = drawWidth+x-stageX-stageWidth;
+				if(delta>0){
+					drawWidth-=delta;
+		
+				}
+				if(drawWidth<=0){
+					continue;
+				}
+	
+				delta = drawHeight+y-stageY-stageHeight;
+				if(delta>0){
+					drawHeight-=delta;
+				}
+				if(drawHeight<=0){
+					continue;
+				}
+	
+				var scaleX = 1;
+				var scaleY = 1;
+	
+				if(this.flipX){
+					scaleX = -1;
+				}
+				if(this.flipY){
+					scaleY = -1;
+				}
+				if(scaleX!=1 || scaleY!=1){
+					stage.scale(scaleX,scaleY);
+				}
+				stage.drawImage(sheet,frameX,frameY,drawWidth,drawHeight,x,y,drawWidth,drawHeight);
+				if(scaleX!=1 || scaleY!=1){
+					stage.scale(scaleX,scaleY);
+				}
+			}
+		}
+	} 
+	
+	
+	
 }
 
 //reinitialize the animation to its first frame and loop
@@ -267,8 +397,13 @@ Sburb.parseAnimation = function(animationNode, assetFolder){
 	var sheet = null;
 	var x = 0;
 	var y = 0;
+	
 	var colSize = null;
 	var rowSize = null;
+	var numCols = 1;
+	var numRows = 1;
+	var sliced = false;
+	
 	var startPos = 0;
 	var length = 1;
 	var frameInterval = 1;
@@ -276,24 +411,39 @@ Sburb.parseAnimation = function(animationNode, assetFolder){
 	var followUp = null;
 	
 	var temp;
+	
+	sliced = (temp = attributes.getNamedItem("sliced"))?parseInt(temp.value):sliced;
+	
 	name = (temp = attributes.getNamedItem("name"))?temp.value:name;
-	sheet = (temp = attributes.getNamedItem("sheet"))?assetFolder[temp.value]:sheet;
+	
+	if(!sliced){
+		sheet = (temp = attributes.getNamedItem("sheet"))?assetFolder[temp.value]:sheet;
+	}else{
+		sheet = (temp = attributes.getNamedItem("sheet"))?temp.value:sheet;
+	}
 	
 	x = (temp = attributes.getNamedItem("x"))?parseInt(temp.value):x;
 	y = (temp = attributes.getNamedItem("y"))?parseInt(temp.value):y;
 	length = (temp = attributes.getNamedItem("length"))?parseInt(temp.value):length;
 	
+	numCols = (temp = attributes.getNamedItem("numCols"))?parseInt(temp.value):numCols;
+	numRows = (temp = attributes.getNamedItem("numRows"))?parseInt(temp.value):numRows;
+	
 	colSize = (temp = attributes.getNamedItem("colSize"))?parseInt(temp.value):Math.round(sheet.width/length);
 	rowSize = (temp = attributes.getNamedItem("rowSize"))?parseInt(temp.value):sheet.height;
 	startPos = (temp = attributes.getNamedItem("startPos"))?parseInt(temp.value):startPos;
+	
+	
+	
+	
 	
 	frameInterval = (temp = attributes.getNamedItem("frameInterval"))?temp.value:frameInterval;
 	loopNum = (temp = attributes.getNamedItem("loopNum"))?parseInt(temp.value):loopNum;
 	followUp = (temp = attributes.getNamedItem("followUp"))?temp.value:followUp;
 	var flipX = (temp = attributes.getNamedItem("flipX"))?temp.value!="false":false;
 	var flipY = (temp = attributes.getNamedItem("flipY"))?temp.value!="false":false;
-	
-	return new Sburb.Animation(name,sheet,x,y,colSize,rowSize,startPos,length,frameInterval,loopNum,followUp,flipX,flipY);
+	if(
+	return new Sburb.Animation(name,sheet,x,y,colSize,rowSize,startPos,length,frameInterval,loopNum,followUp,flipX,flipY, sliced,numCols,numRows);
 }
 
 return Sburb;
