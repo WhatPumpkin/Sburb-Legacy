@@ -72,16 +72,16 @@
   			</action>
   		</trigger>
   		
-  		<!--
+  		
   		<trigger>
   			<args>spriteProperty,char,name=kurloz</args>
-  			<args>kurloz is near meenah</args>
+  			<args>withinRange,kurloz,meenah,30</args>
   			<action command='goBack'>
   				<args>char</args>
   				<action class='kurlozTalk7' />
   			</action>
   		</trigger>
-  		-->
+  		
   		<trigger>
   			<args>inBox2,kurloz,726,317,817,336</args>
   			<args>gameState,thirdDoorOpen=true</args>
