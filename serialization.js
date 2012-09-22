@@ -525,11 +525,7 @@ Sburb.loadSerialFromXML = function(file,keepOld) {
 	}
 	
 	
-    if(window.ActiveXObject) {
-		var request = new ActiveXObject("MSXML2.XMLHTTP");
-    } else {
-		var request = new XMLHttpRequest();
-    }
+	var request = new XMLHttpRequest();
     request.open('GET', file, false);
     try {
 		request.send(null);
