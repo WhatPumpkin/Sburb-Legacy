@@ -20,10 +20,10 @@
 	</dialogsprites>
 </hud>
 
-<sprite name='obj18'>
+<sprite depthing='3' name='obj18'>
 <animation x='-50' y='-50'  sheet='obj18'/>
 </sprite>
-<sprite name='obj19'>
+<sprite depthing='3' name='obj19'>
 <animation x='-50' y='-50'  sheet='obj19'/>
 </sprite>
 

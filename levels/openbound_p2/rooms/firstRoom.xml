@@ -111,28 +111,28 @@
 	<action class='beMituna'/>
 </character>
 
-<sprite name='obj01'>
+<sprite depthing='3' name='obj01'>
 <animation x='-50' y='-50'  sheet='obj01'/>
 </sprite>
-<sprite name='obj02'>
+<sprite depthing='3' name='obj02'>
 <animation x='-50' y='-50'  sheet='obj02'/>
 </sprite>
-<sprite name='obj03'>
+<sprite depthing='3' name='obj03'>
 <animation x='-50' y='-50'  sheet='obj03'/>
 </sprite>
-<sprite name='obj04'>
+<sprite depthing='3' name='obj04'>
 <animation x='-50' y='-50'  sheet='obj04'/>
 </sprite>
-<sprite name='obj05'>
+<sprite depthing='3' name='obj05'>
 <animation x='-50' y='-50'  sheet='obj05'/>
 </sprite>
-<sprite name='obj06'>
+<sprite depthing='3' name='obj06'>
 <animation x='-50' y='-50'  sheet='obj06'/>
 </sprite>
-<sprite name='obj07'>
+<sprite depthing='3' name='obj07'>
 <animation x='-50' y='-50'  sheet='obj07'/>
 </sprite>
-<sprite name='obj08'>
+<sprite depthing='3' name='obj08'>
 <animation x='-50' y='-50'  sheet='obj08'/>
 </sprite>
 
@@ -456,7 +456,7 @@
 			</action>
   	</sprite>
   	
-  	<sprite class='chest2' name='firstRoomChest2' x='1194' y='1090'>
+  	<sprite class='chest2' name='firstRoomChest2' x='1094' y='880'>
 			<action sprite='!cronus' command='talk' name='open'>
 				<args> @! Can't open it! Maybe if you try with someone else...</args>
 			</action>
@@ -520,7 +520,7 @@
 		  </action>
   	</sprite>
   	
-  	<sprite class='chest2' name='firstRoomChest6' x='3950' y='230'>
+  	<sprite class='chest2' name='firstRoomChest6' x='3950' y='230' width='100' height='100' collidable='false'>
 			<action command='openChest' name='open'>
 				<args>firstRoomChest6,obj06,
 				  @! You got AHAB'S CROSSHAIRS!

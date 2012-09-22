@@ -15,7 +15,6 @@
 	<asset name='thirdRoomMap' type='graphic'>backgrounds/thirdRoomMap.png</asset>
 	
 	<asset name='catLusus' type='graphic'>objects/daww3.png</asset>
-	<asset name='codpiece' type='graphic'>objects/codpiece.png</asset>
 	<asset name='thirdRoomDoor' type='graphic'>objects/map3_door.png</asset>
 	<asset name='thirdRoomLily' type='graphic'>objects/map3_lilypad.png</asset>
 	
@@ -34,10 +33,6 @@
 	<asset name='obj17' type='graphic'>objects/items/obj17.png</asset>
 </assets>
 
-<sprite name='codpiece'>
-	<animation sheet='codpiece' x='-50' y='-50'/>
-</sprite>
-
 <sprite name='thirdRoomLily' x='1031' y='1891'>
 	<animation sheet='thirdRoomLily'/>
 </sprite>
@@ -46,31 +41,31 @@
 	<animation sheet='thirdRoomDoor' x='-60' y='-144'/>
 </sprite>
 
-<sprite name='obj09'>
+<sprite depthing='3' name='obj09'>
 <animation x='-50' y='-50'  sheet='obj09'/>
 </sprite>
-<sprite name='obj10'>
+<sprite depthing='3' name='obj10'>
 <animation x='-50' y='-50'  sheet='obj10'/>
 </sprite>
-<sprite name='obj11'>
+<sprite depthing='3' name='obj11'>
 <animation x='-50' y='-50'  sheet='obj11'/>
 </sprite>
-<sprite name='obj12'>
+<sprite depthing='3' name='obj12'>
 <animation x='-50' y='-50'  sheet='obj12'/>
 </sprite>
-<sprite name='obj13'>
+<sprite depthing='3' name='obj13'>
 <animation x='-50' y='-50'  sheet='obj13'/>
 </sprite>
-<sprite name='obj14'>
+<sprite depthing='3' name='obj14'>
 <animation x='-50' y='-50'  sheet='obj14'/>
 </sprite>
-<sprite name='obj15'>
+<sprite depthing='3' name='obj15'>
 <animation x='-50' y='-50'  sheet='obj15'/>
 </sprite>
-<sprite name='obj16'>
+<sprite depthing='3' name='obj16'>
 <animation x='-50' y='-50'  sheet='obj16'/>
 </sprite>
-<sprite name='obj17'>
+<sprite depthing='3' name='obj17'>
 <animation x='-50' y='-50'  sheet='obj17'/>
 </sprite>
 
@@ -90,7 +85,7 @@
   <room name='thirdRoom' walkableMap='thirdRoomMap' mapScale='2'>
   	<triggers>
   		<trigger>
-  			<args>inBox2,char,168,2612,924,2664</args>
+  			<args>inBox2,char,168,2752,924,100</args>
   			<action command='changeRoomRemote'>rooms/firstRoom.xml,firstRoom,5412,99</action>
   		</trigger>
 

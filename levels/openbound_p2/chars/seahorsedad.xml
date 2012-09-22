@@ -1,13 +1,15 @@
 <sburb description='seahorsedad'>
 
 <classes>
-	<sprite class='seahorsedad' name='seahorsedad' depthing='1' width='80' height='40' collidable='true'>
-		<animation sheet='seahorsedad' length='4' x='-34' y='-194' frameInterval='8'/>
+	<sprite class='seahorsedad' name='seahorsedad' depthing='1' width='80' height='40' collidable='true' state='idle'>
+		<animation name='idle' sheet='seahorsedad' length='4' x='-34' y='-194' frameInterval='8'/>
+		<animation name='ride' sheet='ahRide' x='-34' y='-194'/>
 	</sprite>
 </classes>
 
 <assets>
 	<asset name='seahorsedad' type='graphic'>chars/seahorsedad/seahorsedad.png</asset>
+	<asset name='ahRide' type='graphic'>chars/seahorsedad/AHseahorse.png</asset>
 </assets>
 
 <hud>
