@@ -24,6 +24,9 @@ Sburb.AssetManager = function() {
     this.recurrences = {};
     this.error = [];
     this.failed = [];
+    this.maxAjax = 10; // How many concurrent ajax calls we can have
+    this.ajaxRunning = 0;
+    this.ajaxCache = []; // Store those suckers
     // Cache urls
     this.cache = {}
     this.blobs = {}
@@ -283,6 +286,23 @@ Sburb.loadGenericAsset = function(asset, path, id) {
         setTimeout(function() { asset.success(url, id); }, 0); // Async call success so things don't blow up
         return;
     }
+    
+    // Hold on, can't load too many at once
+    if(Sburb.assetManager.ajaxRunning >= Sburb.assetManager.maxAjax) {
+        Sburb.assetManager.ajaxCache.push([asset, path, id]);
+        return;
+    } else {
+        Sburb.assetManager.ajaxRunning += 1;
+    }
+    
+    var cleanup = function() {
+        Sburb.assetManager.ajaxRunning -= 1;
+        if(Sburb.assetManager.ajaxCache.length) {
+            args = Sburb.assetManager.ajaxCache.shift();
+            Sburb.loadGenericAsset(args[0], args[1], args[2]);
+        }
+    };
+    
     // Welcome to fallback hell
     // NOTE: We use array.contains because future fallbacks will just get a higher number
     //       Hence inequalities won't work and multiple == would get messy fast
@@ -337,7 +357,9 @@ Sburb.loadGenericAsset = function(asset, path, id) {
                         blob = new Blob([this.response],{type: type});
                     } // No else, this covers all the methods in this block
                     if(!blob) {
-                        return asset.failure(id); // Uh what happened here?
+                        asset.failure(id);
+                        cleanup();
+                        return; // Uh what happened here?
                     }
                     if(Sburb.tests.blobrevoke) {
                         url = URLCreator.createObjectURL(blob, {autoRevoke: false});
@@ -350,12 +372,15 @@ Sburb.loadGenericAsset = function(asset, path, id) {
                     reader.onload = function(e) {
                         var url = e.target.result;
                         if(!url) {
-                            return asset.failure(id);
+                            asset.failure(id);
+                            cleanup();
+                            return;
                         }
                         // TODO: Replace mime-type with actual type
                         // TODO: Verify this is base64 encoded
                         Sburb.assetManager.cache[assetPath] = url;
                         asset.success(url,id);
+                        cleanup();
                     }
                     reader.onabort = function() { asset.failure(id); };
                     reader.onerror = function() { asset.failure(id); };
@@ -366,22 +391,26 @@ Sburb.loadGenericAsset = function(asset, path, id) {
                     url = "data:"+type+";base64,"+b64;
                 } // No else, this covers all the methods in this block
                 if(!url) {
-                    return asset.failure(id); // Uh what happened here?
+                    asset.failure(id);
+                    cleanup();
+                    return; // Uh what happened here?
                 }
                 Sburb.assetManager.cache[assetPath] = url; // Save for later
                 asset.success(url,id);
+                cleanup();
             } else {
                 asset.failure(id);
+                cleanup();
             }
         }
-        xhr.onabort = function() { asset.failure(id) };
-        xhr.onerror = function() { asset.failure(id) };
+        xhr.onabort = function() { asset.failure(id); cleanup(); };
+        xhr.onerror = function() { asset.failure(id); cleanup(); };
         xhr.send();
     } else if([1,2,3].contains(Sburb.tests.loading)) {
         // XHR 1, not bad
         var xhr = new XMLHttpRequest();
         xhr.open('GET', assetPath, true);
-        if(xhr.overrideMimeType){xhr.overrideMimeType('text/plain; charset=x-user-defined');}
+        xhr.overrideMimeType('text/plain; charset=x-user-defined');
         xhr.onload = function() {
             if((this.status == 200 || this.status == 0) && this.responseText) {
                 var url = false;
@@ -403,7 +432,9 @@ Sburb.loadGenericAsset = function(asset, path, id) {
                         blob = builder.getBlob(type);
                     } // No else, this covers all the methods in this block
                     if(!blob) {
-                        return asset.failure(id); // Uh what happened here?
+                        asset.failure(id);
+                        cleanup();
+                        return; // Uh what happened here?
                     }
                     if(Sburb.tests.blobrevoke) {
                         url = URLCreator.createObjectURL(blob, {autoRevoke: false});
@@ -413,20 +444,11 @@ Sburb.loadGenericAsset = function(asset, path, id) {
                     Sburb.assetManager.blobs[assetPath] = blob; // Save for later
                 } else if(Sburb.tests.loading == 1) {
                     // Clean the string
-                    var bytes;
-                    var binstr
-                    var len;
-                    if(Object.getPrototypeOf(VBArray)){
-                    bytes = new VBArray(this.responseBody).toArray();
-                    len = bytes.length;
-                    }
-                    else{
-                       binstr = this.responseText;
-                       len = binstr.length;
-                       bytes = new Array(len);
-                       for(var i = 0; i < len; i += 1) {
-                           bytes[i] = binstr.charCodeAt(i) & 0xFF;
-                       }
+                    var binstr = this.responseText;
+                    var len = binstr.length;
+                    var bytes = new Array(len);
+                    for(var i = 0; i < len; i += 1) {
+                        bytes[i] = binstr.charCodeAt(i) & 0xFF;
                     }
                     binstr = '';
                     // Don't break the stack - Thanks MDN!
@@ -438,25 +460,59 @@ Sburb.loadGenericAsset = function(asset, path, id) {
                     url = "data:"+type+";base64,"+b64;
                 } // No else, this covers all the methods in this block
                 if(!url) {
-                    return asset.failure(id); // Uh what happened here?
+                    asset.failure(id);
+                    cleanup();
+                    return; // Uh what happened here?
                 }
                 Sburb.assetManager.cache[assetPath] = url; // Save for later
                 asset.success(url,id);
+                cleanup();
             } else {
                 asset.failure(id);
+                cleanup();
             }
         }
-        xhr.onabort = function() { asset.failure(id) };
-        xhr.onerror = function() { asset.failure(id) };
+        xhr.onabort = function() { asset.failure(id); cleanup(); };
+        xhr.onerror = function() { asset.failure(id); cleanup(); };
+        xhr.send();
+    } else if(Sburb.tests.loading == 12) {
+        // IE 9 specific BS - May not work but I don't care
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', assetPath, true);
+        xhr.onload = function() {
+            if((this.status == 200 || this.status == 0) && this.responseText) { // Checking responseBody directly doesn't work??
+                // Clean the string
+                var bytes = new VBArray(this.responseBody).toArray();
+                var len = bytes.length;
+                var binstr = '';
+                // Don't break the stack - Thanks MDN!
+                var QUANTUM = 65000;
+                for(var i = 0; i < len; i += QUANTUM) {
+                    binstr += String.fromCharCode.apply(null, bytes.slice(i, Math.min(i + QUANTUM, len)));
+                }
+                var b64 = window.btoa(binstr);
+                var url = "data:"+type+";base64,"+b64;
+                Sburb.assetManager.cache[assetPath] = url; // Save for later
+                asset.success(url,id);
+                cleanup();
+            } else {
+                asset.failure(id);
+                cleanup();
+            }
+        }
+        xhr.onabort = function() { asset.failure(id); cleanup(); };
+        xhr.onerror = function() { asset.failure(id); cleanup(); };
         xhr.send();
     } else if(Sburb.tests.loading == 0) {
         // DANGER DANGER we can't track anything! PANIC!!!
         Sburb.assetManager.cache[assetPath] = assetPath; // Save for later
         asset.success(assetPath,id,true);
+        cleanup();
     } else {
         // Somebody added another fallback without editting this function. Yell at them.
         console.error("Invalid Sburb.tests.loading. Value = "+Sburb.tests.loading);
         asset.failure(id);
+        cleanup();
     }
 };
 
