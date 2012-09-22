@@ -580,69 +580,10 @@
 		  </action>
   	</sprite>
 
-		<sprite name='firstRoomBG_0_0' x='0' y='0'><animation sheet='firstRoomBG_0_0' /></sprite>
-<sprite name='firstRoomBG_0_10' x='5000' y='0'><animation sheet='firstRoomBG_0_10' /></sprite>
-<sprite name='firstRoomBG_0_11' x='5500' y='0'><animation sheet='firstRoomBG_0_11' /></sprite>
-<sprite name='firstRoomBG_0_12' x='6000' y='0'><animation sheet='firstRoomBG_0_12' /></sprite>
-<sprite name='firstRoomBG_0_1' x='500' y='0'><animation sheet='firstRoomBG_0_1' /></sprite>
-<sprite name='firstRoomBG_0_2' x='1000' y='0'><animation sheet='firstRoomBG_0_2' /></sprite>
-<sprite name='firstRoomBG_0_3' x='1500' y='0'><animation sheet='firstRoomBG_0_3' /></sprite>
-<sprite name='firstRoomBG_0_4' x='2000' y='0'><animation sheet='firstRoomBG_0_4' /></sprite>
-<sprite name='firstRoomBG_0_5' x='2500' y='0'><animation sheet='firstRoomBG_0_5' /></sprite>
-<sprite name='firstRoomBG_0_6' x='3000' y='0'><animation sheet='firstRoomBG_0_6' /></sprite>
-<sprite name='firstRoomBG_0_7' x='3500' y='0'><animation sheet='firstRoomBG_0_7' /></sprite>
-<sprite name='firstRoomBG_0_8' x='4000' y='0'><animation sheet='firstRoomBG_0_8' /></sprite>
-<sprite name='firstRoomBG_0_9' x='4500' y='0'><animation sheet='firstRoomBG_0_9' /></sprite>
-<sprite name='firstRoomBG_1_0' x='0' y='500'><animation sheet='firstRoomBG_1_0' /></sprite>
-<sprite name='firstRoomBG_1_10' x='5000' y='500'><animation sheet='firstRoomBG_1_10' /></sprite>
-<sprite name='firstRoomBG_1_11' x='5500' y='500'><animation sheet='firstRoomBG_1_11' /></sprite>
-<sprite name='firstRoomBG_1_12' x='6000' y='500'><animation sheet='firstRoomBG_1_12' /></sprite>
-<sprite name='firstRoomBG_1_1' x='500' y='500'><animation sheet='firstRoomBG_1_1' /></sprite>
-<sprite name='firstRoomBG_1_2' x='1000' y='500'><animation sheet='firstRoomBG_1_2' /></sprite>
-<sprite name='firstRoomBG_1_3' x='1500' y='500'><animation sheet='firstRoomBG_1_3' /></sprite>
-<sprite name='firstRoomBG_1_4' x='2000' y='500'><animation sheet='firstRoomBG_1_4' /></sprite>
-<sprite name='firstRoomBG_1_5' x='2500' y='500'><animation sheet='firstRoomBG_1_5' /></sprite>
-<sprite name='firstRoomBG_1_6' x='3000' y='500'><animation sheet='firstRoomBG_1_6' /></sprite>
-<sprite name='firstRoomBG_1_7' x='3500' y='500'><animation sheet='firstRoomBG_1_7' /></sprite>
-<sprite name='firstRoomBG_1_8' x='4000' y='500'><animation sheet='firstRoomBG_1_8' /></sprite>
-<sprite name='firstRoomBG_1_9' x='4500' y='500'><animation sheet='firstRoomBG_1_9' /></sprite>
-<sprite name='firstRoomBG_2_0' x='0' y='1000'><animation sheet='firstRoomBG_2_0' /></sprite>
-<sprite name='firstRoomBG_2_10' x='5000' y='1000'><animation sheet='firstRoomBG_2_10' /></sprite>
-<sprite name='firstRoomBG_2_11' x='5500' y='1000'><animation sheet='firstRoomBG_2_11' /></sprite>
-<sprite name='firstRoomBG_2_12' x='6000' y='1000'><animation sheet='firstRoomBG_2_12' /></sprite>
-<sprite name='firstRoomBG_2_1' x='500' y='1000'><animation sheet='firstRoomBG_2_1' /></sprite>
-<sprite name='firstRoomBG_2_2' x='1000' y='1000'><animation sheet='firstRoomBG_2_2' /></sprite>
-<sprite name='firstRoomBG_2_3' x='1500' y='1000'><animation sheet='firstRoomBG_2_3' /></sprite>
-<sprite name='firstRoomBG_2_4' x='2000' y='1000'><animation sheet='firstRoomBG_2_4' /></sprite>
-<sprite name='firstRoomBG_2_5' x='2500' y='1000'><animation sheet='firstRoomBG_2_5' /></sprite>
-<sprite name='firstRoomBG_2_6' x='3000' y='1000'><animation sheet='firstRoomBG_2_6' /></sprite>
-<sprite name='firstRoomBG_2_7' x='3500' y='1000'><animation sheet='firstRoomBG_2_7' /></sprite>
-<sprite name='firstRoomBG_2_8' x='4000' y='1000'><animation sheet='firstRoomBG_2_8' /></sprite>
-<sprite name='firstRoomBG_2_9' x='4500' y='1000'><animation sheet='firstRoomBG_2_9' /></sprite>
-<!--
-<sprite depthing='2' name='firstRoomFG_0_0' x='0' y='0'><animation sheet='firstRoomFG_0_0' /></sprite>
-<sprite depthing='2' name='firstRoomFG_0_2' x='1000' y='0'><animation sheet='firstRoomFG_0_2' /></sprite>
-<sprite depthing='2' name='firstRoomFG_0_3' x='1500' y='0'><animation sheet='firstRoomFG_0_3' /></sprite>
-<sprite depthing='2' name='firstRoomFG_0_4' x='2000' y='0'><animation sheet='firstRoomFG_0_4' /></sprite>
-<sprite depthing='2' name='firstRoomFG_0_5' x='2500' y='0'><animation sheet='firstRoomFG_0_5' /></sprite>
-<sprite depthing='2' name='firstRoomFG_0_6' x='3000' y='0'><animation sheet='firstRoomFG_0_6' /></sprite>
-<sprite depthing='2' name='firstRoomFG_0_7' x='3500' y='0'><animation sheet='firstRoomFG_0_7' /></sprite>
-<sprite depthing='2' name='firstRoomFG_1_0' x='0' y='500'><animation sheet='firstRoomFG_1_0' /></sprite>
-<sprite depthing='2' name='firstRoomFG_1_10' x='5000' y='500'><animation sheet='firstRoomFG_1_10' /></sprite>
-<sprite depthing='2' name='firstRoomFG_1_1' x='500' y='500'><animation sheet='firstRoomFG_1_1' /></sprite>
-<sprite depthing='2' name='firstRoomFG_1_2' x='1000' y='500'><animation sheet='firstRoomFG_1_2' /></sprite>
-<sprite depthing='2' name='firstRoomFG_1_3' x='1500' y='500'><animation sheet='firstRoomFG_1_3' /></sprite>
-<sprite depthing='2' name='firstRoomFG_1_5' x='2500' y='500'><animation sheet='firstRoomFG_1_5' /></sprite>
-<sprite depthing='2' name='firstRoomFG_1_6' x='3000' y='500'><animation sheet='firstRoomFG_1_6' /></sprite>
-<sprite depthing='2' name='firstRoomFG_1_7' x='3500' y='500'><animation sheet='firstRoomFG_1_7' /></sprite>
-<sprite depthing='2' name='firstRoomFG_2_10' x='5000' y='1000'><animation sheet='firstRoomFG_2_10' /></sprite>
-<sprite depthing='2' name='firstRoomFG_2_11' x='5500' y='1000'><animation sheet='firstRoomFG_2_11' /></sprite>
-<sprite depthing='2' name='firstRoomFG_2_1' x='500' y='1000'><animation sheet='firstRoomFG_2_1' /></sprite>
-<sprite depthing='2' name='firstRoomFG_2_2' x='1000' y='1000'><animation sheet='firstRoomFG_2_2' /></sprite>
-<sprite depthing='2' name='firstRoomFG_2_3' x='1500' y='1000'><animation sheet='firstRoomFG_2_3' /></sprite>
-<sprite depthing='2' name='firstRoomFG_2_4' x='2000' y='1000'><animation sheet='firstRoomFG_2_4' /></sprite>
-<sprite depthing='2' name='firstRoomFG_2_5' x='2500' y='1000'><animation sheet='firstRoomFG_2_5' /></sprite>
--->
+		<sprite name='firstRoomBG'>
+			<animation sheet='firstRoomBG' sliced='true' colSize='500' rowSize='500' numCols='13' numRows='3'/>
+		</sprite>
+
 		<sprite name='firstRoomFG' depthing='2'>
   		<animation sheet='firstRoomFG'/>
   	</sprite>
