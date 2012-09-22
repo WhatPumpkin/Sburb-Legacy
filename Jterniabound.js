@@ -179,12 +179,14 @@ Sburb.testCompatibility = function(div, levelName, includeDevTools) {
             Sburb.tests.loading = 5; // Load as arraybuffer, pass to blob builder and generate Blob URI
         } else if(Modernizr.xhrarraybuffer && Modernizr.arraybuffer && Modernizr.arraybuffer.dataview && Modernizr.datauri) {
             Sburb.tests.loading = 4; // Load as arraybuffer, convert to base 64 and generate Data URI
-        } else if(Modernizr.blob && Modernizr.blob.url && Modernizr.blob.creator && Modernizr.arraybuffer && Modernizr.arraybuffer.dataview) {
+        } else if(Modernizr.overridemimetype && Modernizr.blob && Modernizr.blob.url && Modernizr.blob.creator && Modernizr.arraybuffer && Modernizr.arraybuffer.dataview) {
             Sburb.tests.loading = 3; // Load as string, convert to arraybuffer, pass to blob constructor and generate Blob URI
-        } else if(Modernizr.blob && Modernizr.blob.url && Modernizr.blob.builder && Modernizr.arraybuffer && Modernizr.arraybuffer.dataview) {
+        } else if(Modernizr.overridemimetype && Modernizr.blob && Modernizr.blob.url && Modernizr.blob.builder && Modernizr.arraybuffer && Modernizr.arraybuffer.dataview) {
             Sburb.tests.loading = 2; // Load as string, convert to arraybuffer, pass to blob builder and generate Blob URI
-        } else if(Modernizr.datauri) {
+        } else if(Modernizr.overridemimetype && Modernizr.datauri) {
             Sburb.tests.loading = 1; // Load as string, clean it up, convert to base 64 and generate Data URI
+        } else if(Modernizr.vbarray && Modernizr.datauri) {
+            Sburb.tests.loading = 12; // Load as god knows what, use IE hacks, convert to base 64 and generate Data URI
         }
     }
 }

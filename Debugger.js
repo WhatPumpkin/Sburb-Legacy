@@ -35,6 +35,7 @@ Sburb.Debugger = function() {
         "variant3":  "#FF6600",
         "variant2":  "#FF6600",
         "variant1":  "#FF6600",
+        "variant12": "#FF6600",
         "variant0":  "#CC0000",
     };
     // Run tests

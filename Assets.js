@@ -410,7 +410,7 @@ Sburb.loadGenericAsset = function(asset, path, id) {
         // XHR 1, not bad
         var xhr = new XMLHttpRequest();
         xhr.open('GET', assetPath, true);
-        if(xhr.overrideMimeType){xhr.overrideMimeType('text/plain; charset=x-user-defined');}
+        xhr.overrideMimeType('text/plain; charset=x-user-defined');
         xhr.onload = function() {
             if((this.status == 200 || this.status == 0) && this.responseText) {
                 var url = false;
@@ -444,20 +444,11 @@ Sburb.loadGenericAsset = function(asset, path, id) {
                     Sburb.assetManager.blobs[assetPath] = blob; // Save for later
                 } else if(Sburb.tests.loading == 1) {
                     // Clean the string
-                    var bytes;
-                    var binstr
-                    var len;
-                    if(Object.getPrototypeOf(VBArray)){
-                    bytes = new VBArray(this.responseBody).toArray();
-                    len = bytes.length;
-                    }
-                    else{
-                       binstr = this.responseText;
-                       len = binstr.length;
-                       bytes = new Array(len);
-                       for(var i = 0; i < len; i += 1) {
-                           bytes[i] = binstr.charCodeAt(i) & 0xFF;
-                       }
+                    var binstr = this.responseText;
+                    var len = binstr.length;
+                    var bytes = new Array(len);
+                    for(var i = 0; i < len; i += 1) {
+                        bytes[i] = binstr.charCodeAt(i) & 0xFF;
                     }
                     binstr = '';
                     // Don't break the stack - Thanks MDN!
@@ -473,6 +464,34 @@ Sburb.loadGenericAsset = function(asset, path, id) {
                     cleanup();
                     return; // Uh what happened here?
                 }
+                Sburb.assetManager.cache[assetPath] = url; // Save for later
+                asset.success(url,id);
+                cleanup();
+            } else {
+                asset.failure(id);
+                cleanup();
+            }
+        }
+        xhr.onabort = function() { asset.failure(id); cleanup(); };
+        xhr.onerror = function() { asset.failure(id); cleanup(); };
+        xhr.send();
+    } else if(Sburb.tests.loading == 12) {
+        // IE 9 specific BS - May not work but I don't care
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', assetPath, true);
+        xhr.onload = function() {
+            if((this.status == 200 || this.status == 0) && this.responseBody) {
+                // Clean the string
+                var bytes = new VBArray(this.responseBody).toArray();
+                var len = bytes.length;
+                var binstr = '';
+                // Don't break the stack - Thanks MDN!
+                var QUANTUM = 65000;
+                for(var i = 0; i < len; i += QUANTUM) {
+                    binstr += String.fromCharCode.apply(null, bytes.slice(i, Math.min(i + QUANTUM, len)));
+                }
+                var b64 = window.btoa(binstr);
+                var url = "data:"+type+";base64,"+b64;
                 Sburb.assetManager.cache[assetPath] = url; // Save for later
                 asset.success(url,id);
                 cleanup();
