@@ -82,6 +82,7 @@
 	
 	<action sprite='meulin' class='meenahTalk3' command='talk' name='Talk to Meenah.'>
       <args>
+      @meenah_idle MEENAH: what
       @meulin_talk2 MEULIN: (=^･ω･^) &lt; OH!!!!!!!!! I MEANT TO ASK...
       @meulin_talk2 MEULIN: ヽ(=^･ω･^=)丿 &lt; HAVE YOU MET THE HUMANS YET?
       @meenah_idle MEENAH: yeah

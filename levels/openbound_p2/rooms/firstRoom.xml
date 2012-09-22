@@ -100,6 +100,7 @@
 	<asset name='firstRoomStairs1' type='path'>1387,707;1720,997;1720,1036;1387,771</asset>
 	<asset name='firstRoomStairs2' type='path'>4245,882;4390,732;4389,846;4245,990</asset>
 	<asset name='firstRoomStairs3' type='path'>5136,738;5281,880;5281,988;5136,859</asset>
+	<asset name='megaDoorWalkable' type='path'>
 </assets>
 
 <character class='mituna' x='4534' y='670'>	
@@ -227,6 +228,9 @@
 									<args>clubKeyOverlay,firstRoom</args>
 									<action command='removeSprite' noDelay='true'>
 										<args>diamondKeyOverlay,firstRoom</args>
+										<action command='talk'>
+											<args>@! The contents beyond this door (the end of the game) are not in the beta, sorry!</args>
+										</action>
 									</action>
 								</action>
 							</action>
