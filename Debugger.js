@@ -162,7 +162,7 @@ Sburb.Console = function() {
         Sburb.debugger.errors.push({type:type,text:largs.join(', ')});
     }
     var proxy = function(method, args) {
-        return console[method].apply(console, args);
+        return console[method].apply(console, args); // This breaks in IE
     }
     // Import all of console
     for (var prop in console) {

@@ -199,7 +199,7 @@ window.Modernizr = (function(window, document, undefined) {
     }
     // Extra tests
     tests['xmlserializer'] = function() {
-        return !!(new XMLSerializer());
+        return 'XMLSerializer' in window;
     }
     tests['overridemimetype'] = function() {
         return !!((new XMLHttpRequest()).overrideMimeType);

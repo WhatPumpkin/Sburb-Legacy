@@ -480,7 +480,7 @@ Sburb.loadGenericAsset = function(asset, path, id) {
         var xhr = new XMLHttpRequest();
         xhr.open('GET', assetPath, true);
         xhr.onload = function() {
-            if((this.status == 200 || this.status == 0) && this.responseBody) {
+            if((this.status == 200 || this.status == 0) && this.responseText) { // Checking responseBody directly doesn't work??
                 // Clean the string
                 var bytes = new VBArray(this.responseBody).toArray();
                 var len = bytes.length;
