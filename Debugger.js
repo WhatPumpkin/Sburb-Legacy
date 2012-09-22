@@ -35,6 +35,7 @@ Sburb.Debugger = function() {
         "variant3":  "#FF6600",
         "variant2":  "#FF6600",
         "variant1":  "#FF6600",
+        "variant12": "#FF6600",
         "variant0":  "#CC0000",
     };
     // Run tests
@@ -161,7 +162,7 @@ Sburb.Console = function() {
         Sburb.debugger.errors.push({type:type,text:largs.join(', ')});
     }
     var proxy = function(method, args) {
-        return console[method].apply(console, args);
+        return console[method].apply(console, args); // This breaks in IE
     }
     // Import all of console
     for (var prop in console) {
