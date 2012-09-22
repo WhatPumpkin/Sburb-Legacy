@@ -517,7 +517,7 @@ commands.cancel = function(){
 
 
 
-var parseCharacterString = Sburb.parseCharacterString(string){
+var parseCharacterString = Sburb.parseCharacterString = function(string){
 	if(string=="char"){
 		return Sburb.char;
 	}else{
