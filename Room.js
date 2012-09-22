@@ -38,7 +38,9 @@ Sburb.Room.prototype.addTrigger = function(trigger){
 
 //add a Sprite to the room
 Sburb.Room.prototype.addSprite = function(sprite){
-	this.sprites.push(sprite);
+	if(!this.contains(sprite)){
+		this.sprites.push(sprite);
+	}
 }
 
 //remove a Sprite from the room
