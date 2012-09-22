@@ -85,7 +85,7 @@
   <room name='thirdRoom' walkableMap='thirdRoomMap' mapScale='2'>
   	<triggers>
   		<trigger>
-  			<args>inBox2,char,168,2752,924,100</args>
+  			<args>inBox2,char,168,2752,924,3000</args>
   			<action command='changeRoomRemote'>rooms/firstRoom.xml,firstRoom,5412,99</action>
   		</trigger>
 

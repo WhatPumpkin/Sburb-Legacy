@@ -1,0 +1,21 @@
+<sburb description='andrew'>
+
+<classes>
+	<character class='andrew' name='andrew' sx='-50' sy='-110' sWidth='100' sHeight='130' width='40' height='20' 
+	       sheet='andrewSheet' state='walkLeft' facing='Left'>
+		<animation name='sit' sheet='andrewSitSheet' x='-30' y='-65'/>
+	</character>
+	
+</classes>
+
+<assets>
+	<asset name='andrewSheet' type='graphic'>chars/andrew/andrew.png</asset>
+	<asset name='andrewSitSheet' type='graphic'>chars/andrew/ah_sit.png</asset>
+</assets>
+
+<hud>
+  <dialogsprites>	
+    		
+  </dialogsprites>
+</hud>
+</sburb>

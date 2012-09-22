@@ -7,6 +7,7 @@
 	<dependency>chars/seahorsedad.xml</dependency>
 	<dependency>chars/cronus.xml</dependency>
 	<dependency>chars/kankri.xml</dependency>
+	<dependency>chars/andrew.xml</dependency>
 </dependencies>
 
 <assets>
@@ -137,7 +138,7 @@
 </sprite>
 
 
-
+<character class='andrew' x='1190' y='1000'/>
 
 
 
@@ -356,10 +357,13 @@
 				<action command='presentActions'>
 					<args>
 						<action name='Yes.' class='beCronus'>
-							<action command='setGameState'>
-								<args>meenahGone,true</args>
-								<action command='removeSprite'>
-									<args>meenah,firstRoom</args>
+							<action command='playSong'>
+								<args>violetPrinceSong</args>
+								<action command='setGameState'>
+									<args>meenahGone,true</args>
+									<action command='removeSprite'>
+										<args>meenah,firstRoom</args>
+									</action>
 								</action>
 							</action>
 						</action>
