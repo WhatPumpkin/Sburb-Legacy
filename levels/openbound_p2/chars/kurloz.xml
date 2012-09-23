@@ -70,39 +70,39 @@
 </assets>
 
 <sprite name='kurmeme1'>
-	<animation sheet='kurmeme1' colSize='284' rowSize='152' length='21' x='46' y='67'/>
+	<animation  frameInterval='2' sheet='kurmeme1' colSize='284' rowSize='152' length='21' x='46' y='67'/>
 </sprite>
 
 <sprite name='kurmeme2'>
-	<animation sheet='kurmeme2' colSize='218' rowSize='122' length='30' x='70' y='77'/>
+	<animation  frameInterval='2' sheet='kurmeme2' colSize='218' rowSize='122' length='30' x='70' y='77'/>
 </sprite>
 
 <sprite name='kurmeme3'>
-	<animation sheet='kurmeme3' colSize='258' rowSize='195' length='6' x='60' y='40'/>
+	<animation  frameInterval='2' sheet='kurmeme3' colSize='258' rowSize='195' length='6' x='60' y='40'/>
 </sprite>
 
 <sprite name='kurmeme4'>
-	<animation sheet='kurmeme4' colSize='255' rowSize='140' length='6' x='59' y='68'/>
+	<animation  frameInterval='2' sheet='kurmeme4' colSize='255' rowSize='140' length='6' x='59' y='68'/>
 </sprite>
 
 <sprite name='kurmeme5'>
-	<animation sheet='kurmeme5' colSize='308' rowSize='178' length='2' x='48' y='49'/>
+	<animation  frameInterval='2' sheet='kurmeme5' colSize='308' rowSize='178' length='2' x='48' y='49'/>
 </sprite>
 
 <sprite name='kurmeme6'>
-	<animation sheet='kurmeme6' colSize='286' rowSize='189' length='9' x='67' y='45'/>
+	<animation  frameInterval='2' sheet='kurmeme6' colSize='286' rowSize='189' length='9' x='67' y='45'/>
 </sprite>
 
 <sprite name='kurmeme7'>
-	<animation sheet='kurmeme7' colSize='213' rowSize='160' length='20' x='71' y='58'/>
+	<animation  frameInterval='2' sheet='kurmeme7' colSize='213' rowSize='160' length='20' x='71' y='58'/>
 </sprite>
 
 <sprite name='kurmeme8'>
-	<animation sheet='kurmeme8' colSize='235' rowSize='174' length='36' x='65' y='43'/>
+	<animation  frameInterval='2' sheet='kurmeme8' colSize='235' rowSize='174' length='36' x='65' y='43'/>
 </sprite>
 
 <sprite name='kurmeme9'>
-	<animation sheet='kurmeme9' colSize='247' rowSize='186' length='36' x='60' y='44'/>
+	<animation  frameInterval='2' sheet='kurmeme9' colSize='247' rowSize='186' length='36' x='60' y='44'/>
 </sprite>
 
 

@@ -79,55 +79,55 @@
 </assets>
 
 <sprite name='meme1'>
-	<animation sheet='meme1' colSize='259' rowSize='180' length='9' x='54' y='49'/>
+	<animation frameInterval='2' sheet='meme1' colSize='259' rowSize='180' length='9' x='54' y='49'/>
 </sprite>
 <sprite name='meme2'>
-	<animation sheet='meme2' colSize='220' rowSize='168' length='12' x='71' y='56'/>
+	<animation frameInterval='2' sheet='meme2' colSize='220' rowSize='168' length='12' x='71' y='56'/>
 </sprite>
 <sprite name='meme3'>
-	<animation sheet='meme3' colSize='220' rowSize='172' length='2' x='68' y='55'/>
+	<animation frameInterval='2' sheet='meme3' colSize='220' rowSize='172' length='2' x='68' y='55'/>
 </sprite>
 <sprite name='meme4'>
-	<animation sheet='meme4' colSize='194' rowSize='220' length='10' x='54' y='25'/>
+	<animation frameInterval='2' sheet='meme4' colSize='194' rowSize='220' length='10' x='54' y='25'/>
 </sprite>
 <sprite name='meme5'>
-	<animation sheet='meme5' colSize='250' rowSize='170' length='16' x='33' y='52'/>
+	<animation frameInterval='2' sheet='meme5' colSize='250' rowSize='170' length='16' x='33' y='52'/>
 </sprite>
 <sprite name='meme6'>
-	<animation sheet='meme6' colSize='245' rowSize='142' length='28' x='27' y='66'/>
+	<animation frameInterval='2' sheet='meme6' colSize='245' rowSize='142' length='28' x='27' y='66'/>
 </sprite>
 <sprite name='meme7'>
-	<animation sheet='meme7' colSize='264' rowSize='145' length='24' x='24' y='64'/>
+	<animation frameInterval='2' sheet='meme7' colSize='264' rowSize='145' length='24' x='24' y='64'/>
 </sprite>
 <sprite name='meme8'>
-	<animation sheet='meme8' colSize='279' rowSize='149' length='18' x='23' y='59'/>
+	<animation frameInterval='2' sheet='meme8' colSize='279' rowSize='149' length='18' x='23' y='59'/>
 </sprite>
 <sprite name='meme9'>
-	<animation sheet='meme9' colSize='238' rowSize='179' length='24' x='42' y='46'/>
+	<animation frameInterval='2' sheet='meme9' colSize='238' rowSize='179' length='24' x='42' y='46'/>
 </sprite>
 <sprite name='meme10'>
-	<animation sheet='meme10' colSize='239' rowSize='179' length='6' x='252' y='46'/>
+	<animation frameInterval='2' sheet='meme10' colSize='239' rowSize='179' length='6' x='252' y='46'/>
 </sprite>
 <sprite name='meme11'>
-	<animation sheet='meme11' colSize='241' rowSize='136' length='12' x='252' y='70'/>
+	<animation frameInterval='2' sheet='meme11' colSize='241' rowSize='136' length='12' x='252' y='70'/>
 </sprite>
 <sprite name='meme12'>
-	<animation sheet='meme12' colSize='200' rowSize='200' length='20' x='281' y='35'/>
+	<animation frameInterval='2' sheet='meme12' colSize='200' rowSize='200' length='20' x='281' y='35'/>
 </sprite>
 <sprite name='meme13'>
-	<animation sheet='meme13' colSize='368' rowSize='209' length='4' x='154' y='34'/>
+	<animation frameInterval='2' sheet='meme13' colSize='368' rowSize='209' length='4' x='154' y='34'/>
 </sprite>
 <sprite name='meme14'>
-	<animation sheet='meme14' colSize='344' rowSize='192' length='2' x='166' y='41'/>
+	<animation frameInterval='2' sheet='meme14' colSize='344' rowSize='192' length='2' x='166' y='41'/>
 </sprite>
 <sprite name='meme15'>
-	<animation sheet='meme15' colSize='224' rowSize='124' length='12' x='35' y='75'/>
+	<animation frameInterval='2' sheet='meme15' colSize='224' rowSize='124' length='12' x='35' y='75'/>
 </sprite>
 <sprite name='meme16'>
-	<animation sheet='meme16' colSize='242' rowSize='180' length='16' x='25' y='47'/>
+	<animation frameInterval='2' sheet='meme16' colSize='242' rowSize='180' length='16' x='25' y='47'/>
 </sprite>
 <sprite name='meme17'>
-	<animation sheet='meme17' colSize='306' rowSize='201' length='40' x='22' y='32'/>
+	<animation frameInterval='2' sheet='meme17' colSize='306' rowSize='201' length='40' x='22' y='32'/>
 </sprite>
 
 

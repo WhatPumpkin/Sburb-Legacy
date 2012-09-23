@@ -39,7 +39,7 @@
 </assets>
 
 <sprite name='meenahmeme'>
-	<animation sheet='meenahmeme' colSize='253' rowSize='160' length='20' x='244' y='55'/>
+	<animation sheet='meenahmeme' colSize='253' rowSize='160' length='20' x='244' y='55' frameInterval='2'/>
 </sprite>
 
 <hud>
