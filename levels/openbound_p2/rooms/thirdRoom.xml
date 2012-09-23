@@ -59,24 +59,77 @@
 	<asset name='obj16' type='graphic'>objects/items/obj16.png</asset>
 	<asset name='obj17' type='graphic'>objects/items/obj17.png</asset>
 	
-	<asset name='meme10' type='graphic'>interface/backgrounds/meme10.gif</asset>
-<asset name='meme11' type='graphic'>interface/backgrounds/meme11.gif</asset>
-<asset name='meme12' type='graphic'>interface/backgrounds/meme12.gif</asset>
-<asset name='meme13' type='graphic'>interface/backgrounds/meme13.gif</asset>
-<asset name='meme14' type='graphic'>interface/backgrounds/meme14.gif</asset>
-<asset name='meme15' type='graphic'>interface/backgrounds/meme15.gif</asset>
-<asset name='meme16' type='graphic'>interface/backgrounds/meme16.gif</asset>
-<asset name='meme17' type='graphic'>interface/backgrounds/meme17.gif</asset>
-<asset name='meme1' type='graphic'>interface/backgrounds/meme1.gif</asset>
-<asset name='meme2' type='graphic'>interface/backgrounds/meme2.gif</asset>
-<asset name='meme3' type='graphic'>interface/backgrounds/meme3.gif</asset>
-<asset name='meme4' type='graphic'>interface/backgrounds/meme4.gif</asset>
-<asset name='meme5' type='graphic'>interface/backgrounds/meme5.gif</asset>
-<asset name='meme6' type='graphic'>interface/backgrounds/meme6.gif</asset>
-<asset name='meme7' type='graphic'>interface/backgrounds/meme7.gif</asset>
-<asset name='meme8' type='graphic'>interface/backgrounds/meme8.gif</asset>
-<asset name='meme9' type='graphic'>interface/backgrounds/meme9.gif</asset>
+	<asset name='meme10' type='graphic'>interface/backgrounds/meme10.png</asset>
+<asset name='meme11' type='graphic'>interface/backgrounds/meme11.png</asset>
+<asset name='meme12' type='graphic'>interface/backgrounds/meme12.png</asset>
+<asset name='meme13' type='graphic'>interface/backgrounds/meme13.png</asset>
+<asset name='meme14' type='graphic'>interface/backgrounds/meme14.png</asset>
+<asset name='meme15' type='graphic'>interface/backgrounds/meme15.png</asset>
+<asset name='meme16' type='graphic'>interface/backgrounds/meme16.png</asset>
+<asset name='meme17' type='graphic'>interface/backgrounds/meme17.png</asset>
+<asset name='meme1' type='graphic'>interface/backgrounds/meme1.png</asset>
+<asset name='meme2' type='graphic'>interface/backgrounds/meme2.png</asset>
+<asset name='meme3' type='graphic'>interface/backgrounds/meme3.png</asset>
+<asset name='meme4' type='graphic'>interface/backgrounds/meme4.png</asset>
+<asset name='meme5' type='graphic'>interface/backgrounds/meme5.png</asset>
+<asset name='meme6' type='graphic'>interface/backgrounds/meme6.png</asset>
+<asset name='meme7' type='graphic'>interface/backgrounds/meme7.png</asset>
+<asset name='meme8' type='graphic'>interface/backgrounds/meme8.png</asset>
+<asset name='meme9' type='graphic'>interface/backgrounds/meme9.png</asset>
 </assets>
+
+<sprite name='meme1'>
+	<animation sheet='meme1' colSize='259' rowSize='180' length='9' x='54' y='49'/>
+</sprite>
+<sprite name='meme2'>
+	<animation sheet='meme2' colSize='220' rowSize='168' length='12' x='71' y='56'/>
+</sprite>
+<sprite name='meme3'>
+	<animation sheet='meme3' colSize='220' rowSize='172' length='2' x='68' y='55'/>
+</sprite>
+<sprite name='meme4'>
+	<animation sheet='meme4' colSize='194' rowSize='220' length='10' x='54' y='25'/>
+</sprite>
+<sprite name='meme5'>
+	<animation sheet='meme5' colSize='250' rowSize='170' length='16' x='33' y='52'/>
+</sprite>
+<sprite name='meme6'>
+	<animation sheet='meme6' colSize='245' rowSize='142' length='28' x='27' y='66'/>
+</sprite>
+<sprite name='meme7'>
+	<animation sheet='meme7' colSize='264' rowSize='145' length='24' x='24' y='64'/>
+</sprite>
+<sprite name='meme8'>
+	<animation sheet='meme8' colSize='279' rowSize='149' length='18' x='23' y='59'/>
+</sprite>
+<sprite name='meme9'>
+	<animation sheet='meme9' colSize='238' rowSize='179' length='24' x='42' y='46'/>
+</sprite>
+<sprite name='meme10'>
+	<animation sheet='meme10' colSize='239' rowSize='179' length='6' x='252' y='46'/>
+</sprite>
+<sprite name='meme11'>
+	<animation sheet='meme11' colSize='241' rowSize='136' length='12' x='252' y='70'/>
+</sprite>
+<sprite name='meme12'>
+	<animation sheet='meme12' colSize='200' rowSize='200' length='20' x='281' y='35'/>
+</sprite>
+<sprite name='meme13'>
+	<animation sheet='meme13' colSize='368' rowSize='209' length='4' x='154' y='34'/>
+</sprite>
+<sprite name='meme14'>
+	<animation sheet='meme14' colSize='344' rowSize='192' length='2' x='166' y='41'/>
+</sprite>
+<sprite name='meme15'>
+	<animation sheet='meme15' colSize='224' rowSize='124' length='12' x='35' y='75'/>
+</sprite>
+<sprite name='meme16'>
+	<animation sheet='meme16' colSize='242' rowSize='180' length='16' x='25' y='47'/>
+</sprite>
+<sprite name='meme17'>
+	<animation sheet='meme17' colSize='306' rowSize='201' length='40' x='22' y='32'/>
+</sprite>
+
 
 <sprite name='thirdRoomLily' x='1031' y='1891'>
 	<animation sheet='thirdRoomLily'/>
@@ -131,7 +184,15 @@
   	<triggers>
   		<trigger>
   			<args>inBox2,char,168,2752,924,3000</args>
-  			<action command='changeRoomRemote'>rooms/firstRoom.xml,firstRoom,5412,99</action>
+  			<action class='notForYou' />
+	 		</trigger>
+	 		
+  		<trigger>
+  			<args>inBox2,meenah,168,2752,924,3000</args>
+  			<action command='goBack'>
+  				<args>char</args>
+  				<action command='changeRoomRemote'>rooms/firstRoom.xml,firstRoom,5412,99</action>
+  			</action>
   		</trigger>
 
   		<trigger>

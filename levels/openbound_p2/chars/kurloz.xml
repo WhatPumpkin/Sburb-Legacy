@@ -57,17 +57,54 @@
 	<asset name='kurtalk8' type='graphic'>interface/backgrounds/kurtalk8.png</asset>
 	<asset name='kurtalk9' type='graphic'>interface/backgrounds/kurtalk9.png</asset>
 	
-	<asset name='kurmeme1' type='graphic'>interface/backgrounds/kurmeme1.gif</asset>
-	<asset name='kurmeme2' type='graphic'>interface/backgrounds/kurmeme2.gif</asset>
-	<asset name='kurmeme3' type='graphic'>interface/backgrounds/kurmeme3.gif</asset>
-	<asset name='kurmeme4' type='graphic'>interface/backgrounds/kurmeme4.gif</asset>
-	<asset name='kurmeme5' type='graphic'>interface/backgrounds/kurmeme5.gif</asset>
-	<asset name='kurmeme6' type='graphic'>interface/backgrounds/kurmeme6.gif</asset>
-	<asset name='kurmeme7' type='graphic'>interface/backgrounds/kurmeme7.gif</asset>
-	<asset name='kurmeme8' type='graphic'>interface/backgrounds/kurmeme8.gif</asset>
-	<asset name='kurmeme9' type='graphic'>interface/backgrounds/kurmeme9.gif</asset>
+	<asset name='kurmeme1' type='graphic'>interface/backgrounds/kurmeme1.png</asset>
+	<asset name='kurmeme2' type='graphic'>interface/backgrounds/kurmeme2.png</asset>
+	<asset name='kurmeme3' type='graphic'>interface/backgrounds/kurmeme3.png</asset>
+	<asset name='kurmeme4' type='graphic'>interface/backgrounds/kurmeme4.png</asset>
+	<asset name='kurmeme5' type='graphic'>interface/backgrounds/kurmeme5.png</asset>
+	<asset name='kurmeme6' type='graphic'>interface/backgrounds/kurmeme6.png</asset>
+	<asset name='kurmeme7' type='graphic'>interface/backgrounds/kurmeme7.png</asset>
+	<asset name='kurmeme8' type='graphic'>interface/backgrounds/kurmeme8.png</asset>
+	<asset name='kurmeme9' type='graphic'>interface/backgrounds/kurmeme9.png</asset>
 	
 </assets>
+
+<sprite name='kurmeme1'>
+	<animation sheet='kurmeme1' colSize='284' rowSize='152' length='21' x='46' y='67'/>
+</sprite>
+
+<sprite name='kurmeme2'>
+	<animation sheet='kurmeme2' colSize='218' rowSize='122' length='30' x='70' y='77'/>
+</sprite>
+
+<sprite name='kurmeme3'>
+	<animation sheet='kurmeme3' colSize='258' rowSize='195' length='6' x='60' y='40'/>
+</sprite>
+
+<sprite name='kurmeme4'>
+	<animation sheet='kurmeme4' colSize='255' rowSize='140' length='6' x='59' y='68'/>
+</sprite>
+
+<sprite name='kurmeme5'>
+	<animation sheet='kurmeme5' colSize='308' rowSize='178' length='2' x='48' y='49'/>
+</sprite>
+
+<sprite name='kurmeme6'>
+	<animation sheet='kurmeme6' colSize='286' rowSize='189' length='9' x='67' y='45'/>
+</sprite>
+
+<sprite name='kurmeme7'>
+	<animation sheet='kurmeme7' colSize='213' rowSize='160' length='20' x='71' y='58'/>
+</sprite>
+
+<sprite name='kurmeme8'>
+	<animation sheet='kurmeme8' colSize='235' rowSize='174' length='36' x='65' y='43'/>
+</sprite>
+
+<sprite name='kurmeme9'>
+	<animation sheet='kurmeme9' colSize='247' rowSize='186' length='36' x='60' y='44'/>
+</sprite>
+
 
 <hud>
 	<dialogsprites>	

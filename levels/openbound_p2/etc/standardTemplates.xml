@@ -42,6 +42,13 @@
 	  <sprite class='blueBubble' width='20' height='20' depthing='1' collidable='true'>
   		<animation sheet='blueBubbleSheet' x='-20' y='-40' />
   	</sprite>
+  	
+  	<action class='notForYou' command='goBack'>
+			<args>char</args>
+			<action command='talk'>
+				<args>@!:#nice-try Where do you think YOU'RE going! This is Meenah's interactive quest through the afterlife. You can only leave this area if you're being her!</args>
+			</action>
+		</action>
 	  
 	</classes>
 	

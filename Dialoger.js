@@ -325,6 +325,7 @@ Sburb.Dialoger.prototype.update = function(){
 		if(this.graphic){
 			this.graphic.x = this.pos.x;
 			this.graphic.y = this.pos.y;
+			this.graphic.update();
 		}
 		
 	}else {

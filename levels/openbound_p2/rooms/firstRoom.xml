@@ -165,7 +165,15 @@
   		
   		<trigger>
   			<args>inBox2,char,5116,0,5580,66</args>
-  			<action command='changeRoomRemote'>rooms/thirdRoom.xml,thirdRoom,520,2544</action>
+  			<action class='notForYou' />
+  		</trigger>
+  		
+  		<trigger>
+  			<args>inBox2,meenah,5116,0,5580,66</args>
+  			<action command='goBack'>
+  				<args>char</args>
+  				<action command='changeRoomRemote'>rooms/thirdRoom.xml,thirdRoom,520,2544</action>
+  			</action>
   		</trigger>
   		
   		<trigger detonate='true'>
@@ -263,6 +271,7 @@
 															<args>mituna,
 																<action class='mitunaTalk4'/>
 																<action class='mitunaTalk7'/>
+																<action class='beMituna'/>
 															</args>
 															<action command='removeAction' noDelay='true'>
 																<args>mituna,Grill Mituna.</args>
@@ -372,6 +381,9 @@
 									<args>meenahGone,true</args>
 									<action command='removeSprite'>
 										<args>meenah,firstRoom</args>
+										<action command='removeActions'>
+											<args>mituna,Be Mituna.</args>
+										</action>
 									</action>
 								</action>
 							</action>
