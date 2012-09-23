@@ -369,7 +369,7 @@ Sburb.Animation.prototype.serialize = function(output){
 	}
 
 	output = output.concat("\n<animation "+
-		("sheet='"+this.sheet.name+"' ")+
+		("sheet='"+(this.sheet.name?this.sheet.name:this.sheet+"' ")+
 		((this.name!="image")?"name='"+this.name+"' ":"")+
 		Sburb.serializeAttributes(this,"x","y")+
 		((this.rowSize!=this.sheet.height)?"rowSize='"+this.rowSize+"' ":"")+
@@ -379,6 +379,7 @@ Sburb.Animation.prototype.serialize = function(output){
 		((frameInterval!=="")?"frameInterval='"+frameInterval+"' ":"")+
 		((this.loopNum!=-1)?"loopNum='"+this.loopNum+"' ":"")+
 		Sburb.serializeAttributes(this,"folowUp","flipX","flipY")+
+		(this.sliced?("sliced='true' numCols='"+this.numCols+"' numRows='"+this.numRows+"' "):(""))+
 		" />");
 	return output;
 }
