@@ -221,8 +221,8 @@ Sburb.Animation.prototype.drawSliced = function(x,y){
 				var sheet = this.sheets[colNum][rowNum];
 				var frameX = 0;
 				var frameY = 0;
-				var drawWidth = this.colSize;
-				var drawHeight = this.rowSize;
+				var drawWidth = sheet.width;
+				var drawHeight = sheet.height;
 				var x = this.x+colNum*this.colSize;
 				var y = this.y+rowNum*this.rowSize;
 				
