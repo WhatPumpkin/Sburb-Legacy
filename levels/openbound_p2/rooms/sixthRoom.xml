@@ -1,0 +1,51 @@
+<sburb description="sixth room">
+
+<dependencies>
+
+</dependencies>
+
+<assets>
+	
+	<asset name='sixthRoomBG_0_0' type='graphic'>backgrounds/slices/sixthRoomBG_0_0.png</asset>
+	<asset name='sixthRoomBG_0_1' type='graphic'>backgrounds/slices/sixthRoomBG_0_1.png</asset>
+	<asset name='sixthRoomBG_0_2' type='graphic'>backgrounds/slices/sixthRoomBG_0_2.png</asset>
+	<asset name='sixthRoomBG_0_3' type='graphic'>backgrounds/slices/sixthRoomBG_0_3.png</asset>
+	<asset name='sixthRoomBG_1_0' type='graphic'>backgrounds/slices/sixthRoomBG_1_0.png</asset>
+	<asset name='sixthRoomBG_1_1' type='graphic'>backgrounds/slices/sixthRoomBG_1_1.png</asset>
+	<asset name='sixthRoomBG_1_2' type='graphic'>backgrounds/slices/sixthRoomBG_1_2.png</asset>
+	<asset name='sixthRoomBG_1_3' type='graphic'>backgrounds/slices/sixthRoomBG_1_3.png</asset>
+	<asset name='sixthRoomBG_2_0' type='graphic'>backgrounds/slices/sixthRoomBG_2_0.png</asset>
+	<asset name='sixthRoomBG_2_1' type='graphic'>backgrounds/slices/sixthRoomBG_2_1.png</asset>
+	<asset name='sixthRoomBG_2_2' type='graphic'>backgrounds/slices/sixthRoomBG_2_2.png</asset>
+	<asset name='sixthRoomBG_2_3' type='graphic'>backgrounds/slices/sixthRoomBG_2_3.png</asset>
+	<asset name='sixthRoomBG_3_0' type='graphic'>backgrounds/slices/sixthRoomBG_3_0.png</asset>
+	<asset name='sixthRoomBG_3_1' type='graphic'>backgrounds/slices/sixthRoomBG_3_1.png</asset>
+	<asset name='sixthRoomBG_3_2' type='graphic'>backgrounds/slices/sixthRoomBG_3_2.png</asset>
+	<asset name='sixthRoomBG_3_3' type='graphic'>backgrounds/slices/sixthRoomBG_3_3.png</asset>
+	<asset name='sixthRoomFG_1_2' type='graphic'>backgrounds/slices/sixthRoomFG_1_2.png</asset>
+	<asset name='sixthRoomFG_1_3' type='graphic'>backgrounds/slices/sixthRoomFG_1_3.png</asset>
+	<asset name='sixthRoomFG_2_1' type='graphic'>backgrounds/slices/sixthRoomFG_2_1.png</asset>
+	<asset name='sixthRoomFG_2_2' type='graphic'>backgrounds/slices/sixthRoomFG_2_2.png</asset>
+	<asset name='sixthRoomFG_2_3' type='graphic'>backgrounds/slices/sixthRoomFG_2_3.png</asset>
+	<asset name='sixthRoomFG_3_1' type='graphic'>backgrounds/slices/sixthRoomFG_3_1.png</asset>
+	<asset name='sixthRoomFG_3_2' type='graphic'>backgrounds/slices/sixthRoomFG_3_2.png</asset>
+	<asset name='sixthRoomFG_3_3' type='graphic'>backgrounds/slices/sixthRoomFG_3_3.png</asset>
+	
+	<asset name='sixthRoomMap' type='graphic'>backgrounds/sixthRoomMap.png</asset>
+</assets>
+
+
+<rooms>
+  <room name='sixthRoom' walkableMap='sixthRoomMap' mapScale='2'>
+  	
+  	<sprite name='sixthRoomBG'>
+  		<animation sheet='sixthRoomBG'  sliced='true' colSize='500' rowSize='500' numCols='4' numRows='4'/>
+  	</sprite>
+  	
+  	<sprite name='sixthRoomFG' depthing='2'>
+  		<animation sheet='sixthRoomFG'  sliced='true' colSize='500' rowSize='500' numCols='4' numRows='4'/>
+  	</sprite>
+  </room> 
+</rooms>
+
+</sburb>

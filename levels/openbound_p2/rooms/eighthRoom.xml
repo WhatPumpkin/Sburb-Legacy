@@ -1,0 +1,27 @@
+<sburb description="eighth room">
+
+<dependencies>
+
+</dependencies>
+
+<assets>
+	<asset name='eighthRoomBG_0_0' type='graphic'>backgrounds/slices/eighthRoomBG_0_0.png</asset>
+	<asset name='eighthRoomBG_0_1' type='graphic'>backgrounds/slices/eighthRoomBG_0_1.png</asset>
+	<asset name='eighthRoomBG_1_0' type='graphic'>backgrounds/slices/eighthRoomBG_1_0.png</asset>
+	<asset name='eighthRoomBG_1_1' type='graphic'>backgrounds/slices/eighthRoomBG_1_1.png</asset>
+	<asset name='eighthRoomBG_2_0' type='graphic'>backgrounds/slices/eighthRoomBG_2_0.png</asset>
+	<asset name='eighthRoomBG_2_1' type='graphic'>backgrounds/slices/eighthRoomBG_2_1.png</asset>
+
+	<asset name='eighthRoomMap' type='graphic'>backgrounds/eighthRoomMap.png</asset>
+</assets>
+
+
+<rooms>
+  <room name='eighthRoom' walkableMap='eighthRoomMap' mapScale='2'>
+  	<sprite name='eighthRoomBG'>
+  		<animation sheet='eighthRoomBG'  sliced='true' colSize='500' rowSize='500' numCols='3' numRows='2'/>
+  	</sprite>
+  </room> 
+</rooms>
+
+</sburb>

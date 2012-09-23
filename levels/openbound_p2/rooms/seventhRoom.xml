@@ -1,0 +1,30 @@
+<sburb description="seventh room">
+
+<dependencies>
+
+</dependencies>
+
+<assets>
+	
+	<asset name='seventhRoomBG_0_0' type='graphic'>backgrounds/slices/seventhRoomBG_0_0.png</asset>
+	<asset name='seventhRoomBG_0_1' type='graphic'>backgrounds/slices/seventhRoomBG_0_1.png</asset>
+	<asset name='seventhRoomBG_1_0' type='graphic'>backgrounds/slices/seventhRoomBG_1_0.png</asset>
+	<asset name='seventhRoomBG_1_1' type='graphic'>backgrounds/slices/seventhRoomBG_1_1.png</asset>
+	<asset name='seventhRoomBG_1_2' type='graphic'>backgrounds/slices/seventhRoomBG_1_2.png</asset>
+	<asset name='seventhRoomBG_2_0' type='graphic'>backgrounds/slices/seventhRoomBG_2_0.png</asset>
+	<asset name='seventhRoomBG_2_1' type='graphic'>backgrounds/slices/seventhRoomBG_2_1.png</asset>
+	
+	<asset name='seventhRoomMap' type='graphic'>backgrounds/seventhRoomMap.png</asset>
+</assets>
+
+
+<rooms>
+  <room name='seventhRoom' walkableMap='seventhRoomMap' mapScale='2'>
+  	
+  	<sprite name='seventhRoomBG'>
+  		<animation sheet='seventhRoomBG'  sliced='true' colSize='500' rowSize='500' numCols='3' numRows='3'/>
+  	</sprite>
+  </room> 
+</rooms>
+
+</sburb>

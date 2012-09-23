@@ -1,0 +1,39 @@
+<sburb description="fifth room">
+
+<dependencies>
+	<dependency>chars/karkat.xml</dependency>
+	<dependency>chars/terezi.xml</dependency>
+</dependencies>
+
+<assets>
+	<asset name='fifthRoomBG_0_0' type='graphic'>backgrounds/slices/fifthRoomBG_0_0.png</asset>
+	<asset name='fifthRoomBG_0_1' type='graphic'>backgrounds/slices/fifthRoomBG_0_1.png</asset>
+	<asset name='fifthRoomBG_1_0' type='graphic'>backgrounds/slices/fifthRoomBG_1_0.png</asset>
+	<asset name='fifthRoomBG_1_1' type='graphic'>backgrounds/slices/fifthRoomBG_1_1.png</asset>
+	<asset name='fifthRoomBG_2_0' type='graphic'>backgrounds/slices/fifthRoomBG_2_0.png</asset>
+	<asset name='fifthRoomBG_2_1' type='graphic'>backgrounds/slices/fifthRoomBG_2_1.png</asset>
+	<asset name='fifthRoomFG_1_1' type='graphic'>backgrounds/slices/fifthRoomFG_1_1.png</asset>
+
+	<asset name='fifthRoomMap' type='graphic'>backgrounds/fifthRoomMap.png</asset>
+	
+	<asset name='crabdadIdle' type='graphic'>objects/crabdadIdle.png</asset>
+</assets>
+
+
+<rooms>
+  <room name='fifthRoom' walkableMap='fifthRoomMap' mapScale='2'>
+  	
+  	<sprite name='crabdad' x='924' y='804' width='128' height='40' depthing='1' collidable='true'>
+  		<animation sheet='crabdadIdle' x='-64' y='-158' length='4' frameInterval='8'/>
+  	</sprite>
+  	
+  	<sprite name='fifthRoomBG'>
+  		<animation sheet='fifthRoomBG'  sliced='true' colSize='500' rowSize='500' numCols='3' numRows='2'/>
+  	</sprite>
+  	<sprite name='fifthRoomFG' depthing='2'>
+  		<animation sheet='fifthRoomFG'  sliced='true' colSize='500' rowSize='500' numCols='3' numRows='2'/>
+  	</sprite>
+  </room> 
+</rooms>
+
+</sburb>

@@ -1,0 +1,54 @@
+<sburb description='karkat'>
+
+<dependencies>
+	<!--<dependency>dialogs/karkatDialog.xml</dependency>-->
+</dependencies>
+
+<classes>
+	<animation class='karkat-dialog' frameInterval='6' x='-180' y='-524'/>
+	
+	<character class='karkat' name='karkat' sx='-50' sy='-110' sWidth='100' sHeight='130' width='30' height='15' sheet='karkatSheet' state='walkFront' facing='Front'>
+		
+	</character>
+	
+	<action class='beKarkat' name='Be Karkat.' command='changeChar'>
+		<args>karkat</args>
+		<action command='playSong'>
+			<args>hateYouSong</args>
+		</action>
+	</action>
+</classes>
+
+<assets>
+
+	<asset name='karkatSheet' type='graphic'>chars/karkat/karkat.png</asset>
+
+	<!--<asset name='hateYouSong' type='audio'>audio/music/HateYouLoop.oga;audio/music/HateYouLoop.mp3</asset> --><!-- loops to 0 -->
+	
+	<asset name='karkat_eyeroll1' type='graphic'>dialogs/karkat_eyeroll1.png</asset>
+	<asset name='karkat_eyeroll2' type='graphic'>dialogs/karkat_eyeroll2.png</asset>
+	<asset name='karkat_facepalm' type='graphic'>dialogs/karkat_facepalm.png</asset>
+	<asset name='karkat_horror' type='graphic'>dialogs/karkat_horror.png</asset>
+	<asset name='karkat_idle' type='graphic'>dialogs/karkat_idle.png</asset>
+	<asset name='karkat_shout' type='graphic'>dialogs/karkat_shout.png</asset>
+	<asset name='karkat_sullen' type='graphic'>dialogs/karkat_sullen.png</asset>
+	<asset name='karkat_talk' type='graphic'>dialogs/karkat_talk.png</asset>
+	<asset name='karkat_what' type='graphic'>dialogs/karkat_what.png</asset>
+	<asset name='karkat_yell' type='graphic'>dialogs/karkat_yell.png</asset>
+</assets>
+
+<hud>
+	<dialogsprites>	
+  		<animation name='karkat_eyeroll1' class='karkat-dialog' sheet='karkat_eyeroll1' />
+			<animation name='karkat_eyeroll2' class='karkat-dialog' sheet='karkat_eyeroll2' />
+			<animation name='karkat_facepalm' class='karkat-dialog' sheet='karkat_facepalm'  length='2'/>
+			<animation name='karkat_horror' class='karkat-dialog' sheet='karkat_horror' />
+			<animation name='karkat_idle' class='karkat-dialog' sheet='karkat_idle' />
+			<animation name='karkat_shout' class='karkat-dialog' sheet='karkat_shout'  length='2'/>
+			<animation name='karkat_sullen' class='karkat-dialog' sheet='karkat_sullen' />
+			<animation name='karkat_talk' class='karkat-dialog' sheet='karkat_talk'  length='2'/>
+			<animation name='karkat_what' class='karkat-dialog' sheet='karkat_what' />
+			<animation name='karkat_yell' class='karkat-dialog' sheet='karkat_yell' length='2' />
+  </dialogsprites>
+</hud>
+</sburb>
