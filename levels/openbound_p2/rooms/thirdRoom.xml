@@ -168,7 +168,7 @@
 </sprite>
 
 <sprite class='chest3' name='thirdRoomChest10' x='1365' y='2109'>
-  <action command='openChest' name='open'>
+  <action command='openChest' name='Open.'>
 		<args>thirdRoomChest10,obj10,
 			@! You got a COD PIECE!
 			@! So soft, so inviting... you are fighting the temptation to wear it right now with all your might. If the crotch was any more forgiving, it would be canonized by the Vatican.
@@ -340,7 +340,7 @@
   	</sprite>
   	
   	<sprite class='chest3' name='thirdRoomChest9' x='855' y='2646'>
-			<action command='openChest' name='open'>
+			<action command='openChest' name='Open.'>
 		  <args>thirdRoomChest9,obj09,
 		    @! You got a TAROT DECK!
 		    @!:#highly-desirable-merchandise Any aspiring seer would be crazy not to keep one of these on hand. Maybe you'll try selling it to Kankri later, or that talkative broad in the orange nightgown.
@@ -351,7 +351,7 @@
   	
   	
   	<sprite class='chest3' name='thirdRoomChest11' x='186' y='1680'>
-			<action command='openChest' name='open'>
+			<action command='openChest' name='Open.'>
 				<args>thirdRoomChest11,obj11,
 				  @! You got a JUJU!
 				  @! A VOODOO DOLL to be exact. You wonder what happens if you pull one of these pins...
@@ -362,7 +362,7 @@
   	</sprite>
   	
   	<sprite class='chest3' name='thirdRoomChest12' x='921' y='1539'>
-			<action command='openChest' name='open'>
+			<action command='openChest' name='Open.'>
 				<args>thirdRoomChest12,obj12,
 					@! You got a SPADE KEY!
 				</args>
@@ -386,7 +386,7 @@
   	</sprite>
   	
   	<sprite class='chest3' name='thirdRoomChest13' x='228' y='570'>
-			 <action command='openChest' name='open'>
+			 <action command='openChest' name='Open.'>
 		  <args>thirdRoomChest13,obj13,
 		    @! You got an OLIVE POTION!
 		    @! This is supposed to be a love potion. Just one sip and AUGH, IT'S JUST MORE NASTY TROLL BLOOD. What the hell is going on here? Who is even bottling this stuff?
@@ -397,7 +397,7 @@
   	</sprite>
   	
   	<sprite class='chest3' name='thirdRoomChest14' x='288' y='543'>
-			 <action command='openChest' name='open'>
+			 <action command='openChest' name='Open.'>
 		  <args>thirdRoomChest14,obj14,
 		    @! You got a TEA POT!
 		    @! mmmm
@@ -407,7 +407,7 @@
   	</sprite>
   	
   	<sprite class='chest3' name='thirdRoomChest15' x='348' y='528'>
-			  <action command='openChest' name='open'>
+			  <action command='openChest' name='Open.'>
 				<args>thirdRoomChest15,obj15,
 				  @! You got a pair of ACTION CLAWS!
 				  @! Whoa, easy there... you could accidentally grab one of them firmly, and then drag it across your face diagonally if you're not careful.
@@ -416,7 +416,7 @@
   	</sprite>
   	
   	<sprite class='chest3' name='thirdRoomChest16' x='936' y='393'>
-		  <action command='openChest' name='open'>
+		  <action command='openChest' name='Open.'>
 				<args>thirdRoomChest16,obj16,
 					@! You got a HEART KEY!
 				</args>
@@ -440,7 +440,7 @@
   	</sprite>
   	
   	<sprite class='chest3' name='thirdRoomChest17' x='681' y='1155'>
-			 <action command='openChest' name='open'>
+			 <action command='openChest' name='Open.'>
 				<args>thirdRoomChest17,obj17,
 				  @! You got a JUJU!
 				  @! Looks to be a CHESS SET, to be specific. It's quite lovely. But...

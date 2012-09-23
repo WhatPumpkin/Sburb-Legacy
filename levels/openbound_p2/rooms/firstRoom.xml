@@ -468,11 +468,11 @@
   	
   	<sprite name='megaDoor' x='2124' y='644' width='100' height='60'>
   		<animation name='closed' sheet='megaDoorClosed' x='-60' y='-144'/>
-  		<animation name='open' sheet='megaDoorOpen' x='-60' y='-144'/>
+  		<animation name='Open.' sheet='megaDoorOpen' x='-60' y='-144'/>
   	</sprite>
   	
   	<sprite class='chest2' name='firstRoomChest1' x='1230' y='208'>
-			<action command='openChest' name='open'>
+			<action command='openChest' name='Open.'>
 					<args>firstRoomChest1,obj01,
 						@! You got an ALTERNIAN SOFT DRINK!
 						@! You're not really up on Alternian history, but apparently at some point the empress got fed up with the Subjugglators' stranglehold on the soda market, and released a drink that was said to be more loaded with sugar than even the wicked elixir itself. The Highbloods considered such marketing reports to be blasphemous lies, however. And they were right. The beverage actually contained zero calories, which she secretly mandated so as to preserve her slim figure. But all the lowblood suckers guzzled cans down by the billions none the wiser, while the crafty Condesce raked in the cash.
@@ -482,11 +482,11 @@
   	</sprite>
   	
   	<sprite class='chest2' name='firstRoomChest2' x='1194' y='1090'>
-			<action sprite='!cronus' command='talk' name='open'>
+			<action sprite='!cronus' command='talk' name='Open.'>
 				<args> @! Can't open it! Maybe if you try with someone else...</args>
 			</action>
 			
-			<action sprite='cronus' command='openChest' name='open'>
+			<action sprite='cronus' command='openChest' name='Open.'>
 				<args>firstRoomChest2,obj02,
 				  @! Hey Eridan! Or whatever your name is! I'll go on a date with you!!!
 				  @cronus_surprised CRONUS: you vwill?
@@ -495,10 +495,13 @@
 				</args>
 				<action command='addSprite'>
 					<args>andrew,firstRoom</args>
-					<action command='follow'>
+					<action command='follow' noDelay='true'>
 						<args>andrew,cronus</args>
-						<action command='setGameState'>
+						<action command='setGameState' noDelay='true'>
 							<args>hussieFollow,true</args>
+							<action command='removeAction' noDelay='true'>
+								<args>firstRoomChest1,Open.</args>
+							</action>
 						</action>
 					</action>
 				</action>
@@ -506,7 +509,7 @@
   	</sprite>
   	
   	<sprite class='chest2' name='firstRoomChest3' x='2274' y='658'>
-			<action command='openChest' name='open'>
+			<action command='openChest' name='Open.'>
 				<args>firstRoomChest3,obj03,
 				  @! You got a DIAMOND KEY!
 				</args>
@@ -530,7 +533,7 @@
   	</sprite>
   	
   	<sprite class='chest2' name='firstRoomChest4' x='2364' y='236'>
-			<action command='openChest' name='open'>
+			<action command='openChest' name='Open.'>
 				<args>firstRoomChest4,obj04,
 					@! You got a CLAWSICKLE!
 					@!:#so,#there's-that-too You absolutely love this due to its nautical nature. Also, hoarding items such as this will nicely complement your increasingly manic obsession with Karkat.
@@ -539,7 +542,7 @@
   	</sprite>
   	
   	<sprite class='chest2' name='firstRoomChest5' x='3106' y='290'>
-			<action command='openChest' name='open'>
+			<action command='openChest' name='Open.'>
 				<args>firstRoomChest5,obj05,
 				  @! You got a whole bunch of SEA DWELLER BLING!
 				  @! It's pretty obvious this all belongs to Cronus over there. He's just not wearing it right now so he can convince everyone he doesn't feel like his royalty status is a big deal, even though he does.
@@ -549,7 +552,7 @@
   	</sprite>
   	
   	<sprite class='chest2' name='firstRoomChest6' x='3950' y='230' width='100' height='100' collidable='false'>
-			<action command='openChest' name='open'>
+			<action command='openChest' name='Open.'>
 				<args>firstRoomChest6,obj06,
 				  @! You got AHAB'S CROSSHAIRS!
 				  @! You raise this awesome legendary weapon to the heavens and watch it sparkle a bit...
@@ -559,7 +562,7 @@
   	</sprite>
   	
   	<sprite class='chest2' name='firstRoomChest7' x='4300' y='1024'>
-			<action command='openChest' name='open'>
+			<action command='openChest' name='Open.'>
 				<args>firstRoomChest7,obj07,
 				  @! You got GAME GRUB MAGAZINE!
 				  @! This publication is absolutely dripping with exclusive grub leaks. Actually it's a pretty disgusting magazine.
@@ -570,7 +573,7 @@
   	
   	
   	<sprite class='chest2' name='firstRoomChest8' x='5936' y='146'>
-			 <action command='openChest' name='open'>
+			 <action command='openChest' name='Open.'>
 				<args>firstRoomChest8,obj08,
 				  @! You got a CLUB KEY!
 				</args>
