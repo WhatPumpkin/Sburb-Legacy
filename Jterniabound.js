@@ -199,7 +199,8 @@ Sburb.initialize = function(div,levelName,includeDevTools){
 	Sburb.debugger = new Sburb.Debugger(); // Load debugger first! -- But not quite
     
 	var deploy = '   \
-	<div style="padding-left: 0;\
+	<div style="position: relative;\
+        padding-left: 0;\
 		padding-right: 0;\
 		margin-left: auto;\
 		margin-right: auto;\
