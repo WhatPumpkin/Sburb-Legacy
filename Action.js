@@ -31,7 +31,7 @@ Sburb.Action.prototype.serialize = function(output){
 	output = output.concat("\n<action "+
 		"command='"+this.command+
 		(this.sprite?"' sprite='"+this.sprite:"")+
-		(this.name?"' name='"+this.name:"")+
+		(this.name?"' name='"+escape(this.name):"")+
 		(this.noWait?"' noWait='"+this.noWait:"")+
 		(this.noDelay?"' noDelay='"+this.noDelay:"")+
 		(this.soft?"' soft='"+this.soft:"")+
@@ -66,10 +66,11 @@ Sburb.parseAction = function(node) {
 			targSprite = attributes.getNamedItem("sprite").value;
 		}
 		var times = attributes.getNamedItem("times") || attributes.getNamedItem("loops") || attributes.getNamedItem("for");
+
 		var newAction = new Sburb.Action(
 					 attributes.getNamedItem("command").value,
 					 node.firstChild?unescape(getNodeText(node)).trim():"",
-					 attributes.getNamedItem("name")?attributes.getNamedItem("name").value:null,
+					 attributes.getNamedItem("name")?unescape(attributes.getNamedItem("name").value):null,
 					 targSprite,
 					 null,
 					 attributes.getNamedItem("noWait")?attributes.getNamedItem("noWait").value=="true":false,
