@@ -152,10 +152,13 @@ Sburb.Dialoger.prototype.nextDialog = function(){
 		}
 		var resource = prefix.substring(firstIndex+1,lastIndex);	
 		prefix = prefix.substring(0,firstIndex)+prefix.substring(lastIndex,prefix.length);	
-		var img = Sburb.assets[resource];
-		this.graphic = new Sburb.Sprite();
-		this.graphic.addAnimation(new Sburb.Animation("image",img,0,0,img.width,img.height,0,1,1));
-		this.graphic.startAnimation("image");
+		this.graphic = Sburb.sprites[resource];
+		if(!this.graphic){
+			var img = Sburb.assets[resource];
+			this.graphic = new Sburb.Sprite();
+			this.graphic.addAnimation(new Sburb.Animation("image",img,0,0,img.width,img.height,0,1,1));
+			this.graphic.startAnimation("image");
+		}
 	}else{
 		this.graphic = null;
 	}
@@ -322,6 +325,7 @@ Sburb.Dialoger.prototype.update = function(){
 		if(this.graphic){
 			this.graphic.x = this.pos.x;
 			this.graphic.y = this.pos.y;
+			this.graphic.update();
 		}
 		
 	}else {
@@ -411,14 +415,19 @@ Sburb.Dialoger.prototype.decideDialogDimensions = function(){
 
 //set the dialog box graphic
 Sburb.Dialoger.prototype.setBox = function(box){
-	var boxAsset = Sburb.assets[box];
-	
-	var dialogBox = new Sburb.Sprite("dialogBox",Sburb.Stage.width+1,1000,boxAsset.width,boxAsset.height, null,null,0);
-  	dialogBox.addAnimation(new Sburb.Animation("image",boxAsset,0,0,boxAsset.width,boxAsset.height,0,1,1));
-	dialogBox.startAnimation("image");
-	
+	var dialogBox = Sburb.sprites[box];
+	if(!dialogBox){
+		var boxAsset = Sburb.assets[box];
+
+		dialogBox = new Sburb.Sprite("dialogBox",Sburb.Stage.width+1,1000,boxAsset.width,boxAsset.height, null,null,0);
+			dialogBox.addAnimation(new Sburb.Animation("image",boxAsset,0,0,boxAsset.width,boxAsset.height,0,1,1));
+		dialogBox.startAnimation("image");
+	}
 	if(!this.box){
 		this.defaultBox = dialogBox;
+	}else{
+		dialogBox.x = this.box.x;
+		dialogBox.y = this.box.y;
 	}
 	this.box = dialogBox;
 }
