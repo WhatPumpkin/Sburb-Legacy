@@ -369,7 +369,7 @@ Sburb.Animation.prototype.serialize = function(output){
 	}
 
 	output = output.concat("\n<animation "+
-		("sheet='"+(this.sheet.name?this.sheet.name:this.sheet+"' ")+
+		("sheet='"+(this.sheet.name?this.sheet.name:this.sheet)+"' ")+
 		((this.name!="image")?"name='"+this.name+"' ":"")+
 		Sburb.serializeAttributes(this,"x","y")+
 		((this.rowSize!=this.sheet.height)?"rowSize='"+this.rowSize+"' ":"")+
