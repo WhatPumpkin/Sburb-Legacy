@@ -70,7 +70,7 @@ Sburb.parseAction = function(node) {
 		var newAction = new Sburb.Action(
 					 attributes.getNamedItem("command").value,
 					 node.firstChild?unescape(getNodeText(node)).trim():"",
-					 attributes.getNamedItem("name")?attributes.getNamedItem("name").value:null,
+					 attributes.getNamedItem("name")?unescape(attributes.getNamedItem("name").value):null,
 					 targSprite,
 					 null,
 					 attributes.getNamedItem("noWait")?attributes.getNamedItem("noWait").value=="true":false,
