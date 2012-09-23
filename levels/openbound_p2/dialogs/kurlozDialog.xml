@@ -42,14 +42,7 @@
 		</action>
 
 
-		<action sprite='meenah' class='kurlozTalk4' command='talk' name="Wait... what's that Kurloz?">
-      <args>
-      @kurloz_thumbsup:#:o) KURLOZ: 
-      @! It seems all those jujus you've been collecting have caught his eye.
-      @! REST OF THIS CONVERSATION COMING LATER
-      <!--  -->
-      </args>
-		</action>
+		
 		
 		<action sprite='meulin' class='kurlozTalk5' command='talk' name='Talk to Kurloz.'>
       <args>

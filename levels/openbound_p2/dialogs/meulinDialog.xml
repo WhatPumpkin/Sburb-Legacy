@@ -119,6 +119,7 @@
 
 <action sprite='kurloz' class='meulinTalk3' command='talk' name='Talk to Meulin.'>
       <args>
+      @kurloz_bye KURLOZ: :o) 
       @meulin_wut MEULIN: ヾ(=ﾟ･ﾟ=)ﾉ &lt; WHEW...
       @meulin_wut MEULIN: (^./_.^) &lt; KURZORZ, MY HEAD F33LS REALLY FOGGY.
       @meulin_wut:#DID-WE-JUST-TOKE-ON-SOME-BAD-NIP-OR-SOMETHING? MEULIN: (^./_.^) &lt; WHAT JUST HAPPENED? I DON'T EVEN REMEMBER WALKING OVER HERE.

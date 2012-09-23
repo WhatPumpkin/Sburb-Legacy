@@ -229,7 +229,7 @@
 									<action command='removeSprite' noDelay='true'>
 										<args>diamondKeyOverlay,firstRoom</args>
 										<action command='talk'>
-											<args>@! The contents beyond this door (the end of the game) are not in the beta, sorry!</args>
+											<args>@!:#thanks-for-testing! That's the end of the beta version. The rest of the game will be available when it's released on the site.</args>
 										</action>
 									</action>
 								</action>
@@ -469,7 +469,7 @@
 			</action>
   	</sprite>
   	
-  	<sprite class='chest2' name='firstRoomChest2' x='1094' y='880'>
+  	<sprite class='chest2' name='firstRoomChest2' x='1194' y='1090'>
 			<action sprite='!cronus' command='talk' name='open'>
 				<args> @! Can't open it! Maybe if you try with someone else...</args>
 			</action>

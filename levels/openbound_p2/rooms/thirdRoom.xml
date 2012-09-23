@@ -168,7 +168,7 @@
   		
   		<trigger>
   			<args>spriteProperty,char,name=kurloz</args>
-  			<args>withinRange,kurloz,meenah,30</args>
+  			<args>withinRange,kurloz,meenah,80</args>
   			<action command='goBack'>
   				<args>char</args>
   				<action class='kurlozTalk7' />
@@ -193,7 +193,6 @@
   		<action class='kurlozTalk1' />
   		<action class='kurlozTalk2' />
   		<action class='kurlozTalk3' />
-  		<action class='kurlozTalk4' />
   		<action class='kurlozTalk5' >
   			<action command='presentActions'>
   				<args>
