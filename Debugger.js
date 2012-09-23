@@ -5,7 +5,7 @@ var Sburb = (function(Sburb){
 ////////////////////////////////////////////
 
 Sburb.Debugger = function() {
-    this.url = "http://homestuck.org/SburbDebugger/report.php";
+    this.url = "http://sburb.info/report/version1/";
     this.fps = 0;
     this.errors = [];
     this.xhrs = [];
@@ -13,6 +13,9 @@ Sburb.Debugger = function() {
     this.open = false;
     this.tilde = false; // Has tilde already been pushed?
     this.space = false; // Has space already been pushed?
+    this.getImg = false; // Requested to get a picture of the current canvas?
+    this.img = false;
+    this.report = false;
     this.colors = {
         // Console messages
         "error":     "#CC0000",
@@ -47,7 +50,7 @@ Sburb.Debugger = function() {
     this.console = new Sburb.Console();
     this.XMLHttpRequest = window.XMLHttpRequest; // Save real XMLHttpRequest
     window.XMLHttpRequest = function() { return new Sburb.XMLHttpRequest(); }; // Replace real XMLHttpRequest
-    window.addEventListener("error",function(e) { that.errors.push({"type":e.type,"text":e.message,"url":e.filename,"line":e.lineno,"time":e.timeStamp}); },false);
+    window.addEventListener("error",function(e) { that.errors.push({"type":e.type,"text":e.message,"url":e.filename,"line":e.lineno,"time":e.timeStamp}); that.open = true; },false);
 }
 
 Sburb.Debugger.prototype.handleInputs = function(pressed) {
@@ -72,6 +75,12 @@ Sburb.Debugger.prototype.draw = function() {
     this.fps++;
     var that = this;
     setTimeout(function() { that.fps--; }, 1000);
+    // Save the image
+    if(this.getImg) {
+        this.getImg = false;
+        this.img = Sburb.Stage.toDataURL();
+        this.gotImg();
+    }
     // Draw
     if(this.open) {
         // Obscure the game
@@ -137,7 +146,86 @@ Sburb.Debugger.prototype.draw = function() {
 }
 
 Sburb.Debugger.prototype.sendDebugReport = function() {
-    console.debug("sendDebugReport not yet implemented");
+    var div = document.createElement('div');
+    var title = document.createElement('h2');
+    var form = document.createElement('form');
+    var textbox = document.createElement('textarea');
+    var submit = document.createElement('input');
+    div.id = "sburb_debug_report";
+    div.style.position = "absolute";
+    div.style.zIndex = "9999";
+    div.style.background = "white";
+    div.style.width = "550px";
+    div.style.top = "100px";
+    div.style.left = "50px";
+    title.innerText = "What seems to be the problem?";
+    title.style.margin = "0 20px";
+    form.method = "POST";
+    form.action = "#";
+    form.style.textAlign = "right";
+    form.onsubmit = this.submitForm;
+    textbox.id = "sburb_debug_report_box";
+    textbox.style.width = "530px";
+    textbox.style.height = "200px";
+    textbox.style.margin = "0 8px";
+    textbox.style.display = "block";
+    submit.type = "submit";
+    submit.value = "Send Bug Report";
+    form.appendChild(textbox);
+    form.appendChild(submit);
+    div.appendChild(title);
+    div.appendChild(form);
+    document.getElementById("SBURBgameDiv").parentNode.appendChild(div);
+    textbox.focus();
+}
+
+Sburb.Debugger.prototype.submitForm = function() {
+    var div = document.getElementById("sburb_debug_report");
+    Sburb.debugger.report = document.getElementById("sburb_debug_report_box").value;
+    Sburb.debugger.getImg = true;
+    div.parentNode.removeChild(div);
+    return false;
+}
+
+Sburb.Debugger.prototype.gotImg = function() {
+    var debug = {
+        "fps": this.fps,
+        "errors": this.errors,
+        "xhrs": this.xhrs,
+        "tests": this.tests,
+    };
+    var raw = {
+        "debugger": JSON.stringify(debug),
+        "canvas": this.img.substr(22), // Cut off "data:image/png;base64,"
+        "report": this.report,
+        "url": location.href,
+    };
+    var list = [];
+    var data = "";
+    for(k in raw) {
+        if(!raw.hasOwnProperty(k)) continue;
+        list.push(encodeURIComponent(k)+"="+encodeURIComponent(raw[k]));
+    };
+    data = list.join("&"); // Why do I have to do this myself? Come on javascript.
+    
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST",this.url,true);
+    xhr.setRequestHeader('Content-Type', "application/x-www-form-urlencoded");
+    xhr.onload = function() {
+        if((this.status == 200 || this.status == 0) && this.responseText) {
+            var result = JSON.parse(this.responseText);
+            if("success" in result && result["success"]) {
+                console.debug("Bug report sent.");
+            } else {
+                console.debug("Bug report failed to save.");
+            }
+        } else {
+            console.debug("Bug report failed to send.");
+        }
+    }
+    xhr.onerror = function() { console.debug("Bug report failed to send."); };
+    xhr.onabort = function() { console.debug("Bug report failed to send."); };
+    xhr.send(data);
 }
 
 // ===================
@@ -145,7 +233,6 @@ Sburb.Debugger.prototype.sendDebugReport = function() {
 // ===================
 Sburb.Console = function() {
     var console = this._console = window.console; // Save the real console
-    var that = this;
     window.console = this;
     // Utilities
     var ignore = {
@@ -207,11 +294,10 @@ Sburb.XMLHttpRequest = function() {
         method: null,
         url: null,
         async: null,
-        xhr: null,
         loaded: false,
-        responseText: null,
         status: null,
-        statusText: null
+        statusText: null,
+        data: null
     };
     // Private fun
     var supportsApply = self.xhr && self.xhr.open && self.xhr.open.apply != "undefined";
@@ -301,7 +387,6 @@ Sburb.XMLHttpRequest = function() {
         self.spy.method = method;
         self.spy.url = url;
         self.spy.async = async;
-        self.spy.xhr = xhr;
         if (async)
             xhr.onreadystatechange = handleStateChange;
         if (this.supportsApply)
