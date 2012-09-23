@@ -25,16 +25,16 @@
 
 	<!--<asset name='hateYouSong' type='audio'>audio/music/HateYouLoop.oga;audio/music/HateYouLoop.mp3</asset> --><!-- loops to 0 -->
 	
-	<asset name='karkat_eyeroll1' type='graphic'>dialogs/karkat_eyeroll1.png</asset>
-	<asset name='karkat_eyeroll2' type='graphic'>dialogs/karkat_eyeroll2.png</asset>
-	<asset name='karkat_facepalm' type='graphic'>dialogs/karkat_facepalm.png</asset>
-	<asset name='karkat_horror' type='graphic'>dialogs/karkat_horror.png</asset>
-	<asset name='karkat_idle' type='graphic'>dialogs/karkat_idle.png</asset>
-	<asset name='karkat_shout' type='graphic'>dialogs/karkat_shout.png</asset>
-	<asset name='karkat_sullen' type='graphic'>dialogs/karkat_sullen.png</asset>
-	<asset name='karkat_talk' type='graphic'>dialogs/karkat_talk.png</asset>
-	<asset name='karkat_what' type='graphic'>dialogs/karkat_what.png</asset>
-	<asset name='karkat_yell' type='graphic'>dialogs/karkat_yell.png</asset>
+	<asset name='karkat_eyeroll1' type='graphic'>dialogs/karkat/karkat_eyeroll1.png</asset>
+	<asset name='karkat_eyeroll2' type='graphic'>dialogs/karkat/karkat_eyeroll2.png</asset>
+	<asset name='karkat_facepalm' type='graphic'>dialogs/karkat/karkat_facepalm.png</asset>
+	<asset name='karkat_horror' type='graphic'>dialogs/karkat/karkat_horror.png</asset>
+	<asset name='karkat_idle' type='graphic'>dialogs/karkat/karkat_idle.png</asset>
+	<asset name='karkat_shout' type='graphic'>dialogs/karkat/karkat_shout.png</asset>
+	<asset name='karkat_sullen' type='graphic'>dialogs/karkat/karkat_sullen.png</asset>
+	<asset name='karkat_talk' type='graphic'>dialogs/karkat/karkat_talk.png</asset>
+	<asset name='karkat_what' type='graphic'>dialogs/karkat/karkat_what.png</asset>
+	<asset name='karkat_yell' type='graphic'>dialogs/karkat/karkat_yell.png</asset>
 </assets>
 
 <hud>
