@@ -84,8 +84,9 @@ Sburb.saveStateToStorage = function(description, auto, local)
     }
 
 	var serialized = Sburb.serialize(Sburb);
-	compressed = base32k.encodeBytes(serialized);
-
+	console.log(serialized);
+	compressed = Iuppiter.Base64.encode(Iuppiter.compress(serialized),true);
+	console.log(compressed);
 	var saveStateName = description + (auto? " (auto)":"") + '_savedState_' + Sburb.name + ":" + Sburb.version;
 
 
@@ -149,9 +150,9 @@ Sburb.loadStateFromStorage = function(auto, local)
 
 	if(!compressed)
 		return false;
-
-	var decoded = base32k.decodeBytes(compressed);
-
+	console.log(compressed);
+	var decoded = Iuppiter.decompress(Iuppiter.Base64.decode(Iuppiter.toByteArray(compressed),true));
+	console.log(decoded);
 	Sburb.loadSerial(decoded);
 	
 	return true;

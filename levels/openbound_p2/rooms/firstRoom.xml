@@ -475,7 +475,7 @@
 			<action command='openChest' name='open'>
 					<args>firstRoomChest1,obj01,
 						@! You got an ALTERNIAN SOFT DRINK!
-						@! You're not really up on Alternian history, but apparently at some point the empress got fed up with the Subjugglators' stranglehold on the soda market, and released a drink that was said to be more loaded with sugar than even the wicked elixir itself. The Highbloods considered such marketing reports to be blasphemous lies, however. And they were right. The beverage actually contained zero calories, which she secretly mandated so as to preserve her slim figure. But the all the lowblood suckers guzzled cans down by the billions none the wiser, while the crafty Condesce raked in the cash.
+						@! You're not really up on Alternian history, but apparently at some point the empress got fed up with the Subjugglators' stranglehold on the soda market, and released a drink that was said to be more loaded with sugar than even the wicked elixir itself. The Highbloods considered such marketing reports to be blasphemous lies, however. And they were right. The beverage actually contained zero calories, which she secretly mandated so as to preserve her slim figure. But all the lowblood suckers guzzled cans down by the billions none the wiser, while the crafty Condesce raked in the cash.
 						@! If someone actually told you this story, you'd spend the next ten minutes fangirling on the floor.
 					</args>
 			</action>
