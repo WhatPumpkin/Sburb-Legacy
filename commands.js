@@ -46,8 +46,12 @@ commands.changeRoom = function(info){
 //syntax: spriteName
 commands.changeFocus = function(info){
 	var params = parseParams(info);
-	var sprite = parseCharacterString(params[0]);
-	Sburb.destFocus = sprite;
+	if(params[0]=="null"){
+		Sburb.focus = Sburb.destFocus = null;
+	}else{
+		var sprite = parseCharacterString(params[0]);
+		Sburb.destFocus = sprite;
+	}
 }
 
 //Perform changeRoom, and also add teleport effects
@@ -65,7 +69,7 @@ commands.teleport = function(info){
 commands.changeChar = function(info){
 	Sburb.char.becomeNPC();
 	Sburb.char.walk();
-	Sburb.focus = Sburb.char = Sburb.sprites[info];
+	Sburb.destFocus = Sburb.char = Sburb.sprites[info];
 	Sburb.char.becomePlayer();
 	Sburb.setCurRoomOf(Sburb.char);
 }
