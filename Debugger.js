@@ -191,14 +191,15 @@ Sburb.Debugger.prototype.gotImg = function() {
     var debug = {
         "fps": this.fps,
         "errors": this.errors,
-        "xhrs": this.xhrs,
         "tests": this.tests,
+        "xhrs": this.xhrs,
     };
     var raw = {
         "debugger": JSON.stringify(debug),
         "canvas": this.img.substr(22), // Cut off "data:image/png;base64,"
         "report": this.report,
         "url": location.href,
+        "save": Sburb.serialize(Sburb),
     };
     var list = [];
     var data = "";
