@@ -236,8 +236,8 @@
 									<args>clubKeyOverlay,firstRoom</args>
 									<action command='removeSprite' noDelay='true'>
 										<args>diamondKeyOverlay,firstRoom</args>
-										<action command='talk'>
-											<args>@!:#thanks-for-testing! That's the end of the beta version. The rest of the game will be available when it's released on the site.</args>
+										<action command='addWalkable'>
+											<args>megaDoorPath,firstRoom</args>
 										</action>
 									</action>
 								</action>

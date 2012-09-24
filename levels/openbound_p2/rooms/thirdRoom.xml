@@ -168,7 +168,7 @@
 </sprite>
 
 <sprite class='chest3' name='thirdRoomChest10' x='1365' y='2109'>
-  <action command='openChest' name='Open.'>
+  <action sprite='meulin' command='openChest' name='Open.'>
 		<args>thirdRoomChest10,obj10,
 			@! You got a COD PIECE!
 			@! So soft, so inviting... you are fighting the temptation to wear it right now with all your might. If the crotch was any more forgiving, it would be canonized by the Vatican.
