@@ -1,4 +1,4 @@
-<sburb name="Openbound_p2" version="1.1" char='meenah' bgm='hateYouSong' description="first area" scale='2' levelPath='levels/openbound_p2' resourcePath='resources/openbound_p2'>
+<sburb name="Openbound_p2" version="1.2" char='meenah' bgm='hateYouSong' description="first area" scale='2' levelPath='levels/openbound_p2' resourcePath='resources/openbound_p2'>
 
 	<dependencies>
 		<dependency>etc/ui.xml</dependency>
