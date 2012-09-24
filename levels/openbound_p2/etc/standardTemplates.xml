@@ -11,6 +11,9 @@
   		<asset name='chest2ClosedSheet' type='graphic'>objects/chest2.png</asset>
   		<asset name='chest3OpenSheet' type='graphic'>objects/chest3o.png</asset>
   		<asset name='chest3ClosedSheet' type='graphic'>objects/chest3.png</asset>
+  		<asset name='chest8OpenSheet' type='graphic'>objects/chest8o.png</asset>
+  		<asset name='chest8ClosedSheet' type='graphic'>objects/chest8.png</asset>
+  		
   		
   		<asset name='blueBubbleSheet' type='graphic'>objects/bluebubble.png</asset>
 	</assets>
@@ -27,6 +30,12 @@
 				<animation name='closed' sheet='chest3ClosedSheet' x='-48' y='-40' />
 				<animation name='open' sheet='chest3OpenSheet' x='-48' y='-40' loopNum='0' followUp='opened'/>
 				<animation name='opened' sheet='chest3OpenSheet' x='-48' y='-40' loopNum='0'/>
+		</sprite>
+		
+		<sprite class='chest8' width='40' height='20' depthing='1' collidable='true'>
+				<animation name='closed' sheet='chest8ClosedSheet' x='-48' y='-40' />
+				<animation name='open' sheet='chest8OpenSheet' x='-48' y='-40' loopNum='0' followUp='opened'/>
+				<animation name='opened' sheet='chest8OpenSheet' x='-48' y='-40' loopNum='0'/>
 		</sprite>
 		
 		<!--

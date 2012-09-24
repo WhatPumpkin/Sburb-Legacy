@@ -255,7 +255,7 @@
 									<action command='removeSprite' noDelay='true'>
 										<args>diamondKeyOverlay,firstRoom</args>
 										<action command='addWalkable'>
-											<args>megaDoorPath,firstRoom</args>
+											<args>megaDoorWalkable,firstRoom</args>
 										</action>
 									</action>
 								</action>
@@ -376,7 +376,6 @@
   		<motionpath path='firstRoomStairs1' xtox='0.7' xtoy='0.7' />
   		<motionpath path='firstRoomStairs2' xtox='0.7' xtoy='-0.7' />
   		<motionpath path='firstRoomStairs3' xtox='0.7' xtoy='0.7' />
-  		<walkable path='megaDoorWalkable' />
   	</paths>
   	
   	<character class='meenah' x='427' y='458' >

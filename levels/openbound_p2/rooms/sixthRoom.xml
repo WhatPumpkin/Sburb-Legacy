@@ -35,8 +35,17 @@
 	
 	<asset name='sixthRoomStairs1' type='path'>792,286;420,596;420,650;804,340</asset>
 	<asset name='sixthRoomStairs2' type='path'>430,970;1010,1454;1010,1498;430,1024</asset>
+	
+	<asset name='item1' type='graphic'>objects/items/item1.png</asset>
+	<asset name='item2' type='graphic'>objects/items/item2.png</asset>
 </assets>
 
+<sprite depthing='3' name='item1'>
+<animation x='-50' y='-50'  sheet='item1'/>
+</sprite>
+<sprite depthing='3' name='item2'>
+<animation x='-50' y='-50'  sheet='item2'/>
+</sprite>
 
 <rooms>
   <room name='sixthRoom' walkableMap='sixthRoomMap' mapScale='2'>
@@ -98,6 +107,7 @@
   	</triggers>
   	
   	
+  	
   	<character class='terezi' x='1173' y='1214'>
   		<action class='tereziTalk1'>
   			<action command='setGameState'>
@@ -106,6 +116,25 @@
   		</action>
   		<action class='tereziTalk2'/>
   	</character>
+  	
+  	<sprite class='chest8' name='sixthRoomChest1' x='970' y='211'>
+			<action command='openChest' name='Open.'>
+		  	<args>sixthRoomChest1,item1,
+		 	 	@! You got a STABBING CANE!
+				@! It would be really unfortunate to be blind and walk around without having a reliable instrument to help you stab where you're going.
+
+		 	 </args>
+		  </action>
+  	</sprite>
+  	
+  	<sprite class='chest8' name='sixthRoomChest2' x='956' y='1306'>
+			<action command='openChest' name='Open.'>
+		  	<args>sixthRoomChest2,item2,
+		    @! You got a sack full of EMBEZZLED BEETLES!
+				@! It is the absolute perfect currency for bribing corrupt prosecutors when you find yourself in the hot seat with the law. Their greedy snouts simply cannot resist. Just make sure the terrifying brainless monster judge doesn't catch you in the act! You have to wait for His Tyranny to be distracted by something besides the judicial proceedings. This is an occurrence that is far from infrequent.
+				</args>
+		  </action>
+  	</sprite>
   	
   	<sprite name='sixthRoomBG'>
   		<animation sheet='sixthRoomBG'  sliced='true' colSize='500' rowSize='500' numCols='4' numRows='4'/>

@@ -1,8 +1,25 @@
 <sburb description="eighth room">
 
 <dependencies>
-
+	<dependency>dialogs/expoDialog.xml</dependency>
+	<dependency>chars/aranea.xml</dependency>
 </dependencies>
+
+<classes>
+	<action class='peanutActions' command='presentActions'>
+		<args>
+			<action class='expoTalk0'/>
+			<action class='expoTalk1'/>
+			<action class='expoTalk2'/>
+			<action class='expoTalk3'/>
+			<action class='expoTalk4'/>
+			<action command='removeOverlay' name='Peace out.'>
+				<args>peanuts</args>
+			</action>
+		</args>
+		<action command='setGameState' noDelay='true'>expo,false</action>
+	</action>
+</classes>
 
 <assets>
 	<asset name='eighthRoomBG_0_0' type='graphic'>backgrounds/slices/eighthRoomBG_0_0.png</asset>
@@ -15,8 +32,12 @@
 	<asset name='eighthRoomMap' type='graphic'>backgrounds/eighthRoomMap.png</asset>
 	
 	<asset name='elevatorstuck' type='audio'>audio/music/ElevatorstuckLoopQuiet.oga;audio/music/ElevatorstuckLoopQuiet.mp3</asset>
-
+	<asset name='peanutsSheet' type='graphic'>backgrounds/peanuts.png</asset>
 </assets>
+
+<sprite name='peanuts' depthing='2'>
+	<animation sheet='peanutsSheet'/>
+</sprite>
 
 
 <rooms>
@@ -53,7 +74,19 @@
   				</action>
   			</action>
   		</trigger>
+  		
+  		<trigger>
+  			<args>gameState,expo=true</args>
+  			<action class='peanutActions'/>
+  		</trigger>
   	<triggers>
+  	
+  	<sprite name='expoStand' x='609' y='243' width='92' height='78'>
+   		<action command='addOverlay' name='Talk.'>
+   			<args>peanuts</args>
+   			<action class='peanutActions'/>
+   		</action>
+  	</sprite>
   	
   	<sprite name='eighthRoomBG'>
   		<animation sheet='eighthRoomBG'  sliced='true' colSize='500' rowSize='500' numCols='3' numRows='2'/>

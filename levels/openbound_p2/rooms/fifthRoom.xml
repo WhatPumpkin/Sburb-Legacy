@@ -51,6 +51,12 @@
   	
   	<sprite name='crabdad' x='924' y='804' width='128' height='40' depthing='1' collidable='true'>
   		<animation sheet='crabdadIdle' x='-64' y='-158' length='4' frameInterval='8'/>
+  		<action name='Examine.' command='talk'>
+  			<args>
+  			@! GRUUUUUMMBLE
+				@!:#crab-dad Looks like SOMEONE'S custodian is in a permanently surly mood today, as well as all other days.
+				</args>
+  		</action>
   	</sprite>
   	
   	<sprite name='fifthRoomBG'>

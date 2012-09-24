@@ -153,11 +153,11 @@
 <action sprite='terezi' class='meenahTalk5' command='talk' name='Talk to Meenah.'>
       <args>
       @terezi_idle TEREZI: OH... H3Y
-      @terezi_idle TEREZI: ITS YOU
-      @terezi_idle TEREZI: WH4T 4R3 YOU DOING IN MY HIV3?
+      @terezi_idle TEREZI: 1TS YOU
+      @terezi_idle TEREZI: WH4T 4R3 YOU DO1NG 1N MY H1V3?
       @meenah_idle MEENAH: shit pyrope dont sniff at me
       @meenah_talk MEENAH: i was standin around in shoutkats place when it all dream switched on me outta nowhere
-      @terezi_idle TEREZI: DID YOU S33 HIM COM3 IN H3R3?
+      @terezi_idle TEREZI: D1D YOU S33 H1M COM3 1N H3R3?
       @meenah_idle MEENAH: naw
       @meenah_idle MEENAH: wait you lookin for him now too?
       @terezi_idle TEREZI: Y3S
@@ -173,7 +173,7 @@
       @meenah_happy MEENAH: maybe
       @meenah_talk MEENAH: i dunno if im misreadin his intent there
       @meenah_talk MEENAH: you might know better than me
-      @terezi_idle TEREZI: WH4T DID H3 S4Y?
+      @terezi_idle TEREZI: WH4T D1D H3 S4Y?
       @meenah_talk MEENAH: well whatever the case is later hes goin to hop off the meteor and fight lord invincible with me
       @meenah_wut MEENAH: whatta you think am i readin too much into shit or
       @terezi_idle TEREZI: UMM...

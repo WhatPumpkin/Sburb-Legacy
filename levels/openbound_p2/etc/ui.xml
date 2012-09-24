@@ -2,7 +2,7 @@
 
 <dependencies>
 	<dependency>etc/rebubbleText.xml</dependency>
-<dependencies>
+</dependencies>
 
 <assets>
   <asset name='SburbFont' type='font'>

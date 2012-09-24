@@ -33,7 +33,7 @@
 <hud>
 	<dialogsprites>	
   		<animation name='terezi_idle' class='terezi-dialog' sheet='terezi_idle'/>
-  		<animation name='terezi_talk' class='terezi-dialog' sheet='terezi_sad' />
+  		<animation name='terezi_sad' class='terezi-dialog' sheet='terezi_sad' />
   </dialogsprites>
 </hud>
 </sburb>

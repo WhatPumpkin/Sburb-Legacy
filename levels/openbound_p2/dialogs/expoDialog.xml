@@ -1,0 +1,119 @@
+<sburb description='exposition dialogs'>
+	<classes>
+		<action class='expoTalk0' command='talk' name='Ask Aranea about Cherubquest.'>
+      <args>
+      @aranea_surprised ARANEA: I...
+      @aranea_think ARANEA: Still haven't found her quite yet.
+      @meenah_idle MEENAH: any leads or
+      @aranea_idle ARANEA: Not really.
+      @aranea_talk ARANEA: She's apparently very well hidden!
+      @meenah_idle MEENAH: um yeah sure
+      @meenah_idle MEENAH: but
+      @meenah_talk MEENAH: have you even really been lookin
+      @aranea_idle ARANEA: Um...
+      @meenah_happytalk MEENAH: or have you been fucking around with your lil exposition stand
+      @aranea_annoyedtalk ARANEA: I have 8een dividing my time efficiently. 8ut thank you for your concern.
+      @meenah_talk MEENAH: it wasnt even that long ago we talked about other boring stuff
+      @meenah_talk MEENAH: you had to drag your stand over to the top of this tree
+      @meenah_talk MEENAH: like all waitin for me up here
+      @meenah_fish MEENAH: how long did that take
+      @aranea_angrytalk ARANEA: Never mind a8out that!
+      @aranea_madtalk ARANEA: And yes, I did stop along the way to explain some important things to people.
+      @aranea_annoyedtalk ARANEA: People are curious a8out information, Meenah. They want to KNOW things, alright?
+      @meenah_idle MEENAH: they want to know...
+      @meenah_happy MEENAH: or you want to tell them?
+      @aranea_angry ARANEA: 8oth!!!!!!!!
+      @meenah_idle MEENAH: ok lemme ask this
+      @meenah_talk MEENAH: did you pay them so you could explain stuff
+      @aranea_annoyed ARANEA: ...
+      @aranea_annoyed ARANEA: Yes.
+      @aranea_facepalm ARANEA: SO????????
+      @meenah_annoyedtalk MEENAH: so how long would you estimate you spent cherub hunting in between your splainins
+      @aranea_annoyed ARANEA: I...
+      @aranea_madtalk ARANEA: Look. Finding this cheru8 was always going to 8e a slow 8urning quest. It is an intricate, layered mystery that can't 8e rushed. I'm working up to it!!!!!!!!
+      @meenah_talk MEENAH: aranea serket i have somefin to explain to you at no expense
+      @meenah_happytalk MEENAH: i find your humorously ineffective approach to this quest to be max adorbs
+      @aranea_facepalm ARANEA: 
+      <!--  -->
+      </args>
+      <action command='setGameState'>expo,true</action>
+</action>
+
+
+
+
+<action class='expoTalk1' command='talk' name='Tell me about Cronus Ampora.'>
+      <args>
+      @aranea_happytalk ARANEA: The 8ard of Hope may seem a little jaded these days, 8ut he once had a deeply a8iding faith in magic, and dedicated himself to 8ecoming a great wizard. He 8ecame convinced he was hatched to defeat an extraordinarily evil magician, one he swore the angels foretold of. Though when pressed for the name of the man, he would not say it, claiming it was too dangerous to even enunciate. Part of his self-aggrandizing mythos was that this magician once somehow from afar tried to strike him down at a young age, so he would never have to face him. 8ut the evil spell was deflected, sealing the magician's spirit away in a series of unassuming vessels until he could find some other cunning way to enter our universe. The attack supposedly left him with his distinctive scar, which he was not reluctant to point out when trying to hit on me. Uh, I mean, he wasn't reluctant to mention it in casual conversation.
+      @aranea_happytalk ARANEA: 8ut at some point he 8ecame disillusioned with magic. If there ever was any truth to his far fetched vision, the legacy of defeating the evil magician would have to 8e passed on to his descendant, or if his descendant proved to 8e as much of a failure as he did, then perhaps on to some other Hero of Hope. I'm unsure why he suffered this crisis of faith, aside from the o8vious reasons having to do with an overall lack of character, or any other redeeming qualities. Perhaps someone talked him out of his 8eliefs. May8e a friend close to him. Or, if one is to 8elieve his fantasy held any water, perhaps someone who was in league with the evil magician. Whatever the case, it was pro8a8ly for the 8est, since pretty much everyone who had half a think pan thought it was all a 8unch of ridiculous nonsense.
+      @meenah_talk MEENAH: serket why do you got to hate on other peoples religions
+      @meenah_fish MEENAH: dont you kno they just as much a load of crackpotty bunk as all your spiritual bullfuck
+      @aranea_surprised ARANEA: 8ut I........
+      @aranea_think ARANEA: Yes, I guess I was out of line. 
+      @aranea_madtalk ARANEA: Sorry, I was just trying to riff with you little on a mutually disliked acquaintance. Is that really so 8ad? Why do you have to take every opportunity to knock my personal 8eliefs?
+      @aranea_annoyed ARANEA: You can really 8e so mean sometimes.
+      @meenah_idle MEENAH: can i have my money now
+      @aranea_angry ARANEA: Yes. Here.
+      <!--  -->
+      </args>
+      <action command='setGameState'>expo,true</action>
+</action>
+
+
+<action class='expoTalk2' command='talk' name='Tell me about Mituna Captor.'>
+      <args>
+      @aranea_happytalk ARANEA: The Heir of Doom was once a powerful psionic. He was gifted with vision twofold, and had strong prophetic insights wherever a 8leak future was concerned. He had much to say when it came to warning us a8out the path of doom and destruction we were all headed for, 8ut no one took him very seriously. 8ut one day he lost all those a8ilities when he 8adly overexerted himself. It's hard to get any specifics from him, 8ut indications are that he applied every last 8it of energy he had toward some great act of heroism, saving us all from some looming threat. Not only did his exertion permanently 8urn out his psychic a8ilities, 8ut it left him somewhat... er. Incoherent.
+      @meenah_talk MEENAH: yeah i always wondered what happened there
+      @meenah_talk MEENAH: anyone ever get to the bottom a that
+      @aranea_talk ARANEA: No. The entire incident is shrouded in mystery. From his limited and scattered accounts of what happened, it seems very likely that Kurloz was with him at the time, as the only eye witness. And of course it's impossi8le to get any relia8le information out of him. I guess we may never know, sadly.
+      @meenah_talk MEENAH: hey this was actually kinda interesting
+      @meenah_meenah_creepylaughidle MEENAH: it was W-ELL worth taking the money youre givin me to put up with it
+      @aranea_happier ARANEA: Agreed! ::::D
+      <!--  -->
+      </args>
+      <action command='setGameState'>expo,true</action>
+</action>
+
+
+
+<action class='expoTalk3' command='talk' name='Tell me about Kurloz Makara.'>
+      <args>
+      @aranea_happytalk ARANEA: Prince of Rage actually used to 8e quite talkative. That is, until he had a nightmare which prompted a 8izarre incident, after which he would never speak again. He took a sort of spiritual vow of silence, which I'm sure was pro8a8ly related to his esoteric faith. Thereafter he 8ecame infuriatingly enigmatic. I've found it impossi8le to get any info out of him, 8etween his am8iguous mimes and penchant for riddles. It's very frustrating, especially for someone like me, who has a passion for gathering as many facts a8out our story as possi8le.
+      @aranea_annoyedtalk ARANEA: Want to know a secret? Please don't tell anyone, 8ut I really can't stand the guy.
+      @aranea_talk ARANEA: It's pro8a8ly unfair to him 8ecause he is o8viously such a sweet and harmless fellow. 8ut something a8out him ru8s me the wrong way. I guess I can just 8e a little petty sometimes. 
+      @meenah_idle MEENAH: yeah...
+      @meenah_wut MEENAH: wow serket
+      @meenah_annoyed MEENAH: just wow so rude
+      @meenah_fish MEENAH: poor clown
+      @aranea_angrytalk ARANEA: Don't give me that! I seem to remem8er you having more than a few unkind words for him 8ehind his 8ack.
+      @meenah_creepy MEENAH: yeah im messin witchu he sux
+      @meenah_idle MEENAH: so
+      @meenah_idle MEENAH: conversation over?
+      @aranea_happy ARANEA: Yes.
+      @meenah_annoyed MEENAH: ka
+      @meenah_annoyed MEENAH: ching
+      <!--  -->
+      </args>
+      <action command='setGameState'>expo,true</action>
+</action>
+
+
+
+<action class='expoTalk4' command='talk' name='Tell me about Meulin Leijon.'>
+      <args>
+      @aranea_happytalk ARANEA: Mage of Heart as you know is an ardent disciple of the romantic sciences. She has a well earned reputation as a miracle worker when it comes to match making. 8ut her own romantic history ironically has 8een riddled with trou8le and heart8reak.
+      @aranea_happytalk ARANEA: Once, well 8efore our session 8egan, she and Kurloz were in a very loving matespritship. It really seemed to everyone they were made for each other. One day, they fell asleep together. Kurloz then had a nightmare so terrifying, he released the most dreadful sound imagina8le. It truly echoed the horror of the Vast Honk itself. The noise was so loud and so awful, Meulin went completely deaf, and her hearing never recovered. Kurloz was undou8tedly devastated 8y what he'd done to her. He was so distraught, he sewed his mouth shut, and has never spoken a word since.
+      @aranea_happytalk ARANEA: Though they drifted apart as matesprits, Meulin never held it against him, and even seemed to take delight in learning new ways to communicate. They continued to remain very close to this day. May8e a little too close, if you ask me. It's clear that her sympathies have 8een gradually swayed in support of the High8lood's cult. She stays private a8out her 8eliefs, 8ut now and then I'll notice she lets some tenet of mirthful doctrine slip out. I suppose I shouldn't 8e too concerned though, since it's almost certainly a lot of harmless superstition.
+      @meenah_creepy MEENAH: )(ONK
+      @aranea_happier ARANEA: Honk honk! ::::)
+      @meenah_happytalk MEENAH: lol im glad we can both agree that clowny fuckin soda cult is the dumbest shit ever
+      @aranea_happy ARANEA: Yes. Now here is your money. Thanks for listening!
+      @meenah_happytalk MEENAH: serks do you even know how silly yall are
+      @meenah_happy MEENAH: &lt;3
+      <!--  -->
+      </args>
+      <action command='setGameState'>expo,true</action>
+</action>
+
+	</classes>
+</sburb>
