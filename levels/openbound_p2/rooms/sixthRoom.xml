@@ -1,7 +1,7 @@
 <sburb description="sixth room">
 
 <dependencies>
-
+	<dependency>chars/terezi.xml</dependency>
 </dependencies>
 
 <assets>
@@ -32,11 +32,80 @@
 	<asset name='sixthRoomFG_3_3' type='graphic'>backgrounds/slices/sixthRoomFG_3_3.png</asset>
 	
 	<asset name='sixthRoomMap' type='graphic'>backgrounds/sixthRoomMap.png</asset>
+	
+	<asset name='sixthRoomStairs1' type='path'>792,286;420,596;420,650;804,340</asset>
+	<asset name='sixthRoomStairs2' type='path'>430,970;1010,1454;1010,1498;430,1024</asset>
 </assets>
 
 
 <rooms>
   <room name='sixthRoom' walkableMap='sixthRoomMap' mapScale='2'>
+  	<paths>
+  		<motionpath path='sixthRoomStairs1' xtox='0.7' xtoy='-0.7' />
+  		<motionpath path='sixthRoomStairs2' xtox='0.7' xtoy='0.7' />
+  	</paths>
+  
+  	<triggers>
+  		<trigger>
+  			<args>inBox2,terezi,878,537,812,484</args>
+  			<action command='changeRoomRemote'>
+  				<args>rooms/seventhRoom.xml,seventhRoom,578,714</args>
+  				<action command='addSprite' noDelay='true'>
+						<args>meenah,seventhRoom</args>
+						<action command='moveSprite'>
+							<args>meenah,746,1008</args>
+						</action>
+					</action>
+  			</action>
+  		</trigger>
+  		
+  		<trigger>
+  			<args>inBox2,karkat,878,537,812,484</args>
+  			<action command='changeRoomRemote'>
+  				<args>rooms/fifthRoom.xml,fifthRoom,606,746</args>
+  			</action>
+  		</trigger>
+  		
+  		<trigger detonate='true'>
+  			<args>gameState,tereziTalked=true</args>
+  			<args>spriteProperty,karkat,x&lt;800</args>
+  			<action command='waitFor'>
+  				<args>noActions</args>
+  				<action command='changeChar' noWait='true'>
+  					<args>terezi</args>
+						<action command='changeFocus' noDelay='true'>
+							<args>null</args>
+							<action command='becomePlayer' noDelay='true'>
+								<args>karkat</args>
+								<action command='startAnimation' noDelay='true'>
+									<args>karkat,walkLeft</args>
+									<action command='deltaSprite' for='60' noWait='true'>
+										<args>karkat,-6,-5</args>
+										<action command='removeSprite' noWait='true'>
+											<args>karkat,sixthRoom</args>
+											<action command='removeSprite' noDelay='true'>
+												<args>meenah,fifthRoom</args>
+												<action class='beTerezi' noDelay='true'/>
+											</action>
+										</action>
+									</action>
+								</action>
+							</action>
+						</action>
+					</action>
+  			</action>
+  		</trigger>
+  	</triggers>
+  	
+  	
+  	<character class='terezi' x='1173' y='1214'>
+  		<action class='tereziTalk1'>
+  			<action command='setGameState'>
+  				<args>tereziTalked,true</args>
+  			</action>
+  		</action>
+  		<action class='tereziTalk2'/>
+  	</character>
   	
   	<sprite name='sixthRoomBG'>
   		<animation sheet='sixthRoomBG'  sliced='true' colSize='500' rowSize='500' numCols='4' numRows='4'/>

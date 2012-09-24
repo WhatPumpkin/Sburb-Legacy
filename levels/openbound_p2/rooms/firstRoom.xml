@@ -15,6 +15,8 @@
 	<asset name='megaDoorClosed' type='graphic'>objects/door_closed.png</asset>
 	<asset name='megaDoorOpen' type='graphic'>objects/door_open.png</asset>
 	
+	<asset name='megaDoorWalkable' type='path'>2106,600;2181,600;2181,650;2106,650</asset>
+	
 	<asset name='spadeKeyOverlay' type='graphic'>objects/doorkey_spade.png</asset>
 	<asset name='diamondKeyOverlay' type='graphic'>objects/doorkey_diamond.png</asset>
 	<asset name='clubKeyOverlay' type='graphic'>objects/doorkey_club.png</asset>
@@ -161,6 +163,22 @@
   		<trigger>
   			<args>inBox2,char,3874,1056,4302,1141</args>
   			<action command='changeRoomRemote'>rooms/secondRoom.xml,secondRoom,559,94</action>
+  		</trigger>
+  		
+  		<trigger>
+  			<args>inBox2,char,2106,600,2181,620</args>
+  			<action command='goBack'>
+  				<args>char</args>
+  				<action class='notForYou' />
+  			</action>
+  		</trigger>
+  		
+  		<trigger>
+  			<args>inBox2,meenah,2106,600,2181,620</args>
+  			<action command='goBack'>
+  				<args>char</args>
+  				<action command='changeRoomRemote'>rooms/fifthRoom.xml,fifthRoom,606,746</action>
+  			</action>
   		</trigger>
   		
   		<trigger>
@@ -358,12 +376,22 @@
   		<motionpath path='firstRoomStairs1' xtox='0.7' xtoy='0.7' />
   		<motionpath path='firstRoomStairs2' xtox='0.7' xtoy='-0.7' />
   		<motionpath path='firstRoomStairs3' xtox='0.7' xtoy='0.7' />
+  		<walkable path='megaDoorWalkable' />
   	</paths>
   	
   	<character class='meenah' x='427' y='458' >
   		<action class='meenahTalk1'/>
+  		<action class='meenahTalk3'/>
+			<action class='meenahTalk4'/>
+			<action class='meenahTalk5'>
+				<action command='presentActions'>
+					<args>
+						<action class='beMeenah' name='Yes.'/>
+						<action command='cancel' name='No.'/>
+					</args>
+				</action>
+			</action>
 			<action class='beMeenah'/>
-			<action class='meenahTalk3'/>
   	</character>
   	
   	<character class='cronus' x='2022' y='958' >

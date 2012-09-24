@@ -13,11 +13,48 @@
 	<asset name='eighthRoomBG_2_1' type='graphic'>backgrounds/slices/eighthRoomBG_2_1.png</asset>
 
 	<asset name='eighthRoomMap' type='graphic'>backgrounds/eighthRoomMap.png</asset>
+	
+	<asset name='elevatorstuck' type='audio'>audio/music/ElevatorstuckLoopQuiet.oga;audio/music/ElevatorstuckLoopQuiet.mp3</asset>
+
 </assets>
 
 
 <rooms>
   <room name='eighthRoom' walkableMap='eighthRoomMap' mapScale='2'>
+  	<triggers>
+
+  		<trigger>
+  			<args>inBox2,meenah,406,534,334,490</args>
+  			<action command='changeRoomRemote'>
+  				<args>rooms/seventhRoom.xml,seventhRoom,578,714</args>
+  			</action>
+  		</trigger>
+  		
+  		<trigger>
+  			<args>spriteProperty,meenah,x&gt;900</args>
+  			<action command='goBack'>
+  				<args>meenah</args>
+  				<action command='talk'>
+  					<args>@! This leads to the end of the game. Are you sure you're done here?</args>
+  					<action command='presentActions'>
+  						<args>
+  							<action command='fadeOut' name='Yes.'>
+									<action command='presentActions'>
+										<args>
+											<action command='loadStateFile' name='Start over.'>
+													<args>../init.xml,false</args>
+											</action>
+										</args>
+									</action>
+								</action>
+  							<action command='cancel' name='No.'/>
+  						</args>
+  					</action>
+  				</action>
+  			</action>
+  		</trigger>
+  	<triggers>
+  	
   	<sprite name='eighthRoomBG'>
   		<animation sheet='eighthRoomBG'  sliced='true' colSize='500' rowSize='500' numCols='3' numRows='2'/>
   	</sprite>

@@ -8,11 +8,13 @@
 	
 	<asset name='seventhRoomBG_0_0' type='graphic'>backgrounds/slices/seventhRoomBG_0_0.png</asset>
 	<asset name='seventhRoomBG_0_1' type='graphic'>backgrounds/slices/seventhRoomBG_0_1.png</asset>
+	<asset name='seventhRoomBG_0_2' type='graphic'>backgrounds/slices/seventhRoomBG_0_2.png</asset>
 	<asset name='seventhRoomBG_1_0' type='graphic'>backgrounds/slices/seventhRoomBG_1_0.png</asset>
 	<asset name='seventhRoomBG_1_1' type='graphic'>backgrounds/slices/seventhRoomBG_1_1.png</asset>
 	<asset name='seventhRoomBG_1_2' type='graphic'>backgrounds/slices/seventhRoomBG_1_2.png</asset>
 	<asset name='seventhRoomBG_2_0' type='graphic'>backgrounds/slices/seventhRoomBG_2_0.png</asset>
 	<asset name='seventhRoomBG_2_1' type='graphic'>backgrounds/slices/seventhRoomBG_2_1.png</asset>
+	<asset name='seventhRoomBG_2_2' type='graphic'>backgrounds/slices/seventhRoomBG_2_2.png</asset>
 	
 	<asset name='seventhRoomMap' type='graphic'>backgrounds/seventhRoomMap.png</asset>
 </assets>
@@ -20,6 +22,25 @@
 
 <rooms>
   <room name='seventhRoom' walkableMap='seventhRoomMap' mapScale='2'>
+  	<triggers>
+  		<trigger>
+  			<args>inBox2,terezi,590,712,512,658</args>
+  			<action command='changeRoomRemote'>
+  				<args>rooms/sixthRoom.xml,sixthRoom,824,549</args>
+  			</action>
+  		</trigger>
+  		
+  		<trigger>
+  			<args>inBox2,meenah,584,702,512,658</args>
+  			<action command='changeRoomRemote'>
+  				<args>rooms/eighthRoom.xml,eighthRoom,342,560</args>
+  				<action command='playSong'>
+						<args>elevatorstuck,10.895</args>
+					</action>
+  			</action>
+  		</trigger>
+  	<triggers>
+  	
   	
   	<sprite name='seventhRoomBG'>
   		<animation sheet='seventhRoomBG'  sliced='true' colSize='500' rowSize='500' numCols='3' numRows='3'/>

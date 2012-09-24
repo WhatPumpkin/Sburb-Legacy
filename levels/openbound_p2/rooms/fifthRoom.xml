@@ -2,7 +2,6 @@
 
 <dependencies>
 	<dependency>chars/karkat.xml</dependency>
-	<dependency>chars/terezi.xml</dependency>
 </dependencies>
 
 <assets>
@@ -22,6 +21,33 @@
 
 <rooms>
   <room name='fifthRoom' walkableMap='fifthRoomMap' mapScale='2'>
+  	<triggers>
+  		<trigger>
+  			<args>inBox2,meenah,542,694,634,724</args>
+  			<action command='changeRoomRemote'>
+  				<args>rooms/firstRoom.xml,firstRoom,2143,696</args>
+  			</action>
+  		</trigger>
+  		
+  		<trigger>
+  			<args>inBox2,karkat,542,694,634,724</args>
+  			<action command='changeRoomRemote'>
+  				<args>rooms/sixthRoom.xml,sixthRoom,824,549</args>
+  			</action>
+  		</trigger>
+  	</triggers>
+  
+  	<character class='karkat' x='530' y='824'>
+  		<action class='karkatTalk1'>
+  			<action command='presentActions'>
+  				<args>
+  					<action class='beKarkat' name='Yes.'/>
+  					<action command='cancel' name='No.'/>
+  				</args>
+  			</action>
+  		</action>
+  		<action class='beKarkat'/>
+  	</character>
   	
   	<sprite name='crabdad' x='924' y='804' width='128' height='40' depthing='1' collidable='true'>
   		<animation sheet='crabdadIdle' x='-64' y='-158' length='4' frameInterval='8'/>

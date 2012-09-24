@@ -57,11 +57,11 @@
   		</action>
   	</spritebutton>
   	<spritebutton name='saveButton' x='558' y='18' sheet='saveControl'>
-  		<action command='talk'>
+  		<action command='talk' soft='true'>
   			<args>
   			@! Warning: this feature is experimental. Use it only if you're having stability issues and want to keep your place should the application crash. Save files are discarded when the browser is closed.
   			</args>
-				<action command='saveOrLoad' soft='true'>
+				<action command='saveOrLoad' >
 					<args></args>
 				</action>
   		</action>

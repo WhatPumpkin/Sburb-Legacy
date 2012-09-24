@@ -1,11 +1,11 @@
 <sburb description='terezi'>
 
 <dependencies>
-	<!--<dependency>dialogs/tereziDialog.xml</dependency>-->
+	<dependency>dialogs/tereziDialog.xml</dependency>
 </dependencies>
 
 <classes>
-	<animation class='terezi-dialog' frameInterval='6' x='-180' y='-524'/>
+	<animation class='terezi-dialog' frameInterval='6' x='-230' y='-454'/>
 	
 	<character class='terezi' name='terezi' sx='-50' sy='-110' sWidth='100' sHeight='130' width='30' height='15' sheet='tereziSheet' state='walkFront' facing='Front'>
 		
@@ -13,8 +13,8 @@
 	
 	<action class='beTerezi' name='Be Terezi.' command='changeChar'>
 		<args>terezi</args>
-		<action command='playSong'>
-			<args>hateYouSong</args>
+		<action command='playSong' noDelay='true'>
+			<args>tealSeerSong,16.89</args>
 		</action>
 	</action>
 </classes>
@@ -23,51 +23,17 @@
 
 	<asset name='tereziSheet' type='graphic'>chars/terezi/terezi.png</asset>
 
-	<!--<asset name='hateYouSong' type='audio'>audio/music/HateYouLoop.oga;audio/music/HateYouLoop.mp3</asset>--> <!-- loops to 0 -->
-	<!--
+	<asset name='tealSeerSong' type='audio'>audio/music/TealSeerLoop.oga;audio/music/TealSeerLoop.mp3</asset>--> <!-- loops to 16.89 -->
+
 	<asset name='terezi_idle' type='graphic'>dialogs/terezi/terezi_idle.png</asset>
-	<asset name='terezi_talk' type='graphic'>dialogs/terezi/terezi_talk.png</asset>
-	<asset name='terezi_angry' type='graphic'>dialogs/terezi/terezi_angry.png</asset>
-	<asset name='terezi_angrytalk' type='graphic'>dialogs/terezi/terezi_angrytalk.png</asset>
-	<asset name='terezi_annoyed' type='graphic'>dialogs/terezi/terezi_annoyed.png</asset>
-	<asset name='terezi_annoyedtalk' type='graphic'>dialogs/terezi/terezi_annoyedtalk.png</asset>
-	<asset name='terezi_creepy' type='graphic'>dialogs/terezi/terezi_creepy.png</asset>
-	<asset name='terezi_creepytalk' type='graphic'>dialogs/terezi/terezi_creepytalk.png</asset>
-	<asset name='terezi_creepylaugh' type='graphic'>dialogs/terezi/terezi_creepylaugh.png</asset>
-	<asset name='terezi_fish' type='graphic'>dialogs/terezi/terezi_fish.png</asset>
-	<asset name='terezi_fishtalk' type='graphic'>dialogs/terezi/terezi_fishtalk.png</asset>
-	<asset name='terezi_happy' type='graphic'>dialogs/terezi/terezi_happy.png</asset>
-	<asset name='terezi_happytalk' type='graphic'>dialogs/terezi/terezi_happytalk.png</asset>
-	<asset name='terezi_happier' type='graphic'>dialogs/terezi/terezi_happier.png</asset>
-	<asset name='terezi_ohyes' type='graphic'>dialogs/terezi/terezi_ohyes.png</asset>
-	<asset name='terezi_wink' type='graphic'>dialogs/terezi/terezi_wink.png</asset>
-	<asset name='terezi_wut' type='graphic'>dialogs/terezi/terezi_wut.png</asset>
-	<asset name='terezi_wut2' type='graphic'>dialogs/terezi/terezi_wut2.png</asset>
-	-->
+	<asset name='terezi_sad' type='graphic'>dialogs/terezi/terezi_sad.png</asset>
+	
 </assets>
 
 <hud>
 	<dialogsprites>	
-		<!--
   		<animation name='terezi_idle' class='terezi-dialog' sheet='terezi_idle'/>
-  		<animation name='terezi_talk' class='terezi-dialog' sheet='terezi_talk' length='2'/>
-  		<animation name='terezi_angry' class='terezi-dialog' sheet='terezi_angry'/>
-  		<animation name='terezi_angrytalk' class='terezi-dialog' sheet='terezi_angrytalk' length='2'/>
-  		<animation name='terezi_annoyed' class='terezi-dialog' sheet='terezi_annoyed'/>
-  		<animation name='terezi_annoyedtalk' class='terezi-dialog' sheet='terezi_annoyedtalk' length='2'/>
-  		<animation name='terezi_creepy' class='terezi-dialog' sheet='terezi_creepy'/>
-  		<animation name='terezi_creepytalk' class='terezi-dialog' sheet='terezi_creepytalk' length='2'/>
-  		<animation name='terezi_creepylaugh' class='terezi-dialog' sheet='terezi_creepylaugh' length='2'/>
-  		<animation name='terezi_fish' class='terezi-dialog' sheet='terezi_fish'/>
-  		<animation name='terezi_fishtalk' class='terezi-dialog' sheet='terezi_fishtalk' length='2'/>
-  		<animation name='terezi_happy' class='terezi-dialog' sheet='terezi_happy'/>
-  		<animation name='terezi_happytalk' class='terezi-dialog' sheet='terezi_happytalk' length='2'/>
-  		<animation name='terezi_happier' class='terezi-dialog' sheet='terezi_happier'/>
-  		<animation name='terezi_ohyes' class='terezi-dialog' sheet='terezi_ohyes'/>
-  		<animation name='terezi_wink' class='terezi-dialog' sheet='terezi_wink' length='2'/>
-  		<animation name='terezi_wut' class='terezi-dialog' sheet='terezi_wut'/>
-  		<animation name='terezi_wut2' class='terezi-dialog' sheet='terezi_wut2'/>
-  	-->
+  		<animation name='terezi_talk' class='terezi-dialog' sheet='terezi_sad' />
   </dialogsprites>
 </hud>
 </sburb>

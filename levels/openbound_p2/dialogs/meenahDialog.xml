@@ -142,5 +142,50 @@
       </args>
 </action>
 
+<action sprite='karkat' class='meenahTalk4' command='talk' name='Talk to Meenah.'>
+      <args>
+      @karkat_idle KARKAT: LIKE I SAID, MAKE YOURSELF AT HOME.
+      @karkat_talk KARKAT: FEEL FREE TO HANG OUT WITH MY LUSUS THERE. THOUGH I SHOULD WARN YOU, HE'S NEVER MET ANOTHER KID HE DIDN'T MAKE AT LEAST SOME VAGUE ATTEMPT TO EAT.
+      <!--  -->
+      </args>
+</action>
+
+<action sprite='terezi' class='meenahTalk5' command='talk' name='Talk to Meenah.'>
+      <args>
+      @terezi_idle TEREZI: OH... H3Y
+      @terezi_idle TEREZI: ITS YOU
+      @terezi_idle TEREZI: WH4T 4R3 YOU DOING IN MY HIV3?
+      @meenah_idle MEENAH: shit pyrope dont sniff at me
+      @meenah_talk MEENAH: i was standin around in shoutkats place when it all dream switched on me outta nowhere
+      @terezi_idle TEREZI: DID YOU S33 HIM COM3 IN H3R3?
+      @meenah_idle MEENAH: naw
+      @meenah_idle MEENAH: wait you lookin for him now too?
+      @terezi_idle TEREZI: Y3S
+      @meenah_talk MEENAH: good luck with that the guys slippery as a goddamn eel
+      @meenah_talk MEENAH: spent all day tracking him down myself
+      @meenah_talk MEENAH: but i finally caught up with him a while ago
+      @terezi_idle TEREZI: OH?
+      @meenah_idle MEENAH: yeah
+      @meenah_idle MEENAH: and i think
+      @meenah_creepy MEENAH: we might be goin on a date later?
+      @terezi_idle TEREZI: WH4T
+      @meenah_idle MEENAH: i mean
+      @meenah_happy MEENAH: maybe
+      @meenah_talk MEENAH: i dunno if im misreadin his intent there
+      @meenah_talk MEENAH: you might know better than me
+      @terezi_idle TEREZI: WH4T DID H3 S4Y?
+      @meenah_talk MEENAH: well whatever the case is later hes goin to hop off the meteor and fight lord invincible with me
+      @meenah_wut MEENAH: whatta you think am i readin too much into shit or
+      @terezi_idle TEREZI: UMM...
+      @terezi_sad TEREZI: SHRUG >:|
+      @meenah_idle MEENAH: yeah guess well sea
+      @meenah_idle MEENAH: anyway im out
+      @meenah_talk MEENAH: this hive you got is craycray pyrope
+      @meenah_happy MEENAH: can appreciate a girl with a gaudy sense a design
+      @! Be Meenah?
+      <!-- y/n -->
+      </args>
+</action>
+
 	</classes>
 </sburb>
