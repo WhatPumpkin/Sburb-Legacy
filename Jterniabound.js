@@ -351,7 +351,7 @@ var _onkeydown = function(e){
 				    }
 			    }
 			    if(Sburb.chooser.choices.length>0){
-				    Sburb.chooser.choices.push(new Sburb.Action("cancel","cancel","cancel"));
+				    Sburb.chooser.choices.push(new Sburb.Action("cancel","cancel","Cancel."));
 				    beginChoosing();
 			    }
 		    }
@@ -501,9 +501,11 @@ function hasControl(){
 function focusCamera(){
 	//need to divide these by scaleX and scaleY if repurposed
 	if(!Sburb.destFocus){
-		Sburb.cam.x = Sburb.focus.x-Sburb.Stage.width/2;
-		Sburb.cam.y = Sburb.focus.y-Sburb.Stage.height/2;
-	}else if(Math.abs(Sburb.destFocus.x-Sburb.cam.x-Sburb.Stage.width/2)>8 || Math.abs(Sburb.destFocus.y-Sburb.cam.y-Sburb.Stage.height/2)>8){
+		if(Sburb.focus){
+			Sburb.cam.x = Sburb.focus.x-Sburb.Stage.width/2;
+			Sburb.cam.y = Sburb.focus.y-Sburb.Stage.height/2;
+		}
+	}else if(Math.abs(Sburb.destFocus.x-Sburb.cam.x-Sburb.Stage.width/2)>4 || Math.abs(Sburb.destFocus.y-Sburb.cam.y-Sburb.Stage.height/2)>4){
 		Sburb.cam.x += (Sburb.destFocus.x-Sburb.Stage.width/2-Sburb.cam.x)/5;
 		Sburb.cam.y += (Sburb.destFocus.y-Sburb.Stage.height/2-Sburb.cam.y)/5;
 	}else{
