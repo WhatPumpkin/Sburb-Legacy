@@ -1,7 +1,7 @@
 <sburb description='ui configuration'>
 
 <dependencies>
-	<dependency>etc/rebubbleText.xml</dependency>
+	<!--<dependency>etc/rebubbleText.xml</dependency>-->
 </dependencies>
 
 <assets>
@@ -92,6 +92,7 @@
 </spritebutton>
 
 <spritebutton name='bubbleButton' x='510' y='300' width='30' height='26' sheet='bubbleButtonSheet'>
-	<action silent='true' soft='true' class='rebubble'/>
+	<!--<action silent='true' soft='true' class='rebubble'/>-->
+	<action command='cancel' silent='true' soft='true'/>
 </spritebutton>
 </sburb>
