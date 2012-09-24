@@ -11,6 +11,9 @@
 	<asset name='fifthRoomBG_1_1' type='graphic'>backgrounds/slices/fifthRoomBG_1_1.png</asset>
 	<asset name='fifthRoomBG_2_0' type='graphic'>backgrounds/slices/fifthRoomBG_2_0.png</asset>
 	<asset name='fifthRoomBG_2_1' type='graphic'>backgrounds/slices/fifthRoomBG_2_1.png</asset>
+	<asset name='fifthRoomBG_0_2' type='graphic'>backgrounds/slices/fifthRoomBG_0_2.png</asset>
+	<asset name='fifthRoomBG_1_2' type='graphic'>backgrounds/slices/fifthRoomBG_1_2.png</asset>
+	<asset name='fifthRoomBG_2_2' type='graphic'>backgrounds/slices/fifthRoomBG_2_2.png</asset>
 	<asset name='fifthRoomFG_1_1' type='graphic'>backgrounds/slices/fifthRoomFG_1_1.png</asset>
 
 	<asset name='fifthRoomMap' type='graphic'>backgrounds/fifthRoomMap.png</asset>
@@ -60,7 +63,7 @@
   	</sprite>
   	
   	<sprite name='fifthRoomBG'>
-  		<animation sheet='fifthRoomBG'  sliced='true' colSize='500' rowSize='500' numCols='3' numRows='2'/>
+  		<animation sheet='fifthRoomBG'  sliced='true' colSize='500' rowSize='500' numCols='3' numRows='3'/>
   	</sprite>
   	<sprite name='fifthRoomFG' depthing='2'>
   		<animation sheet='fifthRoomFG'  sliced='true' colSize='500' rowSize='500' numCols='3' numRows='2'/>

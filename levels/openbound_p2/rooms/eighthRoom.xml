@@ -79,7 +79,7 @@
   			<args>gameState,expo=true</args>
   			<action class='peanutActions'/>
   		</trigger>
-  	<triggers>
+  	</triggers>
   	
   	<sprite name='expoStand' x='609' y='243' width='92' height='78'>
    		<action command='addOverlay' name='Talk.'>

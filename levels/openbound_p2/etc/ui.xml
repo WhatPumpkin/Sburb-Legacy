@@ -92,6 +92,6 @@
 </spritebutton>
 
 <spritebutton name='bubbleButton' x='510' y='300' width='30' height='26' sheet='bubbleButtonSheet'>
-	<action class='rebubble'/>
+	<action silent='true' soft='true' class='rebubble'/>
 </spritebutton>
 </sburb>

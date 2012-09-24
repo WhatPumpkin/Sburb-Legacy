@@ -495,7 +495,7 @@
   	
   	<sprite name='megaDoor' x='2124' y='644' width='100' height='60'>
   		<animation name='closed' sheet='megaDoorClosed' x='-60' y='-144'/>
-  		<animation name='Open.' sheet='megaDoorOpen' x='-60' y='-144'/>
+  		<animation name='open' sheet='megaDoorOpen' x='-60' y='-144'/>
   	</sprite>
   	
   	<sprite class='chest2' name='firstRoomChest1' x='1230' y='208'>
