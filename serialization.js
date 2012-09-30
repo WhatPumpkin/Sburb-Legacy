@@ -531,24 +531,36 @@ Sburb.loadSerialFromXML = function(file,keepOld) {
 		fi = document.getElementById("levelFile");
 		return;
     }
-    if (request.status === 200 || request.status == 0) {  
-		loadSerial(request.responseText, keepOld);
+    if (request.status === 200 || request.status == 0) { 
+			loadSerial(request.responseText, keepOld, file);
     }
 }
 
 //main serial loading
-function loadSerial(serialText, keepOld) {
+function loadSerial(serialText, keepOld, filename) {
 	Sburb.haltUpdateProcess();
 
     var inText = serialText; //document.getElementById("serialText");
     var parser=new DOMParser();
-    var input=parser.parseFromString(inText,"text/xml").documentElement;
+    var parsed=parser.parseFromString(inText,"text/xml");
+    
+    if (parsed.getElementsByTagName("parsererror").length>0) {
+        var error = parsed.getElementsByTagName("parsererror")[0];
+        if (filename) {
+            console.error("XML parsing error in '"+filename+"': " + parseXMLError(error));
+        } else {
+            console.error("XML parsing error: " + parseXMLError(error));
+        }
+        throw "XML parsing error";
+    }
+    
+    var input = parsed.documentElement;
 	
 	if(!keepOld) {
     	purgeAssets(); 
     	purgeState();
     }
-    
+
     var rootAttr = input.attributes;
 
 	var levelPath = rootAttr.getNamedItem("levelPath");
@@ -588,6 +600,20 @@ function loadSerial(serialText, keepOld) {
     loadSerialAssets(input);
 	loadQueue.push(input);
 	loadSerialState(input); 
+}
+
+function parseXMLError(n) {
+    if(n.nodeType == 3) {
+        return n.nodeValue;
+    }
+    if(n.nodeName == "h3") {
+        return "";
+    }
+    var error = ""
+    for(var i=0; i<n.childNodes.length; i++) {
+        error = error + parseXMLError(n.childNodes[i]);
+    }
+    return error;
 }
 
 function loadDependencies(input){
