@@ -533,17 +533,8 @@ var parseCharacterString = Sburb.parseCharacterString = function(string){
 function parseActionString(string){
 	var actions = [];
 	string = "<sburb>"+string+"</sburb>";
-	var parser=new DOMParser();
-    var parsed=parser.parseFromString(string,"text/xml");
     
-    if (parsed.getElementsByTagName("parsererror").length>0) {
-        var error = parsed.getElementsByTagName("parsererror")[0];
-        console.error("Error parsing action string: " + parseXMLError(error));
-        throw "XML parsing error";
-        return;
-    }
-    
-    var input = parsed.documentElement;
+	var input = Sburb.parseXML(string);
 	for(var i=0; i<input.childNodes.length; i++) {
 		var tmp = input.childNodes[i];
 		if(tmp.tagName=="action") {
@@ -551,20 +542,6 @@ function parseActionString(string){
 		}
 	}
 	return actions;
-}
-
-function parseXMLError(n) {
-    if(n.nodeType == 3) {
-        return n.nodeValue;
-    }
-    if(n.nodeName == "h3") {
-        return "";
-    }
-    var error = ""
-    for(var i=0; i<n.childNodes.length; i++) {
-        error = error + parseXMLError(n.childNodes[i]);
-    }
-    return error;
 }
 
 

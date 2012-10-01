@@ -532,29 +532,23 @@ Sburb.loadSerialFromXML = function(file,keepOld) {
 		return;
     }
     if (request.status === 200 || request.status == 0) { 
-			loadSerial(request.responseText, keepOld, file);
+        try {
+            loadSerial(request.responseText, keepOld);
+        } catch(err) {
+            if (err && err.name && err.name == "XML Parsing Exception") {
+                console.error("Error parsing '"+file+"'")
+            }
+            throw err;
+        }
     }
 }
 
 //main serial loading
-function loadSerial(serialText, keepOld, filename) {
+function loadSerial(serialText, keepOld) {
 	Sburb.haltUpdateProcess();
 
     var inText = serialText; //document.getElementById("serialText");
-    var parser=new DOMParser();
-    var parsed=parser.parseFromString(inText,"text/xml");
-    
-    if (parsed.getElementsByTagName("parsererror").length>0) {
-        var error = parsed.getElementsByTagName("parsererror")[0];
-        if (filename) {
-            console.error("XML parsing error in '"+filename+"': " + parseXMLError(error));
-        } else {
-            console.error("XML parsing error: " + parseXMLError(error));
-        }
-        throw "XML parsing error";
-    }
-    
-    var input = parsed.documentElement;
+    var input = Sburb.parseXML(inText);
 	
 	if(!keepOld) {
     	purgeAssets(); 
@@ -600,6 +594,18 @@ function loadSerial(serialText, keepOld, filename) {
     loadSerialAssets(input);
 	loadQueue.push(input);
 	loadSerialState(input); 
+}
+
+Sburb.parseXML = function(inText) {
+    var parser=new DOMParser();
+    var parsed=parser.parseFromString(inText,"text/xml");
+    
+    if (parsed.getElementsByTagName("parsererror").length>0) {
+        var error = parsed.getElementsByTagName("parsererror")[0];
+        throw {name: "XML Parsing Exception", message:parseXMLError(error), input:inText};
+    }
+    
+    return parsed.documentElement;
 }
 
 function parseXMLError(n) {
