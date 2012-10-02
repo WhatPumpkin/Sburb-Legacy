@@ -148,7 +148,7 @@ Sburb.loadStateFromStorage = function(auto, local)
 
 	if(!compressed)
 		return false;
-	var decoded = Iuppiter.decompress(Iuppiter.Base64.decode(Iuppiter.toByteArray(compressed),true));
+	var decoded = Iuppiter.decompress(Iuppiter.Base64.decode(Iuppiter.toByteArray(compressed),true)).replace(/\0/g,"");
 	Sburb.loadSerial(decoded);
 	
 	return true;
