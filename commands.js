@@ -533,8 +533,8 @@ var parseCharacterString = Sburb.parseCharacterString = function(string){
 function parseActionString(string){
 	var actions = [];
 	string = "<sburb>"+string+"</sburb>";
-	var parser=new DOMParser();
-    var input=parser.parseFromString(string,"text/xml").documentElement;
+    
+	var input = Sburb.parseXML(string);
 	for(var i=0; i<input.childNodes.length; i++) {
 		var tmp = input.childNodes[i];
 		if(tmp.tagName=="action") {
