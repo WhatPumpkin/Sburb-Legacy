@@ -704,6 +704,8 @@ function parseSerialAsset(curAsset) {
 	}else if(type=="font"){
 		//var sources = value.split(";");
 		newAsset = Sburb.createFontAsset(name,value);
+	}else if(type=="text"){
+		newAsset = Sburb.createTextAsset(name,value);
 	}
     newAsset._raw_xml = curAsset;
 	return newAsset;

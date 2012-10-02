@@ -108,6 +108,12 @@ function getNodeText(xmlNode){
   for(var i=0;i<xmlNode.childNodes.length;i++){
   	var child = xmlNode.childNodes[i];
   	if(child.tagName=="args"){
+			if (child.attributes) {
+				var asset = child.attributes.getNamedItem("body");
+				if (asset && asset.value && Sburb.assetManager.isLoaded(asset.value)) {
+					return Sburb.assets[asset.value].text;
+				}
+			}
   		for(var k=0;k<child.childNodes.length;k++){
 				if(child.childNodes[k].firstChild){
 					serializer = new XMLSerializer();
