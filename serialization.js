@@ -535,8 +535,13 @@ Sburb.loadSerialFromXML = function(file,keepOld) {
         try {
             loadSerial(request.responseText, keepOld);
         } catch(err) {
-            if (err && err.name && err.name == "XML Parsing Exception") {
-                console.error("Error parsing '"+file+"'")
+            if (err instanceof XMLParsingError) {
+                if (err.file) {
+                    console.error("Loaded from '"+file+"'")
+                } else {
+                    err.file = file
+                    console.error("Error in '"+file+"'")
+                }
             }
             throw err;
         }
@@ -602,11 +607,18 @@ Sburb.parseXML = function(inText) {
     
     if (parsed.getElementsByTagName("parsererror").length>0) {
         var error = parsed.getElementsByTagName("parsererror")[0];
-        throw {name: "XML Parsing Exception", message:parseXMLError(error), input:inText};
+        throw new XMLParsingError(error, inText);
     }
     
     return parsed.documentElement;
 }
+
+function XMLParsingError(error, input) {
+    this.name = "XMLParsingError";
+    this.message = parseXMLError(error);
+    this.input = (input || "");
+}
+XMLParsingError.prototype = new Error();
 
 function parseXMLError(n) {
     if(n.nodeType == 3) {
