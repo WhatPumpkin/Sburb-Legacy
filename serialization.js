@@ -410,6 +410,8 @@ function serializeAssets(output,assets,effects){
 			innerHTML += curAsset.originalVals;
 		}else if(curAsset.type=="font"){
 			innerHTML += curAsset.originalVals;
+		}else if(curAsset.type=="text"){
+			innerHTML += escape(curAsset.text.trim());
 		}
 
 		output = output.concat("\n<asset name='"+curAsset.name+"' type='"+curAsset.type+"' ");
@@ -704,6 +706,8 @@ function parseSerialAsset(curAsset) {
 	}else if(type=="font"){
 		//var sources = value.split(";");
 		newAsset = Sburb.createFontAsset(name,value);
+	}else if(type=="text"){
+		newAsset = Sburb.createTextAsset(name,value);
 	}
     newAsset._raw_xml = curAsset;
 	return newAsset;
