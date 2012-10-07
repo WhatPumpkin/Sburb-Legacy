@@ -164,6 +164,7 @@ Sburb.AssetManager.prototype.loadAsset = function(assetObj) {
     var name = assetObj.name;
     this.assets[name] = assetObj;
     if(assetObj.instant) {
+        this.loaded[name] = true;
         return;
     }
 
@@ -829,6 +830,20 @@ Sburb.createFontAsset = function(name, sources){
     
     ret.reload();
     
+    return ret
+}
+
+//create a text asset
+Sburb.createTextAsset = function(name, text) {
+    var ret = {text: unescape(text).trim()};
+    ret.name = name;
+    ret.type = "text";
+    ret.instant = true;
+    ret.assetOnLoadFunction = function(fn) {
+        if(fn) { fn(); }
+        return;
+    }
+    ret.assetOnFailFunction = function(fn) { return false; }
     return ret
 }
 
