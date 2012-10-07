@@ -12,11 +12,7 @@ Sburb.Action = function(command,info,name,sprite,followUp,noWait,noDelay,times,s
 	this.sprite = sprite?sprite:null;
 	this.name = name?name:null;
 	this.command = command
-	if (typeof(info) == "string") {
-		this._info = unescape(info).trim();
-	} else {
-		this._info = info;
-	}
+	this._info = info;
 	this.followUp = followUp?followUp:null;
 	this.noWait = noWait?noWait:false;
 	this.noDelay = noDelay?noDelay:false;
@@ -45,7 +41,7 @@ Sburb.Action.prototype = {
 
 //Make an exact copy
 Sburb.Action.prototype.clone = function(){
-	return new Sburb.Action(this.command, this.info, this.name, this.sprite, this.followUp, this.noWait, this.noDelay, this.times, this.soft, this.silent);
+	return new Sburb.Action(this.command, this._info, this.name, this.sprite, this.followUp, this.noWait, this.noDelay, this.times, this.soft, this.silent);
 }
 
 //Serialize to XML (see serialization.js)
@@ -93,9 +89,14 @@ Sburb.parseAction = function(node) {
 		}
 		var times = attributes.getNamedItem("times") || attributes.getNamedItem("loops") || attributes.getNamedItem("for");
 
+		var info = node.firstChild?getNodeText(node):""
+		if(typeof(info) == "string") {
+			info = unescape(info).trim();
+		}
+
 		var newAction = new Sburb.Action(
 					 attributes.getNamedItem("command").value,
-					 node.firstChild?getNodeText(node):"",
+					 info,
 					 attributes.getNamedItem("name")?unescape(attributes.getNamedItem("name").value):null,
 					 targSprite,
 					 null,
