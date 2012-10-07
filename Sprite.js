@@ -34,8 +34,7 @@ Sprite.prototype.addAnimation = function(anim){
 }
 
 Sprite.prototype.startAnimation = function(name){
-	
-	if(this.state!=name){
+	if(this.state!=name && this.animations[name]){
 		this.animation = this.animations[name];
 		this.animation.reset();
 		this.state = name;
@@ -43,18 +42,17 @@ Sprite.prototype.startAnimation = function(name){
 }
 
 Sprite.prototype.update = function(curRoom){
-	if(this.animation.hasPlayed() && this.animation.followUp){
-		this.startAnimation(this.animation.followUp);
-	}else{
-		this.animation.update();
+	if(this.animation){
+		if(this.animation.hasPlayed() && this.animation.followUp){
+			this.startAnimation(this.animation.followUp);
+		}else{
+			this.animation.update();
+		}
 	}
-}
-Sprite.prototype.staticImg = function() {
-	return this.animation.staticImg();
 }
 
 Sprite.prototype.draw = function(){
-	if(this.animation!=null){
+	if(this.animation){
 		this.animation.draw(this.x,this.y);
 	}
 }
@@ -92,7 +90,7 @@ Sprite.prototype.hitsPoint = function(x,y){
 }
 
 Sprite.prototype.isVisuallyUnder = function(x,y){
-	return this.animation.isVisuallyUnder(x-this.x,y-this.y);
+	return this.animation && this.animation.isVisuallyUnder(x-this.x,y-this.y);
 }
 
 Sprite.prototype.addAction = function(action){
@@ -146,8 +144,9 @@ Sprite.prototype.getBoundaryQueries = function(dx,dy){
 
 Sprite.prototype.serialize = function(output){
 	var animationCount = 0;
-	for(anim in this.animations){
-			animationCount++;
+	for(var anim in this.animations){
+        if(!this.animations.hasOwnProperty(anim)) continue;
+        animationCount++;
 	}
 	
 	output = output.concat("\n<sprite "+
@@ -156,10 +155,11 @@ Sprite.prototype.serialize = function(output){
 		">");
 
 	for(var anim in this.animations){
+        if(!this.animations.hasOwnProperty(anim)) continue;
 		output = this.animations[anim].serialize(output);
 	}
-	for(var action in this.actions){
-		output = this.actions[action].serialize(output);
+	for(var i=0; i < this.actions.length; i++){
+		output = this.actions[i].serialize(output);
 	}
 	output = output.concat("\n</sprite>");
 	return output;

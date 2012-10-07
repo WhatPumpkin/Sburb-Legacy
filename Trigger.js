@@ -10,108 +10,39 @@ var Sburb = (function(Sburb){
 /////////////////////////////////////////
 
 //constructor
-Sburb.Trigger = function(info,action,followUp,restart,detonate){
+Sburb.Trigger = function(info,action,followUp,restart,detonate,operator){
+	//console.log("Trigger constructor with: "+info, info);
+	if(typeof info == "string"){
+		info = [info];
+	}
+	
 	this.info = info;
 	this.followUp = followUp?followUp:null;
 	this.action = action?action:null;
 	this.restart = restart?restart:false;
 	this.detonate = detonate?detonate:false;
-	this.type = null;
+	this.operator = operator?operator.toUpperCase():"AND";
 	
+	this.events = [];
+	for(var i=0;i<info.length;i++){
+		var inf = this.info[i].trim();
+		var params = inf.split(",");
+		var type = params[0];
+		//console.log("parsed trigger args: "+type+"("+inf+")");
+		this.events[i] = new Sburb.events[type](inf);
+	}
 	this.reset();
 }
 
 //parse the trigger info into an actual event to watch
 Sburb.Trigger.prototype.reset = function(){
-	var params = this.info.split(",");
-	this.type = params[0];
-
-	if(this.type=="spriteProperty"){
-		if(params[1]=="char"){
-			this.entity = params[1];
-		}else{
-			this.entity = Sburb.sprites[params[1]];
-		}
-		var token;	
-		var query = params[2];
-		if(query.indexOf(">")>-1){
-			token = ">";
-			this.trigger = function(entity,property,target){
-				return entity[property]>target;
-			};		
-		}else if(query.indexOf("<")>-1){
-			token = "<";
-			this.trigger = function(entity,property,target){
-				return entity[property]<target;
-			};
-		}else if(query.indexOf("!=")>-1){
-			token = "!=";
-			this.trigger = function(entity,property,target){
-				return entity[property]!=target;
-			};				
-		}else if(query.indexOf("=")>-1){
-			token = "=";
-			this.trigger = function(entity,property,target){
-				return entity[property]==target;
-			};		
-		}
-		var queryParts = query.split(token);
-		this.property = queryParts[0].trim();
-		this.target = queryParts[1].trim();
-	
-		this.checkCompletion = function(){
-			var entity = this.entity;
-			if(this.entity=="char"){
-				entity = Sburb.char;
-			}
-			return this.trigger(entity,this.property,this.target);
-		}
-	}else if(this.type=="inBox"){
-		if(params[1]=="char"){
-			this.entity = params[1];
-		}else{
-			this.entity = Sburb.sprites[params[1]];
-		}
-		this.x = parseInt(params[2]);
-		this.y = parseInt(params[3]);
-		this.width = parseInt(params[4]);
-		this.height = parseInt(params[5]);
-		this.checkCompletion = function(){
-			var entity = this.entity;
-			if(this.entity=="char"){
-				entity = Sburb.char;
-			}
-			return entity.x>=this.x && entity.y>=this.y && entity.x<=this.x+this.width && entity.y<=this.y+this.height;
-		}
-	}else if(this.type=="time"){
-		this.time = parseInt(params[1]);
-	
-		this.checkCompletion = function(){
-			this.time--;
-			return this.time<=0;
-		};
-	
-	}else if(this.type=="played"){
-		this.entity = Sburb.sprites[params[1]];
-		this.checkCompletion = function(){
-			var entity = this.entity;
-			if(this.entity=="char"){
-				entity = Sburb.char;
-			}
-			return entity.animation.hasPlayed();
-		};
-	}else if(this.type=="movie"){
-		this.movie = window.document.getElementById("movie"+params[1]);
-		this.threshold = parseInt(params[2]);
-		this.checkCompletion = function(){
-			if(this.movie && (!this.movie.TotalFrames || 
-				(this.movie.TotalFrames()>0 && this.movie.TotalFrames()-1-this.movie.CurrentFrame()<=this.threshold))){
-				Sburb.commands.removeMovie(params[1]);
-				return true;
-			}
-			return false;
-		}
+	for(var i=0; i<this.events.length; i++){
+		this.events[i].reset();
 	}
+}
+
+Sburb.Trigger.prototype.checkCompletion = function() {
+	return this["operator"+this.operator]();
 }
 
 //check if the trigger has been satisfied
@@ -137,8 +68,11 @@ Sburb.Trigger.prototype.serialize = function(output){
 	output = output.concat("\n<trigger"+
 		(this.restart?" restart='true'":"")+
 		(this.detonate?" detonate='true'":"")+
+		(this.operator?" operator='"+this.operator+"'":"")+
 		">");
-	output = output.concat("<args>"+escape(this.info)+"</args>");
+		for(var i=0;i<this.info.length;i++){
+			output = output.concat("<args>"+escape(this.info[i])+"</args>");
+		}
 	if(this.action){
 		output = this.action.serialize(output);
 	}
@@ -149,10 +83,43 @@ Sburb.Trigger.prototype.serialize = function(output){
 	return output;
 }
 
+Sburb.Trigger.prototype.operatorAND = function(){
+	var result = true;
+	for(var i=0;i<this.events.length;i++){
+		result = result && this.events[i].checkCompletion();
+	}
+	return result;
+}
 
+Sburb.Trigger.prototype.operatorOR = function(){
+	var result = false;
+	for(var i=0;i<this.events.length;i++){
+		result = result || this.events[i].checkCompletion();
+	}
+	return result;
+}
 
+Sburb.Trigger.prototype.operatorXOR = function(){
+	var result = false;
+	for(var i=0;i<this.events.length;i++){
+		if(this.events[i].checkCompletion()){
+			if(result){
+				return false; //*EXCLUSIVE* OR!
+			}else{
+				result = true;
+			}
+		}
+	}
+	return result;
+}
 
+Sburb.Trigger.prototype.operatorNAND = Sburb.Trigger.prototype.operatorNOT = function(){
+	return !this.operatorAND();
+}
 
+Sburb.Trigger.prototype.operatorNOR = function(){
+	return !this.operatorOR();
+}
 
 
 ////////////////////////////////////////on
@@ -165,19 +132,24 @@ Sburb.parseTrigger = function(triggerNode){
 	var oldTrigger = null;
 	do{
 		var attributes = triggerNode.attributes;
-		var info = unescape(getNodeText(triggerNode).trim());
+		var info = getNodeText(triggerNode);
+		for(var i=0;i<info.length;i++){
+			info[i] = unescape(info[i]);
+		}
 		var actions = triggerNode.getElementsByTagName("action");
 		
 		var action = null;
 		var restart = false;
 		var detonate = false;
+		var operator = null;
 		if(actions.length>0 && actions[0].parentNode==triggerNode){
 			action = Sburb.parseAction(actions[0]);
 		}
 		restart = attributes.getNamedItem("restart")?attributes.getNamedItem("restart").value=="true":restart;
 		detonate = attributes.getNamedItem("detonate")?attributes.getNamedItem("detonate").value=="true":detonate;
+		operator = attributes.getNamedItem("operator")?attributes.getNamedItem("operator").value:operator;
 		
-		var trigger = new Sburb.Trigger(info,action,null,restart,detonate);
+		var trigger = new Sburb.Trigger(info,action,null,restart,detonate,operator);
 		
 		if(!firstTrigger){
 			firstTrigger = trigger;
@@ -199,7 +171,8 @@ Sburb.parseTrigger = function(triggerNode){
 
 
 function getNodeText(xmlNode){
-  if(!xmlNode) return '';
+  if(!xmlNode) return [];
+  var outputs = [];
   for(var i=0;i<xmlNode.childNodes.length;i++){
   	var child = xmlNode.childNodes[i];
   	if(child.tagName=="args"){
@@ -210,16 +183,20 @@ function getNodeText(xmlNode){
 					for(var j=0; j<child.childNodes.length; j++){
 						output += serializer.serializeToString(child.childNodes[j]);
 					}
-					return output;
+					outputs.push(output);
 				}
 			}
 			if(typeof(child.textContent) != "undefined"){
-				return child.textContent;
+				outputs.push(child.textContent);
+			}else{
+				outputs.push(child.firstChild.nodeValue);
 			}
-			return child.firstChild.nodeValue;
 		}
 	}
-	return xmlNode.firstChild.nodeValue;
+	if(outputs.length==0){
+		outputs.push(xmlNode.firstChild.nodeValue);
+	}
+	return outputs;
 }
 
 

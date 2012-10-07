@@ -1,7 +1,9 @@
 #!/bin/bash
+rm -r output
+mkdir output
 cd input
 FILES=*
-size=1000
+size=500
 
 for file in $FILES 
 do
@@ -13,7 +15,12 @@ do
 		for y in $(seq 0 $size $height)
 		do
 			#echo $x $y
-			convert $file -crop "$size"x"$size"+"$x"+"$y" "../output/$purename"_"$(($y/$size))_$(($x/$size)).png"
+			name="../output/$purename"_"$(($x/$size))_$(($y/$size)).png"
+			convert $file -crop "$size"x"$size"+"$x"+"$y" $name
+			colspace=$(identify -verbose $name | grep Colorspace)
+			if [ "$colspace" = "  Colorspace: Gray" ]; then
+				rm $name
+			fi
 		done
 	done
 done

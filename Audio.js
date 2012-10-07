@@ -17,7 +17,12 @@ Sburb.Sound = function(asset){
 //play this sound
 Sburb.Sound.prototype.play = function(pos) {
     if(window.chrome) {
-        this.asset.load();
+	if(this.playedOnce) {
+	    // console.log("load again");
+            this.asset.load();
+	} else {
+	    this.playedOnce = true;
+	}
         if(pos) {
             // chrome doesnt like us changing the play time
             // unless we're already playing

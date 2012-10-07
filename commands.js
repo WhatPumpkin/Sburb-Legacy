@@ -39,14 +39,19 @@ commands.randomTalk = function(info){
 commands.changeRoom = function(info){
 	var params = parseParams(info);
 	Sburb.changeRoom(Sburb.rooms[params[0]],parseInt(params[1]),parseInt(params[2]));
+    Sburb.loadingRoom = false; // We did it!
 }
 
 //Change the focus of the camera
 //syntax: spriteName
 commands.changeFocus = function(info){
 	var params = parseParams(info);
-	var sprite = parseCharacterString(params[0]);
-	Sburb.destFocus = sprite;
+	if(params[0]=="null"){
+		Sburb.focus = Sburb.destFocus = null;
+	}else{
+		var sprite = parseCharacterString(params[0]);
+		Sburb.destFocus = sprite;
+	}
 }
 
 //Perform changeRoom, and also add teleport effects
@@ -64,7 +69,7 @@ commands.teleport = function(info){
 commands.changeChar = function(info){
 	Sburb.char.becomeNPC();
 	Sburb.char.walk();
-	Sburb.focus = Sburb.char = Sburb.sprites[info];
+	Sburb.destFocus = Sburb.char = Sburb.sprites[info];
 	Sburb.char.becomePlayer();
 	Sburb.setCurRoomOf(Sburb.char);
 }
@@ -100,7 +105,7 @@ commands.playEffect = function(info){
 
 //Have the specified sprite play the specified animation
 //syntax: spriteName, animationName
-commands.playAnimation = function(info){
+commands.playAnimation = commands.startAnimation = function(info){
 	var params = parseParams(info);
 	var sprite = parseCharacterString(params[0]);
 	
@@ -138,7 +143,8 @@ commands.removeAction = commands.removeActions = function(info){
 commands.presentAction = commands.presentActions = function(info){
 	var actions = parseActionString(info);
 	Sburb.chooser.choices = actions;
-	Sburb.chooser.beginChoosing(Sburb.cam.x+20,Sburb.cam.y+50);
+	Sburb.chooser.beginChoosing(Sburb.Stage.x+20,Sburb.Stage.y+50);
+	//Sburb.Stage is the true position of the view. Sburb.cam is simply the desired position
 }
 
 
@@ -202,6 +208,16 @@ commands.moveSprite = function(info){
 	sprite.x = newX;
 	sprite.y = newY;
 }
+
+//Move the specified sprite to the specified depth
+//syntax: spriteName, depth
+commands.depthSprite = function(info){
+	var params = parseParams(info);
+	var sprite = parseCharacterString(params[0]);
+	var depth = parseInt(params[1]);
+	sprite.depthing = depth;
+}
+
 
 //Play the specified flash movie
 //syntax: movieName
@@ -344,6 +360,7 @@ commands.fadeOut = function(info){
 //go to a room that may not have been loaded yet
 //syntax: filepath, roomName, newCharacterX, newCharacterY
 commands.changeRoomRemote = function(info){
+    if(Sburb.loadingRoom) return; Sburb.loadingRoom = true; //Only load one room at a time
 	var params = parseParams(info);
 	var lastAction;
 	var newAction = lastAction = new Sburb.Action("fadeOut");
@@ -356,6 +373,7 @@ commands.changeRoomRemote = function(info){
 //Teleport to a room which may not have been loaded yet
 //syntax: filepath, roomName, newCharacterX, newCharacterY
 commands.teleportRemote = function(info){
+    if(Sburb.loadingRoom) return; Sburb.loadingRoom = true; //Only load one room at a time
 	commands.changeRoomRemote(info);
 	
 	Sburb.playEffect(Sburb.effects["teleportEffect"],Sburb.char.x,Sburb.char.y);
@@ -400,8 +418,8 @@ commands.unfollow = function(info){
 commands.addOverlay = function(info){
 	var params = parseParams(info);
 	var sprite = Sburb.sprites[params[0]];
-	sprite.x = Sburb.cam.x;
-	sprite.y = Sburb.cam.y;
+	sprite.x = Sburb.Stage.x;
+	sprite.y = Sburb.Stage.y;
 	Sburb.curRoom.addSprite(sprite);
 }
 
@@ -444,12 +462,68 @@ commands.saveOrLoad = function(info){
 	if(Sburb.isStateInStorage(true,local)){
 		actions.push(new Sburb.Action("load","true, "+local,"Load "+Sburb.getStateDescription(true)));
 	}
-	actions.push(new Sburb.Action("save","false,"+local,"Save"));
+	if(Sburb.tests.storage) {
+	    actions.push(new Sburb.Action("save","false,"+local,"Save"));
+    }
 	actions.push(new Sburb.Action("cancel",null,"Cancel"));
 	Sburb.chooser.choices = actions;
-	Sburb.chooser.beginChoosing(Sburb.cam.x+20,Sburb.cam.y+50);
+	Sburb.chooser.beginChoosing(Sburb.Stage.x+20,Sburb.Stage.y+50);
 }
 
+//Change global game state
+//syntax: gameState, value
+commands.setGameState = function(info) {
+	var params = parseParams(info);
+	// TODO: there should be a check to make sure the gameState key
+	// doesn't contain &, <, or >
+	Sburb.gameState[params[0]] = params[1];
+}
+
+//Move the character backwards
+//syntax: charName
+commands.goBack = function(info){
+	var params = parseParams(info);
+	var character = parseCharacterString(params[0]);
+	var vx = 0; vy = 0;
+	if(character.facing=="Front"){
+		vx = 0; 
+		vy = -character.speed;
+	}else if(character.facing=="Back"){
+		vx = 0; 
+		vy = character.speed;
+	}else if(character.facing=="Left"){
+		vx = character.speed;
+		vy = 0;
+	}else if(character.facing=="Right"){
+		vx = -character.speed; 
+		vy = 0;
+	}
+	character.tryToMove(vx,vy,Sburb.curRoom);
+}
+//tryToTrigger the given triggers in order, if one succeeds, don't do the rest (they are like an else-if chain)
+//syntax: Sburbml trigger syntax
+commands.try = function(info){
+	var triggers = parseTriggerString(info);
+	for(var i=0; i<triggers.length; i++){
+		var trigger = triggers[i];
+		trigger.detonate = true;
+		if(trigger.tryToTrigger()){
+			return;
+		}
+	}
+}
+
+
+//make the character walk in the specified direction (Up, Down, Left, Right, None)
+//syntax: charName, direction
+commands.walk = function(info){
+	var params = parseParams(info);
+	var character = parseCharacterString(params[0]);
+	var dir = params[1];
+	if(typeof character["move"+dir] == "function"){
+		character["move"+dir]();
+	}
+}
 
 //blank utlity function
 //syntax: none
@@ -460,7 +534,7 @@ commands.cancel = function(){
 
 
 
-function parseCharacterString(string){
+var parseCharacterString = Sburb.parseCharacterString = function(string){
 	if(string=="char"){
 		return Sburb.char;
 	}else{
@@ -472,8 +546,8 @@ function parseCharacterString(string){
 function parseActionString(string){
 	var actions = [];
 	string = "<sburb>"+string+"</sburb>";
-	var parser=new DOMParser();
-    var input=parser.parseFromString(string,"text/xml").documentElement;
+    
+	var input = Sburb.parseXML(string);
 	for(var i=0; i<input.childNodes.length; i++) {
 		var tmp = input.childNodes[i];
 		if(tmp.tagName=="action") {
@@ -481,6 +555,20 @@ function parseActionString(string){
 		}
 	}
 	return actions;
+}
+
+function parseTriggerString(string){
+	var triggers = [];
+	string = "<triggers>"+string+"</triggers>";
+	
+	var input = Sburb.parseXML(string);
+	for(var i=0; i<input.childNodes.length; i++) {
+		var tmp = input.childNodes[i];
+		if(tmp.tagName=="trigger") {
+			triggers.push(Sburb.parseTrigger(tmp));
+		}
+	}
+	return triggers;
 }
 
 

@@ -1,19 +1,46 @@
+// String trim polyfill
 if(typeof String.prototype.trim !== 'function') {
   String.prototype.trim = function() {
     return this.replace(/^\s+|\s+$/g, ''); 
   }
 }
+// Array Remove - By John Resig (MIT Licensed)
+if(typeof Array.prototype.remove !== 'function') {
+    Array.prototype.remove = function(from, to) {
+      var rest = this.slice((to || from) + 1 || this.length);
+      this.length = from < 0 ? this.length + from : from;
+      return this.push.apply(this, rest);
+    };
+}
+// Array contains polyfill
+if(typeof Array.prototype.contains !== 'function') {
+    Array.prototype.contains = function(obj) {
+        return this.indexOf(obj) > -1;
+    };
+}
+// Not a polyfill but lets add it anyway
+Array.prototype.destroy = function(obj) {
+    var i = this.indexOf(obj);
+    if(i >= 0)
+        this.remove(i);
+};
+// window.atob and window.btoa polyfill
+(function(){var a=typeof window!="undefined"?window:exports,b="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",c=function(){try{document.createElement("$")}catch(a){return a}}();a.btoa||(a.btoa=function(a){for(var d,e,f=0,g=b,h="";a.charAt(f|0)||(g="=",f%1);h+=g.charAt(63&d>>8-f%1*8)){e=a.charCodeAt(f+=.75);if(e>255)throw c;d=d<<8|e}return h}),a.atob||(a.atob=function(a){a=a.replace(/=+$/,"");if(a.length%4==1)throw c;for(var d=0,e,f,g=0,h="";f=a.charAt(g++);~f&&(e=d%4?e*64+f:f,d++%4)?h+=String.fromCharCode(255&e>>(-2*d&6)):0)f=b.indexOf(f);return h})})();
 
 var Sburb = (function(Sburb){
 //650x450 screen
-Sburb.Keys = {backspace:8,tab:9,enter:13,shift:16,ctrl:17,alt:18,escape:27,space:32,left:37,up:38,right:39,down:40,w:87,a:65,s:83,d:68};
+Sburb.Keys = {backspace:8,tab:9,enter:13,shift:16,ctrl:17,alt:18,escape:27,space:32,left:37,up:38,right:39,down:40,w:87,a:65,s:83,d:68,tilde:192};
 
 Sburb.name = 'Jterniabound';
 Sburb.version = '1.0';
 Sburb.Stage = null; //the canvas, we're gonna load it up with a bunch of flash-like game data like fps and scale factors
 Sburb.cam = {x:0,y:0}
+Sburb.crashed = false; // In case of catastrophic failure
 Sburb.stage = null; //its context
+Sburb.gameState = {};
 Sburb.pressed = null; //the pressed keys
+Sburb.pressedOrder = null; //reverse stack of keypress order. Higher index = pushed later
+Sburb.debugger = null;
 Sburb.assetManager = null; //the asset loader
 Sburb.assets = null; //all images, sounds, paths
 Sburb.sprites = null; //all sprites that were Serial loaded
@@ -37,6 +64,10 @@ Sburb.engineMode = "wander";
 Sburb.fading = false;
 Sburb.lastMusicTime = -1;
 Sburb.musicStoppedFor = 0;
+Sburb.loadingRoom = false; // Only load one room at a time
+Sburb.tests = null;
+Sburb.prefixed = null;
+Sburb.firedAsync = false;
 
 Sburb.updateLoop = null; //the main updateLoop, used to interrupt updating
 Sburb.initFinished = null; //only used when _hardcode_load is true
@@ -44,9 +75,132 @@ Sburb._hardcode_load = null; //set to 1 when we don't want to load from XML: see
 Sburb._include_dev = false;
 var lastDrawTime = 0;
 
+Sburb.testCompatibility = function(div, levelName, includeDevTools) {
+    if(Modernizr.xhr2 && !Sburb.firedAsync) {
+        // Test blob response
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET",levelName,true);
+        xhr.responseType = "blob";
+        xhr.onload = function() {
+            if((this.status == 200 || this.status == 0) && this.response) {
+                Modernizr.addTest('xhrblob', function () { return true; }); // TODO: Test if this.response is actually a blob?
+            } else {
+                Modernizr.addTest('xhrblob', function () { return false; });
+            }
+        }
+        xhr.onabort = function() { Modernizr.addTest('xhrblob', function () { return false; }); };
+        xhr.onerror = function() { Modernizr.addTest('xhrblob', function () { return false; }); };
+        xhr.send();
+        
+        // Test Arraybuffer response
+        xhr = new XMLHttpRequest();
+        xhr.open("GET",levelName,true);
+        xhr.responseType = "arraybuffer";
+        xhr.onload = function() {
+            if((this.status == 200 || this.status == 0) && this.response) {
+                var arr = this.response;
+                Modernizr.addTest('xhrarraybuffer', function () { return true; }); // TODO: test if this.response is actually an arraybuffer?
+            } else {
+                Modernizr.addTest('xhrarraybuffer', function () { return false; });
+            }
+        }
+        xhr.onabort = function() { Modernizr.addTest('xhrarraybuffer', function () { return false; }); };
+        xhr.onerror = function() { Modernizr.addTest('xhrarraybuffer', function () { return false; }); };
+        xhr.send();
+        
+        Sburb.firedAsync = true;
+    } else {
+        Modernizr.addTest('xhrblob', function () { return false; });
+        Modernizr.addTest('xhrarraybuffer', function () { return false; });
+    }
+    
+    // Make sure Modernizr finished loading async tests
+    if(!('xhrblob' in Modernizr && 'xhrarraybuffer' in Modernizr && 'datauri' in Modernizr)) {
+        console.log("Still waiting for Modernizr to load...");
+        setTimeout(function() { Sburb.initialize(div, levelName, includeDevTools); }, 200);
+        Sburb.crashed = true;
+        return;
+    }
+    
+    // Use Modernizr to test compatibility
+    var errors = [];
+    if(!Modernizr.fontface)                                     errors.push("- Lack of CSS @font-face support.");
+    if(!Modernizr.canvas)                                       errors.push("- Lack of canvas support.");
+    if(!Modernizr.canvastext)                                   errors.push("- Lack of canvas text support.");
+    if(!Modernizr.json)                                         errors.push("- Lack of JSON support.");
+    if(!Modernizr.xmlserializer)                                errors.push("- Lack of XMLSerializer support.");
+    
+    if(errors.length) {
+        // Display what failed
+        var deploy = '<div style="padding-left: 0; padding-right: 0; margin-left: auto; margin-right: auto; display: block; width:650px; height:450px; overflow: auto;">';
+        deploy += '<p style="font-weight: bold;">Your browser is too old. Here are the problems we found:</p>';
+        for(var i=0; i < errors.length; i++)
+            deploy += '<p>'+errors[i]+'</p>';
+        deploy += '<p>Maybe try Chrome instead?</p>';
+        deploy += '</div>';
+        document.getElementById(div).innerHTML = deploy;
+        Sburb.crashed = true; // Stop initialization
+    } else {
+        Sburb.prefixed = Modernizr.prefixed;
+        Sburb.tests = {};
+        Sburb.tests['blobrevoke'] = Modernizr.blob && Modernizr.blob.revoke;
+        if(Modernizr.audio && (Modernizr.audio.mp3 || Modernizr.audio.ogg)) {
+            Sburb.tests['audio'] = new Boolean(true);
+            Sburb.tests.audio.mp3 = Modernizr.audio.mp3;
+            Sburb.tests.audio.ogg = Modernizr.audio.ogg;
+        } else {
+            Sburb.tests['audio'] = false;
+        }
+        if(Modernizr.localstorage || Modernizr.sessionstorage) {
+            Sburb.tests['storage'] = new Boolean(true);
+            Sburb.tests.storage.local = Modernizr.localstorage;
+            Sburb.tests.storage.session = Modernizr.sessionstorage;
+        } else {
+            Sburb.tests['storage'] = false;
+        }
+        
+        // Caution, weirdness ahead. Tests in order of preference, future tests should use increasing numbers. Do not change existing constants.
+        // To deprecate a test, move it to the bottom of the list. To make it obsolete, comment it out.
+        // Assets.js and Debugger.js are the only files to reference these constants
+        Sburb.tests['loading'] = 0; // Just pass raw URL to elements
+        if(Modernizr.xhrblob && Modernizr.blob && Modernizr.blob.url && Modernizr.blob.creator) {
+            Sburb.tests.loading = 11; // Load as blob, pass to blob constructor and generate Blob URI
+        } else if(Modernizr.xhrblob && Modernizr.blob && Modernizr.blob.url && Modernizr.blob.builder) {
+            Sburb.tests.loading = 10; // Load as blob, pass to blob builder and generate Blob URI
+        } else if(Modernizr.xhrblob && Modernizr.blob && Modernizr.blob.url && Modernizr.blob.slice) {
+            Sburb.tests.loading = 9; // Load as blob, pass to blob.slice and generate Blob URI
+        } else if(Modernizr.xhrblob && Modernizr.datauri && Modernizr.filereader) {
+            Sburb.tests.loading = 8; // Load as blob, pass to file reader and generate Data URI
+        } else if(Modernizr.xhrarraybuffer && Modernizr.arraybuffer && Modernizr.arraybuffer.dataview && Modernizr.blob && Modernizr.blob.url && Modernizr.blob.creator) {
+            Sburb.tests.loading = 7; // Load as arraybuffer, convert to data view, pass to blob constructor and generate Blob URI
+        } else if(Modernizr.xhrarraybuffer && Modernizr.arraybuffer && Modernizr.blob && Modernizr.blob.url && Modernizr.blob.creator) {
+            Sburb.tests.loading = 6; // Load as arraybuffer, use hacks to pass to blob constructor and generate Blob URI
+        } else if(Modernizr.xhrarraybuffer && Modernizr.arraybuffer && Modernizr.blob && Modernizr.blob.url && Modernizr.blob.builder) {
+            Sburb.tests.loading = 5; // Load as arraybuffer, pass to blob builder and generate Blob URI
+        } else if(Modernizr.xhrarraybuffer && Modernizr.arraybuffer && Modernizr.arraybuffer.dataview && Modernizr.datauri) {
+            Sburb.tests.loading = 4; // Load as arraybuffer, convert to base 64 and generate Data URI
+        } else if(Modernizr.overridemimetype && Modernizr.blob && Modernizr.blob.url && Modernizr.blob.creator && Modernizr.arraybuffer && Modernizr.arraybuffer.dataview) {
+            Sburb.tests.loading = 3; // Load as string, convert to arraybuffer, pass to blob constructor and generate Blob URI
+        } else if(Modernizr.overridemimetype && Modernizr.blob && Modernizr.blob.url && Modernizr.blob.builder && Modernizr.arraybuffer && Modernizr.arraybuffer.dataview) {
+            Sburb.tests.loading = 2; // Load as string, convert to arraybuffer, pass to blob builder and generate Blob URI
+        } else if(Modernizr.overridemimetype && Modernizr.datauri) {
+            Sburb.tests.loading = 1; // Load as string, clean it up, convert to base 64 and generate Data URI
+        } else if(Modernizr.vbarray && Modernizr.datauri) {
+            Sburb.tests.loading = 12; // Load as god knows what, use IE hacks, convert to base 64 and generate Data URI
+        }
+    }
+}
+
 Sburb.initialize = function(div,levelName,includeDevTools){
+    Sburb.crashed = false;
+    Sburb.testCompatibility(div, levelName, includeDevTools);
+    if(Sburb.crashed)
+        return; // Hard crash if the browser is too old. testCompatibility() will handle the error message
+	Sburb.debugger = new Sburb.Debugger(); // Load debugger first! -- But not quite
+    
 	var deploy = '   \
-	<div style="padding-left: 0;\
+	<div style="position: relative;\
+        padding-left: 0;\
 		padding-right: 0;\
 		margin-left: auto;\
 		margin-right: auto;\
@@ -65,26 +219,17 @@ Sburb.initialize = function(div,levelName,includeDevTools){
 		</div>\
 		<div id="SBURBmovieBin" style="position: absolute; z-index:200"> </div>\
 		<div id="SBURBfontBin"></div>\
+		<div id="SBURBgifBin" style="width: 0; height: 0; overflow: hidden;"></div>\
 		</br>';
 	if(includeDevTools){
 		Sburb._include_dev = true;
-		deploy+='\
-		<div> \
-			<button id="saveState" onclick="Sburb.serialize(Sburb)">save state</button>\
-			<button id="loadState" onclick="Sburb.loadSerial(document.getElementById(\'serialText\').value)">load state</button>\
-			<input type="file" name="level" id="levelFile" />\
-			<button id="loadLevelFile" onclick="Sburb.loadLevelFile(document.getElementById(\'levelFile\'))">load level</button>\
-			<button id="strifeTest" onclick="Sburb.loadSerialFromXML(\'levels/strifeTest.xml\')">strife test</button>\
-			<button id="wanderTest" onclick="Sburb.loadSerialFromXML(\'levels/wanderTest.xml\')">wander test</button>\
-			</br>\
-			<textarea id="serialText" style="display:inline; width:650px; height:100px;"></textarea><br/>\
-		</div>';
 	}
 	deploy+='</div>';
 	document.getElementById(div).innerHTML = deploy;
 	var gameDiv = document.getElementById("SBURBgameDiv");
 	gameDiv.onkeydown = _onkeydown;
 	gameDiv.onkeyup = _onkeyup;
+	
 	Sburb.Stage = document.getElementById("SBURBStage");	
 	Sburb.Stage.scaleX = Sburb.Stage.scaleY = 3;
 	Sburb.Stage.x = Sburb.Stage.y = 0;
@@ -93,7 +238,7 @@ Sburb.initialize = function(div,levelName,includeDevTools){
 	Sburb.Stage.fadeRate = 0.1;
 	
 	Sburb.stage = Sburb.Stage.getContext("2d");
-	
+	Sburb.Stage.onblur = _onblur;
 	Sburb.chooser = new Sburb.Chooser();
 	Sburb.dialoger = null;
     Sburb.assetManager = new Sburb.AssetManager();
@@ -103,7 +248,9 @@ Sburb.initialize = function(div,levelName,includeDevTools){
 	Sburb.effects = {};
 	Sburb.buttons = {};
 	Sburb.hud = {};
-	Sburb.pressed = [];
+	Sburb.gameState = {};
+	Sburb.pressed = {};
+	Sburb.pressedOrder = [];
 	
     Sburb.loadSerialFromXML(levelName); // comment out this line and
     //loadAssets();                        // uncomment these two lines, to do a standard hardcode load
@@ -112,6 +259,7 @@ Sburb.initialize = function(div,levelName,includeDevTools){
 
 function startUpdateProcess(){
 	haltUpdateProcess();
+	Sburb.assetManager.stop();
 	Sburb.updateLoop=setInterval(update,1000/Sburb.Stage.fps);
 	Sburb.drawLoop=setInterval(draw,1000/Sburb.Stage.fps);
 }
@@ -122,6 +270,7 @@ function haltUpdateProcess(){
 		clearInterval(Sburb.drawLoop);
 		Sburb.updateLoop = Sburb.drawLoop = null;
 	}
+	Sburb.assetManager.start();
 }
 
 function update(){
@@ -130,7 +279,8 @@ function update(){
 	handleInputs();
 	handleHud();
 	
-	Sburb.curRoom.update();
+	if(!Sburb.loadingRoom)
+	    Sburb.curRoom.update();
 	
 	focusCamera();
 	handleRoomChange();
@@ -168,41 +318,54 @@ function draw(){
 	
 		Sburb.stage.restore();
 		Sburb.Stage.offset = false;
+		
+	    Sburb.debugger.draw();
 	}
 }
 
 var _onkeydown = function(e){
-	if(Sburb.chooser.choosing){
-		if(e.keyCode == Sburb.Keys.down || e.keyCode==Sburb.Keys.s){
-			Sburb.chooser.nextChoice();
-		}
-		if(e.keyCode == Sburb.Keys.up || e.keyCode==Sburb.Keys.w){
-			Sburb.chooser.prevChoice();
-		}
-		if(e.keyCode == Sburb.Keys.space && !Sburb.pressed[Sburb.Keys.space]){
-			Sburb.performAction(Sburb.chooser.choices[Sburb.chooser.choice]);
-			Sburb.chooser.choosing = false;
-		}
-	}else if(Sburb.dialoger.talking){
-		if(e.keyCode == Sburb.Keys.space && !Sburb.pressed[Sburb.Keys.space]){
-			Sburb.dialoger.nudge();
-		}
-	}else if(hasControl()){
-		if(e.keyCode == Sburb.Keys.space && !Sburb.pressed[Sburb.Keys.space] && Sburb.engineMode=="wander"){
-			Sburb.chooser.choices = [];
-			var queries = Sburb.char.getActionQueries();
-			for(var i=0;i<queries.length;i++){
-				Sburb.chooser.choices = Sburb.curRoom.queryActions(Sburb.char,queries[i].x,queries[i].y);
-				if(Sburb.chooser.choices.length>0){
-					break;
-				}
-			}
-			if(Sburb.chooser.choices.length>0){
-				Sburb.chooser.choices.push(new Sburb.Action("cancel","cancel","cancel"));
-				beginChoosing();
-			}
-		}
+    if(Sburb.updateLoop) { // Make sure we are loaded before trying to do things
+	    if(Sburb.chooser.choosing){
+		    if(e.keyCode == Sburb.Keys.down || e.keyCode==Sburb.Keys.s){
+			    Sburb.chooser.nextChoice();
+		    }
+		    if(e.keyCode == Sburb.Keys.up || e.keyCode==Sburb.Keys.w){
+			    Sburb.chooser.prevChoice();
+		    }
+		    if(e.keyCode == Sburb.Keys.space && !Sburb.pressed[Sburb.Keys.space]){
+			    Sburb.performAction(Sburb.chooser.choices[Sburb.chooser.choice]);
+			    Sburb.chooser.choosing = false;
+		    }
+	    }else if(Sburb.dialoger.talking){
+		    if(e.keyCode == Sburb.Keys.space && !Sburb.pressed[Sburb.Keys.space]){
+			    Sburb.dialoger.nudge();
+		    }
+	    }else if(hasControl()){
+		    if(e.keyCode == Sburb.Keys.space && !Sburb.pressed[Sburb.Keys.space] && Sburb.engineMode=="wander"){
+			    Sburb.chooser.choices = [];
+			    var queries = Sburb.char.getActionQueries();
+			    for(var i=0;i<queries.length;i++){
+				    Sburb.chooser.choices = Sburb.curRoom.queryActions(Sburb.char,queries[i].x,queries[i].y);
+				    if(Sburb.chooser.choices.length>0){
+					    break;
+				    }
+			    }
+			    if(Sburb.chooser.choices.length>0){
+				    Sburb.chooser.choices.push(new Sburb.Action("cancel","cancel","Cancel."));
+				    beginChoosing();
+			    }
+		    }
+	    }
 	}
+    /* There is a theoretical race condition here
+       in which pressing a key within the milliseconds
+       between injecting the canvas into the dom
+       and initializing Sburb.pressed and Sburb.pressedOrder
+       could throw an exception.
+       
+       I'm not too worried about it. -Fugi */
+	if(!Sburb.pressed[e.keyCode])
+	    Sburb.pressedOrder.push(e.keyCode);
 	Sburb.pressed[e.keyCode] = true;
     // return true if we want to pass keys along to the browser, i.e. Ctrl-N for a new window
     if(e.altKey || e.ctrlKey || e.metaKey) {
@@ -213,16 +376,32 @@ var _onkeydown = function(e){
 }
 
 var _onkeyup = function(e){
+    // See _onkeydown for race condition warning
+    if(Sburb.pressed[e.keyCode])
+    	Sburb.pressedOrder.destroy(e.keyCode);
 	Sburb.pressed[e.keyCode] = false;
 }
 
+function purgeKeys(){
+    // See _onkeydown for race condition warning
+	Sburb.pressed = {};
+	Sburb.pressedOrder = [];
+}
+
+var _onblur = function(e){
+    // See _onkeydown for race condition warning
+	purgeKeys();
+}
+
 Sburb.onMouseMove = function(e,canvas){
+    // See _onkeydown for race condition warning
 	var point = relMouseCoords(e,canvas);
 	Sburb.Mouse.x = point.x;
 	Sburb.Mouse.y = point.y;
 }
 
 Sburb.onMouseDown = function(e,canvas){
+    if(!Sburb.updateLoop) return; // Make sure we are loaded before trying to do things
 	if(Sburb.engineMode=="strife" && hasControl()){
 		Sburb.chooser.choices = Sburb.curRoom.queryActionsVisual(Sburb.char,Sburb.Stage.x+Sburb.Mouse.x,Sburb.Stage.y+Sburb.Mouse.y);
 		if(Sburb.chooser.choices.length>0){
@@ -236,6 +415,7 @@ Sburb.onMouseDown = function(e,canvas){
 
 Sburb.onMouseUp = function(e,canvas){
 	Sburb.Mouse.down = false;
+    if(!Sburb.updateLoop) return; // Make sure we are loaded before trying to do things
 	if(Sburb.dialoger && Sburb.dialoger.box && Sburb.dialoger.box.isVisuallyUnder(Sburb.Mouse.x,Sburb.Mouse.y)){
 		Sburb.dialoger.nudge();
 	}
@@ -287,22 +467,25 @@ function handleInputs(){
 		Sburb.Stage.style.cursor = "default";
 	}
 	if(hasControl()){
-		Sburb.char.handleInputs(Sburb.pressed);
+		Sburb.char.handleInputs(Sburb.pressed, Sburb.pressedOrder);
 	}else{
 		Sburb.char.moveNone();
 	}
+	Sburb.debugger.handleInputs(Sburb.pressed);
 }
 
 function handleHud(){
 	for(var content in Sburb.hud){
-		var obj = Sburb.hud[content];
-		obj.update();
+	    if(!Sburb.hud.hasOwnProperty(content)) continue;
+	    var obj = Sburb.hud[content];
+	    obj.update();
 	}
 }
 
 function drawHud(){
 	for(var content in Sburb.hud){
-		Sburb.hud[content].draw();
+	    if(!Sburb.hud.hasOwnProperty(content)) continue;
+	    Sburb.hud[content].draw();
 	}
 }
 
@@ -318,9 +501,11 @@ function hasControl(){
 function focusCamera(){
 	//need to divide these by scaleX and scaleY if repurposed
 	if(!Sburb.destFocus){
-		Sburb.cam.x = Sburb.focus.x-Sburb.Stage.width/2;
-		Sburb.cam.y = Sburb.focus.y-Sburb.Stage.height/2;
-	}else if(Math.abs(Sburb.destFocus.x-Sburb.cam.x-Sburb.Stage.width/2)>8 || Math.abs(Sburb.destFocus.y-Sburb.cam.y-Sburb.Stage.height/2)>8){
+		if(Sburb.focus){
+			Sburb.cam.x = Sburb.focus.x-Sburb.Stage.width/2;
+			Sburb.cam.y = Sburb.focus.y-Sburb.Stage.height/2;
+		}
+	}else if(Math.abs(Sburb.destFocus.x-Sburb.cam.x-Sburb.Stage.width/2)>4 || Math.abs(Sburb.destFocus.y-Sburb.cam.y-Sburb.Stage.height/2)>4){
 		Sburb.cam.x += (Sburb.destFocus.x-Sburb.Stage.width/2-Sburb.cam.x)/5;
 		Sburb.cam.y += (Sburb.destFocus.y-Sburb.Stage.height/2-Sburb.cam.y)/5;
 	}else{
@@ -393,7 +578,7 @@ Sburb.performAction = function(action){
 		Sburb.performActionSilent(action);
 		return;
 	}
-	if(((Sburb.curAction && Sburb.curAction.followUp!=action) || !hasControl()) && action.soft){
+	if(((Sburb.curAction && Sburb.curAction.followUp!=action && Sburb.curAction!=action) || !hasControl()) && action.soft){
 		return;
 	}
 	
@@ -440,10 +625,11 @@ Sburb.moveSprite = function(sprite,oldRoom,newRoom){
 Sburb.setCurRoomOf = function(sprite){
 	if(!Sburb.curRoom.contains(sprite)){
 		for(var room in Sburb.rooms){
-			if(Sburb.rooms[room].contains(sprite)){
-				Sburb.changeRoom(Sburb.rooms[room],Sburb.char.x,Sburb.char.y);
-				return;
-			}
+		    if(!Sburb.rooms.hasOwnProperty(room)) continue;
+		    if(Sburb.rooms[room].contains(sprite)){
+			    Sburb.changeRoom(Sburb.rooms[room],Sburb.char.x,Sburb.char.y);
+			    return;
+		    }
 		}
 	}
 }

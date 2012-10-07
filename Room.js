@@ -20,10 +20,10 @@ Sburb.Room = function(name,width,height){
 	this.motionPaths = [];
 	this.triggers = [];
 	this.walkableMap = null;
+	this.mapScale = 4;
 }
 
 Sburb.Room.prototype.mapData = null;
-Sburb.Room.prototype.mapScale = 4;
 Sburb.Room.prototype.blockSize = 500;
 
 //add an Effect to the room
@@ -38,7 +38,9 @@ Sburb.Room.prototype.addTrigger = function(trigger){
 
 //add a Sprite to the room
 Sburb.Room.prototype.addSprite = function(sprite){
-	this.sprites.push(sprite);
+	if(!this.contains(sprite)){
+		this.sprites.push(sprite);
+	}
 }
 
 //remove a Sprite from the room
@@ -216,7 +218,7 @@ Sburb.Room.prototype.isInBounds = function(sprite,dx,dy){
 	var queries = sprite.getBoundaryQueries(dx,dy);
 	var result = this.isInBoundsBatch(queries);
 	for(var point in result){
-		if(!result[point]){
+		if(!result[point]){ // I'll let this lack of hasOwnProperty slide
 			return false;
 		}
 	}
@@ -228,11 +230,13 @@ Sburb.Room.prototype.isInBoundsBatch = function(queries,results){
 	if(typeof results != "object"){
 		results = {};
 		for(var queryName in queries){
-			results[queryName] = false;
+		    if(!queries.hasOwnProperty(queryName)) continue;
+		    results[queryName] = false;
 		}
 	}
 	if(this.walkableMap){
 		for(var query in queries){
+		    if(!queries.hasOwnProperty(query)) continue;
 			var pt = queries[query];
 			var data = this.mapData;
 			var width = this.walkableMap.width;
@@ -292,6 +296,7 @@ Sburb.Room.prototype.serialize = function(output){
 	"' width='"+this.width+
 	"' height='"+this.height+
 	(this.walkableMap?("' walkableMap='"+this.walkableMap.name):"")+
+	(this.mapScale!=4?("' mapScale='"+this.mapScale):"")+
 	"' >");
 	output = output.concat("\n<paths>");
 	for(var i=0;i<this.walkables.length;i++){
@@ -314,8 +319,8 @@ Sburb.Room.prototype.serialize = function(output){
 		output = this.triggers[i].serialize(output);
 	}
 	output = output.concat("\n</triggers>");
-	for(var sprite in this.sprites){
-		output = this.sprites[sprite].serialize(output);
+	for(var i=0; i < this.sprites.length; i++){
+	    output = this.sprites[i].serialize(output);
 	}
 	
 	output = output.concat("\n</room>");
@@ -335,12 +340,26 @@ Sburb.Room.prototype.serialize = function(output){
 Sburb.parseRoom = function(roomNode, assetFolder, spriteFolder) {
   	var attributes = roomNode.attributes;
   	var newRoom = new Sburb.Room(attributes.getNamedItem("name").value,
-  			       parseInt(attributes.getNamedItem("width").value),
-  			       parseInt(attributes.getNamedItem("height").value));
+  			       attributes.getNamedItem("width")?parseInt(attributes.getNamedItem("width").value):0,
+  			       attributes.getNamedItem("height")?parseInt(attributes.getNamedItem("height").value):0);
+  	
+  	var mapScale = attributes.getNamedItem("mapScale");
+  	if(mapScale){
+  		newRoom.mapScale = parseInt(mapScale.value);
+  	}
+  	
   	var walkableMap = attributes.getNamedItem("walkableMap");
   	if(walkableMap){
   		newRoom.walkableMap = assetFolder[walkableMap.value];
+  		if(!newRoom.width){
+  			newRoom.width = newRoom.walkableMap.width*newRoom.mapScale;
+  		}
+  		
+  		if(!newRoom.height){
+  			newRoom.height = newRoom.walkableMap.height*newRoom.mapScale;
+  		}
   	}
+  	
   	Sburb.serialLoadRoomSprites(newRoom,roomNode.getElementsByTagName("sprite"), spriteFolder);
   	Sburb.serialLoadRoomSprites(newRoom,roomNode.getElementsByTagName("character"), spriteFolder);
   	Sburb.serialLoadRoomSprites(newRoom,roomNode.getElementsByTagName("fighter"), spriteFolder);

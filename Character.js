@@ -162,18 +162,24 @@ Sburb.Character.prototype.becomePlayer = function(){
 }
 
 //parse key inputs into actions
-Sburb.Character.prototype.handleInputs = function(pressed){
-	if(pressed[Sburb.Keys.down] || pressed[Sburb.Keys.s]){
-		this.moveDown();
-	}else if(pressed[Sburb.Keys.up] || pressed[Sburb.Keys.w]){
-		this.moveUp();
-	}else if(pressed[Sburb.Keys.left] || pressed[Sburb.Keys.a]){
-		this.moveLeft();
-	}else if(pressed[Sburb.Keys.right] || pressed[Sburb.Keys.d]){
-		this.moveRight();
-	}else{
-		this.moveNone();
-	}
+Sburb.Character.prototype.handleInputs = function(pressed, order){
+    var down = -1, up = -1, left = -1, right = -1, most = 0;
+    down  = Math.max(order.indexOf(Sburb.Keys.down), order.indexOf(Sburb.Keys.s));
+    up    = Math.max(order.indexOf(Sburb.Keys.up),   order.indexOf(Sburb.Keys.w));
+    left  = Math.max(order.indexOf(Sburb.Keys.left), order.indexOf(Sburb.Keys.a));
+    right = Math.max(order.indexOf(Sburb.Keys.right),order.indexOf(Sburb.Keys.d));
+    most  = Math.max(down, up, left, right, most);
+    if(down == most) {
+        this.moveDown();
+    } else if(up == most) {
+        this.moveUp();
+    } else if(left == most) {
+        this.moveLeft();
+    } else if(right == most) {
+        this.moveRight();
+    } else {
+        this.moveNone();
+    }
 	this.handledInput = 2;
 }
 
@@ -342,19 +348,22 @@ Sburb.Character.prototype.serialize = function(output){
 		}else{
 			output = output.concat("' bootstrap='true");
 		}
-		if(this.following)
-		{
+		if(this.following){
 			output = output.concat("' following='"+this.following.name+"");
+		}
+		if(this.follower){
+			output = output.concat("' follower='"+this.follower.name+"");
 		}
 		output = output.concat("'>");
 	for(var animation in this.animations){
-		var anim = this.animations[animation];
-		if(this.bootstrap || (anim.name.indexOf("idle")==-1 && anim.name.indexOf("walk")==-1)){
-			output = anim.serialize(output);
+	    if(!this.animations.hasOwnProperty(animation)) continue;
+	    var anim = this.animations[animation];
+	    if(this.bootstrap || (anim.name.indexOf("idle")==-1 && anim.name.indexOf("walk")==-1)){
+		    output = anim.serialize(output);
 		}
 	}
-	for(var action in this.actions){
-		output = this.actions[action].serialize(output);
+	for(var i=0; i < this.actions.length; i++){
+		output = this.actions[i].serialize(output);
 	}
 	
 	output = output.concat("\n</character>");
@@ -388,11 +397,22 @@ Sburb.parseCharacter = function(charNode, assetFolder) {
   				    parseInt(attributes.getNamedItem("sWidth").value),
   				    parseInt(attributes.getNamedItem("sHeight").value),
   				    assetFolder[attributes.getNamedItem("sheet").value]);
+  	
   	var temp = attributes.getNamedItem("following");
   	if(temp){
   		var following = Sburb.sprites[temp.value];
-  		newChar.follow(following);
-  	} 			    
+  		if(following){
+  			newChar.follow(following);
+  		}
+  	} 			 
+  	var temp = attributes.getNamedItem("follower");
+  	if(temp){
+  		var follower = Sburb.sprites[temp.value];
+  		if(follower){
+  			follower.follow(newChar);
+  		}
+  	} 	   
+  	
   	var anims = charNode.getElementsByTagName("animation");
 	for(var j=0;j<anims.length;j++){
 		var newAnim = Sburb.parseAnimation(anims[j],assetFolder);
