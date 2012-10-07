@@ -68,7 +68,7 @@ Sburb.Trigger.prototype.serialize = function(output){
 	output = output.concat("\n<trigger"+
 		(this.restart?" restart='true'":"")+
 		(this.detonate?" detonate='true'":"")+
-		(this.operator?" operator='"+operator+"'":"")+
+		(this.operator?" operator='"+this.operator+"'":"")+
 		">");
 		for(var i=0;i<this.info.length;i++){
 			output = output.concat("<args>"+escape(this.info[i])+"</args>");
