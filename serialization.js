@@ -410,6 +410,8 @@ function serializeAssets(output,assets,effects){
 			innerHTML += curAsset.originalVals;
 		}else if(curAsset.type=="font"){
 			innerHTML += curAsset.originalVals;
+		}else if(curAsset.type=="text"){
+			innerHTML += escape(curAsset.text.trim());
 		}
 
 		output = output.concat("\n<asset name='"+curAsset.name+"' type='"+curAsset.type+"' ");

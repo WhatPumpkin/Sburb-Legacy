@@ -12,13 +12,35 @@ Sburb.Action = function(command,info,name,sprite,followUp,noWait,noDelay,times,s
 	this.sprite = sprite?sprite:null;
 	this.name = name?name:null;
 	this.command = command
-	this.info = info;
+	if (typeof(info) == "string") {
+		this._info = unescape(info).trim();
+	} else {
+		this._info = info;
+	}
 	this.followUp = followUp?followUp:null;
 	this.noWait = noWait?noWait:false;
 	this.noDelay = noDelay?noDelay:false;
 	this.soft = soft?soft:false;
 	this.silent = silent?silent:false;
 	this.times = times?times:1;
+}
+
+Sburb.Action.prototype = {
+    get info() {
+        if (this._info) {
+            if (typeof(this._info) == "string") {
+                return this._info;
+            } else if (this._info.text) {
+                return this._info.text;
+            }
+        }
+        return "";
+    },
+    set info(val) {
+        if (typeof(this._info) == "string") {
+            this._info = val;
+        }
+    },
 }
 
 //Make an exact copy
@@ -38,7 +60,11 @@ Sburb.Action.prototype.serialize = function(output){
 		(this.silent?"' silent='"+this.silent:"")+
 		(this.times!=1?"' times='"+this.times:"")+
 		"'>");
-	output = output.concat('<args>' + escape(this.info.trim()) + '</args>' );
+	if(typeof(this._info) == "string") {
+		output = output.concat('<args>' + escape(this._info.trim()) + '</args>' );
+	} else if(this._info.name) {
+		output = output.concat('<args body="'+this._info.name+'" />' );
+        }
 	if(this.followUp){
 		output = this.followUp.serialize(output);
 	}
@@ -69,7 +95,7 @@ Sburb.parseAction = function(node) {
 
 		var newAction = new Sburb.Action(
 					 attributes.getNamedItem("command").value,
-					 node.firstChild?unescape(getNodeText(node)).trim():"",
+					 node.firstChild?getNodeText(node):"",
 					 attributes.getNamedItem("name")?unescape(attributes.getNamedItem("name").value):null,
 					 targSprite,
 					 null,
@@ -111,7 +137,7 @@ function getNodeText(xmlNode){
 			if (child.attributes) {
 				var asset = child.attributes.getNamedItem("body");
 				if (asset && asset.value && Sburb.assetManager.isLoaded(asset.value)) {
-					return Sburb.assets[asset.value].text;
+					return Sburb.assets[asset.value];
 				}
 			}
   		for(var k=0;k<child.childNodes.length;k++){

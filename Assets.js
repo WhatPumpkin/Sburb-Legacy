@@ -835,7 +835,7 @@ Sburb.createFontAsset = function(name, sources){
 
 //create a text asset
 Sburb.createTextAsset = function(name, text) {
-    var ret = {text: text};
+    var ret = {text: unescape(text).trim()};
     ret.name = name;
     ret.type = "text";
     ret.instant = true;
