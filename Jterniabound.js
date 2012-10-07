@@ -56,6 +56,7 @@ Sburb.focus = null; //the focus of the camera (a sprite), usually just the char
 Sburb.destFocus = null;
 Sburb.chooser = null; //the option chooser
 Sburb.curAction = null; //the current action being performed
+Sburb.actionQueues = [] //additional queues for parallel actions
 Sburb.bgm = null; //the current background music
 Sburb.hud = null; //the hud; help and sound buttons
 Sburb.Mouse = {down:false,x:0,y:0}; //current recorded properties of the mouse
@@ -550,20 +551,32 @@ function beginChoosing(){
 }
 
 function chainAction(){
-	if(Sburb.curAction){
-		if(Sburb.curAction.times<=0){
-			if(Sburb.curAction.followUp){
-				if(hasControl() || Sburb.curAction.followUp.noWait){
-					Sburb.performAction(Sburb.curAction.followUp);
-				}
-			}else{
-				Sburb.curAction = null;
-			}
-		}else if(hasControl() || Sburb.curAction.noWait){
-			Sburb.performAction(Sburb.curAction);
+	if(Sburb.curAction)
+		chainActionInQueue(Sburb);
+	for(var i=0;i<Sburb.actionQueues.length;i++) {
+		var queue=Sburb.actionQueues[i];
+		if(!queue.curAction) {
+			Sburb.actionQueues.remove(i);
+			i--;
+			continue;
 		}
+		chainActionInQueue(queue);
 	}
 }    
+
+function chainActionInQueue(queue) {
+	if(queue.curAction.times<=0){
+		if(queue.curAction.followUp){
+			if(hasControl() || queue.curAction.followUp.noWait){
+				Sburb.performAction(queue.curAction.followUp,queue);
+			}
+		}else{
+			queue.curAction = null;
+		}
+	}else if(hasControl() || queue.curAction.noWait){
+		Sburb.performAction(queue.curAction,queue);
+	}
+}
 
 function updateWait(){
 	if(Sburb.waitFor){
@@ -573,24 +586,37 @@ function updateWait(){
 	}
 }
 
-Sburb.performAction = function(action){
+Sburb.performAction = function(action, queue){
 	if(action.silent){
 		Sburb.performActionSilent(action);
+		return;
+	}
+	if(queue&&(queue!=Sburb)) {
+		performActionInQueue(action, queue);
 		return;
 	}
 	if(((Sburb.curAction && Sburb.curAction.followUp!=action && Sburb.curAction!=action) || !hasControl()) && action.soft){
 		return;
 	}
-	
+	performActionInQueue(action, Sburb);
+}
+
+Sburb.performActionParallel = function(action) {
+	Sburb.actionQueues.push({
+		"curAction":action
+		});
+}
+
+function performActionInQueue(action, queue) {
 	var looped = false;
-	Sburb.curAction = action.clone();
+	queue.curAction = action.clone();
 	do{
 		if(looped){
-			Sburb.curAction = Sburb.curAction.followUp.clone();
+			queue.curAction = queue.curAction.followUp.clone();
 		}
-   	Sburb.performActionSilent(Sburb.curAction);
+   	Sburb.performActionSilent(queue.curAction);
    	looped = true;
-	}while(Sburb.curAction && Sburb.curAction.times<=0 && Sburb.curAction.followUp && Sburb.curAction.followUp.noDelay);
+	}while(queue.curAction && queue.curAction.times<=0 && queue.curAction.followUp && queue.curAction.followUp.noDelay);
 }
 Sburb.performActionSilent = function(action){
 	action.times--;
