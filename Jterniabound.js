@@ -551,8 +551,9 @@ function beginChoosing(){
 }
 
 function chainAction(){
-	if(Sburb.curAction)
+	if(Sburb.curAction) {
 		chainActionInQueue(Sburb);
+	}
 	for(var i=0;i<Sburb.actionQueues.length;i++) {
 		var queue=Sburb.actionQueues[i];
 		if(!queue.curAction) {
@@ -588,8 +589,14 @@ function updateWait(){
 
 Sburb.performAction = function(action, queue){
 	if(action.silent){
-		Sburb.performActionSilent(action);
-		return;
+		if((action.times==1)&&(!action.followUp)) {
+			Sburb.performActionSilent(action);
+			return;
+		}
+		if((!queue)||(queue==Sburb)) {
+			queue={"curAction":action};
+			Sburb.actionQueues.push(queue);
+		}
 	}
 	if(queue&&(queue!=Sburb)) {
 		performActionInQueue(action, queue);
@@ -599,12 +606,6 @@ Sburb.performAction = function(action, queue){
 		return;
 	}
 	performActionInQueue(action, Sburb);
-}
-
-Sburb.performActionParallel = function(action) {
-	Sburb.actionQueues.push({
-		"curAction":action
-		});
 }
 
 function performActionInQueue(action, queue) {
@@ -618,6 +619,7 @@ function performActionInQueue(action, queue) {
    	looped = true;
 	}while(queue.curAction && queue.curAction.times<=0 && queue.curAction.followUp && queue.curAction.followUp.noDelay);
 }
+
 Sburb.performActionSilent = function(action){
 	action.times--;
 	var info = action.info;
