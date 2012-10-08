@@ -500,6 +500,7 @@ function purgeState(){
 	Sburb.buttons = {};
 	Sburb.effects = {};
 	Sburb.curAction = null;
+	Sburb.actionQueues = [];
 	Sburb.pressed = {};
 	Sburb.pressedOrder = [];
 	Sburb.chooser = new Sburb.Chooser();
