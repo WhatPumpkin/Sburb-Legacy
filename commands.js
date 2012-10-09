@@ -270,6 +270,15 @@ commands.removeSprite = function(info){
 	room.removeSprite(sprite);
 }
 
+//Clone the specified sprite with a new name
+//syntax: spriteName, newName
+commands.cloneSprite = function(info){
+	var params = parseParams(info);
+	var sprite = Sburb.sprites[params[0]];
+	var newName = params[1];
+	sprite.clone(newName);
+}
+
 //Add the specified path as a walkable to the specified room
 //syntax: pathName, roomName
 commands.addWalkable = function(info){
