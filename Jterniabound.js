@@ -622,7 +622,7 @@ function performActionInQueue(action, queue) {
 
 Sburb.performActionSilent = function(action){
 	action.times--;
-	var info = action.info;
+	var info = action.info();
 	if(info){
 		info = info.trim();
 	}
