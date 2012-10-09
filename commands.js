@@ -274,7 +274,7 @@ commands.removeSprite = function(info){
 //syntax: spriteName, newName
 commands.cloneSprite = function(info){
 	var params = parseParams(info);
-	var sprite = Sburb.sprites[params[0]];
+	var sprite = parseCharacterString(params[0]);
 	var newName = params[1];
 	sprite.clone(newName);
 }
