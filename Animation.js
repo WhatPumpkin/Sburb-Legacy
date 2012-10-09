@@ -337,7 +337,7 @@ Sburb.Animation.prototype.isVisuallyUnder = function(x,y){
 
 //make an exact copy of this animation
 Sburb.Animation.prototype.clone = function(x,y){
-	return new Sburb.Animation(this.name, this.sheet, x+this.x, y+this.y, this.colSize,this.rowSize, this.startPos, this.length, this.frameInterval, this.loopNum);
+	return new Sburb.Animation(this.name, this.sheet, (x?x:0)+this.x, (y?y:0)+this.y, this.colSize,this.rowSize, this.startPos, this.length, this.frameInterval, this.loopNum, this.followUp, this.flipX, this.flipY, this.sliced, this.numCols, this.numRows);
 }
 
 //serialize this Animation to XML
