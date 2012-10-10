@@ -21,22 +21,15 @@ Sburb.Action = function(command,info,name,sprite,followUp,noWait,noDelay,times,s
 	this.times = times?times:1;
 }
 
-Sburb.Action.prototype = {
-    get info() {
-        if (this._info) {
-            if (typeof(this._info) == "string") {
-                return this._info;
-            } else if (this._info.text) {
-                return this._info.text;
-            }
-        }
-        return "";
-    },
-    set info(val) {
-        if (typeof(this._info) == "string") {
-            this._info = val;
-        }
-    },
+Sburb.Action.prototype.info = function(){
+	if (this._info) {
+		if (typeof(this._info) == "string") {
+			return this._info;
+		} else if (this._info.text) {
+			return this._info.text;
+		}
+	}
+	return "";
 }
 
 //Make an exact copy
