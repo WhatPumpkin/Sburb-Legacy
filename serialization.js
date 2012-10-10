@@ -18,6 +18,7 @@ Sburb.serialize = function(sburbInst) {
 	var dialoger = sburbInst.dialoger;
 	var curRoom = sburbInst.curRoom;
 	var gameState = sburbInst.gameState;
+	var actionQueues = sburbInst.actionQueues;
 	var char = sburbInst.char;
 
 	var loadedFiles = "";
@@ -46,6 +47,7 @@ Sburb.serialize = function(sburbInst) {
 	output = serializeLooseObjects(output,rooms,sprites);
 	output = serializeRooms(output,rooms);
 	output = serializeGameState(output,gameState);
+	output = serializeActionQueues(output,actionQueues);
 
 	output = output.concat("\n</sburb>");
 	if(out){
@@ -373,6 +375,19 @@ function serializeGameState(output, gameState)
 		output = output.concat("  <"+key+">"+encodeXML(gameState[key])+"</"+key+">");
 	}
 	output = output.concat("\n</gameState>\n");
+
+	return output;
+}
+
+function serializeActionQueues(output, actionQueues) 
+{
+	output = output.concat("<actionQueues>");
+	for(var i=0;i<actionQueues.length;i++) {
+		if(actionQueues[i].curAction) {
+			output = actionQueues[i].curAction.serialize(output);
+		}
+	}
+	output = output.concat("\n</actionQueues>\n");
 
 	return output;
 }
@@ -739,12 +754,13 @@ function loadSerialState() {
 		parseFighters(input);
 		parseRooms(input);
 		parseGameState(input);	
+		parseActionQueues(input);
 	
 		parseHud(input);
 		parseEffects(input);
 	
 		//should be last
-		parseState(input);	
+		parseState(input);
   }
   
   if(loadQueue.length==0 && loadingDepth==0){
@@ -904,6 +920,21 @@ function parseGameState(input) {
 			var value = node.firstChild.nodeValue;
 			Sburb.gameState[key] = value;
 		}
+	}
+}
+
+function parseActionQueues(input){
+	var element=input.getElementsByTagName("actionQueues");
+	if(element.length==0) {
+		return;
+	}
+	var actionQueues = element[0].childNodes;
+	for(var i=0;i<actionQueues.length;i++) {
+		if(actionQueues[i].nodeName == "#text") {
+			continue;
+		}
+		var actionQueue = Sburb.parseAction(actionQueues[i]);
+		Sburb.actionQueues.push({"curAction":actionQueue});
 	}
 }
 
