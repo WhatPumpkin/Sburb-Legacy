@@ -110,6 +110,8 @@ Sprite.prototype.getActions = function(sprite){
 	var validActions = [];
 	for(var i=0;i<this.actions.length;i++){
 		var action = this.actions[i];
+		if(!action.name)
+			continue;
 		var desired = action.sprite;
 		if(!desired || desired==sprite.name
 			|| (desired.charAt(0)=="!" && desired.substring(1)!=sprite.name)){
