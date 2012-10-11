@@ -138,6 +138,16 @@ commands.removeAction = commands.removeActions = function(info){
 	}
 }
 
+//Calls an action from a sprite
+//Syntax: spriteName, indexOfAction
+commands.callActionOnSprite = commands.callActionsOnSprite = function(info){
+	var params = parseParams(info);
+	var sprite = parseCharacterString(params[0]);
+	for(var i=1;i<params.length;i++){
+		Sburb.performAction(sprite.actions[params[i]]);
+	}
+}
+
 //Present player with following actions to choose from
 //Sytax: SBURBML action tags
 commands.presentAction = commands.presentActions = function(info){
