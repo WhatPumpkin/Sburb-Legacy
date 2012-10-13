@@ -57,6 +57,7 @@ Sburb.destFocus = null;
 Sburb.chooser = null; //the option chooser
 Sburb.curAction = null; //the current action being performed
 Sburb.actionQueues = [] //additional queues for parallel actions
+Sburb.nextQueueId = 0; //the next created actionQueue, specified without a id, will get this number and increment it
 Sburb.bgm = null; //the current background music
 Sburb.hud = null; //the hud; help and sound buttons
 Sburb.Mouse = {down:false,x:0,y:0}; //current recorded properties of the mouse
@@ -561,20 +562,22 @@ function chainAction(){
 			i--;
 			continue;
 		}
-		chainActionInQueue(queue);
+		if(!queue.paused) {
+			chainActionInQueue(queue);
+		}
 	}
 }    
 
 function chainActionInQueue(queue) {
 	if(queue.curAction.times<=0){
 		if(queue.curAction.followUp){
-			if(hasControl() || queue.curAction.followUp.noWait){
+			if(hasControl() || queue.curAction.followUp.noWait || queue.noWait){
 				Sburb.performAction(queue.curAction.followUp,queue);
 			}
 		}else{
 			queue.curAction = null;
 		}
-	}else if(hasControl() || queue.curAction.noWait){
+	}else if(hasControl() || queue.curAction.noWait || queue.noWait){
 		Sburb.performAction(queue.curAction,queue);
 	}
 }
@@ -594,13 +597,26 @@ Sburb.performAction = function(action, queue){
 			return;
 		}
 		if((!queue)||(queue==Sburb)) {
-			queue={"curAction":action};
+			if(action.silent==true) {
+				queue=new Sburb.ActionQueue(action);
+			} else {
+				var options=action.silent.split(":");
+				var noWait=(options[0]=="full")?true:false;
+				var id=null;
+				if(noWait) {
+					options.shift();
+				}
+				if(options.length>0) {
+					id=options.shift();
+				}
+				queue=new Sburb.ActionQueue(action,id,options,noWait);
+			}
 			Sburb.actionQueues.push(queue);
 		}
 	}
 	if(queue&&(queue!=Sburb)) {
 		performActionInQueue(action, queue);
-		return;
+		return queue;
 	}
 	if(((Sburb.curAction && Sburb.curAction.followUp!=action && Sburb.curAction!=action) || !hasControl()) && action.soft){
 		return;
