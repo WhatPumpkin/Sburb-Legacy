@@ -118,7 +118,7 @@ Sburb.FontEngine.prototype.parseEverything = function(){
 
 //parse the text
 Sburb.FontEngine.prototype.parseText = function(){ //break it up into lines
-	
+	Sburb.stage.font = this.font;
 	this.lines = [];
 	var i = 0;
 	var lastSpace = 0;
@@ -132,7 +132,7 @@ Sburb.FontEngine.prototype.parseText = function(){ //break it up into lines
 			lastSpace = lineStart;
 			continue;
 		}
-		if(i-lineStart>this.width/this.charWidth){
+		if(Sburb.stage.measureText(this.text.substring(lineStart,i)).width>this.width){
 			if(lineStart==lastSpace){
 				this.lines.push(this.text.substring(lineStart,i));
 				lineStart = i;
@@ -338,8 +338,10 @@ Sburb.FontEngine.prototype.draw = function(){
 	var nextStop;
 	var curLine;
 	
+	
 	i=0;
 	lenCount=0;
+	var offsetX = 0;
 	while(i<Math.floor(this.height/this.lineHeight) && i<this.lines.length){
 		Sburb.stage.save();
 		//if(Sburb.stage.textBaseline != "top"){
@@ -398,6 +400,7 @@ Sburb.FontEngine.prototype.draw = function(){
 				strStart = linePos; //display from the start of the line
 			}else if(lenCount+curLine.length>=this.start){ //otherwise, if any part of the line should be displayed
 				strStart = this.start-(lenCount)+linePos; //display from where we should start
+				offsetX+=Sburb.stage.measureText(curLine.substring(linePos,strStart)).width;
 			}else{ //otherwise, don't show this line at all
 				strStart = linePos;
 				strEnd = linePos;
@@ -408,7 +411,7 @@ Sburb.FontEngine.prototype.draw = function(){
 		
 		if(numChars>0){
 			
-			var startX = this.x+strStart*this.charWidth;
+			var startX = this.x+offsetX;
 			var startY = this.y+i*this.lineHeight;
 			
 			//if(Sburb.stage.font != curFont){
@@ -419,7 +422,8 @@ Sburb.FontEngine.prototype.draw = function(){
 			//}
 			//console.log(Sburb.stage.fillStyle, Sburb.stage.strokeStyle, Sburb.stage.font, Sburb.stage.textBaseline, Sburb.stage.textAlign,curLine.substring(strStart,strEnd));
 			//console.log(strStart,strEnd,startX,startY,numChars*this.charWidth,);
-			Sburb.stage.fillText(curLine.substring(strStart,strEnd),startX,startY,numChars*this.charWidth);
+			Sburb.stage.fillText(curLine.substring(strStart,strEnd),startX,startY);
+			offsetX+=Sburb.stage.measureText(curLine.substring(strStart,strEnd)).width;
 			if(underlining && strStart<strEnd){
 				if(Sburb.stage.lineWidth!=0.6){
 					Sburb.stage.lineWidth = 0.6;
@@ -437,6 +441,7 @@ Sburb.FontEngine.prototype.draw = function(){
 		if(linePos==-1){
 			lenCount+=this.lines[i].length + 1;
 			linePos = 0;
+			offsetX = 0;
 			i++;
 		}
 		Sburb.stage.restore();
