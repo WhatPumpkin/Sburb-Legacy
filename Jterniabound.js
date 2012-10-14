@@ -55,6 +55,7 @@ Sburb.destY = null; //the desired location in the room we are transitioning to, 
 Sburb.focus = null; //the focus of the camera (a sprite), usually just the char
 Sburb.destFocus = null;
 Sburb.chooser = null; //the option chooser
+Sburb.inputDisabled = false; //disables player-control
 Sburb.curAction = null; //the current action being performed
 Sburb.actionQueues = [] //additional queues for parallel actions
 Sburb.bgm = null; //the current background music
@@ -325,7 +326,7 @@ function draw(){
 }
 
 var _onkeydown = function(e){
-    if(Sburb.updateLoop) { // Make sure we are loaded before trying to do things
+    if(Sburb.updateLoop && !Sburb.inputDisabled) { // Make sure we are loaded before trying to do things
 	    if(Sburb.chooser.choosing){
 		    if(e.keyCode == Sburb.Keys.down || e.keyCode==Sburb.Keys.s){
 			    Sburb.chooser.nextChoice();
@@ -467,7 +468,7 @@ function handleInputs(){
 	if(Sburb.Stage){
 		Sburb.Stage.style.cursor = "default";
 	}
-	if(hasControl()){
+	if(hasControl() && !Sburb.inputDisabled){
 		Sburb.char.handleInputs(Sburb.pressed, Sburb.pressedOrder);
 	}else{
 		Sburb.char.moveNone();
