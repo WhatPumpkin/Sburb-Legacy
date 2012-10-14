@@ -100,17 +100,27 @@ Sburb.Character.prototype.update = function(curRoom){
 }
 
 //impulse character to move up
-Sburb.Character.prototype.moveUp = function(){
-	this.facing = "Back";
-	this.walk();
-	this.vx = 0; this.vy = -this.speed;
+Sburb.Character.prototype.moveUp = function(movingSideways){
+	if(!movingSideways){
+		this.facing = "Back";
+		this.walk();
+		this.vx = 0; this.vy = -this.speed;
+	}else{
+		this.vx*=2/3;
+		this.vy = -this.speed*2/3;
+	}
 }
 
 //impulse character to move down
-Sburb.Character.prototype.moveDown = function(){
-	this.facing = "Front";
-	this.walk();
-	this.vx = 0; this.vy = this.speed;
+Sburb.Character.prototype.moveDown = function(movingSideways){
+	if(!movingSideways){
+		this.facing = "Front";
+		this.walk();
+		this.vx = 0; this.vy = this.speed;
+	}else{
+		this.vx*=2/3;
+		this.vy = this.speed*2/3;
+	}
 }
 
 //impulse character to move left
@@ -163,21 +173,31 @@ Sburb.Character.prototype.becomePlayer = function(){
 
 //parse key inputs into actions
 Sburb.Character.prototype.handleInputs = function(pressed, order){
-    var down = -1, up = -1, left = -1, right = -1, most = 0;
+    var down = -1, up = -1, left = -1, right = -1, none = -0.5;
     down  = Math.max(order.indexOf(Sburb.Keys.down), order.indexOf(Sburb.Keys.s));
     up    = Math.max(order.indexOf(Sburb.Keys.up),   order.indexOf(Sburb.Keys.w));
     left  = Math.max(order.indexOf(Sburb.Keys.left), order.indexOf(Sburb.Keys.a));
     right = Math.max(order.indexOf(Sburb.Keys.right),order.indexOf(Sburb.Keys.d));
-    most  = Math.max(down, up, left, right, most);
-    if(down == most) {
-        this.moveDown();
-    } else if(up == most) {
-        this.moveUp();
-    } else if(left == most) {
+    var most  = Math.max(left, right, none);
+    var movingSideways = true;
+    if(left == most) {
         this.moveLeft();
     } else if(right == most) {
         this.moveRight();
-    } else {
+    }else{
+    	movingSideways = false;
+    } 
+    var most  = Math.max(up, down, none);
+    var movingVertical = true;
+    if(down == most) {
+        this.moveDown(movingSideways);
+    } else if(up == most) {
+        this.moveUp(movingSideways);
+    }else{
+    	movingVertical = false;
+    }
+
+    if(!movingSideways && !movingVertical){
         this.moveNone();
     }
 	this.handledInput = 2;
