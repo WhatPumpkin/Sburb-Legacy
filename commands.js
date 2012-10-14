@@ -2,15 +2,11 @@ var Sburb = (function(Sburb){
 
 function parseParams(info){
 	var params = info.split(",");
-	params.map(cleanParam);
+	for(var i=0; i<params.length; i++){
+		params[i] = params[i].trim();
+	}
 	return params;
 }
-
-function cleanParam(param){
-	return param.trim();
-}
-
-//params = params.map(function(s) { return s.trim(); });
 
 var commands = {};
 
