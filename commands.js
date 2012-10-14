@@ -263,6 +263,70 @@ commands.waitFor = function(info){
 	Sburb.waitFor = new Sburb.Trigger(info);
 }
 
+//Pauses an actionQueue, it can be resumed with resumeActionQueue
+//syntax: Id of actionQueue or list of Ids
+commands.pauseActionQueue = commands.pauseActionQueues = function(info){
+	var params = parseParams(info);
+	for(var i=0;i<params.length;i++) {
+		var queue=Sburb.getActionQueueById(params[i]);
+		if(queue) {
+			queue.paused = true;
+		}
+	}
+}
+
+//Resumes an previously paused actionQueue
+//syntax: Id of actionQueue or list of Ids
+commands.resumeActionQueue = commands.resumeActionQueues = function(info){
+	var params = parseParams(info);
+	for(var i=0;i<params.length;i++) {
+		var queue=Sburb.getActionQueueById(params[i]);
+		if(queue) {
+			queue.paused = false;
+		}
+	}
+}
+
+//Cancels an actionQueue
+//syntax: Id of actionQueue or list of Ids
+commands.cancelActionQueue = commands.cancelActionQueues = function(info){
+	var params = parseParams(info);
+	for(var i=0;i<params.length;i++) {
+		Sburb.removeActionQueueById(params[i]);
+	}
+}
+
+//Pauses a group of actionQueues, they can be resumed with resumeActionQueueGroup
+//syntax: group name or list of group names
+commands.pauseActionQueueGroup = commands.pauseActionQueueGroups = function(info){
+	var params = parseParams(info);
+	for(var i=0;i<params.length;i++) {
+		Sburb.forEachActionQueueInGroup(params[i], function(queue) {
+			queue.paused = true;
+		});
+	}
+}
+
+//Resumes a previously paused group of actionQueues
+//syntax: group name or list of group names
+commands.resumeActionQueueGroup = commands.resumeActionQueueGroups = function(info){
+	var params = parseParams(info);
+	for(var i=0;i<params.length;i++) {
+		Sburb.forEachActionQueueInGroup(params[i], function(queue) {
+			queue.paused = false;
+		});
+	}
+}
+
+//Cancels a group of actionQueues
+//syntax: group name or list of group names
+commands.cancelActionQueueGroup = commands.cancelActionQueueGroups = function(info){
+	var params = parseParams(info);
+	for(var i=0;i<params.length;i++) {
+		Sburb.removeActionQueuesByGroup(params[i]);
+	}
+}
+
 //Add the specified sprite to the specified room
 //syntax: spriteName, roomName
 commands.addSprite = function(info){
