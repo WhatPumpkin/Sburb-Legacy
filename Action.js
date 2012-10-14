@@ -17,7 +17,11 @@ Sburb.Action = function(command,info,name,sprite,followUp,noWait,noDelay,times,s
 	this.noWait = noWait?noWait:false;
 	this.noDelay = noDelay?noDelay:false;
 	this.soft = soft?soft:false;
-	this.silent = silent?((silent=="true")?true:silent):false;
+	if(silent=="true") {
+		this.silent = true;
+	} else {
+		this.silent = silent?silent:false;
+	}
 	this.times = times?times:1;
 }
 

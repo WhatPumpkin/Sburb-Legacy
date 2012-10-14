@@ -594,7 +594,7 @@ Sburb.performAction = function(action, queue){
 	if(action.silent){
 		if((action.times==1)&&(!action.followUp)) {
 			Sburb.performActionSilent(action);
-			return;
+			return null;
 		}
 		if((!queue)||(queue==Sburb)) {
 			if(action.silent==true) {
@@ -619,9 +619,10 @@ Sburb.performAction = function(action, queue){
 		return queue;
 	}
 	if(((Sburb.curAction && Sburb.curAction.followUp!=action && Sburb.curAction!=action) || !hasControl()) && action.soft){
-		return;
+		return null;
 	}
 	performActionInQueue(action, Sburb);
+	return null;
 }
 
 function performActionInQueue(action, queue) {

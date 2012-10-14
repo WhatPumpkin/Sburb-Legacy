@@ -10,7 +10,7 @@ var Sburb = (function(Sburb){
 //constructor
 Sburb.ActionQueue = function(action, id, groups, noWait, paused) {
 	this.curAction = action;
-	this.id = id ? id : Sburb.nextQueueId++;
+	this.id = (id && (id.length>0)) ? id : Sburb.nextQueueId++;
 	this.groups = groups ? groups : [];
 	this.noWait = noWait ? noWait : false;
 	this.paused = paused ? true : false;
@@ -34,7 +34,7 @@ Sburb.ActionQueue.prototype.serialize = function(output) {
 		groupString+=((i>0)?":":"")+this.groups[i];
 	}
 	output = output.concat("\n<actionQueue "+Sburb.serializeAttributes(this,"id","noWait","paused")
-		+(groupString==""?"":" groups='"+groupString+"'")+">");
+		+(groupString.length==0?"":" groups='"+groupString+"'")+">");
 
 	output = this.curAction.serialize(output);
 
@@ -44,6 +44,11 @@ Sburb.ActionQueue.prototype.serialize = function(output) {
 
 
 
+
+
+//////////////////////////////////////////////////
+//Related utility functions
+//////////////////////////////////////////////////
 
 Sburb.getActionQueueById = function(id) {
 	for(var i=0;i<this.actionQueues.length;i++) {
