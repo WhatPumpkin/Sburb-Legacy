@@ -213,7 +213,7 @@ events.actionQueueFinished = function(info){
 	this.reset = function(){ } //do nothing
 	this.checkCompletion = function(){
 		var queue = Sburb.getActionQueueById(params[1]);
-		return queue==null || queue.curAction==null;
+		return !queue || !queue.curAction;
 	}
 }
 
