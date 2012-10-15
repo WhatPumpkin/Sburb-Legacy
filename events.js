@@ -153,13 +153,13 @@ events.gameState = function(info) {
 	var params = parseParams(info);
 	var token;
 	var query = params[1];
-	if(query.indexOf(">")>-1 || query.indexOf("GREATER") > -1){
-		token = ">";
+	if((query.indexOf(">")>-1 && (token=">")) ||
+	   (query.indexOf("GREATER") > -1 && (token="GREATER"))){
 		this.trigger = function(property,target){
 			return Sburb.gameState[property]>target;
 		};
-	}else if(query.indexOf("<")>-1 || query.indexOf("LESS") > -1){
-		token = "<";
+	}else if((query.indexOf("<")>-1 && (token="<")) ||
+	         (query.indexOf("LESS") > -1 && (token="LESS"))){
 		this.trigger = function(property,target){
 			return Sburb.gameState[property]<target;
 		};
