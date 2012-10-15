@@ -255,8 +255,33 @@ commands.enableControl = function(info){
 
 //Wait for the specified trigger to be satisfied
 //syntax: Trigger syntax
-commands.waitFor = function(info){
-	Sburb.waitFor = new Sburb.Trigger(info);
+commands.waitFor = function(info, queue){
+	if(queue) {
+		queue.paused = true;
+		queue.trigger = new Sburb.Trigger(info);
+	} else {
+		Sburb.waitFor = new Sburb.Trigger(info);
+	}
+}
+
+//Execute an action and wait for all followUps to finish
+//syntax: SBURBML action tag
+commands.macro = function(info, queue){
+	var actions = parseActionString(info);
+	var action = actions[0];
+	if(!action.silent) {
+		action.silent = true;
+	}
+	var newQueue = Sburb.performAction(action);
+	if(newQueue) {
+		var trigger = new Sburb.Trigger("actionQueueFinished,"+newQueue.id);
+		if(queue) {
+			queue.paused = true;
+			queue.trigger = trigger;
+		} else {
+			Sburb.waitFor = trigger;
+		}
+	}
 }
 
 //Pauses an actionQueue, it can be resumed with resumeActionQueue

@@ -71,7 +71,11 @@ Sburb.Trigger.prototype.serialize = function(output){
 		(this.operator?" operator='"+this.operator+"'":"")+
 		">");
 		for(var i=0;i<this.info.length;i++){
-			output = output.concat("<args>"+escape(this.info[i])+"</args>");
+			if(this.events[i].serialize) {
+				output = output.concat("<args>"+escape(this.events[i].serialize())+"</args>");
+			} else {
+				output = output.concat("<args>"+escape(this.info[i])+"</args>");
+			}
 		}
 	if(this.action){
 		output = this.action.serialize(output);

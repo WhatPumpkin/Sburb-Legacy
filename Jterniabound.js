@@ -563,9 +563,15 @@ function chainAction(){
 			i--;
 			continue;
 		}
-		if(!queue.paused) {
-			chainActionInQueue(queue);
+		if(queue.paused) {
+			if(queue.trigger && queue.trigger.checkCompletion()) {
+				queue.paused = false;
+				queue.trigger = null;
+			} else {
+				continue;
+			}
 		}
+		chainActionInQueue(queue);
 	}
 }    
 
@@ -633,18 +639,18 @@ function performActionInQueue(action, queue) {
 		if(looped){
 			queue.curAction = queue.curAction.followUp.clone();
 		}
-   	Sburb.performActionSilent(queue.curAction);
+   	Sburb.performActionSilent(queue.curAction, queue==Sburb ? null : queue);
    	looped = true;
 	}while(queue.curAction && queue.curAction.times<=0 && queue.curAction.followUp && queue.curAction.followUp.noDelay);
 }
 
-Sburb.performActionSilent = function(action){
+Sburb.performActionSilent = function(action, queue){
 	action.times--;
 	var info = action.info();
 	if(info){
 		info = info.trim();
 	}
-	Sburb.commands[action.command.trim()](info);
+	Sburb.commands[action.command.trim()](info,queue);
 }
 
 
