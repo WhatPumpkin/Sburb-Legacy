@@ -507,8 +507,10 @@ function purgeState(){
 		Sburb.bgm.stop();
 		Sburb.bgm = null;
 	}
-	document.getElementById("SBURBmovieBin").innerHTML = "";
-	document.getElementById("SBURBfontBin").innerHTML = "";
+    for(var bin in Sburb.Bins) {
+        if(!Sburb.Bins.hasOwnProperty(bin)) continue;
+        Sburb.Bins[bin].innerHTML = "";
+    }
 	Sburb.gameState = {};
 	Sburb.globalVolume = 1;
 	Sburb.hud = {};
@@ -602,6 +604,16 @@ function loadSerial(serialText, keepOld) {
     var version = rootAttr.getNamedItem("version");
     if(version) {
     	Sburb.version = version.value;
+    }
+
+    var width = rootAttr.getNamedItem("width");
+    if(width) {
+    	Sburb.setDimensions(width.value, null);
+    }
+
+    var height = rootAttr.getNamedItem("height");
+    if(height) {
+    	Sburb.setDimensions(null, height.value);
     }
 
     var loadedFiles = rootAttr.getNamedItem("loadedFiles");

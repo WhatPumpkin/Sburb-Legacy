@@ -89,9 +89,9 @@ Sburb.Debugger.prototype.draw = function() {
         Sburb.stage.lineWidth = 9;
         Sburb.stage.strokeStyle = "#000000";
         Sburb.stage.beginPath();
-        for(var i = 0; i <= 450; i += 10) {
+        for(var i = 0; i <= Sburb.Stage.height; i += 10) {
             Sburb.stage.moveTo(0,i);
-            Sburb.stage.lineTo(650,i);
+            Sburb.stage.lineTo(Sburb.Stage.width,i);
         }
         Sburb.stage.closePath();
         Sburb.stage.stroke();
@@ -100,7 +100,7 @@ Sburb.Debugger.prototype.draw = function() {
         // Dump the errors
         Sburb.stage.textAlign = "left";
         Sburb.stage.font="bold 18px Verdana";
-        for(var error = this.errors.length - 1, y = 435; error >= 0; error--, y -= 24) {
+        for(var error = this.errors.length - 1, y = Sburb.Stage.height - 15; error >= 0; error--, y -= 24) {
             if(this.errors[error].type in this.colors) {
                 Sburb.stage.fillStyle = this.colors[this.errors[error].type];
             } else {
@@ -117,28 +117,28 @@ Sburb.Debugger.prototype.draw = function() {
             var color = this.tests[test];
             var width = Sburb.stage.measureText(test).width;
             Sburb.stage.fillStyle = this.colors[color];
-            Sburb.stage.fillRect(630-width,y,width+10,24);
+            Sburb.stage.fillRect(Sburb.Stage.width-(width+20),y,width+10,24);
             Sburb.stage.fillStyle = "#FFFFFF";
-            Sburb.stage.fillText(test,635,y+18);
+            Sburb.stage.fillText(test,Sburb.Stage.width-15,y+18);
             y += 26;
         }
         // Add title
         Sburb.stage.fillStyle = "#000000";
-        Sburb.stage.fillRect(200,10,250,65);
+        Sburb.stage.fillRect(Sburb.Stage.width/2-125,10,250,65);
         Sburb.stage.textAlign = "center";
         Sburb.stage.fillStyle = "#FFFFFF";
         Sburb.stage.font="bold 28px Verdana";
-        Sburb.stage.fillText("Sburb Debugger",325,33);
+        Sburb.stage.fillText("Sburb Debugger",Sburb.Stage.width/2,33);
         Sburb.stage.font="14px Verdana";
-        Sburb.stage.fillText("Press SPACE to send bug report",325,51);
-        Sburb.stage.fillText("Press ~ or ESC to exit",325,67);
+        Sburb.stage.fillText("Press SPACE to send bug report",Sburb.Stage.width/2,51);
+        Sburb.stage.fillText("Press ~ or ESC to exit",Sburb.Stage.width/2,67);
         // Add FPS
         Sburb.stage.fillStyle = "#000000";
-        Sburb.stage.fillRect(600,425,50,25);
+        Sburb.stage.fillRect(Sburb.Stage.width-50,Sburb.Stage.height-25,50,25);
         Sburb.stage.textAlign = "right";
         Sburb.stage.fillStyle = "#FFFFFF";
         Sburb.stage.font="bold 16px Verdana";
-        Sburb.stage.fillText(this.fps+"fps",642,440);
+        Sburb.stage.fillText(this.fps+"fps",Sburb.Stage.width-8,Sburb.Stage.height-10);
         // Reset
         Sburb.stage.textAlign = "center";
         Sburb.stage.fillStyle = "#000000";
@@ -175,7 +175,7 @@ Sburb.Debugger.prototype.sendDebugReport = function() {
     form.appendChild(submit);
     div.appendChild(title);
     div.appendChild(form);
-    document.getElementById("SBURBgameDiv").parentNode.appendChild(div);
+    Sburb.Game.parentNode.appendChild(div);
     textbox.focus();
 }
 

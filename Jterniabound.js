@@ -33,7 +33,11 @@ Sburb.Keys = {backspace:8,tab:9,enter:13,shift:16,ctrl:17,alt:18,escape:27,space
 
 Sburb.name = 'Jterniabound';
 Sburb.version = '1.0';
+Sburb.Container = null; //"deploy" div
+Sburb.Game = null; //the game div
+Sburb.Map = null; //the map div
 Sburb.Stage = null; //the canvas, we're gonna load it up with a bunch of flash-like game data like fps and scale factors
+Sburb.Bins = {}; //the various bin divs
 Sburb.cam = {x:0,y:0}
 Sburb.crashed = false; // In case of catastrophic failure
 Sburb.stage = null; //its context
@@ -201,45 +205,71 @@ Sburb.initialize = function(div,levelName,includeDevTools){
         return; // Hard crash if the browser is too old. testCompatibility() will handle the error message
 	Sburb.debugger = new Sburb.Debugger(); // Load debugger first! -- But not quite
     
-	var deploy = '   \
-	<div style="position: relative;\
-        padding-left: 0;\
-		padding-right: 0;\
-		margin-left: auto;\
-		margin-right: auto;\
-		display: block;\
-		width:650px;\
-		height:450px;"> \
-		<div id="SBURBgameDiv" style="position: absolute; z-index:100">\
-			<canvas id="SBURBStage" width="650" height="450" tabindex="0" \
-						onmousedown = "Sburb.onMouseDown(event,this)"\
-						onmousemove = "Sburb.onMouseMove(event,this)"\
-						onmouseup = "Sburb.onMouseUp(event,this)"\
-						>\
-						ERROR: Your browser is too old to display this content!\
-			</canvas>\
-			<canvas id="SBURBMapCanvas" width="1" height="1" style="display:none"/> \
-		</div>\
-		<div id="SBURBmovieBin" style="position: absolute; z-index:200"> </div>\
-		<div id="SBURBfontBin"></div>\
-		<div id="SBURBgifBin" style="width: 0; height: 0; overflow: hidden;"></div>\
-		</br>';
-	if(includeDevTools){
-		Sburb._include_dev = true;
-	}
-	deploy+='</div>';
-	document.getElementById(div).innerHTML = deploy;
-	var gameDiv = document.getElementById("SBURBgameDiv");
+    var deploy = document.createElement('div');
+    deploy.style.position = "relative";
+    deploy.style.padding = "0";
+    deploy.style.margin = "auto";
+    
+	var gameDiv = document.createElement('div');
+    gameDiv.id = "SBURBgameDiv";
 	gameDiv.onkeydown = _onkeydown;
 	gameDiv.onkeyup = _onkeyup;
+    gameDiv.style.position = "absolute";
+    gameDiv.style.zIndex = "100";
+    deploy.appendChild(gameDiv);
 	
-	Sburb.Stage = document.getElementById("SBURBStage");	
-	Sburb.Stage.scaleX = Sburb.Stage.scaleY = 3;
-	Sburb.Stage.x = Sburb.Stage.y = 0;
-	Sburb.Stage.fps = 30;
-	Sburb.Stage.fade = 0;
-	Sburb.Stage.fadeRate = 0.1;
+	var movieDiv = document.createElement('div');
+    movieDiv.id = "SBURBmovieBin";
+    movieDiv.style.position = "absolute";
+    movieDiv.style.zIndex = "200";
+    deploy.appendChild(movieDiv);
+    
+	var fontDiv = document.createElement('div');
+    fontDiv.id = "SBURBfontBin";
+    deploy.appendChild(fontDiv);
+    
+	var gifDiv = document.createElement('div');
+    gifDiv.id = "SBURBgifBin";
+    gifDiv.style.width = "0";
+    gifDiv.style.height = "0";
+    gifDiv.style.overflow = "hidden";
+    deploy.appendChild(gifDiv);
+    
+	var gameCanvas = document.createElement("canvas");
+    gameCanvas.id = "SBURBStage";
+    gameCanvas.onmousedown = function(e) { Sburb.onMouseDown(e,this); };
+    gameCanvas.onmouseup = function(e) { Sburb.onMouseUp(e,this); };
+    gameCanvas.onmousemove = function(e) { Sburb.onMouseMove(e,this); };
+    gameCanvas.tabIndex = 0;
+	gameCanvas.scaleX = gameCanvas.scaleY = 3;
+	gameCanvas.x = gameCanvas.y = 0;
+	gameCanvas.fps = 30;
+	gameCanvas.fade = 0;
+	gameCanvas.fadeRate = 0.1;
+    gameCanvas.innerText = "ERROR: Your browser is too old to display this content!";
+    gameDiv.appendChild(gameCanvas);
+    
+	var mapCanvas = document.createElement("canvas");
+    mapCanvas.id = "SBURBMapCanvas";
+    mapCanvas.width = 1;
+    mapCanvas.height = 1;
+    mapCanvas.style.display = "none";
+    gameDiv.appendChild(mapCanvas);
 	
+	document.getElementById(div).appendChild(deploy);
+    
+    // Copy local variables into Sburb
+    Sburb.Container = deploy;
+    Sburb.Game = gameDiv;
+    Sburb.Map = mapCanvas;
+    Sburb.Stage = gameCanvas;
+    Sburb.Bins["movie"] = movieDiv;
+    Sburb.Bins["font"] = fontDiv;
+    Sburb.Bins["gif"] = gifDiv;
+    
+    // Set default dimensions
+    Sburb.setDimensions(650,450);
+    
 	Sburb.stage = Sburb.Stage.getContext("2d");
 	Sburb.Stage.onblur = _onblur;
 	Sburb.chooser = new Sburb.Chooser();
@@ -254,10 +284,21 @@ Sburb.initialize = function(div,levelName,includeDevTools){
 	Sburb.gameState = {};
 	Sburb.pressed = {};
 	Sburb.pressedOrder = [];
-	
+    
     Sburb.loadSerialFromXML(levelName); // comment out this line and
     //loadAssets();                        // uncomment these two lines, to do a standard hardcode load
     //_hardcode_load = 1;
+}
+
+Sburb.setDimensions = function(width, height) {
+    if(width) {
+        Sburb.Container.style.width = width+"px";
+        Sburb.Stage.width = width;
+    }
+    if(height) {
+        Sburb.Container.style.height = height+"px";
+        Sburb.Stage.height = height;
+    }
 }
 
 function startUpdateProcess(){
