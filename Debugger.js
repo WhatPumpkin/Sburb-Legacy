@@ -138,7 +138,7 @@ Sburb.Debugger.prototype.draw = function() {
         Sburb.stage.textAlign = "right";
         Sburb.stage.fillStyle = "#FFFFFF";
         Sburb.stage.font="bold 16px Verdana";
-        Sburb.stage.fillText(this.fps+"fps",Sburb.Stage.height-8,Sburb.Stage.width-10);
+        Sburb.stage.fillText(this.fps+"fps",Sburb.Stage.width-8,Sburb.Stage.height-10);
         // Reset
         Sburb.stage.textAlign = "center";
         Sburb.stage.fillStyle = "#000000";
