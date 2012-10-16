@@ -18,6 +18,7 @@ Sburb.serialize = function(sburbInst) {
 	var dialoger = sburbInst.dialoger;
 	var curRoom = sburbInst.curRoom;
 	var gameState = sburbInst.gameState;
+	var actionQueues = sburbInst.actionQueues;
 	var char = sburbInst.char;
 
 	var loadedFiles = "";
@@ -36,6 +37,7 @@ Sburb.serialize = function(sburbInst) {
 		" char='"+char.name+
 		(Sburb.bgm?"' bgm='"+Sburb.bgm.asset.name+(Sburb.bgm.startLoop?","+Sburb.bgm.startLoop:""):"")+
 		(Sburb.Stage.scaleX!=1?"' scale='"+Sburb.Stage.scaleX:"")+
+		(Sburb.nextQueueId>0?"' nextQueueId='"+Sburb.nextQueueId:"")+
 		(Sburb.assetManager.resourcePath?("' resourcePath='"+Sburb.assetManager.resourcePath):"")+
 		(Sburb.assetManager.levelPath?("' levelPath='"+Sburb.assetManager.levelPath):"")+
 		(loadedFilesExist?("' loadedFiles='"+loadedFiles):"")+
@@ -46,6 +48,7 @@ Sburb.serialize = function(sburbInst) {
 	output = serializeLooseObjects(output,rooms,sprites);
 	output = serializeRooms(output,rooms);
 	output = serializeGameState(output,gameState);
+	output = serializeActionQueues(output,actionQueues);
 
 	output = output.concat("\n</sburb>");
 	if(out){
@@ -148,7 +151,7 @@ Sburb.loadStateFromStorage = function(auto, local)
 
 	if(!compressed)
 		return false;
-	var decoded = Iuppiter.decompress(Iuppiter.Base64.decode(Iuppiter.toByteArray(compressed),true));
+	var decoded = Iuppiter.decompress(Iuppiter.Base64.decode(Iuppiter.toByteArray(compressed),true)).replace(/\0/g,"");
 	Sburb.loadSerial(decoded);
 	
 	return true;
@@ -377,6 +380,19 @@ function serializeGameState(output, gameState)
 	return output;
 }
 
+function serializeActionQueues(output, actionQueues) 
+{
+	output = output.concat("<actionQueues>");
+	for(var i=0;i<actionQueues.length;i++) {
+		if(actionQueues[i].curAction) {
+			output = actionQueues[i].serialize(output);
+		}
+	}
+	output = output.concat("\n</actionQueues>\n");
+
+	return output;
+}
+
 //Serialize assets
 function serializeAssets(output,assets,effects){
 	output = output.concat("\n<assets>");
@@ -410,6 +426,8 @@ function serializeAssets(output,assets,effects){
 			innerHTML += curAsset.originalVals;
 		}else if(curAsset.type=="font"){
 			innerHTML += curAsset.originalVals;
+		}else if(curAsset.type=="text"){
+			innerHTML += escape(curAsset.text.trim());
 		}
 
 		output = output.concat("\n<asset name='"+curAsset.name+"' type='"+curAsset.type+"' ");
@@ -500,6 +518,8 @@ function purgeState(){
 	Sburb.buttons = {};
 	Sburb.effects = {};
 	Sburb.curAction = null;
+	Sburb.actionQueues = [];
+	Sburb.nextQueueId = 0;
 	Sburb.pressed = {};
 	Sburb.pressedOrder = [];
 	Sburb.chooser = new Sburb.Chooser();
@@ -533,8 +553,20 @@ Sburb.loadSerialFromXML = function(file,keepOld) {
 		fi = document.getElementById("levelFile");
 		return;
     }
-    if (request.status === 200 || request.status == 0) {  
-		loadSerial(request.responseText, keepOld);
+    if (request.status === 200 || request.status == 0) { 
+        try {
+            loadSerial(request.responseText, keepOld);
+        } catch(err) {
+            if (err instanceof XMLParsingError) {
+                if (err.file) {
+                    console.error("Loaded from '"+file+"'")
+                } else {
+                    err.file = file
+                    console.error("Error in '"+file+"'")
+                }
+            }
+            throw err;
+        }
     }
 }
 
@@ -543,14 +575,13 @@ function loadSerial(serialText, keepOld) {
 	Sburb.haltUpdateProcess();
 
     var inText = serialText; //document.getElementById("serialText");
-    var parser=new DOMParser();
-    var input=parser.parseFromString(inText,"text/xml").documentElement;
+    var input = Sburb.parseXML(inText);
 	
 	if(!keepOld) {
     	purgeAssets(); 
     	purgeState();
     }
-    
+
     var rootAttr = input.attributes;
 
 	var levelPath = rootAttr.getNamedItem("levelPath");
@@ -600,6 +631,39 @@ function loadSerial(serialText, keepOld) {
     loadSerialAssets(input);
 	loadQueue.push(input);
 	loadSerialState(input); 
+}
+
+Sburb.parseXML = function(inText) {
+    var parser=new DOMParser();
+    var parsed=parser.parseFromString(inText,"text/xml");
+    
+    if (parsed.getElementsByTagName("parsererror").length>0) {
+        var error = parsed.getElementsByTagName("parsererror")[0];
+        throw new XMLParsingError(error, inText);
+    }
+    
+    return parsed.documentElement;
+}
+
+function XMLParsingError(error, input) {
+    this.name = "XMLParsingError";
+    this.message = parseXMLError(error);
+    this.input = (input || "");
+}
+XMLParsingError.prototype = new Error();
+
+function parseXMLError(n) {
+    if(n.nodeType == 3) {
+        return n.nodeValue;
+    }
+    if(n.nodeName == "h3") {
+        return "";
+    }
+    var error = ""
+    for(var i=0; i<n.childNodes.length; i++) {
+        error = error + parseXMLError(n.childNodes[i]);
+    }
+    return error;
 }
 
 function loadDependencies(input){
@@ -672,6 +736,8 @@ function parseSerialAsset(curAsset) {
 	}else if(type=="font"){
 		//var sources = value.split(";");
 		newAsset = Sburb.createFontAsset(name,value);
+	}else if(type=="text"){
+		newAsset = Sburb.createTextAsset(name,value);
 	}
     newAsset._raw_xml = curAsset;
 	return newAsset;
@@ -707,7 +773,9 @@ function loadSerialState() {
 		parseEffects(input);
 	
 		//should be last
-		parseState(input);	
+		parseState(input);
+		//Relies on Sburb.nextQueueId being set when no Id is provided
+		parseActionQueues(input);
   }
   
   if(loadQueue.length==0 && loadingDepth==0){
@@ -870,6 +938,21 @@ function parseGameState(input) {
 	}
 }
 
+function parseActionQueues(input){
+	var element=input.getElementsByTagName("actionQueues");
+	if(element.length==0) {
+		return;
+	}
+	var actionQueues = element[0].childNodes;
+	for(var i=0;i<actionQueues.length;i++) {
+		if(actionQueues[i].nodeName == "#text") {
+			continue;
+		}
+		var actionQueue = Sburb.parseActionQueue(actionQueues[i]);
+		Sburb.actionQueues.push(actionQueue);
+	}
+}
+
 function parseState(input){
 	var rootInfo = input.attributes;
   	
@@ -887,6 +970,11 @@ function parseState(input){
   	var scale = rootInfo.getNamedItem("scale");
   	if(scale){
   		Sburb.Stage.scaleX = Sburb.Stage.scaleY = parseInt(scale.value);
+  	}
+  	
+  	var nextQueueId = rootInfo.getNamedItem("nextQueueId");
+  	if(nextQueueId){
+  		Sburb.nextQueueId = parseInt(nextQueueId.value);
   	}
   	
   	var curRoom = rootInfo.getNamedItem("curRoom");
