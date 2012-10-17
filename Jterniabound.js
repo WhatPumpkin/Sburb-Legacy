@@ -604,9 +604,15 @@ function chainAction(){
 			i--;
 			continue;
 		}
-		if(!queue.paused) {
-			chainActionInQueue(queue);
+		if(queue.paused) {
+			if(queue.trigger && queue.trigger.checkCompletion()) {
+				queue.paused = false;
+				queue.trigger = null;
+			} else {
+				continue;
+			}
 		}
+		chainActionInQueue(queue);
 	}
 }    
 
@@ -634,13 +640,9 @@ function updateWait(){
 
 Sburb.performAction = function(action, queue){
 	if(action.silent){
-		if((action.times==1)&&(!action.followUp)) {
-			Sburb.performActionSilent(action);
-			return null;
-		}
 		if((!queue)||(queue==Sburb)) {
 			if(action.silent==true) {
-				queue=new Sburb.ActionQueue(action);
+				queue=new Sburb.ActionQueue(action,null,null,false,false,null,action.parentSprite);
 			} else {
 				var options=action.silent.split(":");
 				var noWait=(options[0]=="full")?true:false;
@@ -651,7 +653,7 @@ Sburb.performAction = function(action, queue){
 				if(options.length>0) {
 					id=options.shift();
 				}
-				queue=new Sburb.ActionQueue(action,id,options,noWait);
+				queue=new Sburb.ActionQueue(action,id,options,noWait,false,null,action.parentSprite);
 			}
 			Sburb.actionQueues.push(queue);
 		}
@@ -674,18 +676,18 @@ function performActionInQueue(action, queue) {
 		if(looped){
 			queue.curAction = queue.curAction.followUp.clone();
 		}
-   	Sburb.performActionSilent(queue.curAction);
+   	Sburb.performActionSilent(queue.curAction, queue==Sburb ? null : queue);
    	looped = true;
 	}while(queue.curAction && queue.curAction.times<=0 && queue.curAction.followUp && queue.curAction.followUp.noDelay);
 }
 
-Sburb.performActionSilent = function(action){
+Sburb.performActionSilent = function(action, queue){
 	action.times--;
 	var info = action.info();
 	if(info){
 		info = info.trim();
 	}
-	Sburb.commands[action.command.trim()](info);
+	Sburb.commands[action.command.trim()](info,queue);
 }
 
 

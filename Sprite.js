@@ -94,6 +94,7 @@ Sprite.prototype.isVisuallyUnder = function(x,y){
 }
 
 Sprite.prototype.addAction = function(action){
+	action.parentSprite = this;
 	this.actions.push(action);
 }
 

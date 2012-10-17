@@ -8,7 +8,7 @@ var Sburb = (function(Sburb){
 ///////////////////////////////////////////////
 
 //Constructor
-Sburb.Action = function(command,info,name,sprite,followUp,noWait,noDelay,times,soft,silent){
+Sburb.Action = function(command,info,name,sprite,followUp,noWait,noDelay,times,soft,silent,parentSprite){
 	this.sprite = sprite?sprite:null;
 	this.name = name?name:null;
 	this.command = command
@@ -23,6 +23,7 @@ Sburb.Action = function(command,info,name,sprite,followUp,noWait,noDelay,times,s
 		this.silent = silent?silent:false;
 	}
 	this.times = times?times:1;
+	this.parentSprite = parentSprite;
 }
 
 Sburb.Action.prototype.info = function(){
@@ -38,7 +39,7 @@ Sburb.Action.prototype.info = function(){
 
 //Make an exact copy
 Sburb.Action.prototype.clone = function(){
-	return new Sburb.Action(this.command, this._info, this.name, this.sprite, this.followUp, this.noWait, this.noDelay, this.times, this.soft, this.silent);
+	return new Sburb.Action(this.command, this._info, this.name, this.sprite, this.followUp, this.noWait, this.noDelay, this.times, this.soft, this.silent, this.parentSprite);
 }
 
 //Serialize to XML (see serialization.js)
