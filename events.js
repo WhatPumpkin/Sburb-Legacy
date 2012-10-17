@@ -111,6 +111,9 @@ events.time = function(info) {
 		this.time--;
 		return this.time<=0;
 	};
+	this.serialize = function(){
+		return "time,"+this.time;
+	}
 };
 
 //Check if the sprite's animation has played
@@ -200,6 +203,17 @@ events.noActions = function(info){
 	this.reset = function(){ } //do nothing
 	this.checkCompletion = function(){
 		return Sburb.curAction==null;
+	}
+}
+
+//check if the specified actionQueue has finished
+//syntax: Id of actionQueue
+events.actionQueueFinished = function(info){
+	var params = parseParams(info);
+	this.reset = function(){ } //do nothing
+	this.checkCompletion = function(){
+		var queue = Sburb.getActionQueueById(params[1]);
+		return !queue || !queue.curAction;
 	}
 }
 
