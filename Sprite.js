@@ -231,8 +231,9 @@ Sburb.parseSprite = function(spriteNode, assetFolder) {
 		}
 	}
 	if(anims.length==0) {
-		if(Sburb.assets[newName]) {
-			newSprite.addAnimation(new Sburb.Animation("image",Sburb.assets[newName]));
+		var asset = Sburb.assets[newName];
+		if(asset && asset.type == "graphic") {
+			newSprite.addAnimation(new Sburb.Animation("image",asset));
 			newState = "image";
 		}
 	}
