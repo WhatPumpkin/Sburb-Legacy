@@ -40,12 +40,12 @@ commands.changeRoom = function(info){
 
 //Change the focus of the camera
 //syntax: spriteName
-commands.changeFocus = function(info){
+commands.changeFocus = function(info, queue){
 	var params = parseParams(info);
 	if(params[0]=="null"){
 		Sburb.focus = Sburb.destFocus = null;
 	}else{
-		var sprite = parseCharacterString(params[0]);
+		var sprite = parseCharacterString(params[0],queue);
 		Sburb.destFocus = sprite;
 	}
 }
@@ -101,19 +101,19 @@ commands.playEffect = function(info){
 
 //Have the specified sprite play the specified animation
 //syntax: spriteName, animationName
-commands.playAnimation = commands.startAnimation = function(info){
+commands.playAnimation = commands.startAnimation = function(info, queue){
 	var params = parseParams(info);
-	var sprite = parseCharacterString(params[0]);
+	var sprite = parseCharacterString(params[0],queue);
 	
 	sprite.startAnimation(params[1]);
 }
 
 //Add actions to a sprite
 //Syntax: spriteName, SBURBML action tags
-commands.addAction = commands.addActions = function(info){
+commands.addAction = commands.addActions = function(info, queue){
 	var params = parseParams(info);
 	var firstComma = info.indexOf(",");
-	var sprite = parseCharacterString(params[0]);
+	var sprite = parseCharacterString(params[0],queue);
 	var actionString = info.substring(firstComma+1,info.length);
 
 	var actions = parseActionString(actionString);
@@ -126,9 +126,9 @@ commands.addAction = commands.addActions = function(info){
 
 //Remove an action from a sprite
 //Syntax: spriteName, actionName
-commands.removeAction = commands.removeActions = function(info){
+commands.removeAction = commands.removeActions = function(info, queue){
 	var params = parseParams(info);
-	var sprite = parseCharacterString(params[0]);
+	var sprite = parseCharacterString(params[0],queue);
 	for(var i=1;i<params.length;i++){
 		sprite.removeAction(params[i]);
 	}
@@ -180,14 +180,9 @@ commands.openChest = function(info){
 
 //Move the specified sprite by the specified amount
 //syntax: spriteName, dx, dy
-commands.deltaSprite = function(info){
+commands.deltaSprite = function(info, queue){
 	var params = parseParams(info);
-	var sprite = null;
-	if(params[0]=="char"){
-		sprite = Sburb.char;
-	}else{
-		sprite = Sburb.sprites[params[0]];
-	}
+	var sprite = parseCharacterString(params[0],queue);
 	var dx = parseInt(params[1]);
 	var dy = parseInt(params[2]);
 	sprite.x+=dx;
@@ -196,9 +191,9 @@ commands.deltaSprite = function(info){
 
 //Move the specified sprite to the specified location
 //syntax: spriteName, x, y
-commands.moveSprite = function(info){
+commands.moveSprite = function(info, queue){
 	var params = parseParams(info);
-	var sprite = parseCharacterString(params[0]);
+	var sprite = parseCharacterString(params[0],queue);
 	var newX = parseInt(params[1]);
 	var newY = parseInt(params[2]);
 	sprite.x = newX;
@@ -207,9 +202,9 @@ commands.moveSprite = function(info){
 
 //Move the specified sprite to the specified depth
 //syntax: spriteName, depth
-commands.depthSprite = function(info){
+commands.depthSprite = function(info, queue){
 	var params = parseParams(info);
-	var sprite = parseCharacterString(params[0]);
+	var sprite = parseCharacterString(params[0],queue);
 	var depth = parseInt(params[1]);
 	sprite.depthing = depth;
 }
@@ -272,16 +267,16 @@ commands.macro = function(info, queue){
 	if(!action.silent) {
 		action.silent = true;
 	}
-	var newQueue = Sburb.performAction(action);
-	if(newQueue) {
-		var trigger = new Sburb.Trigger("actionQueueFinished,"+newQueue.id);
-		if(queue) {
-			queue.paused = true;
-			queue.trigger = trigger;
-		} else {
-			Sburb.waitFor = trigger;
-		}
+	var newQueue = new Sburb.ActionQueue(action,null,null,false,false,null,queue?queue.sprite:null);
+	Sburb.actionQueues.push(newQueue);
+	var trigger = new Sburb.Trigger("actionQueueFinished,"+newQueue.id);
+	if(queue) {
+		queue.paused = true;
+		queue.trigger = trigger;
+	} else {
+		Sburb.waitFor = trigger;
 	}
+	Sburb.performAction(action,newQueue);
 }
 
 //Pauses an actionQueue, it can be resumed with resumeActionQueue
@@ -360,18 +355,18 @@ commands.addSprite = function(info){
 
 //Remove the specified sprite from the specified room
 //syntax: spriteName, roomName
-commands.removeSprite = function(info){
+commands.removeSprite = function(info, queue){
 	var params = parseParams(info);
-	var sprite = Sburb.sprites[params[0]];
+	var sprite = parseCharacterString(params[0],queue);
 	var room = Sburb.rooms[params[1]];
 	room.removeSprite(sprite);
 }
 
 //Clone the specified sprite with a new name
 //syntax: spriteName, newName
-commands.cloneSprite = function(info){
+commands.cloneSprite = function(info, queue){
 	var params = parseParams(info);
-	var sprite = parseCharacterString(params[0]);
+	var sprite = parseCharacterString(params[0],queue);
 	var newName = params[1];
 	sprite.clone(newName);
 }
@@ -504,18 +499,18 @@ commands.skipDialog = function(info){
 
 //Set a character to follow another sprite
 //syntax: followerName, leaderName
-commands.follow = function(info){
+commands.follow = function(info, queue){
 	var params = parseParams(info);
-	var follower = parseCharacterString(params[0]);
-	var leader = parseCharacterString(params[1]);
+	var follower = parseCharacterString(params[0],queue);
+	var leader = parseCharacterString(params[1],queue);
 	follower.follow(leader);
 }
 
 //Set a character to stop following another sprite
 //syntax: followerName
-commands.unfollow = function(info){
+commands.unfollow = function(info, queue){
 	var params = parseParams(info);
-	var follower = parseCharacterString(params[0]);
+	var follower = parseCharacterString(params[0],queue);
 	follower.unfollow();
 }
 
@@ -587,9 +582,9 @@ commands.setGameState = function(info) {
 
 //Move the character backwards
 //syntax: charName
-commands.goBack = function(info){
+commands.goBack = function(info, queue){
 	var params = parseParams(info);
-	var character = parseCharacterString(params[0]);
+	var character = parseCharacterString(params[0],queue);
 	var vx = 0; vy = 0;
 	if(character.facing=="Front"){
 		vx = 0; 
@@ -622,9 +617,9 @@ commands.try = function(info){
 
 //make the character walk in the specified direction (Up, Down, Left, Right, None)
 //syntax: charName, direction
-commands.walk = function(info){
+commands.walk = function(info, queue){
 	var params = parseParams(info);
-	var character = parseCharacterString(params[0]);
+	var character = parseCharacterString(params[0],queue);
 	var dir = params[1];
 	if(typeof character["move"+dir] == "function"){
 		character["move"+dir]();
@@ -640,9 +635,11 @@ commands.cancel = function(){
 
 
 
-var parseCharacterString = Sburb.parseCharacterString = function(string){
+var parseCharacterString = Sburb.parseCharacterString = function(string, queue){
 	if(string=="char"){
 		return Sburb.char;
+	}else if(string=="this" && queue && queue.sprite){
+		return queue.sprite;
 	}else{
 		return Sburb.sprites[string];
 	}

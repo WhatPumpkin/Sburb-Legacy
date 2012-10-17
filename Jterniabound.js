@@ -599,13 +599,9 @@ function updateWait(){
 
 Sburb.performAction = function(action, queue){
 	if(action.silent){
-		if((action.times==1)&&(!action.followUp)) {
-			Sburb.performActionSilent(action);
-			return null;
-		}
 		if((!queue)||(queue==Sburb)) {
 			if(action.silent==true) {
-				queue=new Sburb.ActionQueue(action);
+				queue=new Sburb.ActionQueue(action,null,null,false,false,null,action.parentSprite);
 			} else {
 				var options=action.silent.split(":");
 				var noWait=(options[0]=="full")?true:false;
@@ -616,7 +612,7 @@ Sburb.performAction = function(action, queue){
 				if(options.length>0) {
 					id=options.shift();
 				}
-				queue=new Sburb.ActionQueue(action,id,options,noWait);
+				queue=new Sburb.ActionQueue(action,id,options,noWait,false,null,action.parentSprite);
 			}
 			Sburb.actionQueues.push(queue);
 		}
