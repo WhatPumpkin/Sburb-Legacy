@@ -101,7 +101,7 @@ Sburb.Room.prototype.removeMotionPath = function(path) {
 Sburb.Room.prototype.enter = function(){
 	
 	if(this.walkableMap){
-		var mapCanvas = document.getElementById("SBURBMapCanvas");
+		var mapCanvas = Sburb.Map;
 		
 		var drawWidth = mapCanvas.width = this.walkableMap.width;
 		var drawHeight = mapCanvas.height = this.walkableMap.height;

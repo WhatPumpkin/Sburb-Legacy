@@ -17,7 +17,11 @@ Sburb.Action = function(command,info,name,sprite,followUp,noWait,noDelay,times,s
 	this.noWait = noWait?noWait:false;
 	this.noDelay = noDelay?noDelay:false;
 	this.soft = soft?soft:false;
-	this.silent = silent?silent:false;
+	if(silent=="true") {
+		this.silent = true;
+	} else {
+		this.silent = silent?silent:false;
+	}
 	this.times = times?times:1;
 }
 
@@ -97,7 +101,7 @@ Sburb.parseAction = function(node) {
 					 attributes.getNamedItem("noDelay")?attributes.getNamedItem("noDelay").value=="true":false,
 					 times?parseInt(times.value):1,
 					 attributes.getNamedItem("soft")?attributes.getNamedItem("soft").value=="true":false,
-					 attributes.getNamedItem("silent")?attributes.getNamedItem("silent").value=="true":false);
+					 attributes.getNamedItem("silent")?attributes.getNamedItem("silent").value:false);
 
 		if(oldAction){
 			oldAction.followUp = newAction;

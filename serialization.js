@@ -37,6 +37,7 @@ Sburb.serialize = function(sburbInst) {
 		" char='"+char.name+
 		(Sburb.bgm?"' bgm='"+Sburb.bgm.asset.name+(Sburb.bgm.startLoop?","+Sburb.bgm.startLoop:""):"")+
 		(Sburb.Stage.scaleX!=1?"' scale='"+Sburb.Stage.scaleX:"")+
+		(Sburb.nextQueueId>0?"' nextQueueId='"+Sburb.nextQueueId:"")+
 		(Sburb.assetManager.resourcePath?("' resourcePath='"+Sburb.assetManager.resourcePath):"")+
 		(Sburb.assetManager.levelPath?("' levelPath='"+Sburb.assetManager.levelPath):"")+
 		(loadedFilesExist?("' loadedFiles='"+loadedFiles):"")+
@@ -384,7 +385,7 @@ function serializeActionQueues(output, actionQueues)
 	output = output.concat("<actionQueues>");
 	for(var i=0;i<actionQueues.length;i++) {
 		if(actionQueues[i].curAction) {
-			output = actionQueues[i].curAction.serialize(output);
+			output = actionQueues[i].serialize(output);
 		}
 	}
 	output = output.concat("\n</actionQueues>\n");
@@ -506,8 +507,10 @@ function purgeState(){
 		Sburb.bgm.stop();
 		Sburb.bgm = null;
 	}
-	document.getElementById("SBURBmovieBin").innerHTML = "";
-	document.getElementById("SBURBfontBin").innerHTML = "";
+    for(var bin in Sburb.Bins) {
+        if(!Sburb.Bins.hasOwnProperty(bin)) continue;
+        Sburb.Bins[bin].innerHTML = "";
+    }
 	Sburb.gameState = {};
 	Sburb.globalVolume = 1;
 	Sburb.hud = {};
@@ -516,6 +519,7 @@ function purgeState(){
 	Sburb.effects = {};
 	Sburb.curAction = null;
 	Sburb.actionQueues = [];
+	Sburb.nextQueueId = 0;
 	Sburb.pressed = {};
 	Sburb.pressedOrder = [];
 	Sburb.chooser = new Sburb.Chooser();
@@ -600,6 +604,16 @@ function loadSerial(serialText, keepOld) {
     var version = rootAttr.getNamedItem("version");
     if(version) {
     	Sburb.version = version.value;
+    }
+
+    var width = rootAttr.getNamedItem("width");
+    if(width) {
+    	Sburb.setDimensions(width.value, null);
+    }
+
+    var height = rootAttr.getNamedItem("height");
+    if(height) {
+    	Sburb.setDimensions(null, height.value);
     }
 
     var loadedFiles = rootAttr.getNamedItem("loadedFiles");
@@ -754,13 +768,14 @@ function loadSerialState() {
 		parseFighters(input);
 		parseRooms(input);
 		parseGameState(input);	
-		parseActionQueues(input);
 	
 		parseHud(input);
 		parseEffects(input);
 	
 		//should be last
 		parseState(input);
+		//Relies on Sburb.nextQueueId being set when no Id is provided
+		parseActionQueues(input);
   }
   
   if(loadQueue.length==0 && loadingDepth==0){
@@ -933,8 +948,8 @@ function parseActionQueues(input){
 		if(actionQueues[i].nodeName == "#text") {
 			continue;
 		}
-		var actionQueue = Sburb.parseAction(actionQueues[i]);
-		Sburb.actionQueues.push({"curAction":actionQueue});
+		var actionQueue = Sburb.parseActionQueue(actionQueues[i]);
+		Sburb.actionQueues.push(actionQueue);
 	}
 }
 
@@ -955,6 +970,11 @@ function parseState(input){
   	var scale = rootInfo.getNamedItem("scale");
   	if(scale){
   		Sburb.Stage.scaleX = Sburb.Stage.scaleY = parseInt(scale.value);
+  	}
+  	
+  	var nextQueueId = rootInfo.getNamedItem("nextQueueId");
+  	if(nextQueueId){
+  		Sburb.nextQueueId = parseInt(nextQueueId.value);
   	}
   	
   	var curRoom = rootInfo.getNamedItem("curRoom");
