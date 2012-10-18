@@ -8,12 +8,13 @@ var Sburb = (function(Sburb){
 ///////////////////////////////////////
 
 //constructor
-Sburb.ActionQueue = function(action, id, groups, noWait, paused) {
+Sburb.ActionQueue = function(action, id, groups, noWait, paused, trigger) {
 	this.curAction = action;
 	this.id = (id && (id.length>0)) ? id : Sburb.nextQueueId++;
 	this.groups = groups ? groups : [];
 	this.noWait = noWait ? noWait : false;
 	this.paused = paused ? true : false;
+	this.trigger = trigger;
 }
 
 Sburb.ActionQueue.prototype.hasGroup = function(group) {
@@ -37,6 +38,9 @@ Sburb.ActionQueue.prototype.serialize = function(output) {
 		+(groupString.length==0?"":" groups='"+groupString+"'")+">");
 
 	output = this.curAction.serialize(output);
+	if(this.trigger) {
+		output = this.trigger.serialize(output);
+	}
 
 	output = output.concat("</actionQueue>");
 	return output;
@@ -96,14 +100,18 @@ Sburb.parseActionQueue = function(node) {
 	var newGroups = null;
 	var newNoWait = false;
 	var newPaused = false;
+	var newTrigger = null;
 
 	var childNodes = node.childNodes;
 	for(var i=0;i<childNodes.length;i++) {
 		if(childNodes[i].nodeName == "#text") {
 			continue;
 		}
-		newAction = Sburb.parseAction(childNodes[i]);
-		break;
+		if(childNodes[i].nodeName == "action") {
+			newAction = Sburb.parseAction(childNodes[i]);
+		} else {
+			newTrigger = Sburb.parseTrigger(childNodes[i]);
+		}
 	}
 
 	var temp;
@@ -112,7 +120,7 @@ Sburb.parseActionQueue = function(node) {
 	newNoWait = (temp=attributes.getNamedItem("noWait"))?temp.value=="true":newNoWait;
 	newPaused = (temp=attributes.getNamedItem("paused"))?temp.value=="true":newPaused;
 
-	return new Sburb.ActionQueue(newAction,newId,newGroups,newNoWait,newPaused);
+	return new Sburb.ActionQueue(newAction,newId,newGroups,newNoWait,newPaused,newTrigger);
 }
 
 return Sburb;
