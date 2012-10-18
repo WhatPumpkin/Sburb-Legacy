@@ -536,8 +536,7 @@ function drawHud(){
 function hasControl(){
 	return !Sburb.dialoger.talking 
 		&& !Sburb.chooser.choosing 
-		&& !Sburb.destRoom 
-		&& !Sburb.waitFor 
+		&& !Sburb.destRoom  
 		&& !Sburb.fading 
 		&& !Sburb.destFocus;
 }
@@ -604,8 +603,14 @@ function chainAction(){
 			i--;
 			continue;
 		}
-		if(!queue.paused) {
-			chainActionInQueue(queue);
+		if(queue.paused || queue.waitFor) {
+			if((queue.trigger && queue.trigger.checkCompletion()) 
+                || queue.waitFor) {
+				queue.paused = false;
+				queue.trigger = null;
+			} else {
+				continue;
+			}
 		}
 	}
 }    
@@ -630,6 +635,11 @@ function updateWait(){
 			Sburb.waitFor = null;
 		}
 	}
+    if(Sburb.inputDisabled && Sburb.inputDisabled.checkCompletion){
+        if(Sburb.inputDisabled.checkCompletion()){
+            Sburb.inputDisabled = false;
+        }
+    }
 }
 
 Sburb.performAction = function(action, queue){
@@ -674,8 +684,9 @@ function performActionInQueue(action, queue) {
 		if(looped){
 			queue.curAction = queue.curAction.followUp.clone();
 		}
-   	Sburb.performActionSilent(queue.curAction);
-   	looped = true;
+       	var result = Sburb.performActionSilent(queue.curAction);
+        handleCommandResult(queue,result);
+       	looped = true;
 	}while(queue.curAction && queue.curAction.times<=0 && queue.curAction.followUp && queue.curAction.followUp.noDelay);
 }
 
@@ -685,7 +696,18 @@ Sburb.performActionSilent = function(action){
 	if(info){
 		info = info.trim();
 	}
-	Sburb.commands[action.command.trim()](info);
+	return Sburb.commands[action.command.trim()](info);
+}
+
+function handleCommandResult(queue,result){
+    if(result){
+        if(queue.hasOwnProperty("trigger")){
+            queue.paused = true;
+            queue.trigger = result;
+        }else{
+            queue.waitFor = result;
+        }
+    }
 }
 
 
