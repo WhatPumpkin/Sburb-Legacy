@@ -230,6 +230,13 @@ Sburb.parseSprite = function(spriteNode, assetFolder) {
 			newState = newAnim.name;
 		}
 	}
+	if(anims.length==0) {
+		var asset = Sburb.assets[newName];
+		if(asset && asset.type == "graphic") {
+			newSprite.addAnimation(new Sburb.Animation("image",asset));
+			newState = "image";
+		}
+	}
 	newSprite.startAnimation(newState);
 	
 	return newSprite;
