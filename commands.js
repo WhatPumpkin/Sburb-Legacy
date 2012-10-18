@@ -244,7 +244,7 @@ commands.removeMovie = function(info){
 //Prevents user from providing input to the character
 //syntax: none
 commands.disableControl = function(info){
-	Sburb.inputDisabled = true;
+	Sburb.inputDisabled = info.trim().length>0 ? new Sburb.Trigger(info) : true;
 }
 
 //Undoes disableControl
@@ -253,10 +253,32 @@ commands.enableControl = function(info){
 	Sburb.inputDisabled = false;
 }
 
-//Wait for the specified trigger to be satisfied
-//syntax: Trigger syntax
+//DEPRECATED; DO NOT USE
+//Block user input and main-queue progression until the specified Event
+//syntax: Event syntax
 commands.waitFor = function(info){
-	Sburb.waitFor = new Sburb.Trigger(info);
+	commands.disableControl(info);
+	return commands.sleep(info);
+}
+
+//Execute an action and wait for all followUps to finish
+//syntax: SBURBML action tag
+commands.macro = function(info){
+	var actions = parseActionString(info);
+	var action = actions[0];
+	if(!action.silent) {
+		action.silent = true;
+	}
+	var newQueue = Sburb.performAction(action);
+	if(newQueue) {
+		return new Sburb.Trigger("waitFor,"+newQueue.id);
+	}
+}
+
+//Wait for the specified event before continuing the current queue
+//syntax: Event syntax
+commands.sleep = function(info){
+	return new Sburb.Trigger(info);
 }
 
 //Pauses an actionQueue, it can be resumed with resumeActionQueue
