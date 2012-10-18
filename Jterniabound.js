@@ -536,8 +536,7 @@ function drawHud(){
 function hasControl(){
 	return !Sburb.dialoger.talking 
 		&& !Sburb.chooser.choosing 
-		&& !Sburb.destRoom 
-		&& !Sburb.waitFor 
+		&& !Sburb.destRoom  
 		&& !Sburb.fading 
 		&& !Sburb.destFocus;
 }
@@ -604,8 +603,9 @@ function chainAction(){
 			i--;
 			continue;
 		}
-		if(queue.paused) {
-			if(queue.trigger && queue.trigger.checkCompletion()) {
+		if(queue.paused || queue.waitFor) {
+			if((queue.trigger && queue.trigger.checkCompletion()) 
+                || queue.waitFor) {
 				queue.paused = false;
 				queue.trigger = null;
 			} else {
@@ -635,6 +635,11 @@ function updateWait(){
 			Sburb.waitFor = null;
 		}
 	}
+    if(Sburb.inputDisabled && Sburb.inputDisabled.checkCompletion){
+        if(Sburb.inputDisabled.checkCompletion()){
+            Sburb.inputDisabled = false;
+        }
+    }
 }
 
 Sburb.performAction = function(action, queue){

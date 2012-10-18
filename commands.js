@@ -244,7 +244,7 @@ commands.removeMovie = function(info){
 //Prevents user from providing input to the character
 //syntax: none
 commands.disableControl = function(info){
-	Sburb.inputDisabled = true;
+	Sburb.inputDisabled = info.trim().length>0 ? new Sburb.Trigger(info) : true;
 }
 
 //Undoes disableControl
@@ -256,6 +256,7 @@ commands.enableControl = function(info){
 //Wait for the specified trigger to be satisfied
 //syntax: Trigger syntax
 commands.waitFor = function(info){
+	commands.disableControl(info);
 	return new Sburb.Trigger(info);
 }
 
