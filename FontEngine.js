@@ -132,7 +132,7 @@ Sburb.FontEngine.prototype.parseText = function(){ //break it up into lines
 			lastSpace = lineStart;
 			continue;
 		}
-		if(Sburb.stage.measureText(this.text.substring(lineStart,i)).width>this.width){
+		if(Sburb.stage.measureText(this.text.substring(lineStart,i+1)).width>this.width){
 			if(lineStart==lastSpace){
 				this.lines.push(this.text.substring(lineStart,i));
 				lineStart = i;
