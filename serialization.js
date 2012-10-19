@@ -549,7 +549,7 @@ Sburb.loadSerialFromXML = function(file,keepOld) {
     try {
 		request.send(null);
     } catch(err) {
-		console.log("If you are running Google Chrome, you need to run it with the -allow-file-access-from-files switch to load this.");
+		console.log("Could not load level descriptors.");
 		fi = document.getElementById("levelFile");
 		return;
     }

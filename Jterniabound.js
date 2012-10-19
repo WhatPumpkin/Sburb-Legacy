@@ -84,6 +84,7 @@ var lastDrawTime = 0;
 
 Sburb.testCompatibility = function(div, levelName, includeDevTools) {
     if(Modernizr.xhr2 && !Sburb.firedAsync) {
+      try {  
         // Test blob response
         var xhr = new XMLHttpRequest();
         xhr.open("GET",levelName,true);
@@ -114,6 +115,9 @@ Sburb.testCompatibility = function(div, levelName, includeDevTools) {
         xhr.onabort = function() { Modernizr.addTest('xhrarraybuffer', function () { return false; }); };
         xhr.onerror = function() { Modernizr.addTest('xhrarraybuffer', function () { return false; }); };
         xhr.send();
+      } catch (e) {
+        alert(e.message + "\n\nIf you are running Google Chrome, you need to run it with the -allow-file-access-from-files switch to load this.")
+      }
         
         Sburb.firedAsync = true;
     } else {
