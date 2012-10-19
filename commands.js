@@ -704,7 +704,7 @@ function parseTriggerString(string){
 }
 
 function parseURLstring(string){
-    if(string.indexOf("http://") == -1){
+    if(string.indexOf("://") == -1){
        string = "http://" + string;
     }
     return string;
