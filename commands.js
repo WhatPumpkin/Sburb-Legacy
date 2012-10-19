@@ -703,6 +703,13 @@ function parseTriggerString(string){
 	return triggers;
 }
 
+function parseURLstring(string){
+    if(string.indexOf("http://") == -1){
+       string = "http://" + string;
+    }
+    return string;
+}
+
 
 Sburb.commands = commands;
 return Sburb;
