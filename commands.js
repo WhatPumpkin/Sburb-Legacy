@@ -628,6 +628,35 @@ commands.walk = function(info){
 	}
 }
 
+//opens an external link in a new tab
+//syntax url, displayText
+commands.openLink = function(info){
+     var params = parseParams(info);
+	 var url = parseURLstring(params[0]);
+	 var text;
+	 if(params[1] && params[1] != ""){
+	     text = params[1];
+	 }else{
+	     text = params[0];
+	 }
+	 
+     var actions = [];
+	 
+	 actions.push(new Sburb.Action("openDirect", url + "," + text, "Go To "+text));
+	 actions.push(new Sburb.Action("cancel",null,"Cancel"));
+	 Sburb.chooser.choices = actions;
+	 Sburb.chooser.beginChoosing(Sburb.Stage.x+200,Sburb.Stage.y+250);
+}
+
+commands.openDirect = function(info){
+    var params = parseParams(info);
+    var url = params[0];
+    var text = params[1];
+	
+    window.open(url, text, "menubar=yes,location=yes,resizable=yes,scrollbars=yes,status=yes");
+}
+
+
 //blank utlity function
 //syntax: none
 commands.cancel = function(){
