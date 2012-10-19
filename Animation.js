@@ -12,12 +12,12 @@ var Sburb = (function(Sburb){
 Sburb.Animation = function(name,sheet,x,y,colSize,rowSize,startPos,length,frameInterval,loopNum,followUp,flipX,flipY, sliced, numCols, numRows){
 	this.sheet = sheet;
 	this.sliced = sliced?true:false;
-	this.x = x;
-	this.y = y;
-	this.rowSize = rowSize;
-	this.colSize = colSize;
-	this.startPos = startPos;
-	this.length = length;
+	this.x = x?x:0;
+	this.y = y?y:0;
+	this.rowSize = rowSize?rowSize:sheet.width;
+	this.colSize = colSize?colSize:sheet.height;
+	this.startPos = startPos?startPos:0;
+	this.length = length?length:1;
 	this.curInterval = 0;
 	this.curFrame = 0;
 	this.name = name;
@@ -44,8 +44,8 @@ Sburb.Animation = function(name,sheet,x,y,colSize,rowSize,startPos,length,frameI
 		}
 		this.draw = this.drawSliced;
 	}else{
-		this.numRows = sheet.height/rowSize;
-		this.numCols = sheet.width/colSize;
+		this.numRows = sheet.height/this.rowSize;
+		this.numCols = sheet.width/this.colSize;
 		this.draw = this.drawNormal;
 	}
 	
@@ -65,7 +65,7 @@ Sburb.Animation = function(name,sheet,x,y,colSize,rowSize,startPos,length,frameI
 			this.frameInterval = this.frameIntervals[this.curFrame];
 		}
 	}else{
-		this.frameInterval = frameInterval;
+		this.frameInterval = frameInterval?frameInterval:1;
 	}
 }
 

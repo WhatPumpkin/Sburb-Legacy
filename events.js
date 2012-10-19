@@ -111,6 +111,9 @@ events.time = function(info) {
 		this.time--;
 		return this.time<=0;
 	};
+	this.serialize = function(){
+		return "time,"+this.time;
+	}
 };
 
 //Check if the sprite's animation has played
@@ -197,9 +200,11 @@ events.nudge = function(info){
 //check that there are no pending or active actions on the queue
 //syntax: none
 events.noActions = function(info){
+	var params = parseParams(info);
 	this.reset = function(){ } //do nothing
 	this.checkCompletion = function(){
-		return Sburb.curAction==null;
+		var queue = params.length>0 ? Sburb.getActionQueueById(params[1]) : Sburb;
+		return !queue || !queue.curAction;
 	}
 }
 
