@@ -45,10 +45,25 @@ Sburb.Character = function(name,x,y,width,height,sx,sy,sWidth,sHeight,sheet,boot
 }
 
 Sburb.Character.prototype = new Sburb.Sprite();
-Sburb.Character.prototype.followBufferLength = 9;
+Sburb.Character.prototype.followBufferLength = 6;
 
 //update as if one frame has passed
 Sburb.Character.prototype.update = function(curRoom){
+	this.handleFollowing(curRoom);
+
+	//what does this code block do????
+	if(this.handleInput>0){
+		--this.handleInput;
+		if(this.handleInput==0){
+			moveNone();
+		}
+	}
+
+	this.tryToMove(this.vx,this.vy,curRoom);
+	Sburb.Sprite.prototype.update.call(this,curRoom);
+}
+
+Sburb.Character.prototype.handleFollowing = function(curRoom){
 	if(this.following){
 		if(this.following.isNPC() && !this.isNPC()){
 			this.becomeNPC();
@@ -65,38 +80,45 @@ Sburb.Character.prototype.update = function(curRoom){
 			this.lastLeaderPos.y = this.following.y;
 			
 		}
+		var destPos = null;
 		while(this.followBuffer.length>this.followBufferLength){
-			var destPos = this.followBuffer[0];
-			if(Math.abs(destPos.x-this.x)>=this.speed/1.9){
-				if(destPos.x>this.x){
+			destPos = this.followBuffer[0];
+			var movingSideways = false;
+			var moveMap = curRoom.getInverseMoveFunction(this);
+			var delta;
+			if(moveMap){
+				delta = moveMap(destPos.x-this.x,destPos.y-this.y);
+			}else{
+				delta = {x:destPos.x-this.x,y:destPos.y-this.y};
+			}
+			if(Math.abs(delta.x)>=this.speed/1.9){
+				if(delta.x>0){
 					this.moveRight();
 				}else{
 					this.moveLeft();
 				}
-			}else if(Math.abs(destPos.y-this.y)>=this.speed/1.9){
-				if(destPos.y>this.y){
-					this.moveDown();
+				movingSideways = true;
+			}
+			if(Math.abs(delta.y)>=this.speed/1.9){
+				if(delta.y>0){
+					this.moveDown(movingSideways);
 				}else{
-					this.moveUp();
+					this.moveUp(movingSideways);
 				}
-			}else {
+			}else if(!movingSideways){
 				this.followBuffer.splice(0,1);
 				continue;
 			}
 			break;
 		}
 		if(this.followBuffer.length<=this.followBufferLength && !this.following.isNPC()){
+			if(destPos){
+				this.x = destPos.x;
+				this.y = destPos.y;
+			}
 			this.moveNone();
 		}
 	}
-	if(this.handleInput>0){
-		--this.handleInput;
-		if(this.handleInput==0){
-			moveNone();
-		}
-	}
-	this.tryToMove(this.vx,this.vy,curRoom);
-	Sburb.Sprite.prototype.update.call(this,curRoom);
 }
 
 //impulse character to move up

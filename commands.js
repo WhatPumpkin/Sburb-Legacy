@@ -64,6 +64,7 @@ commands.teleport = function(info){
 //syntax: newPlayerName
 commands.changeChar = function(info){
 	Sburb.char.becomeNPC();
+	Sburb.char.moveNone();
 	Sburb.char.walk();
 	Sburb.destFocus = Sburb.char = Sburb.sprites[info];
 	Sburb.char.becomePlayer();
@@ -271,7 +272,7 @@ commands.macro = function(info){
 	}
 	var newQueue = Sburb.performAction(action);
 	if(newQueue) {
-		return new Sburb.Trigger("waitFor,"+newQueue.id);
+		return new Sburb.Trigger("noActions,"+newQueue.id);
 	}
 }
 
