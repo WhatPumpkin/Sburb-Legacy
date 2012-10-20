@@ -127,7 +127,6 @@ Sburb.testCompatibility = function(div, levelName, includeDevTools) {
     
     // Make sure Modernizr finished loading async tests
     if(!('xhrblob' in Modernizr && 'xhrarraybuffer' in Modernizr && 'datauri' in Modernizr)) {
-        console.log("Still waiting for Modernizr to load...");
         setTimeout(function() { Sburb.initialize(div, levelName, includeDevTools); }, 200);
         Sburb.crashed = true;
         return;

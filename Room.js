@@ -261,20 +261,45 @@ Sburb.Room.prototype.isInBoundsBatch = function(queries,results){
 
 //get the move function
 Sburb.Room.prototype.getMoveFunction = function(sprite) {
-	var result;
-	for(i=0; i<this.motionPaths.length; i++) {
-		var motionPath = this.motionPaths[i];
-		var shouldMove = motionPath.path.query(sprite);
-		if(shouldMove) {
-			result = function(ax, ay) {
-				var fx,fy;
-				fx = (ax*motionPath.xtox + ay*motionPath.ytox + motionPath.dx);
-				fy = (ax*motionPath.xtoy + ay*motionPath.ytoy + motionPath.dy);
-				return {x:fx,y:fy};
-			};
-			return result;
-		}
-	}	
+	var motionPath = this.getMotionPath(sprite);
+    if(motionPath){
+		return function(ax, ay) {
+			var fx,fy;
+			fx = (ax*motionPath.xtox + ay*motionPath.ytox + motionPath.dx);
+			fy = (ax*motionPath.xtoy + ay*motionPath.ytoy + motionPath.dy);
+			return {x:fx,y:fy};
+		};
+    }
+}
+
+Sburb.Room.prototype.getInverseMoveFunction = function(sprite){
+   var motionPath = this.getMotionPath(sprite);
+    if(motionPath){
+        return function(ax, ay) {
+            ax -= motionPath.dx;
+            ay -= motionPath.dy;
+            var fx,fy;
+            var det =  motionPath.xtox*motionPath.ytoy - motionPath.xtoy*motionPath.ytox;
+            if(det){
+                fx = (ax*motionPath.ytoy - ay*motionPath.ytox)/det;
+                fy = (-ax*motionPath.xtoy + ay*motionPath.xtox)/det;
+                return {x:fx,y:fy};
+            }else{
+                //there is no inverse
+                return {x:0, y:0};
+            }
+        };
+    } 
+}
+
+Sburb.Room.prototype.getMotionPath = function(sprite){
+    for(i=0; i<this.motionPaths.length; i++) {
+        var motionPath = this.motionPaths[i];
+        if( motionPath.path.query(sprite)) {
+            return motionPath;
+        }
+    }
+    return null;
 }
 
 //check if a sprite collides with anything
