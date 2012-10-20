@@ -175,10 +175,16 @@ Sburb.parseTrigger = function(triggerNode){
 			oldTrigger.followUp = trigger;
 		}
 		oldTrigger = trigger;
-		var triggerNodes = triggerNode.getElementsByTagName("trigger");
-		if(triggerNodes){
-			triggerNode = triggerNodes[0];
-		}else{
+		var found=false;
+		for(var i=0;i<triggerNode.childNodes.length;i++){
+			var child = triggerNode.childNodes[i];
+			if(child.nodeName=="trigger"){
+				triggerNode = child;
+				found = true;
+				break;
+			}
+		}
+		if(!found){
 			break;
 		}
 	}while(triggerNode)
