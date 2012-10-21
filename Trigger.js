@@ -22,6 +22,7 @@ Sburb.Trigger = function(info,action,followUp,restart,detonate,operator){
 	this.restart = restart?restart:false;
 	this.detonate = detonate?detonate:false;
 	this.operator = operator?operator.toUpperCase():"AND";
+	this.waitFor = null;
 	
 	this.events = [];
 	for(var i=0;i<info.length;i++){
@@ -47,9 +48,21 @@ Sburb.Trigger.prototype.checkCompletion = function() {
 
 //check if the trigger has been satisfied
 Sburb.Trigger.prototype.tryToTrigger = function(){
+	if(this.waitFor){
+		if(this.waitFor.checkCompletion()){
+			this.waitFor=null;
+		}else{
+			return;
+		}
+	}
 	if(this.checkCompletion()){
 		if(this.action){
-			Sburb.performAction(this.action);
+			var result = Sburb.performAction(this.action);
+			if(result){
+				this.waitFor = new Sburb.Trigger("noActions,"+result.id);
+			}else{
+				this.waitFor = new Sburb.Trigger("noActions");
+			}
 		}
 		if(this.followUp){
 			if(this.followUp.tryToTrigger()){
@@ -162,10 +175,16 @@ Sburb.parseTrigger = function(triggerNode){
 			oldTrigger.followUp = trigger;
 		}
 		oldTrigger = trigger;
-		var triggerNodes = triggerNode.getElementsByTagName("trigger");
-		if(triggerNodes){
-			triggerNode = triggerNodes[0];
-		}else{
+		var found=false;
+		for(var i=0;i<triggerNode.childNodes.length;i++){
+			var child = triggerNode.childNodes[i];
+			if(child.nodeName=="trigger"){
+				triggerNode = child;
+				found = true;
+				break;
+			}
+		}
+		if(!found){
 			break;
 		}
 	}while(triggerNode)
