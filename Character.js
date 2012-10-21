@@ -20,6 +20,8 @@ Sburb.Character = function(name,x,y,width,height,sx,sy,sWidth,sHeight,sheet,boot
 	this.follower = null;
 	this.lastLeaderPos = null;
 	this.handledInput = -1;
+	this.oldX = 0;
+	this.oldY = 0;
 	
 	if(!bootstrap){ //automagically generate standard animations
 		sWidth = typeof sWidth == "number" ? sWidth : width;
@@ -227,6 +229,7 @@ Sburb.Character.prototype.handleInputs = function(pressed, order){
 
 //have character try to move through room
 Sburb.Character.prototype.tryToMove = function(vx,vy,room){
+	
 	var i;
 	var moveMap = room.getMoveFunction(this);
 	var wasShifted = false;
@@ -237,6 +240,10 @@ Sburb.Character.prototype.tryToMove = function(vx,vy,room){
 		}
 		vx = l.x;
 		vy = l.y;
+	}
+	if(vx!=0 || vy!=0){
+		this.oldX = this.x;
+		this.oldY = this.y;
 	}
 	var minX = Sburb.Stage.scaleX;
 	var minY = Sburb.Stage.scaleY;
