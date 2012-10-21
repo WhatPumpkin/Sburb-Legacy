@@ -632,12 +632,12 @@ commands.walk = function(info){
 //syntax url, displayText
 commands.openLink = function(info){
      var params = parseParams(info);
-	 var url = parseURLstring(params[0]);
+	 var url = params[0];
 	 var text;
 	 if(params[1] && params[1] != ""){
 	     text = params[1];
 	 }else{
-	     text = params[0];
+	     text = url;
 	 }
 	 
      var actions = [];
@@ -650,7 +650,7 @@ commands.openLink = function(info){
 
 commands.openDirect = function(info){
     var params = parseParams(info);
-    var url = params[0];
+    var url = parseURLstring(params[0]);
     var text = params[1];
 	
     window.open(url, text, "menubar=yes,location=yes,resizable=yes,scrollbars=yes,status=yes");
