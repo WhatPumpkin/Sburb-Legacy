@@ -615,6 +615,7 @@ function chainAction(){
 				continue;
 			}
 		}
+        chainActionInQueue(queue);
 	}
 }    
 
@@ -652,7 +653,7 @@ Sburb.performAction = function(action, queue){
 			return null;
 		}
 		if((!queue)||(queue==Sburb)) {
-			if(action.silent==true) {
+			if(action.silent===true) {
 				queue=new Sburb.ActionQueue(action);
 			} else {
 				var options=action.silent.split(":");
