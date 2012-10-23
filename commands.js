@@ -588,21 +588,8 @@ commands.setGameState = function(info) {
 commands.goBack = function(info){
 	var params = parseParams(info);
 	var character = parseCharacterString(params[0]);
-	var vx = 0; vy = 0;
-	if(character.facing=="Front"){
-		vx = 0; 
-		vy = -character.speed;
-	}else if(character.facing=="Back"){
-		vx = 0; 
-		vy = character.speed;
-	}else if(character.facing=="Left"){
-		vx = character.speed;
-		vy = 0;
-	}else if(character.facing=="Right"){
-		vx = -character.speed; 
-		vy = 0;
-	}
-	character.tryToMove(vx,vy,Sburb.curRoom);
+	character.x = character.oldX;
+	character.y = character.oldY;
 }
 //tryToTrigger the given triggers in order, if one succeeds, don't do the rest (they are like an else-if chain)
 //syntax: Sburbml trigger syntax
@@ -628,6 +615,35 @@ commands.walk = function(info){
 		character["move"+dir]();
 	}
 }
+
+//opens an external link in a new tab
+//syntax url, displayText
+commands.openLink = function(info){
+     var params = parseParams(info);
+	 var url = params[0];
+	 var text;
+	 if(params[1] && params[1] != ""){
+	     text = params[1];
+	 }else{
+	     text = url;
+	 }
+	 
+     var actions = [];
+	 
+	 actions.push(new Sburb.Action("openDirect", url + "," + text, "Go To "+text));
+	 actions.push(new Sburb.Action("cancel",null,"Cancel"));
+	 Sburb.chooser.choices = actions;
+	 Sburb.chooser.beginChoosing(Sburb.Stage.x+200,Sburb.Stage.y+250);
+}
+
+commands.openDirect = function(info){
+    var params = parseParams(info);
+    var url = parseURLstring(params[0]);
+    var text = params[1];
+	
+    window.open(url, text, "menubar=yes,location=yes,resizable=yes,scrollbars=yes,status=yes");
+}
+
 
 //blank utlity function
 //syntax: none
@@ -673,6 +689,15 @@ function parseTriggerString(string){
 		}
 	}
 	return triggers;
+}
+
+function parseURLstring(string){
+    if(string.indexOf("/") == 0){
+	   return string.substr(1);
+    } else if (string.indexOf("://") == -1){
+	   return "http://" + string;
+    }
+    return string;
 }
 
 
